@@ -1,0 +1,1600 @@
+<title>Meridian — A Self-Taught Scholar's Atlas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root{
+    --paper:#EEF2F2;
+    --paper-raised:#FFFFFF;
+    --paper-sunk:#E4E9E9;
+    --ink:#1B242C;
+    --ink-soft:#525F68;
+    --ink-faint:#7C8992;
+    --line:#D6DEDF;
+    --accent:#14616B;
+    --accent-strong:#0E4A52;
+    --accent-soft:#DEEAEB;
+    --brass:#A9782E;
+    --brass-soft:#F3E7CD;
+    --success:#3E7A54;
+    --success-soft:#DFEEE3;
+    --critical:#AC4632;
+    --critical-soft:#F5E1DC;
+    --shadow: 0 1px 2px rgba(20,30,32,.06), 0 6px 20px -8px rgba(20,30,32,.16);
+    --radius: 10px;
+    --font-display: "Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    --font-body: "Avenir Next","Century Gothic","Segoe UI","Helvetica Neue",Arial,sans-serif;
+    --font-mono: "SF Mono","Cascadia Mono",Consolas,Menlo,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper:#11171D;
+      --paper-raised:#1A232B;
+      --paper-sunk:#0C1216;
+      --ink:#E7EDEE;
+      --ink-soft:#A6B4BA;
+      --ink-faint:#748088;
+      --line:#2A3540;
+      --accent:#57B8C2;
+      --accent-strong:#7FCBD3;
+      --accent-soft:#1B3438;
+      --brass:#DDAE5E;
+      --brass-soft:#33291A;
+      --success:#78C093;
+      --success-soft:#1D3125;
+      --critical:#E28C77;
+      --critical-soft:#392320;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 28px -10px rgba(0,0,0,.55);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#11171D; --paper-raised:#1A232B; --paper-sunk:#0C1216;
+    --ink:#E7EDEE; --ink-soft:#A6B4BA; --ink-faint:#748088; --line:#2A3540;
+    --accent:#57B8C2; --accent-strong:#7FCBD3; --accent-soft:#1B3438;
+    --brass:#DDAE5E; --brass-soft:#33291A;
+    --success:#78C093; --success-soft:#1D3125;
+    --critical:#E28C77; --critical-soft:#392320;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 28px -10px rgba(0,0,0,.55);
+  }
+  :root[data-theme="light"]{
+    --paper:#EEF2F2; --paper-raised:#FFFFFF; --paper-sunk:#E4E9E9;
+    --ink:#1B242C; --ink-soft:#525F68; --ink-faint:#7C8992; --line:#D6DEDF;
+    --accent:#14616B; --accent-strong:#0E4A52; --accent-soft:#DEEAEB;
+    --brass:#A9782E; --brass-soft:#F3E7CD;
+    --success:#3E7A54; --success-soft:#DFEEE3;
+    --critical:#AC4632; --critical-soft:#F5E1DC;
+    --shadow: 0 1px 2px rgba(20,30,32,.06), 0 6px 20px -8px rgba(20,30,32,.16);
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--font-body); font-size:15px; line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{ font-family:var(--font-display); font-weight:600; text-wrap:balance; letter-spacing:.2px; }
+  .mono, .tnum{ font-family:var(--font-mono); font-variant-numeric:tabular-nums; }
+  a{ color:inherit; }
+  button{ font-family:inherit; }
+  ::selection{ background:var(--accent-soft); }
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; border-radius:4px; }
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{ animation-duration:.001ms !important; transition-duration:.001ms !important; scroll-behavior:auto !important; }
+  }
+
+  .uplabel{ text-transform:uppercase; letter-spacing:.09em; font-size:.68rem; color:var(--ink-faint); font-weight:600; }
+
+  /* ---------- layout shell ---------- */
+  .app{ display:grid; grid-template-columns:236px 1fr; min-height:100vh; }
+  .rail{
+    background:var(--paper-raised); border-right:1px solid var(--line);
+    display:flex; flex-direction:column; padding:22px 16px; gap:22px;
+    position:sticky; top:0; height:100vh;
+  }
+  .brand{ display:flex; align-items:center; gap:11px; padding:0 4px; }
+  .brand-mark{
+    width:38px; height:38px; border-radius:50%; border:1.5px solid var(--accent);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-display); font-size:1.05rem; color:var(--accent); flex:none;
+    background:var(--accent-soft);
+  }
+  .brand-text{ display:flex; flex-direction:column; line-height:1.15; }
+  .brand-text strong{ font-family:var(--font-display); font-size:1.12rem; }
+  .brand-text span{ font-size:.7rem; color:var(--ink-faint); }
+
+  .nav{ display:flex; flex-direction:column; gap:2px; }
+  .nav-item{
+    display:flex; align-items:center; gap:10px; text-align:left;
+    background:none; border:none; color:var(--ink-soft); cursor:pointer;
+    padding:9px 10px; border-radius:8px; font-size:.87rem; font-weight:500;
+  }
+  .nav-item svg{ flex:none; opacity:.75; }
+  .nav-item:hover{ background:var(--paper-sunk); color:var(--ink); }
+  .nav-item.active{ background:var(--accent-soft); color:var(--accent-strong); font-weight:600; }
+  .nav-item.active svg{ opacity:1; }
+  .nav-badge{ margin-left:auto; background:var(--critical); color:#fff; font-size:.65rem; font-weight:700;
+    border-radius:999px; padding:1px 6px; font-family:var(--font-mono); }
+
+  .rail-footer{ margin-top:auto; display:flex; flex-direction:column; gap:10px; }
+  .streak-card{
+    border:1px solid var(--line); border-radius:var(--radius); padding:12px;
+    display:flex; align-items:center; gap:10px; background:var(--paper);
+  }
+  .streak-num{ font-family:var(--font-display); font-size:1.5rem; color:var(--brass); line-height:1; }
+  .streak-label{ font-size:.72rem; color:var(--ink-faint); line-height:1.25; }
+
+  .main{ min-width:0; display:flex; flex-direction:column; }
+  .topbar{
+    display:flex; align-items:center; gap:18px; padding:18px 30px;
+    border-bottom:1px solid var(--line); background:var(--paper-raised);
+    position:sticky; top:0; z-index:5;
+  }
+  .topbar h1{ font-size:1.4rem; margin:0; flex:none; }
+  .ribbon{ display:flex; gap:8px; margin-left:auto; flex-wrap:wrap; }
+  .pill{
+    display:inline-flex; align-items:center; gap:6px; padding:5px 11px; border-radius:999px;
+    font-size:.74rem; font-weight:600; border:1px solid var(--line); color:var(--ink-soft);
+    background:var(--paper);
+  }
+  .pill .tnum{ font-weight:700; color:var(--ink); }
+  .pill.accent{ border-color:transparent; background:var(--accent-soft); color:var(--accent-strong); }
+  .pill.brass{ border-color:transparent; background:var(--brass-soft); color:var(--brass); }
+  .pill.critical{ border-color:transparent; background:var(--critical-soft); color:var(--critical); }
+  .pill.success{ border-color:transparent; background:var(--success-soft); color:var(--success); }
+
+  .bell-btn{
+    position:relative; width:36px; height:36px; border-radius:50%; border:1px solid var(--line);
+    background:var(--paper); display:flex; align-items:center; justify-content:center; cursor:pointer; flex:none;
+  }
+  .bell-btn:hover{ background:var(--paper-sunk); }
+  .bell-dot{
+    position:absolute; top:6px; right:7px; width:8px; height:8px; border-radius:50%;
+    background:var(--critical); border:2px solid var(--paper-raised); display:none;
+  }
+  .bell-dot.show{ display:block; }
+
+  .view{ padding:26px 30px 60px; max-width:1180px; width:100%; margin:0 auto; }
+  .view[hidden]{ display:none; }
+
+  /* ---------- dashboard ---------- */
+  .stat-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:28px; }
+  .stat-card{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius);
+    padding:16px 18px; box-shadow:var(--shadow);
+  }
+  .stat-card .uplabel{ margin-bottom:6px; display:block; }
+  .stat-card .num{ font-family:var(--font-display); font-size:1.9rem; color:var(--ink); }
+  .stat-card .sub{ font-size:.76rem; color:var(--ink-faint); margin-top:2px; }
+
+  .section-head{ display:flex; align-items:baseline; justify-content:space-between; margin:34px 0 14px; }
+  .section-head h2{ font-size:1.15rem; margin:0; }
+  .section-head .link-btn{ font-size:.78rem; }
+
+  .link-btn{ background:none; border:none; color:var(--accent); cursor:pointer; font-weight:600; padding:0; }
+  .link-btn:hover{ text-decoration:underline; }
+
+  .resume-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  .resume-card{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius);
+    padding:14px 16px; cursor:pointer; box-shadow:var(--shadow); text-align:left;
+  }
+  .resume-card:hover{ border-color:var(--accent); }
+  .resume-card .plat{ font-size:.68rem; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.06em; }
+  .resume-card .ttl{ font-weight:600; margin-top:3px; font-size:.92rem; }
+
+  .focus-grid{ display:grid; grid-template-columns:1.3fr 1fr; gap:16px; align-items:start; }
+  .card{ background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
+  .card-pad{ padding:18px 20px; }
+
+  .suggestion{ display:flex; gap:12px; align-items:flex-start; padding:13px 0; border-top:1px solid var(--line); }
+  .suggestion:first-child{ border-top:none; padding-top:2px; }
+  .suggestion .why{ font-size:.78rem; color:var(--ink-faint); margin-top:3px; }
+  .suggestion .go{
+    margin-left:auto; flex:none; border:1px solid var(--accent); color:var(--accent-strong); background:none;
+    border-radius:7px; padding:6px 12px; font-size:.76rem; font-weight:700; cursor:pointer;
+  }
+  .suggestion .go:hover{ background:var(--accent-soft); }
+
+  .todo-mini{ display:flex; align-items:center; gap:10px; padding:9px 0; border-top:1px solid var(--line); }
+  .todo-mini:first-child{ border-top:none; }
+  .todo-mini .t{ font-size:.86rem; }
+  .todo-mini .when{ margin-left:auto; font-size:.72rem; }
+
+  .subject-legend{ display:flex; flex-direction:column; gap:9px; }
+  .legend-row{ display:grid; grid-template-columns:120px 1fr 44px; align-items:center; gap:12px; }
+  .legend-row .name{ font-size:.82rem; font-weight:600; }
+  .legend-row .bar-track{ height:7px; border-radius:99px; background:var(--paper-sunk); overflow:hidden; }
+  .legend-row .bar-fill{ height:100%; background:var(--accent); border-radius:99px; }
+  .legend-row .frac{ font-size:.72rem; color:var(--ink-faint); text-align:right; }
+
+  /* ---------- atlas ---------- */
+  .atlas-layout{ display:grid; grid-template-columns:230px 1fr; gap:26px; align-items:start; }
+  .route-list{ display:flex; flex-direction:column; gap:4px; position:sticky; top:88px; }
+  .route-btn{
+    display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:8px;
+    background:none; border:none; cursor:pointer; text-align:left; color:var(--ink-soft);
+  }
+  .route-btn:hover{ background:var(--paper-sunk); }
+  .route-btn.active{ background:var(--accent-soft); color:var(--accent-strong); font-weight:700; }
+  .seal{
+    width:30px; height:30px; border-radius:50%; border:1.3px solid currentColor; flex:none;
+    display:flex; align-items:center; justify-content:center; font-family:var(--font-display);
+    font-size:.72rem; font-weight:700;
+  }
+  .route-btn .seal{ color:var(--ink-faint); }
+  .route-btn.active .seal{ color:var(--accent); background:var(--paper-raised); }
+  .route-btn .name{ font-size:.83rem; }
+
+  .route-head{ margin-bottom:22px; }
+  .route-head h2{ font-size:1.7rem; margin:0 0 4px; }
+  .route-head p{ margin:0; color:var(--ink-soft); font-size:.92rem; max-width:62ch; }
+
+  .path{ position:relative; padding-left:26px; }
+  .path::before{ content:""; position:absolute; left:5px; top:6px; bottom:6px; width:1.5px; background:var(--line); }
+  .band{ position:relative; margin-bottom:34px; }
+  .band:last-child{ margin-bottom:4px; }
+  .band-node{
+    position:absolute; left:-26px; top:2px; width:11px; height:11px; border-radius:50%;
+    background:var(--paper-raised); border:2px solid var(--accent);
+  }
+  .band-title{ font-family:var(--font-display); font-size:1.05rem; margin:0 0 4px; }
+  .band-count{ font-size:.72rem; color:var(--ink-faint); font-weight:600; margin-left:8px; }
+  .band-note{
+    display:flex; gap:8px; font-size:.78rem; color:var(--ink-soft); background:var(--accent-soft);
+    border-radius:8px; padding:9px 12px; margin:8px 0 14px; align-items:flex-start;
+  }
+  .band-note b{ color:var(--accent-strong); font-weight:700; flex:none; }
+  .band-note.test{ background:var(--brass-soft); }
+  .band-note.test b{ color:var(--brass); }
+
+  .course-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(255px,1fr)); gap:12px; }
+  .ccard{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius);
+    padding:13px 14px; display:flex; flex-direction:column; gap:8px; cursor:pointer; text-align:left;
+    box-shadow:var(--shadow);
+  }
+  .ccard:hover{ border-color:var(--accent); }
+  .ccard-top{ display:flex; align-items:flex-start; gap:8px; }
+  .ccard .plat{ font-size:.66rem; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-faint); font-weight:700; }
+  .ccard .ttl{ font-size:.89rem; font-weight:600; line-height:1.3; }
+  .ccard .notes{ font-size:.78rem; color:var(--ink-soft); line-height:1.4; flex:1; }
+  .ccard .tags{ display:flex; gap:6px; flex-wrap:wrap; margin-top:auto; }
+  .tag{ font-size:.63rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; padding:3px 7px; border-radius:5px; }
+  .tag.free{ background:var(--success-soft); color:var(--success); }
+  .tag.freemium{ background:var(--brass-soft); color:var(--brass); }
+  .tag.embed{ background:var(--accent-soft); color:var(--accent-strong); }
+  .tag.status-new{ background:var(--paper-sunk); color:var(--ink-faint); }
+  .tag.status-watching{ background:var(--accent-soft); color:var(--accent-strong); }
+  .tag.status-practiced{ background:var(--brass-soft); color:var(--brass); }
+  .tag.status-done{ background:var(--success-soft); color:var(--success); }
+
+  /* ---------- reader ---------- */
+  .scrim{ position:fixed; inset:0; background:rgba(10,14,16,.42); z-index:20; }
+  .scrim[hidden]{ display:none; }
+  .reader{
+    position:fixed; top:0; right:0; height:100vh; width:min(560px,94vw); background:var(--paper-raised);
+    border-left:1px solid var(--line); z-index:21; display:flex; flex-direction:column;
+    box-shadow:-14px 0 34px -12px rgba(0,0,0,.35);
+  }
+  .reader[hidden]{ display:none; }
+  .reader-head{ padding:18px 20px 14px; border-bottom:1px solid var(--line); display:flex; gap:12px; align-items:flex-start; }
+  .reader-head .crumb{ font-size:.7rem; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.05em; }
+  .reader-head h3{ margin:4px 0 0; font-size:1.15rem; }
+  .reader-close{
+    margin-left:auto; flex:none; width:30px; height:30px; border-radius:50%; border:1px solid var(--line);
+    background:none; cursor:pointer; color:var(--ink-soft); font-size:1rem;
+  }
+  .reader-close:hover{ background:var(--paper-sunk); }
+  .reader-body{ padding:18px 20px; overflow-y:auto; flex:1; display:flex; flex-direction:column; gap:16px; }
+  .reader-frame-wrap{ position:relative; width:100%; aspect-ratio:16/9; background:var(--paper-sunk); border-radius:8px; overflow:hidden; }
+  .reader-frame-wrap iframe{ width:100%; height:100%; border:0; }
+  .ext-card{
+    border:1px dashed var(--line); border-radius:10px; padding:22px; text-align:center; display:flex;
+    flex-direction:column; align-items:center; gap:10px; background:var(--paper);
+  }
+  .ext-card .seal{ width:46px; height:46px; font-size:1rem; color:var(--accent); background:var(--accent-soft); border-color:var(--accent); }
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:7px; border-radius:8px; cursor:pointer;
+    font-weight:700; font-size:.83rem; padding:9px 16px; border:1.5px solid var(--accent); background:var(--accent);
+    color:#fff;
+  }
+  .btn:hover{ background:var(--accent-strong); border-color:var(--accent-strong); }
+  .btn.ghost{ background:none; color:var(--accent-strong); }
+  .btn.ghost:hover{ background:var(--accent-soft); }
+  .btn.subtle{ border-color:var(--line); color:var(--ink-soft); }
+  .btn.subtle:hover{ background:var(--paper-sunk); }
+  .btn.block{ width:100%; }
+
+  .segmented{ display:flex; border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  .segmented button{ flex:1; padding:8px; background:var(--paper); border:none; cursor:pointer; font-size:.78rem; color:var(--ink-soft); font-weight:600; }
+  .segmented button.on{ background:var(--accent-soft); color:var(--accent-strong); }
+
+  .timer-row{ display:flex; align-items:center; gap:10px; }
+  .timer-row .clock{ font-family:var(--font-mono); font-size:1.3rem; font-variant-numeric:tabular-nums; }
+  .timer-dot{ width:8px; height:8px; border-radius:50%; background:var(--ink-faint); }
+  .timer-dot.live{ background:var(--critical); animation:pulse 1.6s infinite; }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:.35;} }
+
+  .field label{ display:block; font-size:.72rem; color:var(--ink-faint); margin-bottom:5px; text-transform:uppercase; letter-spacing:.05em; }
+  textarea, input[type=text], input[type=date], input[type=time], select{
+    width:100%; border:1px solid var(--line); border-radius:7px; padding:8px 10px; background:var(--paper);
+    color:var(--ink); font-family:inherit; font-size:.86rem;
+  }
+  textarea{ min-height:70px; resize:vertical; }
+  .status-row{ display:flex; gap:6px; flex-wrap:wrap; }
+  .status-chip{
+    border:1px solid var(--line); background:var(--paper); padding:6px 11px; border-radius:999px; font-size:.76rem;
+    cursor:pointer; font-weight:600; color:var(--ink-soft);
+  }
+  .status-chip.on{ background:var(--accent); border-color:var(--accent); color:#fff; }
+
+  /* ---------- coach ---------- */
+  .coach-grid{ display:grid; grid-template-columns:280px 1fr; gap:20px; align-items:start; }
+  .ring-wrap{ display:flex; flex-direction:column; align-items:center; gap:14px; }
+  .ring-legend{ display:flex; gap:16px; }
+  .lg-item{ display:flex; align-items:center; gap:6px; font-size:.78rem; }
+  .lg-dot{ width:9px; height:9px; border-radius:50%; }
+  .balance-pill{ text-align:center; padding:9px 14px; border-radius:10px; font-size:.82rem; font-weight:700; }
+
+  .path-mini{ display:flex; align-items:center; gap:0; margin:10px 0 4px; }
+  .path-mini .node{ width:9px; height:9px; border-radius:50%; background:var(--line); flex:none; }
+  .path-mini .seg{ flex:1; height:2px; background:var(--line); }
+  .path-mini .node.past, .path-mini .seg.past{ background:var(--accent); }
+  .path-mini .node.here{ background:var(--brass); width:13px; height:13px; box-shadow:0 0 0 3px var(--brass-soft); }
+  .path-mini-labels{ display:flex; justify-content:space-between; font-size:.62rem; color:var(--ink-faint); }
+
+  table.log{ width:100%; border-collapse:collapse; font-size:.78rem; }
+  table.log th{ text-align:left; color:var(--ink-faint); font-weight:600; text-transform:uppercase; letter-spacing:.04em; font-size:.65rem; padding:6px 8px; border-bottom:1px solid var(--line); }
+  table.log td{ padding:7px 8px; border-bottom:1px solid var(--line); }
+  .log-wrap{ overflow-x:auto; }
+
+  /* ---------- todo ---------- */
+  .todo-form{ display:grid; grid-template-columns:2fr 1fr 1fr 1fr auto; gap:10px; align-items:end; }
+  .todo-group-title{ display:flex; align-items:center; gap:8px; margin:26px 0 10px; }
+  .todo-group-title h3{ margin:0; font-size:.95rem; }
+  .todo-count{ background:var(--paper-sunk); color:var(--ink-faint); font-size:.7rem; font-weight:700; border-radius:999px; padding:2px 8px; }
+  .todo-row{
+    display:flex; align-items:center; gap:12px; padding:11px 14px; border:1px solid var(--line); border-radius:9px;
+    background:var(--paper-raised); margin-bottom:8px;
+  }
+  .todo-row.overdue{ border-color:var(--critical); background:var(--critical-soft); }
+  .todo-row.soon{ border-color:var(--brass); background:var(--brass-soft); }
+  .check{
+    width:19px; height:19px; border-radius:50%; border:1.5px solid var(--line); flex:none; cursor:pointer;
+    background:var(--paper); display:flex; align-items:center; justify-content:center;
+  }
+  .check.done{ background:var(--success); border-color:var(--success); color:#fff; }
+  .todo-row .title{ font-size:.87rem; font-weight:600; }
+  .todo-row.done .title{ text-decoration:line-through; color:var(--ink-faint); }
+  .todo-row .meta{ font-size:.72rem; color:var(--ink-faint); display:flex; gap:8px; margin-top:2px; }
+  .todo-row .rm{ margin-left:auto; background:none; border:none; color:var(--ink-faint); cursor:pointer; font-size:1rem; flex:none; }
+  .todo-row .rm:hover{ color:var(--critical); }
+  .empty-note{ color:var(--ink-faint); font-size:.85rem; padding:14px 0; }
+
+  /* ---------- notifications ---------- */
+  .notif-perm{ display:flex; align-items:center; gap:14px; padding:16px 18px; }
+  .notif-perm .txt{ flex:1; }
+  .toggle-row{ display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-top:1px solid var(--line); }
+  .toggle-row:first-child{ border-top:none; }
+  .switch{ width:38px; height:22px; border-radius:99px; background:var(--paper-sunk); border:1px solid var(--line); position:relative; cursor:pointer; flex:none; }
+  .switch::after{ content:""; position:absolute; width:16px; height:16px; border-radius:50%; background:#fff; top:2px; left:2px; transition:transform .15s; box-shadow:0 1px 3px rgba(0,0,0,.3); }
+  .switch.on{ background:var(--accent); border-color:var(--accent); }
+  .switch.on::after{ transform:translateX(16px); }
+  .feed-row{ display:flex; gap:10px; padding:10px 0; border-top:1px solid var(--line); font-size:.82rem; }
+  .feed-row:first-child{ border-top:none; }
+  .feed-row time{ color:var(--ink-faint); font-size:.72rem; flex:none; }
+
+  /* ---------- toast / drawer ---------- */
+  .toast-stack{ position:fixed; bottom:20px; right:20px; z-index:40; display:flex; flex-direction:column; gap:8px; }
+  .toast{
+    background:var(--ink); color:var(--paper); padding:12px 16px; border-radius:9px; font-size:.83rem;
+    max-width:320px; box-shadow:var(--shadow); display:flex; gap:10px; align-items:flex-start;
+  }
+  :root[data-theme="dark"] .toast, @media (prefers-color-scheme:dark){ .toast{ background:var(--paper-raised); color:var(--ink); border:1px solid var(--line); } }
+  .toast b{ color:var(--brass); }
+
+  .drawer{
+    position:absolute; top:56px; right:30px; width:340px; max-height:70vh; overflow-y:auto;
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow);
+    z-index:30; padding:8px;
+  }
+  .drawer[hidden]{ display:none; }
+  .drawer-item{ padding:10px 12px; border-radius:8px; font-size:.8rem; }
+  .drawer-item:hover{ background:var(--paper-sunk); }
+  .drawer-item .t{ font-weight:600; }
+  .drawer-item .when{ font-size:.7rem; color:var(--ink-faint); margin-top:2px; }
+  .drawer-empty{ padding:20px; text-align:center; color:var(--ink-faint); font-size:.82rem; }
+
+  @media (max-width: 980px){
+    .app{ grid-template-columns:1fr; }
+    .rail{ position:static; height:auto; flex-direction:row; align-items:center; overflow-x:auto; }
+    .nav{ flex-direction:row; }
+    .rail-footer{ display:none; }
+    .atlas-layout{ grid-template-columns:1fr; }
+    .route-list{ position:static; flex-direction:row; overflow-x:auto; }
+    .stat-grid{ grid-template-columns:repeat(2,1fr); }
+    .focus-grid, .coach-grid{ grid-template-columns:1fr; }
+    .todo-form{ grid-template-columns:1fr 1fr; }
+    .reader{ width:100vw; }
+  }
+</style>
+
+<div class="app">
+  <aside class="rail">
+    <div class="brand">
+      <span class="brand-mark">M</span>
+      <div class="brand-text"><strong>Meridian</strong><span>a self-taught scholar's atlas</span></div>
+    </div>
+    <nav class="nav" id="nav">
+      <button class="nav-item active" data-view="dashboard">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="1.5" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="8.5" y="1.5" width="6" height="9" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="1.5" y="9.5" width="6" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/></svg>
+        Dashboard
+      </button>
+      <button class="nav-item" data-view="atlas">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 3.5L6 2l4 1.5 4-1.5v10.5l-4 1.5-4-1.5-4 1.5V3.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M6 2v10.5M10 3.5V14" stroke="currentColor" stroke-width="1.1"/></svg>
+        Atlas
+      </button>
+      <button class="nav-item" data-view="coach">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M8 4.5v3.7l2.6 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        AI Coach
+      </button>
+      <button class="nav-item" data-view="todo">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M4.8 8.2l1.8 1.8 4.6-4.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        To-Do
+        <span class="nav-badge" id="todoNavBadge" hidden>0</span>
+      </button>
+      <button class="nav-item" data-view="notifications">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a3.6 3.6 0 0 0-3.6 3.6v2.1c0 .5-.2 1-.55 1.35L3 10h10l-.85-.95a1.9 1.9 0 0 1-.55-1.35V5.6A3.6 3.6 0 0 0 8 2Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M6.4 12.2a1.7 1.7 0 0 0 3.2 0" stroke="currentColor" stroke-width="1.2"/></svg>
+        Notifications
+        <span class="nav-badge" id="notifNavBadge" hidden>0</span>
+      </button>
+      <button class="nav-item" data-view="settings">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2.1" stroke="currentColor" stroke-width="1.2"/><path d="M8 2.3v1.6M8 12.1v1.6M13.7 8h-1.6M3.9 8H2.3M12.1 3.9l-1.1 1.1M5 10l-1.1 1.1M12.1 12.1l-1.1-1.1M5 6 3.9 4.9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        Settings
+      </button>
+    </nav>
+    <div class="rail-footer">
+      <div class="streak-card">
+        <div class="streak-num tnum" id="streakNum">0</div>
+        <div class="streak-label">day study streak<br/>keep the chain going</div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <h1 id="viewTitle">Dashboard</h1>
+      <div class="ribbon" id="ribbon"></div>
+      <button class="bell-btn" id="bellBtn" aria-label="Notifications">
+        <svg width="17" height="17" viewBox="0 0 16 16" fill="none"><path d="M8 2a3.6 3.6 0 0 0-3.6 3.6v2.1c0 .5-.2 1-.55 1.35L3 10h10l-.85-.95a1.9 1.9 0 0 1-.55-1.35V5.6A3.6 3.6 0 0 0 8 2Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M6.4 12.2a1.7 1.7 0 0 0 3.2 0" stroke="currentColor" stroke-width="1.2"/></svg>
+        <span class="bell-dot" id="bellDot"></span>
+      </button>
+      <div class="drawer" id="drawer" hidden></div>
+    </header>
+
+    <section class="view" id="view-dashboard"></section>
+    <section class="view" id="view-atlas" hidden></section>
+    <section class="view" id="view-coach" hidden></section>
+    <section class="view" id="view-todo" hidden></section>
+    <section class="view" id="view-notifications" hidden></section>
+    <section class="view" id="view-settings" hidden></section>
+  </main>
+</div>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="reader" id="reader" hidden></aside>
+<div class="toast-stack" id="toastStack"></div>
+
+<script>
+let COURSES = [];
+let CLASSIFICATION = {};
+
+const SUBJECTS = ["Math","Advanced Math","English","Physics","Chemistry","Biology","Coding","Python","AI","IELTS","SAT","Research"];
+const SEALS = {"Math":"Ma","Advanced Math":"A∫","English":"En","Physics":"Ph","Chemistry":"Ch","Biology":"Bi","Coding":"<>","Python":"Py","AI":"AI","IELTS":"IE","SAT":"SAT","Research":"Re"};
+const TAGLINES = {
+  "Math":"Numeracy to calculus — one continuous ladder.",
+  "Advanced Math":"Calculus, linear algebra, and the mathematics behind machine learning.",
+  "English":"Grammar, literature, and the craft of clear writing.",
+  "Physics":"Mechanics to modern physics, from first principles.",
+  "Chemistry":"Atoms, reactions, and the logic of the periodic table.",
+  "Biology":"Cells to ecosystems — how living systems work.",
+  "Coding":"Computational thinking, from block-based logic to full-stack builds.",
+  "Python":"One language, end to end — syntax to scientific computing.",
+  "AI":"Machine learning and the ideas reshaping every other subject.",
+  "IELTS":"Structured practice across all four bands of the exam.",
+  "SAT":"Official, adaptive prep for the digital SAT.",
+  "Research":"Citation, methodology, and academic writing skills."
+};
+const BANDS = ["Start Anytime","Elementary (K–5)","Middle School (6–8)","High School (9–12)","College & Beyond","Other"];
+
+function bandOf(level){
+  const l = (level||"").toLowerCase();
+  if(l.includes("elementary")) return 1;
+  if(l.includes("middle")) return 2;
+  if(l.includes("high")) return 3;
+  if(l.includes("college")) return 4;
+  if(l.includes("all levels")||l.includes("beginner")) return 0;
+  return 5;
+}
+
+/* ---------------- storage ---------------- */
+const KEY = "meridian.";
+function load(k, fallback){ try{ const v = localStorage.getItem(KEY+k); return v?JSON.parse(v):fallback; }catch(e){ return fallback; } }
+function save(k, v){ try{ localStorage.setItem(KEY+k, JSON.stringify(v)); }catch(e){} }
+
+let todos = load("todos", []);
+let progress = load("progress", {});     // courseId -> {status, notes}
+let activity = load("activity", []);     // {ts, subject, type, minutes, courseId}
+let notifLog = load("notifLog", []);
+let settings = load("settings", { leadMinutes:15, notifsOn:true, notifiedIds:{} });
+let serverStatus = { anthropicConfigured:false, youtubeConfigured:false };
+let profile = load("profile", null);     // {name, age, grade, subjects:[], goal, weeklyHours, reminderPref, reminderTime}
+let aiPlan = load("aiPlan", null);       // {summary, weeklyHours, milestones:[{week,courseId,goal,done}], notificationRecommendation, generatedAt}
+let customCourses = load("customCourses", []); // user-added YouTube resources
+
+function persistAll(){
+  save("todos", todos); save("progress", progress); save("activity", activity);
+  save("notifLog", notifLog); save("settings", settings);
+  save("profile", profile); save("aiPlan", aiPlan); save("customCourses", customCourses);
+}
+function allCourses(){ return customCourses.length ? COURSES.concat(customCourses) : COURSES; }
+
+/* ---------------- utility ---------------- */
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+function fmtMinutes(m){
+  m = Math.round(m);
+  if(m < 60) return m+"m";
+  const h = Math.floor(m/60), r = m%60;
+  return h+"h "+(r?r+"m":"").trim();
+}
+function fmtClock(sec){
+  const h = Math.floor(sec/3600), m = Math.floor((sec%3600)/60), s = Math.floor(sec%60);
+  const pad = n => String(n).padStart(2,"0");
+  return (h>0?pad(h)+":":"")+pad(m)+":"+pad(s);
+}
+function daysAgo(iso){ return Math.floor((Date.now()-new Date(iso).getTime())/86400000); }
+function todayISO(){ return new Date().toISOString().slice(0,10); }
+function coursesBySubject(subj){ return allCourses().filter(c=>c.subject===subj); }
+function courseById(id){
+  const nid = String(id);
+  return allCourses().find(c=>String(c.id)===nid);
+}
+
+function toast(msg, tag){
+  const stack = document.getElementById("toastStack");
+  const el = document.createElement("div");
+  el.className = "toast";
+  el.innerHTML = (tag?"<b>"+tag+" </b>":"") + msg;
+  stack.appendChild(el);
+  setTimeout(()=>{ el.style.transition="opacity .4s"; el.style.opacity="0"; setTimeout(()=>el.remove(),450); }, 5200);
+}
+
+/* ---------------- streak & activity stats ---------------- */
+function currentStreak(){
+  const days = new Set(activity.map(a=>a.ts.slice(0,10)));
+  let n = 0, d = new Date();
+  while(true){
+    const iso = d.toISOString().slice(0,10);
+    if(days.has(iso)){ n++; d.setDate(d.getDate()-1); } else break;
+  }
+  return n;
+}
+function minutesSince(daysBack){
+  const cutoff = Date.now() - daysBack*86400000;
+  let video=0, practice=0;
+  activity.forEach(a=>{ if(new Date(a.ts).getTime()>=cutoff){ if(a.type==="video") video+=a.minutes; else practice+=a.minutes; } });
+  return {video, practice};
+}
+function totalHoursAllTime(){
+  return activity.reduce((s,a)=>s+a.minutes,0)/60;
+}
+
+/* ---------------- notification engine ---------------- */
+function requestBrowserPermission(){
+  if(!("Notification" in window)){ toast("This browser doesn't expose desktop notifications here — in-app alerts will still work.","Heads up"); return; }
+  Notification.requestPermission().then(p=>{
+    if(p==="granted") toast("Desktop notifications enabled.","Done");
+    else toast("Desktop permission not granted — you'll still get in-app alerts.","Noted");
+    renderNotifications();
+  });
+}
+function fireNotification(title, body){
+  notifLog.unshift({ ts:new Date().toISOString(), message:title+" — "+body });
+  notifLog = notifLog.slice(0,40);
+  persistAll();
+  toast(body, title);
+  if("Notification" in window && Notification.permission==="granted"){
+    try{ new Notification(title, {body}); }catch(e){}
+  }
+  renderBadges();
+  if(document.getElementById("view-notifications") && !document.getElementById("view-notifications").hidden) renderNotifications();
+}
+function checkDueTasks(){
+  if(!settings.notifsOn) return;
+  const now = Date.now();
+  const lead = settings.leadMinutes*60000;
+  todos.forEach(t=>{
+    if(t.done || !t.due) return;
+    const dueMs = new Date(t.due).getTime();
+    const key = t.id;
+    if(dueMs - now <= lead && dueMs - now > -3600000 && !settings.notifiedIds[key+":soon"]){
+      settings.notifiedIds[key+":soon"] = true;
+      fireNotification("Coming up", "“"+t.title+"” is due "+relativeDue(t.due)+".");
+    }
+    if(dueMs < now && !settings.notifiedIds[key+":over"]){
+      settings.notifiedIds[key+":over"] = true;
+      fireNotification("Overdue", "“"+t.title+"” was due "+relativeDue(t.due)+".");
+    }
+  });
+  persistAll();
+}
+function relativeDue(iso){
+  const d = new Date(iso), now = new Date();
+  const diffMin = Math.round((d-now)/60000);
+  if(Math.abs(diffMin) < 60) return diffMin>=0 ? "in "+diffMin+" min" : Math.abs(diffMin)+" min ago";
+  const diffH = Math.round(diffMin/60);
+  if(Math.abs(diffH) < 24) return diffH>=0 ? "in "+diffH+"h" : Math.abs(diffH)+"h ago";
+  return d.toLocaleString(undefined,{month:"short", day:"numeric", hour:"2-digit", minute:"2-digit"});
+}
+setInterval(checkDueTasks, 20000);
+
+/* ---------------- AI coach heuristics ---------------- */
+function generateSuggestions(){
+  const out = [];
+  if(aiPlan && aiPlan.milestones && aiPlan.milestones.length){
+    const next = aiPlan.milestones.filter(m=>!m.done).slice(0,3);
+    next.forEach(m=>{
+      const c = courseById(m.course_id);
+      if(c) out.push({ course:c, subject:c.subject, isFocus:true, why:"Week "+m.week+" of your plan — "+m.goal });
+    });
+    if(out.length) return out.slice(0,4);
+  }
+  const {video, practice} = minutesSince(7);
+  const heavy = video > practice*2 && video > 20 ? "video" : (practice > video*2 && practice>20 ? "practice" : "balanced");
+
+  const touchedSubjects = [...new Set(activity.map(a=>a.subject))];
+  const focusSubject = touchedSubjects[0] || "Math";
+
+  SUBJECTS.forEach(subj=>{
+    const list = coursesBySubject(subj);
+    const doneBands = list.filter(c=> (progress[c.id]||{}).status==="done").map(c=>bandOf(c.level));
+    const maxDone = doneBands.length? Math.max(...doneBands) : -1;
+    const nextBand = maxDone+1;
+    let candidates = list.filter(c=> bandOf(c.level)===nextBand && (progress[c.id]||{}).status!=="done");
+    if(!candidates.length) candidates = list.filter(c=> (progress[c.id]||{}).status!=="done");
+    if(!candidates.length) return;
+
+    let pick;
+    if(heavy==="video") pick = candidates.find(c=> !/youtube/i.test(c.platform)) || candidates[0];
+    else if(heavy==="practice") pick = candidates.find(c=> /youtube/i.test(c.platform)) || candidates[0];
+    else pick = candidates[0];
+
+    const isFocus = subj===focusSubject;
+    out.push({
+      course: pick, subject: subj, isFocus,
+      why: isFocus
+        ? "Continues your current thread in "+subj+"."
+        : heavy==="video" ? "Balances recent video-heavy sessions with hands-on work."
+        : heavy==="practice" ? "Adds a conceptual pass alongside your practice."
+        : "Next step on the "+subj+" route."
+    });
+  });
+
+  out.sort((a,b)=> (b.isFocus - a.isFocus));
+  return out.slice(0,4);
+}
+function balanceState(){
+  const {video, practice} = minutesSince(7);
+  const total = video+practice;
+  if(total < 10) return {label:"Not enough data yet", tone:"ink-faint", ratio:0.5};
+  const ratio = video/(total);
+  if(ratio > 0.72) return {label:"Video-heavy — add some practice", tone:"warning", ratio};
+  if(ratio < 0.28) return {label:"Practice-heavy — good retention", tone:"success", ratio};
+  return {label:"Well balanced this week", tone:"success", ratio};
+}
+
+/* ---------------- Claude API: personalized plan (via Flask backend) ---------------- */
+async function generatePlan(p){
+  const res = await fetch("/api/plan", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      subjects: p.subjects,
+      learner: {
+        name: p.name || "the learner",
+        age: p.age || null,
+        grade_or_level: p.grade,
+        goal: p.goal,
+        weekly_hours_available: p.weeklyHours,
+        reminder_preference: p.reminderPref
+      }
+    })
+  });
+  const data = await res.json();
+  if(!res.ok) throw new Error(data.error || ("HTTP "+res.status));
+  data.generatedAt = new Date().toISOString();
+  return data;
+}
+
+function applyPlanToTodos(plan, p){
+  const now = new Date();
+  const [h,m] = (p.reminderTime||"18:00").split(":").map(Number);
+  plan.milestones.forEach(ms=>{
+    const c = courseById(ms.course_id);
+    if(!c) return;
+    const due = new Date(now.getTime() + (ms.week-1)*7*86400000);
+    due.setHours(h||18, m||0, 0, 0);
+    todos.push({
+      id: uid(), title: "Plan: "+c.title, subject: c.subject,
+      due: due.toISOString().slice(0,16), priority: "Medium", done:false,
+      createdAt: new Date().toISOString(), fromPlan:true
+    });
+  });
+  settings.notifsOn = p.reminderPref !== "Off";
+  if(p.reminderPref === "Daily digest") settings.leadMinutes = 60*12;
+  else if(p.reminderPref === "Before each session") settings.leadMinutes = 30;
+  persistAll();
+}
+
+/* ---------------- YouTube search: pull in more video content (via Flask backend) ---------------- */
+async function searchYoutube(query){
+  const res = await fetch("/api/youtube-search?q="+encodeURIComponent(query));
+  const data = await res.json();
+  if(!res.ok) throw new Error(data.error || ("HTTP "+res.status));
+  return data.results || [];
+}
+function addYoutubeCourse(video, subject, levelLabel){
+  const c = {
+    id: "yt-"+video.videoId, subject, level: levelLabel,
+    platform: "YouTube — "+video.channel, title: video.title,
+    link: "https://www.youtube.com/watch?v="+video.videoId,
+    embeddable: true, embedSrc: "https://www.youtube.com/embed/"+video.videoId,
+    cost: "Free", notes: "Added from a YouTube search inside Meridian."
+  };
+  if(!customCourses.some(x=>x.id===c.id)){
+    customCourses.push(c);
+    persistAll();
+  }
+  return c;
+}
+
+/* ---------------- rendering: shell ---------------- */
+const views = ["dashboard","atlas","coach","todo","notifications","settings"];
+let activeSubject = SUBJECTS[0];
+let openReaderCourse = null;
+let timerHandle = null, timerStart = null, timerType = "video";
+
+function switchView(v){
+  views.forEach(x=>{
+    document.getElementById("view-"+x).hidden = x!==v;
+  });
+  document.querySelectorAll(".nav-item").forEach(b=> b.classList.toggle("active", b.dataset.view===v));
+  document.getElementById("viewTitle").textContent = {
+    dashboard:"Dashboard", atlas:"Atlas", coach:"AI Coach", todo:"To-Do", notifications:"Notifications", settings:"Settings"
+  }[v];
+  render(v);
+}
+document.getElementById("nav").addEventListener("click", e=>{
+  const b = e.target.closest(".nav-item"); if(!b) return;
+  switchView(b.dataset.view);
+});
+
+function render(v){
+  if(v==="dashboard") renderDashboard();
+  if(v==="atlas") renderAtlas();
+  if(v==="coach") renderCoach();
+  if(v==="todo") renderTodo();
+  if(v==="notifications") renderNotifications();
+  if(v==="settings") renderSettings();
+  renderRibbon();
+  renderBadges();
+}
+
+function renderRibbon(){
+  const {video, practice} = minutesSince(7);
+  const dueTodayCount = todos.filter(t=>!t.done && t.due && t.due.slice(0,10)<=todayISO()).length;
+  document.getElementById("ribbon").innerHTML = `
+    <span class="pill accent">This week <span class="tnum">${fmtMinutes(video+practice)}</span></span>
+    <span class="pill">Video <span class="tnum">${fmtMinutes(video)}</span></span>
+    <span class="pill">Practice <span class="tnum">${fmtMinutes(practice)}</span></span>
+    ${dueTodayCount? `<span class="pill critical">Due today <span class="tnum">${dueTodayCount}</span></span>` : ""}
+  `;
+  document.getElementById("streakNum").textContent = currentStreak();
+}
+function renderBadges(){
+  const dueSoon = todos.filter(t=>!t.done).length;
+  const nb = document.getElementById("todoNavBadge");
+  if(dueSoon){ nb.hidden=false; nb.textContent = dueSoon; } else nb.hidden=true;
+  const recent = notifLog.filter(n=> Date.now()-new Date(n.ts).getTime() < 86400000).length;
+  const nn = document.getElementById("notifNavBadge");
+  if(recent){ nn.hidden=false; nn.textContent = recent; } else nn.hidden=true;
+  document.getElementById("bellDot").classList.toggle("show", recent>0);
+}
+
+/* ---------------- Dashboard ---------------- */
+function renderDashboard(){
+  const el = document.getElementById("view-dashboard");
+  const totalHours = totalHoursAllTime();
+  const doneCount = Object.values(progress).filter(p=>p.status==="done").length;
+  const recentIds = [...new Set(activity.slice().reverse().map(a=>a.courseId))].filter(Boolean).slice(0,3);
+  const suggestions = generateSuggestions().slice(0,3);
+  const dueSoon = todos.filter(t=>!t.done).sort((a,b)=> new Date(a.due||0)-new Date(b.due||0)).slice(0,4);
+
+  el.innerHTML = `
+    <div class="stat-grid">
+      <div class="stat-card"><span class="uplabel">Catalogued</span><div class="num tnum">${allCourses().length}</div><div class="sub">courses across ${SUBJECTS.length} subjects</div></div>
+      <div class="stat-card"><span class="uplabel">Completed</span><div class="num tnum">${doneCount}</div><div class="sub">marked done</div></div>
+      <div class="stat-card"><span class="uplabel">Logged</span><div class="num tnum">${totalHours.toFixed(1)}h</div><div class="sub">all-time study time</div></div>
+      <div class="stat-card"><span class="uplabel">Streak</span><div class="num tnum">${currentStreak()}</div><div class="sub">consecutive days active</div></div>
+    </div>
+
+    <div class="section-head"><h2>Continue where you left off</h2></div>
+    ${recentIds.length? `<div class="resume-row">${recentIds.map(id=>{
+      const c = courseById(id); if(!c) return "";
+      return `<button class="resume-card" data-open="${c.id}"><div class="plat">${c.platform}</div><div class="ttl">${c.title}</div></button>`;
+    }).join("")}</div>` : `<div class="empty-note">Open a course from the Atlas and it'll show up here.</div>`}
+
+    <div class="focus-grid">
+      <div>
+        <div class="section-head"><h2>Today's focus</h2><button class="link-btn" data-view-jump="coach">Full AI Coach →</button></div>
+        <div class="card card-pad">
+          ${suggestions.length? suggestions.map(s=>`
+            <div class="suggestion">
+              <div>
+                <div style="font-weight:600;font-size:.88rem;">${s.course.title}</div>
+                <div class="why">${s.why}</div>
+              </div>
+              <button class="go" data-open="${s.course.id}">Start</button>
+            </div>`).join("") : `<div class="empty-note">Log a bit of activity in the Atlas and your coach will kick in.</div>`}
+        </div>
+      </div>
+      <div>
+        <div class="section-head"><h2>Due soon</h2><button class="link-btn" data-view-jump="todo">All tasks →</button></div>
+        <div class="card card-pad">
+          ${dueSoon.length? dueSoon.map(t=>`
+            <div class="todo-mini">
+              <span class="check ${t.done?"done":""}" data-check="${t.id}"></span>
+              <span class="t">${t.title}</span>
+              <span class="when pill ${isOverdue(t)?"critical":""}">${t.due? relativeDue(t.due): "no due date"}</span>
+            </div>`).join("") : `<div class="empty-note">Nothing on your list — add a task in To-Do.</div>`}
+        </div>
+      </div>
+    </div>
+
+    <div class="section-head"><h2>Subject progress</h2></div>
+    <div class="card card-pad subject-legend">
+      ${SUBJECTS.map(s=>{
+        const list = coursesBySubject(s);
+        const done = list.filter(c=>(progress[c.id]||{}).status==="done").length;
+        const pct = Math.round(done/list.length*100);
+        return `<div class="legend-row">
+          <div class="name">${s}</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+          <div class="frac tnum">${done}/${list.length}</div>
+        </div>`;
+      }).join("")}
+    </div>
+  `;
+}
+function isOverdue(t){ return t.due && !t.done && new Date(t.due).getTime() < Date.now(); }
+
+/* ---------------- Atlas ---------------- */
+function renderAtlas(){
+  const el = document.getElementById("view-atlas");
+  el.innerHTML = `
+    <div class="atlas-layout">
+      <div class="route-list" id="routeList"></div>
+      <div id="routeMain"></div>
+    </div>
+  `;
+  const rl = document.getElementById("routeList");
+  rl.innerHTML = SUBJECTS.map(s=>`
+    <button class="route-btn ${s===activeSubject?"active":""}" data-subject="${s}">
+      <span class="seal">${SEALS[s]}</span><span class="name">${s}</span>
+    </button>`).join("");
+  rl.querySelectorAll(".route-btn").forEach(b=> b.addEventListener("click", ()=>{ activeSubject=b.dataset.subject; renderAtlas(); }));
+  renderRoute();
+}
+function renderRoute(){
+  const main = document.getElementById("routeMain");
+  const list = coursesBySubject(activeSubject);
+  const byBand = {};
+  list.forEach(c=>{ const b = bandOf(c.level); (byBand[b] = byBand[b]||[]).push(c); });
+  const bandKeys = Object.keys(byBand).map(Number).sort((a,b)=>a-b);
+  const cls = CLASSIFICATION[activeSubject];
+
+  main.innerHTML = `
+    <div class="route-head">
+      <h2>${activeSubject}</h2>
+      <p>${TAGLINES[activeSubject]||""}</p>
+    </div>
+    <div class="path">
+      ${bandKeys.map(bk=>{
+        const items = byBand[bk];
+        let note = "";
+        if(cls){
+          if(bk===2 && cls.middle) note = `<div class="band-note"><b>Recommended start</b> ${cls.middle}</div>`;
+          if(bk===3){
+            if(cls.high) note += `<div class="band-note"><b>Recommended start</b> ${cls.high}</div>`;
+            if(cls.test && cls.test!=="N/A") note += `<div class="band-note test"><b>Test-prep track</b> ${cls.test}</div>`;
+          }
+          if(bk===4 && cls.college) note += `<div class="band-note"><b>Recommended start</b> ${cls.college}</div>`;
+        }
+        return `
+        <div class="band">
+          <div class="band-node"></div>
+          <h3 class="band-title">${BANDS[bk]}<span class="band-count">${items.length} resource${items.length>1?"s":""}</span></h3>
+          ${note}
+          <div class="course-grid">
+            ${items.map(c=>renderCourseCard(c)).join("")}
+            <button class="ccard" style="align-items:center;justify-content:center;text-align:center;border-style:dashed;" data-yt-search="${bk}">
+              <span class="seal" style="color:var(--accent);border-color:var(--accent);background:var(--accent-soft);">⌕</span>
+              <div class="ttl" style="margin-top:6px;">Find more videos</div>
+              <div class="notes">Search YouTube and embed results here.</div>
+            </button>
+          </div>
+        </div>`;
+      }).join("")}
+    </div>
+  `;
+  main.querySelectorAll("[data-yt-search]").forEach(btn=>{
+    btn.addEventListener("click", ()=> openYoutubeSearch(activeSubject, Number(btn.dataset.ytSearch)));
+  });
+}
+const BAND_SEED_LEVEL = ["All Levels","Elementary (K-5)","Middle School (6-8)","High School (9-12)","College / University","All Levels"];
+function renderCourseCard(c){
+  const st = (progress[c.id]||{}).status || "new";
+  return `
+    <button class="ccard" data-open="${c.id}">
+      <div class="ccard-top"><span class="plat">${c.platform}</span></div>
+      <div class="ttl">${c.title}</div>
+      <div class="notes">${(c.notes||"").slice(0,120)}${(c.notes||"").length>120?"…":""}</div>
+      <div class="tags">
+        <span class="tag ${c.cost==="Free"?"free":"freemium"}">${c.cost}</span>
+        ${c.embeddable? `<span class="tag embed">Embeds here</span>` : ""}
+        <span class="tag status-${st}">${st}</span>
+      </div>
+    </button>`;
+}
+
+/* ---------------- Reader (slide-over) ---------------- */
+let readerMode = "course";
+function openCourse(id){
+  const c = courseById(id);
+  if(!c) return;
+  readerMode = "course";
+  openReaderCourse = c;
+  progress[c.id] = progress[c.id] || {status:"new", notes:""};
+  if(progress[c.id].status==="new") progress[c.id].status = "watching";
+  persistAll();
+
+  timerType = /youtube/i.test(c.platform) ? "video" : "practice";
+
+  const scrim = document.getElementById("scrim");
+  const reader = document.getElementById("reader");
+  scrim.hidden = false; reader.hidden = false;
+
+  const st = progress[c.id].status;
+  reader.innerHTML = `
+    <div class="reader-head">
+      <div>
+        <div class="crumb">${c.subject} · ${c.level}</div>
+        <h3>${c.title}</h3>
+      </div>
+      <button class="reader-close" id="readerClose">✕</button>
+    </div>
+    <div class="reader-body">
+      ${c.embeddable && c.embedSrc ? `
+        <div class="reader-frame-wrap"><iframe src="${c.embedSrc}" title="${c.title}" allowfullscreen></iframe></div>
+      ` : `
+        <div class="ext-card">
+          <span class="seal">${SEALS[c.subject]}</span>
+          <div style="font-weight:700;">${c.platform}</div>
+          <div style="font-size:.82rem;color:var(--ink-soft);">${c.notes||""}</div>
+          <a class="btn" href="${c.link}" target="_blank" rel="noopener">Open on ${c.platform.replace("YouTube — ","")} →</a>
+        </div>
+      `}
+
+      <div class="card card-pad">
+        <label class="uplabel" style="display:block;margin-bottom:8px;">Log this session as</label>
+        <div class="segmented" id="segType">
+          <button data-t="video" class="${timerType==='video'?'on':''}">Watching a video</button>
+          <button data-t="practice" class="${timerType==='practice'?'on':''}">Doing practice</button>
+        </div>
+        <div class="timer-row" style="margin-top:14px;">
+          <span class="timer-dot" id="timerDot"></span>
+          <span class="clock tnum" id="timerClock">00:00:00</span>
+          <button class="btn subtle" id="timerToggle" style="margin-left:auto;">Start</button>
+        </div>
+      </div>
+
+      <div class="card card-pad">
+        <label class="uplabel" style="display:block;margin-bottom:8px;">Mark progress</label>
+        <div class="status-row" id="statusRow">
+          ${["new","watching","practiced","done"].map(s=>`<button class="status-chip ${st===s?'on':''}" data-status="${s}">${s}</button>`).join("")}
+        </div>
+      </div>
+
+      <div class="card card-pad field">
+        <label>Your notes</label>
+        <textarea id="courseNotes" placeholder="Key takeaways, timestamps, things to revisit…">${progress[c.id].notes||""}</textarea>
+      </div>
+
+      <button class="btn ghost block" id="addTodoFromReader">Add follow-up task to To-Do</button>
+    </div>
+  `;
+
+  document.getElementById("readerClose").addEventListener("click", closeReader);
+  document.getElementById("segType").addEventListener("click", e=>{
+    const b = e.target.closest("button"); if(!b) return;
+    timerType = b.dataset.t;
+    document.querySelectorAll("#segType button").forEach(x=>x.classList.toggle("on", x===b));
+  });
+  document.getElementById("timerToggle").addEventListener("click", toggleTimer);
+  document.getElementById("statusRow").addEventListener("click", e=>{
+    const b = e.target.closest("button"); if(!b) return;
+    progress[c.id].status = b.dataset.status;
+    persistAll();
+    document.querySelectorAll("#statusRow .status-chip").forEach(x=>x.classList.toggle("on", x===b));
+    if(document.getElementById("view-atlas") && !document.getElementById("view-atlas").hidden) renderRoute();
+    if(document.getElementById("view-dashboard") && !document.getElementById("view-dashboard").hidden) renderDashboard();
+  });
+  document.getElementById("courseNotes").addEventListener("input", e=>{
+    progress[c.id].notes = e.target.value; persistAll();
+  });
+  document.getElementById("addTodoFromReader").addEventListener("click", ()=>{
+    const due = new Date(Date.now()+86400000);
+    todos.unshift({ id:uid(), title:"Finish: "+c.title, subject:c.subject, due:due.toISOString().slice(0,16), priority:"Medium", done:false, createdAt:new Date().toISOString() });
+    persistAll(); renderBadges();
+    toast("Added to your To-Do list.", "Saved");
+  });
+}
+function toggleTimer(){
+  const btn = document.getElementById("timerToggle");
+  const dot = document.getElementById("timerDot");
+  if(timerHandle){
+    clearInterval(timerHandle); timerHandle = null;
+    const elapsedMin = (Date.now()-timerStart)/60000;
+    if(elapsedMin > 0.05 && openReaderCourse){
+      activity.push({ ts:new Date().toISOString(), subject:openReaderCourse.subject, type:timerType, minutes:elapsedMin, courseId:openReaderCourse.id });
+      persistAll();
+      toast("Logged "+fmtMinutes(elapsedMin)+" of "+timerType+".", "Saved");
+    }
+    btn.textContent = "Start"; dot.classList.remove("live");
+    renderRibbon();
+  } else {
+    timerStart = Date.now();
+    timerHandle = setInterval(()=>{
+      const sec = (Date.now()-timerStart)/1000;
+      const clockEl = document.getElementById("timerClock");
+      if(clockEl) clockEl.textContent = fmtClock(sec); else { clearInterval(timerHandle); timerHandle=null; }
+    }, 1000);
+    btn.textContent = "Stop"; dot.classList.add("live");
+  }
+}
+function closeReader(){
+  if(timerHandle) toggleTimer();
+  document.getElementById("scrim").hidden = true;
+  document.getElementById("reader").hidden = true;
+  openReaderCourse = null;
+  readerMode = "course";
+  if(!document.getElementById("view-dashboard").hidden) renderDashboard();
+  if(!document.getElementById("view-atlas").hidden) renderRoute();
+}
+document.getElementById("scrim").addEventListener("click", closeReader);
+
+/* ---------------- YouTube search panel (reuses reader slide-over) ---------------- */
+function openYoutubeSearch(subject, bandIndex){
+  readerMode = "youtube";
+  const bandLabel = BANDS[bandIndex];
+  const scrim = document.getElementById("scrim");
+  const reader = document.getElementById("reader");
+  scrim.hidden = false; reader.hidden = false;
+  const defaultQuery = subject + " " + bandLabel.replace(/\(.*?\)/,"").trim();
+
+  reader.innerHTML = `
+    <div class="reader-head">
+      <div>
+        <div class="crumb">${subject} · ${bandLabel}</div>
+        <h3>Find more videos</h3>
+      </div>
+      <button class="reader-close" id="readerClose">✕</button>
+    </div>
+    <div class="reader-body">
+      <div class="card card-pad">
+        <label class="uplabel" style="display:block;margin-bottom:8px;">Search YouTube</label>
+        <div style="display:flex;gap:8px;">
+          <input type="text" id="ytQuery" value="${defaultQuery}" style="flex:1;"/>
+          <button class="btn" id="ytSearchBtn">Search</button>
+        </div>
+      </div>
+      <div id="ytResults"></div>
+    </div>
+  `;
+  document.getElementById("readerClose").addEventListener("click", closeReader);
+  document.getElementById("ytSearchBtn").addEventListener("click", ()=> runYoutubeSearch(subject, bandIndex));
+  document.getElementById("ytQuery").addEventListener("keydown", e=>{ if(e.key==="Enter") runYoutubeSearch(subject, bandIndex); });
+  runYoutubeSearch(subject, bandIndex);
+}
+async function runYoutubeSearch(subject, bandIndex){
+  const box = document.getElementById("ytResults");
+  const query = document.getElementById("ytQuery").value.trim();
+  if(!box || !query) return;
+  box.innerHTML = `<div class="empty-note">Searching…</div>`;
+  try{
+    const results = await searchYoutube(query);
+    if(!results.length){ box.innerHTML = `<div class="empty-note">No results — try a different search.</div>`; return; }
+    box.innerHTML = results.map(v=>`
+      <div class="card card-pad" style="display:flex;gap:12px;align-items:flex-start;margin-top:10px;">
+        <img src="${v.thumb}" alt="" style="width:110px;border-radius:6px;flex:none;"/>
+        <div style="flex:1;min-width:0;">
+          <div style="font-weight:600;font-size:.85rem;line-height:1.3;">${v.title}</div>
+          <div style="font-size:.72rem;color:var(--ink-faint);margin:3px 0 8px;">${v.channel}</div>
+          <button class="btn subtle" data-add-yt="${v.videoId}">Add to this section</button>
+        </div>
+      </div>
+    `).join("");
+    box.querySelectorAll("[data-add-yt]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const video = results.find(r=>r.videoId===btn.dataset.addYt);
+        addYoutubeCourse(video, subject, BAND_SEED_LEVEL[bandIndex] || "All Levels");
+        toast("Added to "+subject+" · "+BANDS[bandIndex]+".","Saved");
+        btn.textContent = "Added"; btn.disabled = true;
+        if(!document.getElementById("view-atlas").hidden) renderRoute();
+      });
+    });
+  }catch(err){
+    box.innerHTML = `<div class="empty-note">${err.message || "Search failed."}</div>`;
+  }
+}
+document.addEventListener("click", e=>{
+  const openBtn = e.target.closest("[data-open]");
+  if(openBtn){ openCourse(openBtn.dataset.open); return; }
+  const jump = e.target.closest("[data-view-jump]");
+  if(jump){ switchView(jump.dataset.viewJump); return; }
+  const chk = e.target.closest("[data-check]");
+  if(chk){ toggleTodoDone(chk.dataset.check); return; }
+});
+
+/* ---------------- AI Coach ---------------- */
+let planViewMode = null;
+function renderPlanSection(){
+  if(planViewMode===null) planViewMode = aiPlan ? "view" : "form";
+  if(planViewMode==="view" && aiPlan) return renderPlanView();
+  return renderPlanForm();
+}
+function renderPlanForm(){
+  const p = profile || {};
+  const subjSel = new Set(p.subjects || []);
+  return `
+    <div class="card card-pad" style="margin-bottom:20px;">
+      <div class="uplabel" style="margin-bottom:4px;">Personalized learning path</div>
+      <h2 style="margin:0 0 14px;font-size:1.15rem;">Tell the planner about you</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+        <div class="field"><label>Name</label><input type="text" id="pfName" value="${p.name||""}" placeholder="e.g. Alex"/></div>
+        <div class="field"><label>Age</label><input type="text" id="pfAge" value="${p.age||""}" placeholder="e.g. 16"/></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+        <div class="field"><label>Grade / level</label>
+          <select id="pfGrade">
+            ${["Elementary (K-5)","Middle School (6-8)","High School (9-12)","College / University","Adult learner"].map(g=>`<option ${p.grade===g?"selected":""}>${g}</option>`).join("")}
+          </select>
+        </div>
+        <div class="field"><label>Hours per week</label><input type="text" id="pfHours" value="${p.weeklyHours||5}" placeholder="5"/></div>
+      </div>
+      <div class="field" style="margin-bottom:12px;">
+        <label>Subjects you want a plan for</label>
+        <div class="status-row" id="pfSubjects">
+          ${SUBJECTS.map(s=>`<button type="button" class="status-chip ${subjSel.has(s)?'on':''}" data-subj="${s}">${s}</button>`).join("")}
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:12px;">
+        <label>What do you want to get out of it?</label>
+        <textarea id="pfGoal" placeholder="e.g. Improve my SAT math score before the fall test date; get comfortable with Python for data work.">${p.goal||""}</textarea>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+        <div class="field"><label>Remind me</label>
+          <select id="pfReminder">
+            ${["Before each session","Daily digest","Off"].map(o=>`<option ${p.reminderPref===o?"selected":""}>${o}</option>`).join("")}
+          </select>
+        </div>
+        <div class="field"><label>Preferred time</label><input type="time" id="pfTime" value="${p.reminderTime||"18:00"}"/></div>
+      </div>
+      <button class="btn block" id="generatePlanBtn">Generate my plan</button>
+      <div style="font-size:.72rem;color:var(--ink-faint);margin-top:10px;">
+        Uses your Claude API key from Settings to build a sequential plan from the Atlas catalog. Nothing is sent anywhere except Anthropic's API.
+      </div>
+      ${aiPlan? `<button class="link-btn" id="cancelEditProfile" style="margin-top:10px;">Cancel, keep my current plan</button>` : ""}
+    </div>
+  `;
+}
+function renderPlanView(){
+  const p = profile || {};
+  const byWeek = {};
+  aiPlan.milestones.forEach(m=>{ (byWeek[m.week]=byWeek[m.week]||[]).push(m); });
+  const weeks = Object.keys(byWeek).map(Number).sort((a,b)=>a-b);
+  const doneCount = aiPlan.milestones.filter(m=>m.done).length;
+  return `
+    <div class="card card-pad" style="margin-bottom:20px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+        <div>
+          <div class="uplabel" style="margin-bottom:4px;">Personalized learning path</div>
+          <h2 style="margin:0;font-size:1.15rem;">${p.name? p.name+"’s plan" : "Your plan"}</h2>
+        </div>
+        <div style="display:flex;gap:8px;flex:none;">
+          <button class="btn subtle" id="regeneratePlanBtn">Regenerate</button>
+          <button class="btn ghost" id="editProfileBtn">Edit profile</button>
+        </div>
+      </div>
+      <p style="color:var(--ink-soft);font-size:.88rem;margin:10px 0;">${aiPlan.summary||""}</p>
+      <div class="ribbon" style="margin:0 0 12px;">
+        <span class="pill accent">${aiPlan.weekly_hours||p.weeklyHours||"—"}h <span style="font-weight:400;">/ week</span></span>
+        <span class="pill success">${doneCount}/${aiPlan.milestones.length} done</span>
+        <span class="pill">${weeks.length} week route</span>
+      </div>
+      ${aiPlan.notification_recommendation? `<div class="band-note test"><b>Reminders</b> ${aiPlan.notification_recommendation}</div>` : ""}
+      <div style="margin-top:14px;">
+        ${weeks.map(w=>`
+          <div style="margin-bottom:14px;">
+            <div class="uplabel" style="margin-bottom:6px;">Week ${w}</div>
+            ${byWeek[w].map(m=>{
+              const c = courseById(m.course_id);
+              if(!c) return "";
+              return `<div class="suggestion" style="align-items:center;">
+                <span class="check ${m.done?'done':''}" data-plan-check="${w}:${m.course_id}">${m.done?"✓":""}</span>
+                <div style="margin-left:2px;">
+                  <div style="font-weight:600;font-size:.87rem;">${c.title}</div>
+                  <div class="why">${m.goal}</div>
+                </div>
+                <button class="go" data-open="${c.id}">Open</button>
+              </div>`;
+            }).join("")}
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  `;
+}
+function wirePlanSection(){
+  const subjRow = document.getElementById("pfSubjects");
+  if(subjRow) subjRow.addEventListener("click", e=>{
+    const b = e.target.closest("[data-subj]"); if(!b) return;
+    b.classList.toggle("on");
+  });
+  const genBtn = document.getElementById("generatePlanBtn");
+  if(genBtn) genBtn.addEventListener("click", async ()=>{
+    const subjects = [...document.querySelectorAll("#pfSubjects .status-chip.on")].map(b=>b.dataset.subj);
+    if(!subjects.length){ toast("Pick at least one subject.","Missing info"); return; }
+    const p = {
+      name: document.getElementById("pfName").value.trim(),
+      age: document.getElementById("pfAge").value.trim(),
+      grade: document.getElementById("pfGrade").value,
+      weeklyHours: Number(document.getElementById("pfHours").value)||5,
+      subjects,
+      goal: document.getElementById("pfGoal").value.trim() || "Build a steady, well-rounded study habit.",
+      reminderPref: document.getElementById("pfReminder").value,
+      reminderTime: document.getElementById("pfTime").value || "18:00"
+    };
+    await generatePlanFlow(p, genBtn);
+  });
+  const cancelBtn = document.getElementById("cancelEditProfile");
+  if(cancelBtn) cancelBtn.addEventListener("click", ()=>{ planViewMode="view"; renderCoach(); });
+  const regenBtn = document.getElementById("regeneratePlanBtn");
+  if(regenBtn) regenBtn.addEventListener("click", ()=> generatePlanFlow(profile, regenBtn));
+  const editBtn = document.getElementById("editProfileBtn");
+  if(editBtn) editBtn.addEventListener("click", ()=>{ planViewMode="form"; renderCoach(); });
+  document.querySelectorAll("[data-plan-check]").forEach(chk=>{
+    chk.addEventListener("click", ()=>{
+      const [week, courseId] = chk.dataset.planCheck.split(":");
+      const m = aiPlan.milestones.find(x=> String(x.week)===week && String(x.course_id)===courseId);
+      if(m){ m.done = !m.done; persistAll(); renderCoach(); }
+    });
+  });
+}
+async function generatePlanFlow(p, btn){
+  if(!serverStatus.anthropicConfigured){
+    toast("The server has no ANTHROPIC_API_KEY configured. Add one to .env and restart it.","Not configured");
+    switchView("settings");
+    return;
+  }
+  profile = p; persistAll();
+  if(btn){ btn.disabled = true; btn.textContent = "Thinking…"; }
+  try{
+    const plan = await generatePlan(p);
+    aiPlan = plan; persistAll();
+    applyPlanToTodos(plan, p);
+    planViewMode = "view";
+    toast(plan.milestones.length+"-step plan ready, with reminders scheduled.","Plan built");
+    renderCoach(); renderBadges(); renderRibbon();
+    if(!document.getElementById("view-dashboard").hidden) renderDashboard();
+  }catch(err){
+    toast(err.message || "Something went wrong generating your plan.", "Couldn't build plan");
+  }finally{
+    if(btn){ btn.disabled = false; btn.textContent = btn.id==="generatePlanBtn" ? "Generate my plan" : "Regenerate"; }
+  }
+}
+
+function renderCoach(){
+  const el = document.getElementById("view-coach");
+  const {video, practice} = minutesSince(7);
+  const total = video+practice || 1;
+  const bal = balanceState();
+  const suggestions = generateSuggestions();
+  const recent = activity.slice().reverse().slice(0,10);
+
+  el.innerHTML = `
+    ${renderPlanSection()}
+    <div class="coach-grid">
+      <div class="card card-pad ring-wrap">
+        <canvas id="ringCanvas" width="180" height="180"></canvas>
+        <div class="balance-pill" style="background:var(--${bal.tone==='ink-faint'?'paper-sunk':bal.tone+'-soft'});color:var(--${bal.tone==='ink-faint'?'ink-faint':bal.tone});">${bal.label}</div>
+        <div class="ring-legend">
+          <div class="lg-item"><span class="lg-dot" style="background:var(--accent)"></span>Video ${fmtMinutes(video)}</div>
+          <div class="lg-item"><span class="lg-dot" style="background:var(--brass)"></span>Practice ${fmtMinutes(practice)}</div>
+        </div>
+        <div style="font-size:.72rem;color:var(--ink-faint);text-align:center;">Last 7 days of logged sessions.</div>
+      </div>
+
+      <div>
+        <div class="card card-pad" style="margin-bottom:16px;">
+          <div class="uplabel" style="margin-bottom:10px;">Suggested next steps</div>
+          ${suggestions.length? suggestions.map(s=>`
+            <div class="suggestion">
+              <div>
+                <div style="font-size:.68rem;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.04em;">${s.subject}</div>
+                <div style="font-weight:600;font-size:.88rem;">${s.course.title}</div>
+                <div class="why">${s.why}</div>
+              </div>
+              <button class="go" data-open="${s.course.id}">Start</button>
+            </div>`).join("") : `<div class="empty-note">Log a session anywhere in the Atlas to unlock suggestions.</div>`}
+        </div>
+
+        <div class="card card-pad">
+          <div class="uplabel" style="margin-bottom:10px;">Your route so far</div>
+          ${SUBJECTS.filter(s=> coursesBySubject(s).some(c=>progress[c.id])).map(s=>routeMini(s)).join("") || `<div class="empty-note">No subjects started yet.</div>`}
+        </div>
+      </div>
+    </div>
+
+    <div class="section-head"><h2>Recent sessions</h2></div>
+    <div class="card card-pad log-wrap">
+      ${recent.length? `<table class="log"><thead><tr><th>When</th><th>Subject</th><th>Type</th><th>Duration</th></tr></thead><tbody>
+        ${recent.map(a=>`<tr><td>${new Date(a.ts).toLocaleString(undefined,{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"})}</td><td>${a.subject}</td><td style="text-transform:capitalize;">${a.type}</td><td class="tnum">${fmtMinutes(a.minutes)}</td></tr>`).join("")}
+      </tbody></table>` : `<div class="empty-note">No sessions logged yet — open a course and start the timer.</div>`}
+    </div>
+  `;
+  drawRing(video, practice);
+  wirePlanSection();
+}
+function routeMini(subj){
+  const list = coursesBySubject(subj);
+  const bandsPresent = [1,2,3,4];
+  const doneBands = list.filter(c=>(progress[c.id]||{}).status==="done").map(c=>bandOf(c.level));
+  const hereBand = doneBands.length? Math.max(...doneBands) : Math.min(...list.map(c=>bandOf(c.level)).filter(b=>b<5));
+  return `
+    <div style="margin-bottom:16px;">
+      <div style="font-size:.82rem;font-weight:700;margin-bottom:4px;">${subj}</div>
+      <div class="path-mini">
+        ${bandsPresent.map((b,i)=>`
+          ${i>0?`<span class="seg ${b<=hereBand?'past':''}"></span>`:""}
+          <span class="node ${b<hereBand?'past':''} ${b===hereBand?'here':''}"></span>
+        `).join("")}
+      </div>
+      <div class="path-mini-labels"><span>Elem</span><span>Middle</span><span>High</span><span>College</span></div>
+    </div>
+  `;
+}
+function drawRing(video, practice){
+  const cvs = document.getElementById("ringCanvas"); if(!cvs) return;
+  const ctx = cvs.getContext("2d");
+  const cx=90, cy=90, r=68, lw=16;
+  const total = video+practice;
+  ctx.clearRect(0,0,180,180);
+  const trackColor = getComputedStyle(document.documentElement).getPropertyValue("--paper-sunk").trim() || "#e4e9e9";
+  ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.lineWidth=lw; ctx.strokeStyle=trackColor; ctx.stroke();
+  if(total>0){
+    const accent = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim();
+    const brass = getComputedStyle(document.documentElement).getPropertyValue("--brass").trim();
+    const vFrac = video/total;
+    const start = -Math.PI/2;
+    ctx.beginPath(); ctx.arc(cx,cy,r, start, start+Math.PI*2*vFrac); ctx.lineWidth=lw; ctx.strokeStyle=accent; ctx.lineCap="butt"; ctx.stroke();
+    ctx.beginPath(); ctx.arc(cx,cy,r, start+Math.PI*2*vFrac, start+Math.PI*2); ctx.lineWidth=lw; ctx.strokeStyle=brass; ctx.stroke();
+  }
+  ctx.font = "700 22px "+getComputedStyle(document.documentElement).getPropertyValue("--font-display");
+  ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--ink").trim();
+  ctx.textAlign="center"; ctx.textBaseline="middle";
+  ctx.fillText(fmtMinutes(total), cx, cy-4);
+  ctx.font = "600 10px "+getComputedStyle(document.documentElement).getPropertyValue("--font-body");
+  ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--ink-faint").trim();
+  ctx.fillText("this week", cx, cy+15);
+}
+
+/* ---------------- To-Do ---------------- */
+function renderTodo(){
+  const el = document.getElementById("view-todo");
+  el.innerHTML = `
+    <div class="card card-pad">
+      <div class="todo-form">
+        <div class="field"><label>Task</label><input type="text" id="tTitle" placeholder="e.g. Finish Pre-Algebra unit 3"/></div>
+        <div class="field"><label>Subject</label><select id="tSubject"><option value="General">General</option>${SUBJECTS.map(s=>`<option value="${s}">${s}</option>`).join("")}</select></div>
+        <div class="field"><label>Due</label><input type="datetime-local" id="tDue"/></div>
+        <div class="field"><label>Priority</label><select id="tPriority"><option>Low</option><option selected>Medium</option><option>High</option></select></div>
+        <button class="btn" id="addTodoBtn">Add</button>
+      </div>
+    </div>
+    <div id="todoGroups"></div>
+  `;
+  document.getElementById("addTodoBtn").addEventListener("click", ()=>{
+    const title = document.getElementById("tTitle").value.trim();
+    if(!title){ toast("Give the task a title first.","Missing title"); return; }
+    todos.unshift({
+      id:uid(), title, subject:document.getElementById("tSubject").value,
+      due: document.getElementById("tDue").value || null,
+      priority: document.getElementById("tPriority").value, done:false, createdAt:new Date().toISOString()
+    });
+    persistAll(); renderTodo(); renderBadges();
+    toast("Task added.","Saved");
+  });
+  renderTodoGroups();
+}
+function toggleTodoDone(id){
+  const t = todos.find(x=>x.id===id); if(!t) return;
+  t.done = !t.done; persistAll();
+  renderBadges();
+  if(!document.getElementById("view-todo").hidden) renderTodoGroups();
+  if(!document.getElementById("view-dashboard").hidden) renderDashboard();
+}
+function removeTodo(id){ todos = todos.filter(x=>x.id!==id); persistAll(); renderTodoGroups(); renderBadges(); }
+function renderTodoGroups(){
+  const wrap = document.getElementById("todoGroups"); if(!wrap) return;
+  const now = Date.now();
+  const overdue = todos.filter(t=>!t.done && t.due && new Date(t.due).getTime()<now);
+  const upcoming = todos.filter(t=>!t.done && (!t.due || new Date(t.due).getTime()>=now));
+  const done = todos.filter(t=>t.done);
+  upcoming.sort((a,b)=> new Date(a.due||"9999")-new Date(b.due||"9999"));
+
+  function group(title, list, opts){
+    if(!list.length) return "";
+    return `<div class="todo-group-title"><h3>${title}</h3><span class="todo-count">${list.length}</span></div>` +
+      list.map(t=>{
+        const soon = !t.done && t.due && new Date(t.due).getTime()-now < 3600000*3 && new Date(t.due).getTime()>=now;
+        const cls = t.done?"done":(overdue.includes(t)?"overdue":(soon?"soon":""));
+        return `<div class="todo-row ${cls}">
+          <span class="check ${t.done?'done':''}" data-check="${t.id}">${t.done?'✓':''}</span>
+          <div>
+            <div class="title">${t.title}</div>
+            <div class="meta"><span>${t.subject}</span>${t.due?`<span>${relativeDue(t.due)}</span>`:""}<span>${t.priority}</span></div>
+          </div>
+          <button class="rm" data-rm="${t.id}">✕</button>
+        </div>`;
+      }).join("");
+  }
+  wrap.innerHTML = group("Overdue", overdue) + group("Upcoming", upcoming) + group("Completed", done)
+    || `<div class="empty-note">No tasks yet — add one above.</div>`;
+  wrap.querySelectorAll("[data-rm]").forEach(b=> b.addEventListener("click", ()=> removeTodo(b.dataset.rm)));
+}
+
+/* ---------------- Notifications ---------------- */
+function renderNotifications(){
+  const el = document.getElementById("view-notifications");
+  const perm = ("Notification" in window) ? Notification.permission : "unsupported";
+  el.innerHTML = `
+    <div class="card" style="margin-bottom:20px;">
+      <div class="notif-perm">
+        <div class="txt">
+          <div style="font-weight:700;">Desktop alerts</div>
+          <div style="font-size:.8rem;color:var(--ink-soft);">
+            ${perm==="granted"? "Enabled — you'll get a system notification too." :
+              perm==="unsupported"? "Not available in this preview; in-app alerts below still work." :
+              "Off. Turn on to get a system notification alongside the in-app alert."}
+          </div>
+        </div>
+        ${perm!=="granted" && perm!=="unsupported" ? `<button class="btn subtle" id="reqPerm">Enable</button>` : ""}
+      </div>
+      <div style="padding:0 18px 16px;">
+        <div class="toggle-row">
+          <div><div style="font-weight:600;font-size:.86rem;">In-app reminders</div><div style="font-size:.76rem;color:var(--ink-faint);">Alert me as a due time approaches.</div></div>
+          <div class="switch ${settings.notifsOn?'on':''}" id="notifSwitch"></div>
+        </div>
+        <div class="toggle-row">
+          <div><div style="font-weight:600;font-size:.86rem;">Lead time</div><div style="font-size:.76rem;color:var(--ink-faint);">How far ahead to warn you.</div></div>
+          <select id="leadSelect" style="width:auto;">
+            ${[5,10,15,30,60].map(m=>`<option value="${m}" ${settings.leadMinutes===m?'selected':''}>${m} min</option>`).join("")}
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-head"><h2>Recent alerts</h2></div>
+    <div class="card card-pad">
+      ${notifLog.length? notifLog.map(n=>`<div class="feed-row"><time>${new Date(n.ts).toLocaleString(undefined,{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"})}</time><span>${n.message}</span></div>`).join("")
+      : `<div class="empty-note">Nothing yet. Add a task with a due time in To-Do and this feed will fill in as reminders fire.</div>`}
+    </div>
+  `;
+  const reqBtn = document.getElementById("reqPerm");
+  if(reqBtn) reqBtn.addEventListener("click", requestBrowserPermission);
+  document.getElementById("notifSwitch").addEventListener("click", e=>{
+    settings.notifsOn = !settings.notifsOn; persistAll(); e.target.classList.toggle("on", settings.notifsOn);
+  });
+  document.getElementById("leadSelect").addEventListener("change", e=>{
+    settings.leadMinutes = Number(e.target.value); persistAll();
+  });
+}
+
+/* ---------------- Settings ---------------- */
+function statusRow(label, ok, hint){
+  return `
+    <div class="toggle-row">
+      <div>
+        <div style="font-weight:600;font-size:.86rem;">${label}</div>
+        <div style="font-size:.76rem;color:var(--ink-faint);">${hint}</div>
+      </div>
+      <span class="pill ${ok?'success':'critical'}">${ok?'Configured':'Not set'}</span>
+    </div>
+  `;
+}
+async function renderSettings(){
+  const el = document.getElementById("view-settings");
+  el.innerHTML = `
+    <div class="card card-pad" style="margin-bottom:16px;">
+      <div class="uplabel" style="margin-bottom:10px;">Server configuration</div>
+      <p style="font-size:.82rem;color:var(--ink-soft);margin:0 0 10px;">
+        This build keeps both API keys on the server — set as environment variables in <code>.env</code>, never sent to or stored in your browser.
+      </p>
+      ${statusRow("Claude API key (ANTHROPIC_API_KEY)", serverStatus.anthropicConfigured, "Powers the AI Coach's personalized plan generator.")}
+      ${statusRow("YouTube API key (YOUTUBE_API_KEY)", serverStatus.youtubeConfigured, "Optional — enables “Find more videos” in the Atlas.")}
+      <button class="btn subtle" id="refreshStatusBtn" style="margin-top:12px;">Re-check status</button>
+    </div>
+
+    <div class="card card-pad">
+      <div class="uplabel" style="margin-bottom:6px;">How to configure</div>
+      <p style="font-size:.82rem;color:var(--ink-soft);line-height:1.6;margin:0;">
+        1. Copy <code>.env.example</code> to <code>.env</code> in the project folder.<br/>
+        2. Add your Claude key from <a href="https://console.anthropic.com/" target="_blank" rel="noopener" style="color:var(--accent-strong);">console.anthropic.com</a>
+        and, optionally, a YouTube Data API v3 key from <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener" style="color:var(--accent-strong);">console.cloud.google.com</a>.<br/>
+        3. Restart the server (<code>python app.py</code>) and click "Re-check status" above.
+      </p>
+    </div>
+  `;
+  document.getElementById("refreshStatusBtn").addEventListener("click", async ()=>{
+    await loadServerStatus();
+    renderSettings();
+    toast("Status refreshed.","Done");
+  });
+}
+async function loadServerStatus(){
+  try{
+    const res = await fetch("/api/status");
+    if(res.ok) serverStatus = await res.json();
+  }catch(e){ /* server unreachable — keep defaults */ }
+}
+
+/* ---------------- Bell drawer ---------------- */
+document.getElementById("bellBtn").addEventListener("click", e=>{
+  e.stopPropagation();
+  const d = document.getElementById("drawer");
+  d.hidden = !d.hidden;
+  if(!d.hidden){
+    const upcoming = todos.filter(t=>!t.done).sort((a,b)=>new Date(a.due||"9999")-new Date(b.due||"9999")).slice(0,6);
+    d.innerHTML = upcoming.length? upcoming.map(t=>`
+      <div class="drawer-item"><div class="t">${t.title}</div><div class="when">${t.due?relativeDue(t.due):"no due date"} · ${t.subject}</div></div>
+    `).join("") : `<div class="drawer-empty">You're all caught up.</div>`;
+  }
+});
+document.addEventListener("click", e=>{
+  const d = document.getElementById("drawer");
+  if(!d.hidden && !e.target.closest("#drawer") && !e.target.closest("#bellBtn")) d.hidden = true;
+});
+
+/* ---------------- init ---------------- */
+async function bootstrap(){
+  const [coursesRes, classificationRes] = await Promise.all([
+    fetch("/api/courses"), fetch("/api/classification")
+  ]);
+  COURSES = await coursesRes.json();
+  CLASSIFICATION = await classificationRes.json();
+  await loadServerStatus();
+  render("dashboard");
+  checkDueTasks();
+}
+bootstrap();
+</script>
