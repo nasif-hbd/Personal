@@ -1,5 +1,7 @@
 import json
 import os
+import threading
+from datetime import datetime, timezone
 from pathlib import Path
 
 import anthropic
@@ -14,6 +16,8 @@ STATIC_DIR = BASE_DIR / "static"
 COURSES = json.loads((STATIC_DIR / "courses.json").read_text(encoding="utf-8"))
 
 ANTHROPIC_MODEL = "claude-opus-4-8"
+LEADERBOARD_FILE = BASE_DIR / "leaderboard.json"
+_leaderboard_lock = threading.Lock()
 
 app = Flask(__name__, static_folder=str(STATIC_DIR), static_url_path="/static")
 
@@ -258,6 +262,57 @@ def chat():
     text_block = next((b for b in response.content if b.type == "text"), None)
     reply = text_block.text if text_block else "Could you tell me a bit more?"
     return jsonify({"type": "message", "reply": reply})
+
+
+def _load_leaderboard():
+    if not LEADERBOARD_FILE.exists():
+        return {}
+    try:
+        return json.loads(LEADERBOARD_FILE.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
+def _save_leaderboard(data):
+    LEADERBOARD_FILE.write_text(json.dumps(data, indent=2), encoding="utf-8")
+
+
+@app.post("/api/leaderboard/sync")
+def leaderboard_sync():
+    body = request.get_json(silent=True) or {}
+    name = (body.get("name") or "").strip()
+    xp = body.get("xp")
+    if not name:
+        return jsonify({"error": "Missing name."}), 400
+    if len(name) > 40:
+        return jsonify({"error": "Name is too long (max 40 characters)."}), 400
+    if not isinstance(xp, (int, float)):
+        return jsonify({"error": "Missing or invalid xp."}), 400
+
+    with _leaderboard_lock:
+        data = _load_leaderboard()
+        # Never let a sync move someone's score backwards (e.g. a stale tab
+        # posting an older cached total) — the board only ever goes up.
+        current = data.get(name, {}).get("xp", 0)
+        data[name] = {
+            "xp": max(int(xp), int(current)),
+            "lastActive": datetime.now(timezone.utc).isoformat(),
+        }
+        _save_leaderboard(data)
+
+    return jsonify({"ok": True})
+
+
+@app.get("/api/leaderboard")
+def leaderboard():
+    with _leaderboard_lock:
+        data = _load_leaderboard()
+    rows = [{"name": name, "xp": v.get("xp", 0), "lastActive": v.get("lastActive")} for name, v in data.items()]
+    rows.sort(key=lambda r: r["xp"], reverse=True)
+    for i, r in enumerate(rows):
+        r["rank"] = i + 1
+        r["level"] = r["xp"] // 100 + 1
+    return jsonify({"rows": rows[:50]})
 
 
 @app.get("/api/youtube-search")
