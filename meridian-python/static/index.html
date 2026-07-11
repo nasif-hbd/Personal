@@ -530,11 +530,16 @@ let serverStatus = { anthropicConfigured:false, youtubeConfigured:false };
 let profile = load("profile", null);     // {name, age, grade, subjects:[], goal, weeklyHours, reminderPref, reminderTime}
 let aiPlan = load("aiPlan", null);       // {summary, weeklyHours, milestones:[{week,courseId,goal,done}], notificationRecommendation, generatedAt}
 let customCourses = load("customCourses", []); // user-added YouTube resources
+let chatMessages = load("chatMessages", []);   // [{role:"user"|"assistant", content:string}]
 
 function persistAll(){
   save("todos", todos); save("progress", progress); save("activity", activity);
   save("notifLog", notifLog); save("settings", settings);
   save("profile", profile); save("aiPlan", aiPlan); save("customCourses", customCourses);
+  save("chatMessages", chatMessages);
+}
+function escapeHtml(s){
+  return String(s==null?"":s).replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
 }
 function allCourses(){ return customCourses.length ? COURSES.concat(customCourses) : COURSES; }
 
@@ -1157,18 +1162,114 @@ document.addEventListener("click", e=>{
 
 /* ---------------- AI Coach ---------------- */
 let planViewMode = null;
+let intakeMode = "chat";
 function renderPlanSection(){
   if(planViewMode===null) planViewMode = aiPlan ? "view" : "form";
   if(planViewMode==="view" && aiPlan) return renderPlanView();
-  return renderPlanForm();
+  return renderIntakeShell();
 }
-function renderPlanForm(){
+function renderIntakeShell(){
+  return `
+    <div class="card card-pad" style="margin-bottom:20px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;">
+        <div>
+          <div class="uplabel" style="margin-bottom:4px;">Personalized learning path</div>
+          <h2 style="margin:0;font-size:1.15rem;">${intakeMode==='chat' ? "Chat with the planner" : "Tell the planner about you"}</h2>
+        </div>
+        <div class="segmented" style="width:220px;flex:none;">
+          <button type="button" class="${intakeMode==='chat'?'on':''}" data-intake-mode="chat">Chat</button>
+          <button type="button" class="${intakeMode==='form'?'on':''}" data-intake-mode="form">Quick form</button>
+        </div>
+      </div>
+      ${intakeMode==='chat' ? renderChatBody() : renderFormBody()}
+      ${aiPlan? `<button class="link-btn" id="cancelEditProfile" style="margin-top:12px;">Cancel, keep my current plan</button>` : ""}
+    </div>
+  `;
+}
+function renderChatBody(){
+  const hasMsgs = chatMessages.length > 0;
+  return `
+    <div id="chatThread" style="display:flex;flex-direction:column;gap:10px;max-height:360px;overflow-y:auto;padding:2px;margin-bottom:12px;">
+      ${hasMsgs ? chatMessages.map(renderChatBubble).join("") : `
+        <div class="empty-note">Say hi and tell the planner about yourself — grade, subjects, goals, how much time you have, how you'd like reminders. It'll ask if it needs more, then build your plan.</div>
+      `}
+      <div id="chatTyping" class="empty-note" hidden>Thinking…</div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <input type="text" id="chatInput" placeholder="e.g. I'm 16, in high school, want to improve my SAT math and learn some AI basics..." style="flex:1;"/>
+      <button class="btn" id="chatSendBtn">Send</button>
+    </div>
+    ${hasMsgs? `<button class="link-btn" id="chatResetBtn" style="margin-top:10px;">Start over</button>` : ""}
+  `;
+}
+function renderChatBubble(m){
+  const isUser = m.role === "user";
+  return `
+    <div style="align-self:${isUser?'flex-end':'flex-start'};max-width:82%;">
+      <div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-faint);margin-bottom:3px;text-align:${isUser?'right':'left'};">${isUser?'You':'Planner'}</div>
+      <div style="background:${isUser?'var(--accent)':'var(--paper-sunk)'};color:${isUser?'#fff':'var(--ink)'};padding:9px 13px;border-radius:12px;font-size:.85rem;line-height:1.45;white-space:pre-wrap;">${escapeHtml(m.content)}</div>
+    </div>
+  `;
+}
+function scrollChatToBottom(){
+  const t = document.getElementById("chatThread");
+  if(t) t.scrollTop = t.scrollHeight;
+}
+async function sendChatMessage(){
+  const input = document.getElementById("chatInput");
+  const text = input.value.trim();
+  if(!text) return;
+  if(!serverStatus.anthropicConfigured){
+    toast("The server has no ANTHROPIC_API_KEY configured. Add one to .env and restart it.","Not configured");
+    switchView("settings");
+    return;
+  }
+  chatMessages.push({role:"user", content:text});
+  persistAll();
+  input.value = "";
+  renderCoach();
+  scrollChatToBottom();
+  const typing = document.getElementById("chatTyping");
+  if(typing) typing.hidden = false;
+  try{
+    const res = await fetch("/api/chat", {
+      method:"POST", headers:{"content-type":"application/json"},
+      body: JSON.stringify({messages: chatMessages})
+    });
+    const data = await res.json();
+    if(!res.ok) throw new Error(data.error || ("HTTP "+res.status));
+    if(data.type === "plan"){
+      aiPlan = data.plan;
+      const impliedSubjects = [...new Set(aiPlan.milestones.map(m=>{ const c = courseById(m.course_id); return c && c.subject; }).filter(Boolean))];
+      profile = Object.assign({}, profile, {
+        name: data.plan.learner_name || (profile && profile.name) || "",
+        weeklyHours: data.plan.weekly_hours,
+        subjects: impliedSubjects.length ? impliedSubjects : (profile && profile.subjects) || [],
+        reminderPref: data.plan.reminder_preference || "Before each session",
+        reminderTime: data.plan.reminder_time || "18:00"
+      });
+      applyPlanToTodos(aiPlan, profile);
+      chatMessages = [];
+      planViewMode = "view";
+      persistAll();
+      toast(aiPlan.milestones.length+"-step plan ready, with reminders scheduled.","Plan built");
+    } else {
+      chatMessages.push({role:"assistant", content: data.reply});
+      persistAll();
+    }
+  }catch(err){
+    chatMessages.push({role:"assistant", content: "Sorry — "+(err.message||"something went wrong")+". Want to try again?"});
+    persistAll();
+  }finally{
+    renderCoach(); renderBadges(); renderRibbon();
+    if(!document.getElementById("view-dashboard").hidden) renderDashboard();
+    scrollChatToBottom();
+  }
+}
+function renderFormBody(){
   const p = profile || {};
   const subjSel = new Set(p.subjects || []);
   return `
-    <div class="card card-pad" style="margin-bottom:20px;">
-      <div class="uplabel" style="margin-bottom:4px;">Personalized learning path</div>
-      <h2 style="margin:0 0 14px;font-size:1.15rem;">Tell the planner about you</h2>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
         <div class="field"><label>Name</label><input type="text" id="pfName" value="${p.name||""}" placeholder="e.g. Alex"/></div>
         <div class="field"><label>Age</label><input type="text" id="pfAge" value="${p.age||""}" placeholder="e.g. 16"/></div>
@@ -1201,10 +1302,8 @@ function renderPlanForm(){
       </div>
       <button class="btn block" id="generatePlanBtn">Generate my plan</button>
       <div style="font-size:.72rem;color:var(--ink-faint);margin-top:10px;">
-        Uses your Claude API key from Settings to build a sequential plan from the Atlas catalog. Nothing is sent anywhere except Anthropic's API.
+        Uses the server's Claude API key to build a sequential plan from the Atlas catalog.
       </div>
-      ${aiPlan? `<button class="link-btn" id="cancelEditProfile" style="margin-top:10px;">Cancel, keep my current plan</button>` : ""}
-    </div>
   `;
 }
 function renderPlanView(){
@@ -1255,6 +1354,16 @@ function renderPlanView(){
   `;
 }
 function wirePlanSection(){
+  document.querySelectorAll("[data-intake-mode]").forEach(b=>{
+    b.addEventListener("click", ()=>{ intakeMode = b.dataset.intakeMode; renderCoach(); });
+  });
+  const chatSendBtn = document.getElementById("chatSendBtn");
+  if(chatSendBtn) chatSendBtn.addEventListener("click", sendChatMessage);
+  const chatInput = document.getElementById("chatInput");
+  if(chatInput) chatInput.addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); sendChatMessage(); } });
+  const chatResetBtn = document.getElementById("chatResetBtn");
+  if(chatResetBtn) chatResetBtn.addEventListener("click", ()=>{ chatMessages = []; persistAll(); renderCoach(); });
+  scrollChatToBottom();
   const subjRow = document.getElementById("pfSubjects");
   if(subjRow) subjRow.addEventListener("click", e=>{
     const b = e.target.closest("[data-subj]"); if(!b) return;
