@@ -174,12 +174,48 @@
   .resume-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
   .resume-card{
     background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius);
-    padding:14px 16px; cursor:pointer; box-shadow:var(--shadow-sm); text-align:left;
+    padding:0; overflow:hidden; cursor:pointer; box-shadow:var(--shadow-sm); text-align:left;
+    display:flex; flex-direction:column;
     transition:transform .16s ease, border-color .16s ease, box-shadow .16s ease;
   }
   .resume-card:hover{ border-color:var(--accent); transform:translateY(-2px); box-shadow:var(--shadow); }
+  .resume-card-body{ padding:14px 16px; }
   .resume-card .plat{ font-size:.68rem; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.06em; }
   .resume-card .ttl{ font-weight:700; margin-top:3px; font-size:.92rem; }
+
+  /* ---------- thumbnails ---------- */
+  .thumb-frame{
+    position:relative; width:100%; aspect-ratio:16/9; overflow:hidden; flex:none;
+    background:var(--paper-2); border-radius:var(--radius-sm);
+  }
+  .thumb-frame.top{ border-radius:0; }
+  .thumb-frame.sm{ width:112px; flex:none; border-radius:var(--radius-sm); }
+  .thumb-frame .thumb-img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    transition:transform .5s cubic-bezier(.16,1,.3,1);
+  }
+  .thumb-frame:hover .thumb-img{ transform:scale(1.09); }
+  .thumb-frame::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,.45) 100%);
+    opacity:0; transition:opacity .25s ease; pointer-events:none;
+  }
+  .thumb-frame:hover::after{ opacity:1; }
+  .thumb-frame.placeholder{
+    display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg, rgba(255,201,77,.16), rgba(255,61,154,.13));
+  }
+  .thumb-frame.placeholder .seal{ width:44px; height:44px; font-size:1rem; border-color:transparent; background:var(--brand-gradient); color:#1A1220; }
+  .thumb-play-badge{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) scale(.9); z-index:1;
+    width:42px; height:42px; border-radius:50%; background:rgba(13,15,20,.55); backdrop-filter:blur(4px);
+    display:flex; align-items:center; justify-content:center; box-shadow:0 6px 20px -6px rgba(0,0,0,.6);
+    transition:transform .25s cubic-bezier(.16,1,.3,1), background .25s ease;
+  }
+  .thumb-play-badge svg{ margin-left:2px; }
+  .thumb-play-badge.sm{ width:30px; height:30px; }
+  .thumb-play-badge.sm svg{ width:12px; height:12px; }
+  .thumb-frame:hover .thumb-play-badge{ transform:translate(-50%,-50%) scale(1.08); background:var(--brand-gradient); }
 
   .focus-grid{ display:grid; grid-template-columns:1.3fr 1fr; gap:16px; align-items:start; }
   .card{ background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow-sm); }
@@ -252,10 +288,11 @@
   .course-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(255px,1fr)); gap:12px; }
   .ccard{
     background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius);
-    padding:13px 14px; display:flex; flex-direction:column; gap:8px; cursor:pointer; text-align:left;
+    padding:0; overflow:hidden; display:flex; flex-direction:column; cursor:pointer; text-align:left;
     box-shadow:var(--shadow-sm); transition:transform .16s ease, border-color .16s ease, box-shadow .16s ease;
   }
   .ccard:hover{ border-color:var(--accent); transform:translateY(-3px); box-shadow:var(--shadow); }
+  .ccard-body{ padding:13px 14px; display:flex; flex-direction:column; gap:8px; flex:1; }
   .ccard-top{ display:flex; align-items:flex-start; gap:8px; }
   .ccard .plat{ font-size:.66rem; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-faint); font-weight:700; }
   .ccard .ttl{ font-size:.89rem; font-weight:700; line-height:1.3; }
@@ -521,6 +558,37 @@ let CLASSIFICATION = {};
 
 const SUBJECTS = ["Math","Advanced Math","English","Physics","Chemistry","Biology","Coding","Python","AI","IELTS","SAT","Research"];
 const SEALS = {"Math":"Ma","Advanced Math":"A∫","English":"En","Physics":"Ph","Chemistry":"Ch","Biology":"Bi","Coding":"<>","Python":"Py","AI":"AI","IELTS":"IE","SAT":"SAT","Research":"Re"};
+
+/* ---------------- thumbnails ---------------- */
+const PLAY_ICON_SVG = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M5 3.3v9.4l8.2-4.7L5 3.3Z" fill="#fff"/></svg>`;
+function youtubeThumbFromEmbed(embedSrc){
+  if(!embedSrc) return null;
+  const m = embedSrc.match(/\/embed\/([A-Za-z0-9_-]{11})(?:[?&]|$)/);
+  if(!m || m[1]==="videoseries") return null; // "videoseries" is a reserved keyword, not a video id — happens to also be 11 chars
+  return "https://img.youtube.com/vi/"+m[1]+"/mqdefault.jpg";
+}
+function courseThumbUrl(c){
+  return c.thumb || (c.embeddable ? youtubeThumbFromEmbed(c.embedSrc) : null);
+}
+function renderThumbFrame(c, sizeClass){
+  const url = courseThumbUrl(c);
+  const cls = "thumb-frame"+(sizeClass?" "+sizeClass:"")+(url?"":" placeholder");
+  if(url){
+    const badgeCls = sizeClass==="sm" ? "thumb-play-badge sm" : "thumb-play-badge";
+    return `<div class="${cls}"><img class="thumb-img" src="${url}" alt="" loading="lazy"/><div class="${badgeCls}">${PLAY_ICON_SVG}</div></div>`;
+  }
+  return `<div class="${cls}"><span class="seal">${SEALS[c.subject]||"?"}</span></div>`;
+}
+/* Any thumbnail image that 404s (deleted video, bad id) falls back to the
+   gradient placeholder instead of showing a broken image icon. */
+document.addEventListener("error", e=>{
+  const img = e.target;
+  if(img && img.tagName==="IMG" && img.classList && img.classList.contains("thumb-img")){
+    const frame = img.closest(".thumb-frame");
+    if(frame) frame.classList.add("placeholder");
+    img.remove();
+  }
+}, true);
 const TAGLINES = {
   "Math":"Numeracy to calculus — one continuous ladder.",
   "Advanced Math":"Calculus, linear algebra, and the mathematics behind machine learning.",
@@ -818,6 +886,7 @@ function addYoutubeCourse(video, subject, levelLabel){
     platform: "YouTube — "+video.channel, title: video.title,
     link: "https://www.youtube.com/watch?v="+video.videoId,
     embeddable: true, embedSrc: "https://www.youtube.com/embed/"+video.videoId,
+    thumb: video.thumb || null,
     cost: "Free", notes: "Added from a YouTube search inside Meridian."
   };
   if(!customCourses.some(x=>x.id===c.id)){
@@ -902,7 +971,7 @@ function renderDashboard(){
     <div class="section-head"><h2>Continue where you left off</h2></div>
     ${recentIds.length? `<div class="resume-row">${recentIds.map(id=>{
       const c = courseById(id); if(!c) return "";
-      return `<button class="resume-card" data-open="${c.id}"><div class="plat">${c.platform}</div><div class="ttl">${c.title}</div></button>`;
+      return `<button class="resume-card" data-open="${c.id}">${renderThumbFrame(c,"top")}<div class="resume-card-body"><div class="plat">${c.platform}</div><div class="ttl">${c.title}</div></div></button>`;
     }).join("")}</div>` : `<div class="empty-note">Open a course from the Atlas and it'll show up here.</div>`}
 
     <div class="focus-grid">
@@ -1086,7 +1155,7 @@ function renderRoute(){
           ${note}
           <div class="course-grid">
             ${items.map(c=>renderCourseCard(c)).join("")}
-            <button class="ccard" style="align-items:center;justify-content:center;text-align:center;border-style:dashed;" data-yt-search="${bk}">
+            <button class="ccard" style="align-items:center;justify-content:center;text-align:center;border-style:dashed;padding:24px 14px;gap:8px;" data-yt-search="${bk}">
               <span class="seal" style="color:var(--accent);border-color:var(--accent);background:var(--accent-soft);">⌕</span>
               <div class="ttl" style="margin-top:6px;">Find more videos</div>
               <div class="notes">Search YouTube and embed results here.</div>
@@ -1105,13 +1174,16 @@ function renderCourseCard(c){
   const st = (progress[c.id]||{}).status || "new";
   return `
     <button class="ccard" data-open="${c.id}">
-      <div class="ccard-top"><span class="plat">${c.platform}</span></div>
-      <div class="ttl">${c.title}</div>
-      <div class="notes">${(c.notes||"").slice(0,120)}${(c.notes||"").length>120?"…":""}</div>
-      <div class="tags">
-        <span class="tag ${c.cost==="Free"?"free":"freemium"}">${c.cost}</span>
-        ${c.embeddable? `<span class="tag embed">Embeds here</span>` : ""}
-        <span class="tag status-${st}">${st}</span>
+      ${renderThumbFrame(c,"top")}
+      <div class="ccard-body">
+        <div class="ccard-top"><span class="plat">${c.platform}</span></div>
+        <div class="ttl">${c.title}</div>
+        <div class="notes">${(c.notes||"").slice(0,120)}${(c.notes||"").length>120?"…":""}</div>
+        <div class="tags">
+          <span class="tag ${c.cost==="Free"?"free":"freemium"}">${c.cost}</span>
+          ${c.embeddable? `<span class="tag embed">Embeds here</span>` : ""}
+          <span class="tag status-${st}">${st}</span>
+        </div>
       </div>
     </button>`;
 }
@@ -1228,7 +1300,7 @@ async function runInlineVideoSearch(c){
     if(!results.length){ box.innerHTML = `<div class="empty-note">No results — try opening the link above instead.</div>`; return; }
     box.innerHTML = results.slice(0,5).map(v=>`
       <div class="card card-pad" style="display:flex;gap:12px;align-items:flex-start;margin-top:10px;">
-        <img src="${v.thumb}" alt="" style="width:96px;border-radius:8px;flex:none;"/>
+        <div class="thumb-frame sm"><img class="thumb-img" src="${v.thumb}" alt="" loading="lazy"/><div class="thumb-play-badge sm">${PLAY_ICON_SVG}</div></div>
         <div style="flex:1;min-width:0;">
           <div style="font-weight:700;font-size:.83rem;line-height:1.3;">${escapeHtml(v.title)}</div>
           <div style="font-size:.71rem;color:var(--ink-faint);margin:3px 0 8px;">${escapeHtml(v.channel)}</div>
@@ -1329,10 +1401,10 @@ async function runYoutubeSearch(subject, bandIndex){
     if(!results.length){ box.innerHTML = `<div class="empty-note">No results — try a different search.</div>`; return; }
     box.innerHTML = results.map(v=>`
       <div class="card card-pad" style="display:flex;gap:12px;align-items:flex-start;margin-top:10px;">
-        <img src="${v.thumb}" alt="" style="width:110px;border-radius:6px;flex:none;"/>
+        <div class="thumb-frame sm"><img class="thumb-img" src="${v.thumb}" alt="" loading="lazy"/><div class="thumb-play-badge sm">${PLAY_ICON_SVG}</div></div>
         <div style="flex:1;min-width:0;">
-          <div style="font-weight:600;font-size:.85rem;line-height:1.3;">${v.title}</div>
-          <div style="font-size:.72rem;color:var(--ink-faint);margin:3px 0 8px;">${v.channel}</div>
+          <div style="font-weight:600;font-size:.85rem;line-height:1.3;">${escapeHtml(v.title)}</div>
+          <div style="font-size:.72rem;color:var(--ink-faint);margin:3px 0 8px;">${escapeHtml(v.channel)}</div>
           <button class="btn subtle" data-add-yt="${v.videoId}">Add to this section</button>
         </div>
       </div>
