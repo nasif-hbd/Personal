@@ -1152,6 +1152,11 @@ function openCourse(id){
           <div style="font-size:.82rem;color:var(--ink-soft);">${c.notes||""}</div>
           <a class="btn" href="${c.link}" target="_blank" rel="noopener">Open on ${c.platform.replace("YouTube — ","")} →</a>
         </div>
+        <div class="card card-pad">
+          <label class="uplabel" style="display:block;margin-bottom:8px;">Prefer to watch?</label>
+          <button class="btn subtle block" id="findVideoBtn">Find a video for this topic</button>
+          <div id="inlineVideoResults"></div>
+        </div>
       `}
 
       <div class="card card-pad">
@@ -1209,6 +1214,42 @@ function openCourse(id){
     persistAll(); renderBadges();
     toast("Added to your To-Do list.", "Saved");
   });
+  const findVideoBtn = document.getElementById("findVideoBtn");
+  if(findVideoBtn) findVideoBtn.addEventListener("click", ()=> runInlineVideoSearch(c));
+}
+async function runInlineVideoSearch(c){
+  const box = document.getElementById("inlineVideoResults");
+  const btn = document.getElementById("findVideoBtn");
+  if(!box) return;
+  if(btn){ btn.disabled = true; btn.textContent = "Searching…"; }
+  box.innerHTML = `<div class="empty-note">Searching YouTube for “${escapeHtml(c.title)}”…</div>`;
+  try{
+    const results = await searchYoutube(c.title+" "+c.subject);
+    if(!results.length){ box.innerHTML = `<div class="empty-note">No results — try opening the link above instead.</div>`; return; }
+    box.innerHTML = results.slice(0,5).map(v=>`
+      <div class="card card-pad" style="display:flex;gap:12px;align-items:flex-start;margin-top:10px;">
+        <img src="${v.thumb}" alt="" style="width:96px;border-radius:8px;flex:none;"/>
+        <div style="flex:1;min-width:0;">
+          <div style="font-weight:700;font-size:.83rem;line-height:1.3;">${escapeHtml(v.title)}</div>
+          <div style="font-size:.71rem;color:var(--ink-faint);margin:3px 0 8px;">${escapeHtml(v.channel)}</div>
+          <button class="btn subtle" data-watch-yt="${v.videoId}">Watch this →</button>
+        </div>
+      </div>
+    `).join("");
+    box.querySelectorAll("[data-watch-yt]").forEach(wbtn=>{
+      wbtn.addEventListener("click", ()=>{
+        const video = results.find(r=>r.videoId===wbtn.dataset.watchYt);
+        const newCourse = addYoutubeCourse(video, c.subject, c.level);
+        toast("Now playing — saved to "+c.subject+" for next time too.", "Found it");
+        openCourse(newCourse.id);
+        if(document.getElementById("view-atlas") && !document.getElementById("view-atlas").hidden) renderRoute();
+      });
+    });
+  }catch(err){
+    box.innerHTML = `<div class="empty-note">${err.message || "Search failed — try the link above instead."}</div>`;
+  }finally{
+    if(btn){ btn.disabled = false; btn.textContent = "Find a video for this topic"; }
+  }
 }
 function toggleTimer(){
   const btn = document.getElementById("timerToggle");
