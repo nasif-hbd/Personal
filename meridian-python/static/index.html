@@ -561,6 +561,12 @@ const SEALS = {"Math":"Ma","Advanced Math":"A∫","English":"En","Physics":"Ph",
 
 /* ---------------- thumbnails ---------------- */
 const PLAY_ICON_SVG = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M5 3.3v9.4l8.2-4.7L5 3.3Z" fill="#fff"/></svg>`;
+/* Some curated catalog entries have a placeholder video id that was never filled in,
+   or use YouTube's "user_uploads" list type, which YouTube discontinued in 2020 — both
+   render a dead player, so treat them the same as "no curated embed available". */
+function isPlayableEmbed(c){
+  return !!(c.embeddable && c.embedSrc && !c.embedSrc.includes("VIDEO_ID") && !c.embedSrc.includes("listType=user_uploads"));
+}
 function youtubeThumbFromEmbed(embedSrc){
   if(!embedSrc) return null;
   const m = embedSrc.match(/\/embed\/([A-Za-z0-9_-]{11})(?:[?&]|$)/);
@@ -568,7 +574,7 @@ function youtubeThumbFromEmbed(embedSrc){
   return "https://img.youtube.com/vi/"+m[1]+"/mqdefault.jpg";
 }
 function courseThumbUrl(c){
-  return c.thumb || (c.embeddable ? youtubeThumbFromEmbed(c.embedSrc) : null);
+  return c.thumb || (isPlayableEmbed(c) ? youtubeThumbFromEmbed(c.embedSrc) : null);
 }
 function renderThumbFrame(c, sizeClass){
   const url = courseThumbUrl(c);
@@ -1181,7 +1187,7 @@ function renderCourseCard(c){
         <div class="notes">${(c.notes||"").slice(0,120)}${(c.notes||"").length>120?"…":""}</div>
         <div class="tags">
           <span class="tag ${c.cost==="Free"?"free":"freemium"}">${c.cost}</span>
-          ${c.embeddable? `<span class="tag embed">Embeds here</span>` : ""}
+          ${isPlayableEmbed(c)? `<span class="tag embed">Embeds here</span>` : ""}
           <span class="tag status-${st}">${st}</span>
         </div>
       </div>
@@ -1215,7 +1221,7 @@ function openCourse(id){
       <button class="reader-close" id="readerClose">✕</button>
     </div>
     <div class="reader-body">
-      ${c.embeddable && c.embedSrc ? `
+      ${isPlayableEmbed(c) ? `
         <div class="reader-frame-wrap"><iframe src="${c.embedSrc}" title="${c.title}" allowfullscreen></iframe></div>
       ` : `
         <div class="ext-card">
@@ -1223,9 +1229,10 @@ function openCourse(id){
           <div style="font-weight:700;">${c.platform}</div>
           <div style="font-size:.82rem;color:var(--ink-soft);">${c.notes||""}</div>
           <a class="btn" href="${c.link}" target="_blank" rel="noopener">Open on ${c.platform.replace("YouTube — ","")} →</a>
+          <a class="btn subtle" href="https://www.youtube.com/results?search_query=${encodeURIComponent(c.title+" "+c.subject)}" target="_blank" rel="noopener">Search YouTube for this topic →</a>
         </div>
         <div class="card card-pad">
-          <label class="uplabel" style="display:block;margin-bottom:8px;">Prefer to watch?</label>
+          <label class="uplabel" style="display:block;margin-bottom:8px;">Watch it right here instead</label>
           <button class="btn subtle block" id="findVideoBtn">Find a video for this topic</button>
           <div id="inlineVideoResults"></div>
         </div>
