@@ -1,0 +1,33 @@
+name: ai-agent tests
+
+on:
+  push:
+    paths:
+      - "ai-agent/**"
+      - ".github/workflows/ai-agent-tests.yml"
+  pull_request:
+    paths:
+      - "ai-agent/**"
+      - ".github/workflows/ai-agent-tests.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          pip install -r ai-agent/cloud/requirements.txt
+          pip install pytest httpx
+      - name: Syntax-check every agent script
+        run: |
+          python -m py_compile ai-agent/agents/*.py ai-agent/ai_agent.py
+      - name: Run server tests
+        env:
+          AGENT_API_KEY: ci-test-key
+        run: |
+          cd ai-agent/tests
+          pytest -v
