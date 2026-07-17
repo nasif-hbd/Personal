@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agent Dashboard</title>
+<style>
+  :root {
+    --bg: #f5f6f8;
+    --panel: #ffffff;
+    --border: #e1e4e8;
+    --text: #1a1d21;
+    --muted: #6b7280;
+    --accent: #4f46e5;
+    --accent-hover: #4338ca;
+    --ok: #16a34a;
+    --err: #dc2626;
+    --radius: 10px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1115;
+      --panel: #171a21;
+      --border: #2a2e37;
+      --text: #e7e9ec;
+      --muted: #9aa1ac;
+      --accent: #818cf8;
+      --accent-hover: #a5b0fb;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+  header {
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  header h1 { font-size: 18px; margin: 0; }
+  header .conn { display: flex; gap: 8px; align-items: center; font-size: 13px; }
+  input, select, textarea, button {
+    font: inherit;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: var(--text);
+    padding: 8px 10px;
+  }
+  header input { width: 220px; }
+  button {
+    cursor: pointer;
+    background: var(--accent);
+    color: white;
+    border: none;
+    font-weight: 600;
+  }
+  button:hover { background: var(--accent-hover); }
+  button.secondary { background: var(--panel); color: var(--text); border: 1px solid var(--border); }
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 800px) { main { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+  }
+  .card h2 { font-size: 14px; margin: 0 0 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+  .row { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+  .row > * { flex: 1; min-width: 120px; }
+  .agent-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 10px; border-radius: 999px; border: 1px solid var(--border);
+    font-size: 13px; margin: 4px 4px 4px 0;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--err); }
+  .dot.online { background: var(--ok); }
+  .log {
+    max-height: 220px; overflow-y: auto; font-size: 13px;
+    background: var(--bg); border-radius: 8px; padding: 8px; border: 1px solid var(--border);
+  }
+  .log div { padding: 4px 0; border-bottom: 1px solid var(--border); }
+  .log div:last-child { border-bottom: none; }
+  .chat-window {
+    height: 260px; overflow-y: auto; padding: 10px; background: var(--bg);
+    border: 1px solid var(--border); border-radius: 8px; margin-bottom: 10px;
+  }
+  .chat-msg { margin-bottom: 10px; max-width: 85%; padding: 8px 12px; border-radius: 10px; font-size: 14px; }
+  .chat-msg.user { background: var(--accent); color: white; margin-left: auto; }
+  .chat-msg.assistant { background: var(--panel); border: 1px solid var(--border); }
+  .muted { color: var(--muted); font-size: 12px; }
+  .full { grid-column: 1 / -1; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🤖 AI Agent Dashboard</h1>
+  <div class="conn">
+    <input id="serverUrl" placeholder="http://localhost:8000">
+    <input id="apiKey" placeholder="API key" type="password">
+    <button class="secondary" onclick="saveConnection()">Connect</button>
+  </div>
+</header>
+
+<main>
+
+  <section class="card">
+    <h2>Agents</h2>
+    <div id="agentList" class="muted">Not connected yet.</div>
+  </section>
+
+  <section class="card">
+    <h2>Launch an App</h2>
+    <div class="row">
+      <select id="launchAgent"></select>
+      <input id="launchApp" placeholder="app name / package / path">
+    </div>
+    <button onclick="launchApp()">Launch</button>
+  </section>
+
+  <section class="card">
+    <h2>Send a Notification</h2>
+    <div class="row">
+      <select id="notifyAgent"></select>
+    </div>
+    <div class="row">
+      <input id="notifyTitle" placeholder="Title">
+    </div>
+    <div class="row">
+      <input id="notifyMessage" placeholder="Message">
+    </div>
+    <button onclick="sendNotify()">Send</button>
+  </section>
+
+  <section class="card">
+    <h2>Send an Email</h2>
+    <div class="row"><input id="emailTo" placeholder="to@example.com"></div>
+    <div class="row"><input id="emailSubject" placeholder="Subject"></div>
+    <div class="row"><textarea id="emailBody" rows="3" placeholder="Body" style="width:100%"></textarea></div>
+    <button onclick="sendEmail()">Send Email</button>
+  </section>
+
+  <section class="card full">
+    <h2>Chat</h2>
+    <div id="chatWindow" class="chat-window"></div>
+    <div class="row">
+      <input id="chatInput" placeholder="Ask the agent anything..." onkeydown="if(event.key==='Enter')sendChat()">
+      <button onclick="sendChat()">Send</button>
+    </div>
+  </section>
+
+  <section class="card full">
+    <h2>Activity Log</h2>
+    <div id="activityLog" class="log muted">Nothing yet.</div>
+  </section>
+
+</main>
+
+<script>
+let SERVER = localStorage.getItem('agentServer') || 'http://localhost:8000';
+let KEY = localStorage.getItem('agentKey') || '';
+document.getElementById('serverUrl').value = SERVER;
+document.getElementById('apiKey').value = KEY;
+
+function saveConnection() {
+  SERVER = document.getElementById('serverUrl').value.trim().replace(/\/$/, '');
+  KEY = document.getElementById('apiKey').value.trim();
+  localStorage.setItem('agentServer', SERVER);
+  localStorage.setItem('agentKey', KEY);
+  refreshAgents();
+  refreshCommands();
+}
+
+async function api(path, options = {}) {
+  const res = await fetch(SERVER + path, {
+    ...options,
+    headers: { 'Content-Type': 'application/json', 'X-API-Key': KEY, ...(options.headers || {}) },
+  });
+  if (!res.ok) {
+    const detail = await res.text();
+    throw new Error(`${res.status}: ${detail}`);
+  }
+  return res.status === 204 ? null : res.json();
+}
+
+function log(msg, isError = false) {
+  const el = document.getElementById('activityLog');
+  if (el.classList.contains('muted') && el.children.length === 0) el.textContent = '';
+  const line = document.createElement('div');
+  line.style.color = isError ? 'var(--err)' : 'inherit';
+  line.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+  el.prepend(line);
+}
+
+async function refreshAgents() {
+  try {
+    const agents = await api('/agents');
+    const list = document.getElementById('agentList');
+    list.classList.remove('muted');
+    list.innerHTML = agents.length ? '' : '<span class="muted">No agents registered yet — start one from the agents/ folder.</span>';
+    const selects = [document.getElementById('launchAgent'), document.getElementById('notifyAgent')];
+    selects.forEach(s => s.innerHTML = '');
+    agents.forEach(a => {
+      const pill = document.createElement('span');
+      pill.className = 'agent-pill';
+      pill.innerHTML = `<span class="dot ${a.online ? 'online' : ''}"></span> ${a.name} (${a.os})`;
+      list.appendChild(pill);
+      selects.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = a.id;
+        opt.textContent = `${a.name} (${a.os})`;
+        s.appendChild(opt);
+      });
+    });
+  } catch (e) { log('Failed to load agents: ' + e.message, true); }
+}
+
+async function refreshCommands() {
+  try {
+    const cmds = await api('/commands');
+    cmds.slice(0, 10).forEach(c => {}); // history is fetched on demand; keep this lightweight
+  } catch (e) { /* connection not configured yet — ignore */ }
+}
+
+async function launchApp() {
+  const agent_id = document.getElementById('launchAgent').value;
+  const app_name = document.getElementById('launchApp').value.trim();
+  if (!agent_id || !app_name) return log('Pick an agent and an app name first.', true);
+  try {
+    await api('/commands', { method: 'POST', body: JSON.stringify({ agent_id, type: 'launch_app', payload: { app_name } }) });
+    log(`Queued: launch "${app_name}" on ${agent_id}`);
+  } catch (e) { log('Launch failed: ' + e.message, true); }
+}
+
+async function sendNotify() {
+  const agent_id = document.getElementById('notifyAgent').value;
+  const title = document.getElementById('notifyTitle').value.trim() || 'Notice';
+  const message = document.getElementById('notifyMessage').value.trim();
+  if (!agent_id || !message) return log('Pick an agent and write a message first.', true);
+  try {
+    await api('/commands', { method: 'POST', body: JSON.stringify({ agent_id, type: 'notify', payload: { title, message } }) });
+    log(`Queued: notify "${title}" on ${agent_id}`);
+  } catch (e) { log('Notify failed: ' + e.message, true); }
+}
+
+async function sendEmail() {
+  const to = document.getElementById('emailTo').value.trim();
+  const subject = document.getElementById('emailSubject').value.trim();
+  const body = document.getElementById('emailBody').value.trim();
+  if (!to || !subject) return log('Fill in at least "to" and "subject".', true);
+  try {
+    await api('/email/send', { method: 'POST', body: JSON.stringify({ to, subject, body }) });
+    log(`Email sent to ${to}`);
+  } catch (e) { log('Email failed: ' + e.message, true); }
+}
+
+function appendChatBubble(role, text) {
+  const win = document.getElementById('chatWindow');
+  const bubble = document.createElement('div');
+  bubble.className = `chat-msg ${role}`;
+  bubble.textContent = text;
+  win.appendChild(bubble);
+  win.scrollTop = win.scrollHeight;
+}
+
+async function sendChat() {
+  const input = document.getElementById('chatInput');
+  const message = input.value.trim();
+  if (!message) return;
+  appendChatBubble('user', message);
+  input.value = '';
+  try {
+    const res = await api('/chat', { method: 'POST', body: JSON.stringify({ session_id: 'dashboard', message }) });
+    appendChatBubble('assistant', res.reply);
+  } catch (e) {
+    appendChatBubble('assistant', '(error: ' + e.message + ')');
+  }
+}
+
+if (SERVER && KEY) { refreshAgents(); }
+setInterval(() => { if (SERVER && KEY) refreshAgents(); }, 10000);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+fastapi>=0.115
+uvicorn[standard]>=0.30
+anthropic>=0.40
+pydantic>=2.7
+
+# Optional — only needed if you use /sms/send or /calls/make:
+# twilio>=9
