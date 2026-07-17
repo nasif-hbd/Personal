@@ -1,11 +1,14 @@
 """
-macOS local agent. Launches apps and shows notifications on this machine,
-driven by commands queued in the cloud orchestrator.
+macOS local agent. Launches apps, shows notifications, reads/writes the
+clipboard, speaks text, and captures screenshots — all driven by commands
+queued in the cloud orchestrator.
 
 Install:  pip install requests
-Run:      python3 macos_agent.py --server http://your-cloud-host:8000 --key change-me
+Run:      python3 macos_agent.py --server http://your-cloud-host:8000 --key change-me --tags home,laptop
 """
+import os
 import subprocess
+import uuid
 
 from base_agent import AgentBase, cli_args
 
@@ -30,7 +33,29 @@ class MacAgent(AgentBase):
         subprocess.run(["osascript", "-e", script], check=True)
         return "notification shown"
 
+    def get_clipboard(self) -> str:
+        result = subprocess.run(["pbpaste"], capture_output=True, text=True, check=True)
+        return result.stdout
+
+    def set_clipboard(self, text: str) -> str:
+        subprocess.run(["pbcopy"], input=text, text=True, check=True)
+        return "clipboard set"
+
+    def speak(self, text: str) -> str:
+        subprocess.run(["say", text], check=True)
+        return "spoke text"
+
+    def screenshot(self) -> str:
+        path = f"/tmp/shot_{uuid.uuid4().hex}.png"
+        subprocess.run(["screencapture", "-x", path], check=True)
+        file_id = self._upload_file(path, "image/png")
+        os.remove(path)
+        return f"uploaded screenshot as file {file_id}"
+
 
 if __name__ == "__main__":
     args = cli_args()
-    MacAgent(args.server, args.key, args.name).run()
+    MacAgent(
+        args.server, args.key, args.name,
+        tags=args.tags, allow_shell=args.allow_shell, allow_write=args.allow_write,
+    ).run()

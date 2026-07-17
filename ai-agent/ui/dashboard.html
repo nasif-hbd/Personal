@@ -15,6 +15,10 @@
     --accent-hover: #4338ca;
     --ok: #16a34a;
     --err: #dc2626;
+    --warn: #b45309;
+    --ok-bg: #dcfce7;
+    --err-bg: #fee2e2;
+    --warn-bg: #fef3c7;
     --radius: 10px;
   }
   @media (prefers-color-scheme: dark) {
@@ -26,6 +30,12 @@
       --muted: #9aa1ac;
       --accent: #818cf8;
       --accent-hover: #a5b0fb;
+      --ok: #4ade80;
+      --err: #f87171;
+      --warn: #fbbf24;
+      --ok-bg: #113321;
+      --err-bg: #3a1414;
+      --warn-bg: #3a2a06;
     }
   }
   * { box-sizing: border-box; }
@@ -43,6 +53,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 12px;
+    position: sticky; top: 0; background: var(--bg); z-index: 5;
   }
   header h1 { font-size: 18px; margin: 0; }
   header .conn { display: flex; gap: 8px; align-items: center; font-size: 13px; }
@@ -64,8 +75,9 @@
   }
   button:hover { background: var(--accent-hover); }
   button.secondary { background: var(--panel); color: var(--text); border: 1px solid var(--border); }
+  button.small { padding: 4px 9px; font-size: 12px; }
   main {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 24px;
     display: grid;
@@ -87,7 +99,8 @@
     padding: 6px 10px; border-radius: 999px; border: 1px solid var(--border);
     font-size: 13px; margin: 4px 4px 4px 0;
   }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--err); }
+  .agent-pill .tags { color: var(--muted); font-size: 11px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--err); flex-shrink: 0; }
   .dot.online { background: var(--ok); }
   .log {
     max-height: 220px; overflow-y: auto; font-size: 13px;
@@ -104,6 +117,20 @@
   .chat-msg.assistant { background: var(--panel); border: 1px solid var(--border); }
   .muted { color: var(--muted); font-size: 12px; }
   .full { grid-column: 1 / -1; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); }
+  th { color: var(--muted); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .03em; }
+  .table-wrap { max-height: 280px; overflow-y: auto; }
+  .status-pill {
+    display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .03em;
+  }
+  .status-pill.done { background: var(--ok-bg); color: var(--ok); }
+  .status-pill.failed { background: var(--err-bg); color: var(--err); }
+  .status-pill.queued, .status-pill.in_progress { background: var(--warn-bg); color: var(--warn); }
+  .status-pill.expired { background: var(--border); color: var(--muted); }
+  a.file-link { color: var(--accent); text-decoration: none; }
+  a.file-link:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -155,12 +182,73 @@
     <button onclick="sendEmail()">Send Email</button>
   </section>
 
+  <section class="card">
+    <h2>Broadcast a Command</h2>
+    <p class="hint muted" style="margin-top:-6px">Target: <code>all</code>, <code>os:windows</code>, <code>tag:home</code>, or an agent id.</p>
+    <div class="row">
+      <input id="broadcastTarget" placeholder="tag:home" value="all">
+      <select id="broadcastType">
+        <option value="notify">notify</option>
+        <option value="launch_app">launch_app</option>
+        <option value="get_clipboard">get_clipboard</option>
+        <option value="set_clipboard">set_clipboard</option>
+        <option value="speak">speak</option>
+        <option value="screenshot">screenshot</option>
+      </select>
+    </div>
+    <div class="row"><textarea id="broadcastPayload" rows="2" style="width:100%" placeholder='{"title":"x","message":"y"}'></textarea></div>
+    <button onclick="broadcastCommand()">Broadcast</button>
+  </section>
+
+  <section class="card">
+    <h2>External Notify (Slack / Discord)</h2>
+    <p class="hint muted" style="margin-top:-6px">No device agent needed — goes straight to the webhook URLs configured on the server.</p>
+    <div class="row"><input id="extTitle" placeholder="Title (optional)"></div>
+    <div class="row"><input id="extMessage" placeholder="Message"></div>
+    <button onclick="sendExternalNotify()">Send</button>
+  </section>
+
   <section class="card full">
     <h2>Chat</h2>
     <div id="chatWindow" class="chat-window"></div>
     <div class="row">
       <input id="chatInput" placeholder="Ask the agent anything..." onkeydown="if(event.key==='Enter')sendChat()">
       <button onclick="sendChat()">Send</button>
+    </div>
+  </section>
+
+  <section class="card full">
+    <h2>Command History</h2>
+    <div class="table-wrap">
+      <table id="commandTable">
+        <thead><tr><th>Agent</th><th>Type</th><th>Status</th><th>Result</th><th></th></tr></thead>
+        <tbody><tr><td colspan="5" class="muted">Not connected yet.</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Files</h2>
+    <div class="row">
+      <select id="fileAgent"></select>
+      <input id="fileInput" type="file">
+    </div>
+    <button onclick="uploadFile()">Upload</button>
+    <div class="table-wrap" style="margin-top:12px">
+      <table id="fileTable">
+        <thead><tr><th>Name</th><th>Agent</th><th>Size</th><th></th></tr></thead>
+        <tbody><tr><td colspan="4" class="muted">Not connected yet.</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Audit Log</h2>
+    <div class="table-wrap">
+      <table id="auditTable">
+        <thead><tr><th>Kind</th><th>Detail</th><th>When</th></tr></thead>
+        <tbody><tr><td colspan="3" class="muted">Not connected yet.</td></tr></tbody>
+      </table>
     </div>
   </section>
 
@@ -182,8 +270,7 @@ function saveConnection() {
   KEY = document.getElementById('apiKey').value.trim();
   localStorage.setItem('agentServer', SERVER);
   localStorage.setItem('agentKey', KEY);
-  refreshAgents();
-  refreshCommands();
+  refreshAll();
 }
 
 async function api(path, options = {}) {
@@ -207,18 +294,26 @@ function log(msg, isError = false) {
   el.prepend(line);
 }
 
+function refreshAll() {
+  refreshAgents();
+  refreshCommands();
+  refreshFiles();
+  refreshAudit();
+}
+
 async function refreshAgents() {
   try {
     const agents = await api('/agents');
     const list = document.getElementById('agentList');
     list.classList.remove('muted');
     list.innerHTML = agents.length ? '' : '<span class="muted">No agents registered yet — start one from the agents/ folder.</span>';
-    const selects = [document.getElementById('launchAgent'), document.getElementById('notifyAgent')];
+    const selects = [document.getElementById('launchAgent'), document.getElementById('notifyAgent'), document.getElementById('fileAgent')];
     selects.forEach(s => s.innerHTML = '');
     agents.forEach(a => {
       const pill = document.createElement('span');
       pill.className = 'agent-pill';
-      pill.innerHTML = `<span class="dot ${a.online ? 'online' : ''}"></span> ${a.name} (${a.os})`;
+      const tagText = a.tags ? `<span class="tags">${a.tags}</span>` : '';
+      pill.innerHTML = `<span class="dot ${a.online ? 'online' : ''}"></span> ${a.name} (${a.os}) ${tagText}`;
       list.appendChild(pill);
       selects.forEach(s => {
         const opt = document.createElement('option');
@@ -232,9 +327,71 @@ async function refreshAgents() {
 
 async function refreshCommands() {
   try {
-    const cmds = await api('/commands');
-    cmds.slice(0, 10).forEach(c => {}); // history is fetched on demand; keep this lightweight
-  } catch (e) { /* connection not configured yet — ignore */ }
+    const cmds = await api('/commands?limit=25');
+    const tbody = document.querySelector('#commandTable tbody');
+    tbody.innerHTML = '';
+    if (!cmds.length) {
+      tbody.innerHTML = '<tr><td colspan="5" class="muted">No commands yet.</td></tr>';
+      return;
+    }
+    cmds.forEach(c => {
+      const tr = document.createElement('tr');
+      const retryBtn = c.status === 'failed'
+        ? `<button class="small secondary" onclick="retryCommand(${c.id})">Retry</button>` : '';
+      tr.innerHTML = `<td>${c.agent_id}</td><td>${c.type}</td>
+        <td><span class="status-pill ${c.status}">${c.status}</span></td>
+        <td>${(c.result || '').slice(0, 60)}</td><td>${retryBtn}</td>`;
+      tbody.appendChild(tr);
+    });
+  } catch (e) { /* not connected yet */ }
+}
+
+async function retryCommand(id) {
+  try {
+    await api(`/commands/${id}/retry`, { method: 'POST' });
+    log(`Requeued command #${id}`);
+    refreshCommands();
+  } catch (e) { log('Retry failed: ' + e.message, true); }
+}
+
+async function refreshFiles() {
+  try {
+    const files = await api('/files');
+    const tbody = document.querySelector('#fileTable tbody');
+    tbody.innerHTML = '';
+    if (!files.length) {
+      tbody.innerHTML = '<tr><td colspan="4" class="muted">No files yet.</td></tr>';
+      return;
+    }
+    files.forEach(f => {
+      const tr = document.createElement('tr');
+      const kb = (f.size_bytes / 1024).toFixed(1);
+      tr.innerHTML = `<td><a class="file-link" href="${SERVER}/files/${f.id}" target="_blank">${f.filename}</a></td>
+        <td>${f.agent_id}</td><td>${kb} KB</td><td></td>`;
+      tbody.appendChild(tr);
+    });
+  } catch (e) { /* not connected yet */ }
+}
+
+async function refreshAudit() {
+  try {
+    const rows = await api('/audit?limit=25');
+    const tbody = document.querySelector('#auditTable tbody');
+    tbody.innerHTML = '';
+    if (!rows.length) {
+      tbody.innerHTML = '<tr><td colspan="3" class="muted">Nothing yet.</td></tr>';
+      return;
+    }
+    rows.forEach(r => {
+      const detail = r.kind === 'command' ? `${r.type} → ${r.agent_id} (${r.status})`
+        : r.kind === 'chat' ? `${r.role} in session "${r.session_id}"`
+        : `webhook: ${r.source}`;
+      const when = new Date(r.created_at * 1000).toLocaleTimeString();
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${r.kind}</td><td>${detail}</td><td>${when}</td>`;
+      tbody.appendChild(tr);
+    });
+  } catch (e) { /* not connected yet */ }
 }
 
 async function launchApp() {
@@ -244,6 +401,7 @@ async function launchApp() {
   try {
     await api('/commands', { method: 'POST', body: JSON.stringify({ agent_id, type: 'launch_app', payload: { app_name } }) });
     log(`Queued: launch "${app_name}" on ${agent_id}`);
+    refreshCommands();
   } catch (e) { log('Launch failed: ' + e.message, true); }
 }
 
@@ -255,6 +413,7 @@ async function sendNotify() {
   try {
     await api('/commands', { method: 'POST', body: JSON.stringify({ agent_id, type: 'notify', payload: { title, message } }) });
     log(`Queued: notify "${title}" on ${agent_id}`);
+    refreshCommands();
   } catch (e) { log('Notify failed: ' + e.message, true); }
 }
 
@@ -267,6 +426,48 @@ async function sendEmail() {
     await api('/email/send', { method: 'POST', body: JSON.stringify({ to, subject, body }) });
     log(`Email sent to ${to}`);
   } catch (e) { log('Email failed: ' + e.message, true); }
+}
+
+async function broadcastCommand() {
+  const target = document.getElementById('broadcastTarget').value.trim() || 'all';
+  const type = document.getElementById('broadcastType').value;
+  const payloadText = document.getElementById('broadcastPayload').value.trim() || '{}';
+  let payload;
+  try { payload = JSON.parse(payloadText); }
+  catch (e) { return log('Payload must be valid JSON, e.g. {"title":"x","message":"y"}', true); }
+  try {
+    const res = await api('/commands/broadcast', { method: 'POST', body: JSON.stringify({ target, type, payload }) });
+    log(`Broadcast "${type}" to ${res.targeted_agents.length} agent(s): ${res.targeted_agents.join(', ')}`);
+    refreshCommands();
+  } catch (e) { log('Broadcast failed: ' + e.message, true); }
+}
+
+async function sendExternalNotify() {
+  const title = document.getElementById('extTitle').value.trim();
+  const message = document.getElementById('extMessage').value.trim();
+  if (!message) return log('Write a message first.', true);
+  try {
+    const res = await api('/notify/external', { method: 'POST', body: JSON.stringify({ title: title || null, message }) });
+    log(`Sent to: ${res.channels.join(', ')}`);
+  } catch (e) { log('External notify failed: ' + e.message, true); }
+}
+
+async function uploadFile() {
+  const agent_id = document.getElementById('fileAgent').value;
+  const input = document.getElementById('fileInput');
+  const file = input.files[0];
+  if (!agent_id || !file) return log('Pick an agent and a file first.', true);
+  const buffer = await file.arrayBuffer();
+  const base64 = btoa(new Uint8Array(buffer).reduce((s, b) => s + String.fromCharCode(b), ''));
+  try {
+    await api('/files/upload', {
+      method: 'POST',
+      body: JSON.stringify({ agent_id, filename: file.name, content_type: file.type || 'application/octet-stream', content_base64: base64 }),
+    });
+    log(`Uploaded ${file.name}`);
+    input.value = '';
+    refreshFiles();
+  } catch (e) { log('Upload failed: ' + e.message, true); }
 }
 
 function appendChatBubble(role, text) {
@@ -292,8 +493,8 @@ async function sendChat() {
   }
 }
 
-if (SERVER && KEY) { refreshAgents(); }
-setInterval(() => { if (SERVER && KEY) refreshAgents(); }, 10000);
+if (SERVER && KEY) { refreshAll(); }
+setInterval(() => { if (SERVER && KEY) refreshAll(); }, 10000);
 </script>
 
 </body>

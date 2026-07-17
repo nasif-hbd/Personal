@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS agents (
     id TEXT PRIMARY KEY,
     os TEXT NOT NULL,
     name TEXT NOT NULL,
+    tags TEXT NOT NULL DEFAULT '',
     last_seen REAL,
     created_at REAL NOT NULL
 );
@@ -22,6 +23,8 @@ CREATE TABLE IF NOT EXISTS commands (
     payload TEXT NOT NULL,
     status TEXT NOT NULL DEFAULT 'queued',
     result TEXT,
+    retries INTEGER NOT NULL DEFAULT 0,
+    expires_at REAL,
     created_at REAL NOT NULL,
     updated_at REAL NOT NULL
 );
@@ -48,6 +51,16 @@ CREATE TABLE IF NOT EXISTS events (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     source TEXT NOT NULL,
     payload TEXT NOT NULL,
+    created_at REAL NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS files (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    agent_id TEXT NOT NULL,
+    filename TEXT NOT NULL,
+    content BLOB NOT NULL,
+    content_type TEXT NOT NULL,
+    size_bytes INTEGER NOT NULL,
     created_at REAL NOT NULL
 );
 """

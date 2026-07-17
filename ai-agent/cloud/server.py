@@ -2,9 +2,10 @@
 Cloud orchestrator ("the brain") for the AI agent system.
 
 Local per-OS agents (see ../agents/) poll this server for commands (launch an
-app, show a notification, ...) and report results back. The server also
-exposes chat (via the Claude API), email, and generic webhook endpoints, and
-runs a tiny in-process scheduler for recurring commands.
+app, show a notification, capture a screenshot, ...) and report results back.
+The server also exposes chat (via the Claude API), email, SMS/calls, a
+Slack/Discord bridge, a small file store, scheduling, broadcast targeting,
+and an audit log.
 
 Run:
     pip install -r requirements.txt
@@ -13,31 +14,65 @@ Run:
     uvicorn server:app --reload --port 8000
 """
 import asyncio
+import base64
 import json
+import logging
 import os
 import smtplib
 import time
+import urllib.request
+from collections import defaultdict, deque
+from contextlib import asynccontextmanager
 from email.mime.text import MIMEText
 from typing import Literal
 
 import anthropic
-from fastapi import Depends, FastAPI, Header, HTTPException
+from fastapi import Depends, FastAPI, Header, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 import db
 
+log = logging.getLogger("agent.server")
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+
 API_KEY = os.environ.get("AGENT_API_KEY", "")
 AGENT_ONLINE_WINDOW_SECONDS = 30
 CLAUDE_MODEL = "claude-opus-4-8"
+RATE_LIMIT_REQUESTS = 120
+RATE_LIMIT_WINDOW_SECONDS = 60
+ALLOWED_ORIGIN = os.environ.get("DASHBOARD_ORIGIN", "*")
 
-app = FastAPI(title="AI Agent Cloud Orchestrator")
+CommandType = Literal[
+    "launch_app", "notify", "get_clipboard", "set_clipboard",
+    "speak", "screenshot", "write_file", "run_command", "custom",
+]
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    db.init_db()
+    if not API_KEY:
+        log.warning("AGENT_API_KEY is not set — every authenticated endpoint will 500 until you set it.")
+    if not os.environ.get("ANTHROPIC_API_KEY"):
+        log.warning("ANTHROPIC_API_KEY is not set — /chat will 500 until you set it.")
+    if ALLOWED_ORIGIN == "*":
+        log.warning("CORS allow_origins is '*' (dev default) — set DASHBOARD_ORIGIN before exposing this publicly.")
+    task = asyncio.create_task(scheduler_loop())
+    yield
+    task.cancel()
+
+
+app = FastAPI(title="AI Agent Cloud Orchestrator", lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # tighten this to your dashboard's origin in production
+    # Defaults to "*" for local dev. Set DASHBOARD_ORIGIN before exposing this
+    # server publicly — see README.md → Security notes.
+    allow_origins=[ALLOWED_ORIGIN],
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+_rate_buckets: dict[str, deque] = defaultdict(deque)
 
 
 def require_api_key(x_api_key: str = Header(default="")) -> None:
@@ -45,12 +80,38 @@ def require_api_key(x_api_key: str = Header(default="")) -> None:
         raise HTTPException(500, "Server misconfigured: AGENT_API_KEY is not set")
     if x_api_key != API_KEY:
         raise HTTPException(401, "Invalid or missing X-API-Key header")
+    # Sliding-window rate limit, per API key.
+    now = time.time()
+    bucket = _rate_buckets[x_api_key]
+    bucket.append(now)
+    while bucket and bucket[0] < now - RATE_LIMIT_WINDOW_SECONDS:
+        bucket.popleft()
+    if len(bucket) > RATE_LIMIT_REQUESTS:
+        raise HTTPException(429, f"Rate limit exceeded — max {RATE_LIMIT_REQUESTS} requests/minute per API key")
 
 
-@app.on_event("startup")
-def on_startup() -> None:
-    db.init_db()
-    asyncio.create_task(scheduler_loop())
+def _post_json(url: str, payload: dict) -> None:
+    req = urllib.request.Request(
+        url,
+        data=json.dumps(payload).encode(),
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+    urllib.request.urlopen(req, timeout=10).read()
+
+
+def resolve_targets(selector: str) -> list[str]:
+    """agent_id selector for broadcast: 'all', 'os:<name>', 'tag:<name>', or a literal agent id."""
+    agents = db.query("SELECT * FROM agents")
+    if selector == "all":
+        return [a["id"] for a in agents]
+    if selector.startswith("os:"):
+        osname = selector.split(":", 1)[1]
+        return [a["id"] for a in agents if a["os"] == osname]
+    if selector.startswith("tag:"):
+        tag = selector.split(":", 1)[1]
+        return [a["id"] for a in agents if tag in (a["tags"] or "").split(",")]
+    return [selector]
 
 
 # --------------------------------------------------------------------------
@@ -61,6 +122,7 @@ class RegisterAgent(BaseModel):
     agent_id: str
     os: str
     name: str
+    tags: str = ""  # comma-separated, e.g. "home,laptop" — used by broadcast targeting
 
 
 @app.post("/agents/register", dependencies=[Depends(require_api_key)])
@@ -69,13 +131,13 @@ def register_agent(body: RegisterAgent):
     existing = db.query_one("SELECT id FROM agents WHERE id = ?", (body.agent_id,))
     if existing:
         db.execute(
-            "UPDATE agents SET os = ?, name = ?, last_seen = ? WHERE id = ?",
-            (body.os, body.name, now, body.agent_id),
+            "UPDATE agents SET os = ?, name = ?, tags = ?, last_seen = ? WHERE id = ?",
+            (body.os, body.name, body.tags, now, body.agent_id),
         )
     else:
         db.execute(
-            "INSERT INTO agents (id, os, name, last_seen, created_at) VALUES (?, ?, ?, ?, ?)",
-            (body.agent_id, body.os, body.name, now, now),
+            "INSERT INTO agents (id, os, name, tags, last_seen, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+            (body.agent_id, body.os, body.name, body.tags, now, now),
         )
     return {"status": "registered", "agent_id": body.agent_id}
 
@@ -92,14 +154,20 @@ def list_agents():
 @app.get("/agents/{agent_id}/poll", dependencies=[Depends(require_api_key)])
 def poll_commands(agent_id: str):
     db.execute("UPDATE agents SET last_seen = ? WHERE id = ?", (time.time(), agent_id))
-    row = db.query_one(
-        "SELECT * FROM commands WHERE agent_id = ? AND status = 'queued' ORDER BY created_at LIMIT 1",
-        (agent_id,),
-    )
-    if not row:
-        return {"command": None}
-    db.execute("UPDATE commands SET status = 'in_progress', updated_at = ? WHERE id = ?", (time.time(), row["id"]))
-    return {"command": {"id": row["id"], "type": row["type"], "payload": json.loads(row["payload"])}}
+    now = time.time()
+    while True:
+        row = db.query_one(
+            "SELECT * FROM commands WHERE agent_id = ? AND status = 'queued' ORDER BY created_at LIMIT 1",
+            (agent_id,),
+        )
+        if not row:
+            return {"command": None}
+        # A command with an expired TTL never fires late — mark it and move on.
+        if row["expires_at"] and row["expires_at"] < now:
+            db.execute("UPDATE commands SET status = 'expired', updated_at = ? WHERE id = ?", (now, row["id"]))
+            continue
+        db.execute("UPDATE commands SET status = 'in_progress', updated_at = ? WHERE id = ?", (now, row["id"]))
+        return {"command": {"id": row["id"], "type": row["type"], "payload": json.loads(row["payload"])}}
 
 
 class AckCommand(BaseModel):
@@ -118,21 +186,24 @@ def ack_command(agent_id: str, body: AckCommand):
 
 
 # --------------------------------------------------------------------------
-# Commands (launch_app, notify, custom — the agent-side vocabulary)
+# Commands
 # --------------------------------------------------------------------------
 
 class CreateCommand(BaseModel):
     agent_id: str
-    type: Literal["launch_app", "notify", "custom"]
+    type: CommandType
     payload: dict
+    ttl_seconds: int | None = None
 
 
 @app.post("/commands", dependencies=[Depends(require_api_key)])
 def create_command(body: CreateCommand):
     now = time.time()
+    expires_at = now + body.ttl_seconds if body.ttl_seconds else None
     cur = db.execute(
-        "INSERT INTO commands (agent_id, type, payload, created_at, updated_at) VALUES (?, ?, ?, ?, ?)",
-        (body.agent_id, body.type, json.dumps(body.payload), now, now),
+        "INSERT INTO commands (agent_id, type, payload, expires_at, created_at, updated_at) "
+        "VALUES (?, ?, ?, ?, ?, ?)",
+        (body.agent_id, body.type, json.dumps(body.payload), expires_at, now, now),
     )
     return {"command_id": cur.lastrowid}
 
@@ -146,6 +217,45 @@ def list_commands(agent_id: str | None = None, limit: int = 50):
     else:
         rows = db.query("SELECT * FROM commands ORDER BY id DESC LIMIT ?", (limit,))
     return rows
+
+
+@app.post("/commands/{command_id}/retry", dependencies=[Depends(require_api_key)])
+def retry_command(command_id: int):
+    row = db.query_one("SELECT * FROM commands WHERE id = ?", (command_id,))
+    if not row:
+        raise HTTPException(404, "command not found")
+    if row["status"] != "failed":
+        raise HTTPException(400, f"can only retry failed commands (current status: {row['status']})")
+    db.execute(
+        "UPDATE commands SET status = 'queued', result = NULL, retries = retries + 1, updated_at = ? WHERE id = ?",
+        (time.time(), command_id),
+    )
+    return {"status": "requeued", "retries": row["retries"] + 1}
+
+
+class BroadcastCommand(BaseModel):
+    target: str  # "all" | "os:<name>" | "tag:<name>" | a literal agent id
+    type: CommandType
+    payload: dict
+    ttl_seconds: int | None = None
+
+
+@app.post("/commands/broadcast", dependencies=[Depends(require_api_key)])
+def broadcast_command(body: BroadcastCommand):
+    targets = resolve_targets(body.target)
+    if not targets:
+        raise HTTPException(404, f"no agents matched target '{body.target}'")
+    now = time.time()
+    expires_at = now + body.ttl_seconds if body.ttl_seconds else None
+    command_ids = []
+    for agent_id in targets:
+        cur = db.execute(
+            "INSERT INTO commands (agent_id, type, payload, expires_at, created_at, updated_at) "
+            "VALUES (?, ?, ?, ?, ?, ?)",
+            (agent_id, body.type, json.dumps(body.payload), expires_at, now, now),
+        )
+        command_ids.append(cur.lastrowid)
+    return {"command_ids": command_ids, "targeted_agents": targets}
 
 
 # --------------------------------------------------------------------------
@@ -280,13 +390,36 @@ def make_call(body: MakeCall):
     return {"status": "calling", "sid": call.sid}
 
 
+class ExternalNotify(BaseModel):
+    message: str
+    title: str | None = None
+
+
+@app.post("/notify/external", dependencies=[Depends(require_api_key)])
+def notify_external(body: ExternalNotify):
+    """Push straight to Slack/Discord — no device agent involved."""
+    slack_url = os.environ.get("SLACK_WEBHOOK_URL")
+    discord_url = os.environ.get("DISCORD_WEBHOOK_URL")
+    if not slack_url and not discord_url:
+        raise HTTPException(501, "Set SLACK_WEBHOOK_URL and/or DISCORD_WEBHOOK_URL to use this endpoint")
+    text = f"*{body.title}*\n{body.message}" if body.title else body.message
+    sent = []
+    if slack_url:
+        _post_json(slack_url, {"text": text})
+        sent.append("slack")
+    if discord_url:
+        _post_json(discord_url, {"content": text})
+        sent.append("discord")
+    return {"status": "sent", "channels": sent}
+
+
 # --------------------------------------------------------------------------
 # Schedules — simple recurring commands, checked by the background loop
 # --------------------------------------------------------------------------
 
 class CreateSchedule(BaseModel):
     agent_id: str
-    type: Literal["launch_app", "notify", "custom"]
+    type: CommandType
     payload: dict
     interval_seconds: int
 
@@ -329,9 +462,7 @@ async def scheduler_loop() -> None:
 
 
 # --------------------------------------------------------------------------
-# Generic inbound webhooks — external services (GitHub, Slack, cron pingers,
-# ...) can POST here. The payload is stored and, optionally, summarized by
-# Claude and turned into a notification for a chosen agent.
+# Generic inbound webhooks
 # --------------------------------------------------------------------------
 
 @app.post("/webhooks/{name}", dependencies=[Depends(require_api_key)])
@@ -348,6 +479,73 @@ async def inbound_webhook(name: str, body: dict, notify_agent_id: str | None = N
             (notify_agent_id, json.dumps({"title": f"Webhook: {name}", "message": summary}), now, now),
         )
     return {"status": "received"}
+
+
+# --------------------------------------------------------------------------
+# Files — screenshots, remote-file-write, or arbitrary uploads land here
+# --------------------------------------------------------------------------
+
+class FileUpload(BaseModel):
+    agent_id: str
+    filename: str
+    content_type: str = "application/octet-stream"
+    content_base64: str
+
+
+@app.post("/files/upload", dependencies=[Depends(require_api_key)])
+def upload_file(body: FileUpload):
+    data = base64.b64decode(body.content_base64)
+    now = time.time()
+    cur = db.execute(
+        "INSERT INTO files (agent_id, filename, content, content_type, size_bytes, created_at) "
+        "VALUES (?, ?, ?, ?, ?, ?)",
+        (body.agent_id, body.filename, data, body.content_type, len(data), now),
+    )
+    return {"file_id": cur.lastrowid, "size_bytes": len(data)}
+
+
+@app.get("/files", dependencies=[Depends(require_api_key)])
+def list_files(agent_id: str | None = None):
+    cols = "id, agent_id, filename, content_type, size_bytes, created_at"
+    if agent_id:
+        return db.query(f"SELECT {cols} FROM files WHERE agent_id = ? ORDER BY id DESC", (agent_id,))
+    return db.query(f"SELECT {cols} FROM files ORDER BY id DESC")
+
+
+@app.get("/files/{file_id}", dependencies=[Depends(require_api_key)])
+def download_file(file_id: int):
+    row = db.query_one("SELECT * FROM files WHERE id = ?", (file_id,))
+    if not row:
+        raise HTTPException(404, "file not found")
+    return Response(
+        content=row["content"],
+        media_type=row["content_type"],
+        headers={"Content-Disposition": f'attachment; filename="{row["filename"]}"'},
+    )
+
+
+# --------------------------------------------------------------------------
+# Audit log — merges commands + chats + inbound webhook events by time
+# --------------------------------------------------------------------------
+
+@app.get("/audit", dependencies=[Depends(require_api_key)])
+def audit_log(limit: int = 100):
+    commands = db.query(
+        "SELECT id, agent_id, type, status, created_at FROM commands ORDER BY id DESC LIMIT ?", (limit,)
+    )
+    chats = db.query(
+        "SELECT id, session_id, role, created_at FROM chats ORDER BY id DESC LIMIT ?", (limit,)
+    )
+    events = db.query(
+        "SELECT id, source, created_at FROM events ORDER BY id DESC LIMIT ?", (limit,)
+    )
+    combined = (
+        [{"kind": "command", **c} for c in commands]
+        + [{"kind": "chat", **c} for c in chats]
+        + [{"kind": "webhook", **e} for e in events]
+    )
+    combined.sort(key=lambda r: r["created_at"], reverse=True)
+    return combined[:limit]
 
 
 @app.get("/health")
