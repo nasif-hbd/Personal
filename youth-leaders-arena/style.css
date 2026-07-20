@@ -381,6 +381,9 @@ html[data-theme="dark"] .apply-section .btn-ghost { color: var(--color-text); bo
 }
 .apply-form .span-1 { grid-column: span 1; }
 .apply-form .span-2 { grid-column: span 2; }
+.form-status { font-size: 14px; margin: 10px 0 0; }
+.form-status[data-state="error"] { color: var(--color-neutral-900); font-weight: 700; }
+html[data-theme="dark"] .form-status[data-state="error"] { color: var(--color-accent-400); }
 
 /* — contact — */
 .contact-section { padding: 84px clamp(20px, 5vw, 72px); }

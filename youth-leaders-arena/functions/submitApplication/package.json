@@ -1,0 +1,17 @@
+{
+  "name": "submit-application",
+  "version": "1.0.0",
+  "description": "Cloud Function: stores Youth Leaders Arena applications in Firestore and emails a confirmation via SendGrid.",
+  "main": "index.js",
+  "scripts": {
+    "start": "functions-framework --target=submitApplication"
+  },
+  "dependencies": {
+    "@google-cloud/firestore": "^7.9.0",
+    "@sendgrid/mail": "^8.1.3",
+    "@google-cloud/functions-framework": "^3.4.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
