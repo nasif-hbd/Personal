@@ -5,11 +5,18 @@ const firestore = new Firestore();
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const FROM_EMAIL = process.env.FROM_EMAIL;
-const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || '*';
+// Comma-separated list, e.g. "https://ylarena.online,https://www.ylarena.online"
+const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGIN || '*')
+  .split(',')
+  .map((o) => o.trim());
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function setCors(res) {
-  res.set('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
+function setCors(req, res) {
+  const origin = req.get('Origin');
+  const allowed = ALLOWED_ORIGINS.includes('*')
+    ? '*'
+    : ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  res.set('Access-Control-Allow-Origin', allowed);
   res.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.set('Access-Control-Allow-Headers', 'Content-Type');
 }
@@ -27,7 +34,7 @@ function confirmationEmail(name, program) {
 }
 
 exports.submitApplication = async (req, res) => {
-  setCors(res);
+  setCors(req, res);
 
   if (req.method === 'OPTIONS') {
     res.status(204).send('');
