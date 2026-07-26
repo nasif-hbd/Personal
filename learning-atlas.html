@@ -345,11 +345,11 @@ label{font-size:12.5px; color:var(--text-dim); font-weight:600; display:block; m
 ============================================================ */
 const LS_PREFIX = "atlas_v1_";
 const MAX_WEEKS = 13;
-const MAX_CONTINUATIONS = 4;
+const MAX_CONTINUATIONS = 2;
 const MODELS = [
-  {id:"claude-opus-5", label:"Claude Opus 5 — most capable"},
-  {id:"claude-sonnet-5", label:"Claude Sonnet 5 — fast & balanced"},
-  {id:"claude-haiku-4-5", label:"Claude Haiku 4.5 — fastest, cheapest"},
+  {id:"claude-opus-5", label:"Claude Opus 5 — most capable ($5 / $25 per M tokens)"},
+  {id:"claude-sonnet-5", label:"Claude Sonnet 5 — near-Opus quality, ~40% cheaper ($3 / $15)"},
+  {id:"claude-haiku-4-5", label:"Claude Haiku 4.5 — fastest & cheapest, ~5x cheaper than Opus ($1 / $5)"},
 ];
 const LANGS = {bn:"Bangla (বাংলা)", hi:"Hindi (हिन्दी)", en:"English"};
 
@@ -377,7 +377,7 @@ const store = {
 };
 
 let state = {
-  settings: store.get("settings", {theme:"dark", apiKey:"", model:"claude-opus-5", effort:"", notifEnabled:false}),
+  settings: store.get("settings", {theme:"dark", apiKey:"", model:"claude-sonnet-5", effort:"medium", notifEnabled:false}),
   plans: store.get("plans", []),
   activePlanId: store.get("activePlanId", null),
   view: "chat",
@@ -596,20 +596,30 @@ async function sendToClaude(plan, userText, {onStatus, onChunk} = {}){
   persistPlans();
 
   let apiMessages = plan.chat.map(m=>({role:m.role, content:m.content}));
+  // Prompt caching: mark the message just before this turn's new user message as a
+  // cache breakpoint. On every follow-up turn, everything up to and including it is
+  // read from cache (~90% cheaper) instead of reprocessed at full price. Only kicks
+  // in from the 2nd message onward, and only helps on models with a low-enough
+  // minimum cacheable prefix (Opus 5 / Sonnet 5); it's a harmless no-op otherwise.
+  if(apiMessages.length > 1){
+    const idx = apiMessages.length - 2;
+    const prior = apiMessages[idx];
+    apiMessages[idx] = {role: prior.role, content: [{type:"text", text: prior.content, cache_control:{type:"ephemeral"}}]};
+  }
   let fullText = "";
   let continuations = 0;
   let finalStopReason = null;
 
   while(true){
     const body = {
-      model: state.settings.model || "claude-opus-5",
-      max_tokens: 32000,
+      model: state.settings.model || "claude-sonnet-5",
+      max_tokens: 12000,
       stream: true,
-      system: buildSystemPrompt(plan),
+      system: [{type:"text", text: buildSystemPrompt(plan), cache_control:{type:"ephemeral"}}],
       messages: apiMessages,
       tools: [
-        {type:"web_search_20260209", name:"web_search", max_uses:6},
-        {type:"web_fetch_20260209", name:"web_fetch", max_uses:6}
+        {type:"web_search_20260209", name:"web_search", max_uses:3},
+        {type:"web_fetch_20260209", name:"web_fetch", max_uses:2}
       ]
     };
     if(state.settings.effort) body.output_config = {effort: state.settings.effort};
@@ -1120,7 +1130,7 @@ function renderSettings(container){
 
     <div class="settings-section card">
       <h3>Model & response depth</h3>
-      <p class="desc">Opus 5 gives the richest, most thoroughly-researched plans. Sonnet/Haiku are faster and cheaper for quick chat.</p>
+      <p class="desc">Opus 5 gives the richest, most thoroughly-researched plans, but costs the most. Sonnet 5 is a close second at a fraction of the price — a good default for most learners.</p>
       <div class="row">
         <div class="field">
           <label>Model</label>
@@ -1129,11 +1139,13 @@ function renderSettings(container){
         <div class="field">
           <label>Effort</label>
           <select id="effortSelect">
-            <option value="" ${!s.effort?'selected':''}>Default</option>
+            <option value="" ${!s.effort?'selected':''}>Default (high)</option>
             ${["low","medium","high","xhigh","max"].map(e=>`<option value="${e}" ${s.effort===e?'selected':''}>${e}</option>`).join("")}
           </select>
         </div>
       </div>
+      <button class="btn small" id="btnCostSaving">💰 Use cost-saving defaults (Sonnet 5 + medium effort)</button>
+      <p class="desc" style="margin-top:8px; margin-bottom:0;">Every plan generation also researches the web (up to 3 searches + 2 page fetches) and can write up to ~12,000 tokens per response — both are already tuned down from launch defaults to keep cost reasonable without hurting the quality of the plan itself.</p>
     </div>
 
     <div class="settings-section card">
@@ -1178,6 +1190,12 @@ function renderSettings(container){
   };
   document.getElementById("modelSelect").onchange = e=>{ state.settings.model = e.target.value; persistSettings(); };
   document.getElementById("effortSelect").onchange = e=>{ state.settings.effort = e.target.value; persistSettings(); };
+  document.getElementById("btnCostSaving").onclick = ()=>{
+    state.settings.model = "claude-sonnet-5";
+    state.settings.effort = "medium";
+    persistSettings(); renderView();
+    toast("Switched to Sonnet 5 + medium effort", "success");
+  };
   document.getElementById("btnAskNotif").onclick = requestNotifPermission;
   document.getElementById("btnTestNotif").onclick = ()=> fireNotification("🔔 Test reminder", "This is what your class reminders will look like.");
   document.getElementById("notifToggle").onchange = e=>{ state.settings.notifEnabled = e.target.checked; persistSettings(); };
@@ -1227,7 +1245,7 @@ function clearAllData(){
   if(!confirm("This deletes all plans and settings from this browser. Continue?")) return;
   Object.keys(localStorage).filter(k=>k.startsWith(LS_PREFIX)).forEach(k=>localStorage.removeItem(k));
   state.plans = []; state.activePlanId = null;
-  state.settings = {theme:"dark", apiKey:"", model:"claude-opus-5", effort:"", notifEnabled:false};
+  state.settings = {theme:"dark", apiKey:"", model:"claude-sonnet-5", effort:"medium", notifEnabled:false};
   state.view = "chat";
   applyTheme(); renderView();
   toast("All data cleared", "success");
@@ -1264,13 +1282,14 @@ function openNewPlanModal(){
           </div>
           <div class="field">
             <label>Duration (weeks, max 13)</label>
-            <input type="number" id="npWeeks" min="1" max="13" value="4">
+            <input type="number" id="npWeeks" min="1" max="13" value="2">
           </div>
         </div>
         <div class="field">
           <label>Daily study time (minutes)</label>
           <input type="number" id="npMinutes" min="10" max="480" value="45">
         </div>
+        <p class="desc" style="margin-top:-6px;">💡 Tip: start with 2 weeks — it's cheaper to generate and you can ask Atlas to extend it later in chat once you like the direction.</p>
         <div class="field">
           <label>Rest days (optional)</label>
           <div class="chip-row" id="npDaysOff">
@@ -1300,7 +1319,7 @@ function openNewPlanModal(){
       closeModal(); state.view="settings"; renderView();
       return;
     }
-    const weeks = Math.max(1, Math.min(MAX_WEEKS, Number(document.getElementById("npWeeks").value)||4));
+    const weeks = Math.max(1, Math.min(MAX_WEEKS, Number(document.getElementById("npWeeks").value)||2));
     const minutes = Math.max(10, Number(document.getElementById("npMinutes").value)||45);
     const level = document.getElementById("npLevel").value;
     const daysOff = Array.from(root.querySelectorAll("#npDaysOff .selected")).map(c=>c.dataset.day);
