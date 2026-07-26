@@ -1,1 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Atlas — Your AI Learning Studio</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%AD%3C/text%3E%3C/svg%3E">
+<style>
+/* ===================== Design tokens ===================== */
+:root{
+  --bg: #0b0d12;
+  --bg-elev: #12151c;
+  --card: #171a22;
+  --card-hover: #1d212b;
+  --border: #262b36;
+  --text: #eef0f4;
+  --text-dim: #9aa2b1;
+  --text-faint: #6b7280;
+  --accent: #7c6cf6;
+  --accent-2: #4f8cff;
+  --accent-soft: rgba(124,108,246,.14);
+  --success: #22c55e;
+  --warn: #f59e0b;
+  --danger: #f4645c;
+  --radius: 14px;
+  --radius-sm: 9px;
+  --shadow: 0 10px 30px -12px rgba(0,0,0,.55);
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+:root[data-theme="light"]{
+  --bg: #f5f6fa;
+  --bg-elev: #ffffff;
+  --card: #ffffff;
+  --card-hover: #f1f2f8;
+  --border: #e4e6ef;
+  --text: #14161c;
+  --text-dim: #5b6270;
+  --text-faint: #8a90a0;
+  --accent: #6f5cf0;
+  --accent-2: #3f79f0;
+  --accent-soft: rgba(111,92,240,.10);
+  --shadow: 0 10px 30px -14px rgba(30,30,60,.20);
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --bg: #f5f6fa; --bg-elev:#ffffff; --card:#ffffff; --card-hover:#f1f2f8;
+    --border:#e4e6ef; --text:#14161c; --text-dim:#5b6270; --text-faint:#8a90a0;
+    --accent:#6f5cf0; --accent-2:#3f79f0; --accent-soft:rgba(111,92,240,.10);
+    --shadow: 0 10px 30px -14px rgba(30,30,60,.20);
+  }
+}
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0; background:var(--bg); color:var(--text); font-family:var(--font);
+  font-size:14.5px; line-height:1.5; -webkit-font-smoothing:antialiased;
+}
+::-webkit-scrollbar{width:10px;height:10px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:8px;}
+::-webkit-scrollbar-thumb:hover{background:var(--text-faint);}
+a{color:var(--accent-2);}
+button{font-family:inherit;}
+.hidden{display:none !important;}
 
+/* ===================== Layout ===================== */
+#app{display:flex; height:100vh; overflow:hidden;}
+.sidebar{
+  width:264px; flex:0 0 264px; background:var(--bg-elev); border-right:1px solid var(--border);
+  display:flex; flex-direction:column; padding:18px 14px; gap:6px; overflow-y:auto;
+}
+.brand{display:flex; align-items:center; gap:10px; padding:4px 8px 16px; }
+.brand .mark{font-size:22px;}
+.brand .name{font-weight:700; font-size:16.5px; letter-spacing:.2px;}
+.brand .tag{font-size:11px; color:var(--text-faint); margin-top:-2px;}
+
+.navbtn{
+  display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:var(--radius-sm);
+  color:var(--text-dim); cursor:pointer; border:none; background:transparent; text-align:left;
+  font-size:14px; font-weight:500; width:100%; transition:.15s;
+}
+.navbtn:hover{background:var(--card-hover); color:var(--text);}
+.navbtn.active{background:var(--accent-soft); color:var(--accent);}
+.navbtn .ic{width:18px; text-align:center;}
+.navbtn .count{margin-left:auto; font-size:11px; background:var(--border); color:var(--text-dim); padding:1px 7px; border-radius:20px;}
+
+.sidebar hr{border:none; border-top:1px solid var(--border); margin:12px 4px;}
+.sidebar-label{font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--text-faint); padding:6px 12px 2px;}
+
+.plan-item{
+  display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:var(--radius-sm);
+  cursor:pointer; color:var(--text-dim); font-size:13.5px; transition:.15s;
+}
+.plan-item:hover{background:var(--card-hover); color:var(--text);}
+.plan-item.active{background:var(--accent-soft); color:var(--accent); font-weight:600;}
+.plan-item .dot{width:7px;height:7px;border-radius:50%; background:var(--accent-2); flex:0 0 auto;}
+.plan-item .lbl{white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+
+.newplan-btn{
+  margin-top:8px; display:flex; align-items:center; justify-content:center; gap:8px;
+  padding:10px 12px; border-radius:var(--radius-sm); border:1px dashed var(--border);
+  background:transparent; color:var(--text-dim); cursor:pointer; font-size:13.5px; font-weight:600;
+  transition:.15s;
+}
+.newplan-btn:hover{border-color:var(--accent); color:var(--accent); background:var(--accent-soft);}
+
+.sidebar-footer{margin-top:auto; padding-top:10px;}
+.key-status{font-size:11.5px; color:var(--text-faint); padding:8px 10px; display:flex; align-items:center; gap:6px;}
+.key-status .pip{width:7px;height:7px;border-radius:50%;}
+.key-status.ok .pip{background:var(--success);}
+.key-status.bad .pip{background:var(--danger);}
+
+main{flex:1; display:flex; flex-direction:column; min-width:0; height:100vh;}
+.topbar{
+  height:56px; flex:0 0 56px; display:flex; align-items:center; gap:12px; padding:0 20px;
+  border-bottom:1px solid var(--border); background:var(--bg-elev);
+}
+.topbar h1{font-size:15.5px; font-weight:700; margin:0;}
+.topbar .sub{font-size:12px; color:var(--text-faint);}
+.topbar .spacer{flex:1;}
+.icon-btn{
+  border:none; background:transparent; color:var(--text-dim); cursor:pointer; padding:7px 9px;
+  border-radius:var(--radius-sm); font-size:14px; transition:.15s;
+}
+.icon-btn:hover{background:var(--card-hover); color:var(--text);}
+.hamburger{display:none;}
+
+.view{flex:1; overflow-y:auto; padding:22px 26px 60px;}
+
+/* ===================== Buttons / inputs ===================== */
+.btn{
+  display:inline-flex; align-items:center; gap:7px; padding:9px 16px; border-radius:10px; border:none;
+  font-weight:600; font-size:13.5px; cursor:pointer; transition:.15s; background:var(--card);
+  color:var(--text); border:1px solid var(--border);
+}
+.btn:hover{background:var(--card-hover);}
+.btn.primary{background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:#fff; border:none;}
+.btn.primary:hover{filter:brightness(1.08);}
+.btn.danger{color:var(--danger); border-color:rgba(244,100,92,.4);}
+.btn.danger:hover{background:rgba(244,100,92,.1);}
+.btn.small{padding:6px 11px; font-size:12.5px;}
+.btn:disabled{opacity:.5; cursor:not-allowed;}
+
+input[type=text], input[type=number], input[type=password], input[type=time], input[type=date], select, textarea{
+  background:var(--bg); border:1px solid var(--border); color:var(--text); border-radius:9px;
+  padding:9px 11px; font-size:13.5px; font-family:inherit; width:100%; outline:none; transition:.15s;
+}
+input:focus, select:focus, textarea:focus{border-color:var(--accent);}
+label{font-size:12.5px; color:var(--text-dim); font-weight:600; display:block; margin-bottom:5px;}
+.field{margin-bottom:14px;}
+.row{display:flex; gap:12px;}
+.row > .field{flex:1;}
+
+.chip-row{display:flex; flex-wrap:wrap; gap:8px;}
+.chip{
+  padding:7px 13px; border-radius:20px; border:1px solid var(--border); background:var(--bg);
+  color:var(--text-dim); font-size:12.5px; cursor:pointer; font-weight:600; transition:.15s;
+}
+.chip:hover{border-color:var(--accent);}
+.chip.selected{background:var(--accent-soft); border-color:var(--accent); color:var(--accent);}
+
+.card{background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px;}
+.badge{display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.04em;
+  padding:2px 8px; border-radius:20px; background:var(--accent-soft); color:var(--accent);}
+
+/* ===================== Chat ===================== */
+.chat-wrap{display:flex; flex-direction:column; height:100%;}
+.chat-scroll{flex:1; overflow-y:auto; padding:24px 8px 10px;}
+.msg{display:flex; gap:12px; max-width:760px; margin:0 auto 20px;}
+.msg .avatar{width:30px; height:30px; border-radius:9px; flex:0 0 auto; display:flex; align-items:center; justify-content:center; font-size:15px;}
+.msg.user .avatar{background:var(--accent-soft); color:var(--accent);}
+.msg.assistant .avatar{background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:#fff;}
+.msg .bubble{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:12px 15px; flex:1; min-width:0;}
+.msg.user .bubble{background:var(--accent-soft); border-color:transparent;}
+.msg .bubble p{margin:0 0 8px;}
+.msg .bubble p:last-child{margin-bottom:0;}
+.msg .bubble ul{margin:6px 0; padding-left:20px;}
+.msg .bubble code{background:var(--bg); padding:1px 5px; border-radius:5px; font-size:12.5px;}
+.msg .status-line{font-size:12px; color:var(--text-faint); font-style:italic; margin-bottom:8px; display:flex; align-items:center; gap:6px;}
+.plan-chip{
+  margin-top:6px; padding:12px 14px; border-radius:11px; background:linear-gradient(135deg, var(--accent-soft), transparent);
+  border:1px solid var(--accent); color:var(--accent); font-size:13px; cursor:pointer; font-weight:600;
+}
+.plan-chip.plan-chip-loading{cursor:default; color:var(--text-dim); border-color:var(--border); background:var(--bg);}
+.dotpulse{display:inline-flex; gap:3px;}
+.dotpulse span{width:5px;height:5px;border-radius:50%; background:var(--text-faint); animation:pulse 1.2s infinite ease-in-out;}
+.dotpulse span:nth-child(2){animation-delay:.2s;} .dotpulse span:nth-child(3){animation-delay:.4s;}
+@keyframes pulse{0%,80%,100%{opacity:.25;transform:scale(.8);} 40%{opacity:1;transform:scale(1);}}
+
+.chat-empty{max-width:520px; margin:60px auto; text-align:center;}
+.chat-empty .big-ic{font-size:44px; margin-bottom:14px;}
+.chat-empty h2{font-size:19px; margin:0 0 8px;}
+.chat-empty p{color:var(--text-dim); margin:0 0 20px; font-size:13.5px;}
+
+.chat-input-bar{
+  border-top:1px solid var(--border); padding:14px 18px; background:var(--bg-elev);
+}
+.chat-input-row{max-width:760px; margin:0 auto; display:flex; gap:10px; align-items:flex-end;}
+.chat-input-row textarea{resize:none; min-height:44px; max-height:160px;}
+.chat-hint{max-width:760px; margin:6px auto 0; font-size:11px; color:var(--text-faint);}
+
+/* ===================== Plans ===================== */
+.plans-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(270px,1fr)); gap:16px;}
+.plan-card{cursor:pointer; transition:.15s;}
+.plan-card:hover{border-color:var(--accent); transform:translateY(-2px);}
+.plan-card h3{margin:2px 0 4px; font-size:15px;}
+.plan-card .meta{font-size:12px; color:var(--text-faint); margin-bottom:12px;}
+.progress-track{height:6px; border-radius:5px; background:var(--bg); overflow:hidden; margin-top:10px;}
+.progress-fill{height:100%; background:linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius:5px;}
+.plan-card-foot{display:flex; justify-content:space-between; align-items:center; margin-top:12px; font-size:11.5px; color:var(--text-faint);}
+
+.detail-head{display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:20px; flex-wrap:wrap;}
+.detail-head h2{margin:0 0 6px;}
+.detail-actions{display:flex; gap:8px; flex-wrap:wrap;}
+
+.week-block{margin-bottom:14px; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden;}
+.week-head{
+  padding:13px 16px; background:var(--card); cursor:pointer; display:flex; align-items:center; gap:10px;
+  justify-content:space-between;
+}
+.week-head:hover{background:var(--card-hover);}
+.week-head .title{font-weight:700; font-size:13.5px;}
+.week-head .theme{font-size:12px; color:var(--text-dim); font-weight:400;}
+.week-body{padding:6px 14px 14px; display:none;}
+.week-block.open .week-body{display:block;}
+.week-block.open .chev{transform:rotate(90deg);}
+.chev{transition:.15s; color:var(--text-faint); font-size:12px;}
+
+.day-row{padding:10px 4px; border-top:1px solid var(--border);}
+.day-row:first-child{border-top:none;}
+.day-head{display:flex; align-items:center; gap:8px; font-size:12px; color:var(--text-dim); font-weight:700; margin-bottom:8px;}
+.day-head .date{color:var(--text-faint); font-weight:400;}
+.class-card{
+  display:flex; gap:10px; align-items:center; padding:10px 12px; border-radius:10px; background:var(--bg);
+  border:1px solid var(--border); margin-bottom:8px; flex-wrap:wrap;
+}
+.class-card.done{opacity:.55;}
+.class-card .cc-main{flex:1; min-width:180px;}
+.class-card .cc-title{font-size:13px; font-weight:600;}
+.class-card .cc-meta{font-size:11px; color:var(--text-faint); margin-top:2px;}
+.class-card .cc-controls{display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+.class-card input[type=time]{width:110px; padding:5px 8px; font-size:12px;}
+.todo-row{display:flex; align-items:center; gap:8px; font-size:13px; padding:4px 2px;}
+.todo-row.done .txt{text-decoration:line-through; color:var(--text-faint);}
+.chk{width:16px; height:16px; accent-color:var(--accent); cursor:pointer;}
+
+/* ===================== Today ===================== */
+.today-list{display:flex; flex-direction:column; gap:10px; max-width:760px;}
+.count-badge{font-size:11.5px; padding:3px 9px; border-radius:20px; font-weight:700;}
+.count-badge.warn{background:rgba(245,158,11,.15); color:var(--warn);}
+.count-badge.ok{background:rgba(34,197,94,.15); color:var(--success);}
+
+/* ===================== Settings ===================== */
+.settings-section{max-width:640px; margin-bottom:28px;}
+.settings-section h3{font-size:14px; margin:0 0 4px;}
+.settings-section .desc{font-size:12.5px; color:var(--text-faint); margin:0 0 14px;}
+.pwd-wrap{display:flex; gap:8px;}
+.pwd-wrap input{flex:1;}
+
+/* ===================== Modal ===================== */
+.modal-overlay{
+  position:fixed; inset:0; background:rgba(0,0,0,.55); display:flex; align-items:center; justify-content:center;
+  z-index:100; padding:20px; backdrop-filter:blur(2px);
+}
+.modal{
+  background:var(--bg-elev); border:1px solid var(--border); border-radius:16px; padding:24px;
+  max-width:520px; width:100%; max-height:88vh; overflow-y:auto; box-shadow:var(--shadow);
+}
+.modal h2{margin:0 0 4px; font-size:17px;}
+.modal .desc{font-size:12.5px; color:var(--text-faint); margin:0 0 18px;}
+.modal-actions{display:flex; justify-content:flex-end; gap:10px; margin-top:6px;}
+
+/* ===================== Toasts ===================== */
+#toasts{position:fixed; bottom:20px; right:20px; z-index:200; display:flex; flex-direction:column; gap:8px;}
+.toast{
+  background:var(--card); border:1px solid var(--border); border-radius:10px; padding:11px 15px;
+  box-shadow:var(--shadow); font-size:13px; max-width:320px; animation:slidein .2s ease;
+  display:flex; gap:8px; align-items:center;
+}
+.toast.error{border-color:rgba(244,100,92,.5); color:var(--danger);}
+.toast.success{border-color:rgba(34,197,94,.5); color:var(--success);}
+@keyframes slidein{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);}}
+
+/* ===================== Responsive ===================== */
+@media (max-width:860px){
+  .sidebar{position:fixed; left:0; top:0; bottom:0; z-index:90; transform:translateX(-100%); transition:.2s;}
+  .sidebar.open{transform:translateX(0); box-shadow:var(--shadow);}
+  .hamburger{display:inline-flex;}
+  .view{padding:16px;}
+}
+@media print{
+  .sidebar, .topbar, .chat-input-bar{display:none !important;}
+  body{background:#fff; color:#000;}
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="mark">🧭</div>
+      <div><div class="name">Atlas</div><div class="tag">AI learning studio</div></div>
+    </div>
+
+    <button class="navbtn" data-nav="chat"><span class="ic">💬</span> Chat</button>
+    <button class="navbtn" data-nav="plans"><span class="ic">📚</span> My Plans</button>
+    <button class="navbtn" data-nav="today"><span class="ic">📅</span> Today</button>
+    <button class="navbtn" data-nav="settings"><span class="ic">⚙️</span> Settings</button>
+
+    <button class="newplan-btn" id="btnNewPlan">＋ New learning plan</button>
+
+    <div class="sidebar-label">Your plans</div>
+    <div id="sidebarPlans"></div>
+
+    <div class="sidebar-footer">
+      <div class="key-status" id="keyStatus"></div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="topbar">
+      <button class="icon-btn hamburger" id="btnHamburger">☰</button>
+      <div>
+        <h1 id="topTitle">Chat</h1>
+        <div class="sub" id="topSub"></div>
+      </div>
+      <div class="spacer"></div>
+      <button class="icon-btn" id="btnThemeToggle" title="Toggle theme">🌓</button>
+    </div>
+    <div class="view" id="view"></div>
+  </main>
+
+</div>
+
+<div id="toasts"></div>
+<div id="modalRoot"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ============================================================
+   Constants & tiny utilities
+============================================================ */
+const LS_PREFIX = "atlas_v1_";
+const MAX_WEEKS = 13;
+const MAX_CONTINUATIONS = 4;
+const MODELS = [
+  {id:"claude-opus-5", label:"Claude Opus 5 — most capable"},
+  {id:"claude-sonnet-5", label:"Claude Sonnet 5 — fast & balanced"},
+  {id:"claude-haiku-4-5", label:"Claude Haiku 4.5 — fastest, cheapest"},
+];
+const LANGS = {bn:"Bangla (বাংলা)", hi:"Hindi (हिन्दी)", en:"English"};
+
+function uid(){ return Math.random().toString(36).slice(2,10) + Date.now().toString(36).slice(-4); }
+function ymd(d){ const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,"0"), day=String(d.getDate()).padStart(2,"0"); return `${y}-${m}-${day}`; }
+function addDays(dateStr, n){ const d = new Date(dateStr+"T00:00:00"); d.setDate(d.getDate()+n); return d; }
+function fmtDateNice(dateStr){
+  const d = new Date(dateStr+"T00:00:00");
+  return d.toLocaleDateString(undefined, {weekday:"short", month:"short", day:"numeric"});
+}
+function escapeHtml(s){
+  return String(s==null?"":s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+/* ============================================================
+   Storage
+============================================================ */
+const store = {
+  get(key, fallback){
+    try{ const v = localStorage.getItem(LS_PREFIX+key); return v===null ? fallback : JSON.parse(v); }
+    catch(e){ return fallback; }
+  },
+  set(key, val){ try{ localStorage.setItem(LS_PREFIX+key, JSON.stringify(val)); }catch(e){} },
+  remove(key){ localStorage.removeItem(LS_PREFIX+key); }
+};
+
+let state = {
+  settings: store.get("settings", {theme:"dark", apiKey:"", model:"claude-opus-5", effort:"", notifEnabled:false}),
+  plans: store.get("plans", []),
+  activePlanId: store.get("activePlanId", null),
+  view: "chat",
+  planDetailId: null,
+  sending: false,
+};
+
+function persistPlans(){ store.set("plans", state.plans); }
+function persistSettings(){ store.set("settings", state.settings); }
+function getPlan(id){ return state.plans.find(p=>p.id===id); }
+function activePlan(){ return getPlan(state.activePlanId); }
+
+/* ============================================================
+   Toasts
+============================================================ */
+function toast(msg, type){
+  const el = document.createElement("div");
+  el.className = "toast" + (type ? " "+type : "");
+  el.textContent = msg;
+  document.getElementById("toasts").appendChild(el);
+  setTimeout(()=>{ el.style.opacity="0"; el.style.transition="opacity .3s"; setTimeout(()=>el.remove(),300); }, 4200);
+}
+
+/* ============================================================
+   Theme
+============================================================ */
+function applyTheme(){
+  document.documentElement.setAttribute("data-theme", state.settings.theme==="light" ? "light" : "dark");
+}
+function toggleTheme(){
+  state.settings.theme = state.settings.theme==="light" ? "dark" : "light";
+  persistSettings(); applyTheme();
+}
+
+/* ============================================================
+   Markdown-lite renderer (safe: escapes first)
+============================================================ */
+function inlineFormat(s){
+  return s
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, "$1<em>$2</em>")
+    .replace(/`([^`]+)`/g, "<code>$1</code>");
+}
+function blockFormat(escText){
+  const lines = escText.split("\n");
+  let html = "", inList = false;
+  for(const raw of lines){
+    const bullet = raw.match(/^\s*[-*]\s+(.*)/);
+    if(bullet){
+      if(!inList){ html += "<ul>"; inList = true; }
+      html += `<li>${inlineFormat(bullet[1])}</li>`;
+    } else {
+      if(inList){ html += "</ul>"; inList = false; }
+      if(raw.trim()==="") continue;
+      html += `<p>${inlineFormat(raw)}</p>`;
+    }
+  }
+  if(inList) html += "</ul>";
+  return html;
+}
+function renderChatBubble(rawText){
+  const fenceTag = "```cadence-plan";
+  const idx = rawText.indexOf(fenceTag);
+  let mainText = rawText, chip = "";
+  if(idx !== -1){
+    mainText = rawText.slice(0, idx);
+    const after = rawText.slice(idx + fenceTag.length);
+    const closed = after.includes("```");
+    chip = closed
+      ? `<div class="plan-chip" data-action="view-plan">📅 <strong>Learning plan generated</strong> — click to view it</div>`
+      : `<div class="plan-chip plan-chip-loading">📊 Designing your curriculum <span class="dotpulse"><span></span><span></span><span></span></span></div>`;
+  }
+  return blockFormat(escapeHtml(mainText.trim())) + chip;
+}
+
+/* ============================================================
+   Plan data helpers
+============================================================ */
+function computeDateForDay(plan, weekNumber, dayNumber){
+  const offset = (weekNumber-1)*7 + (dayNumber-1);
+  return ymd(addDays(plan.startDate, offset));
+}
+function planProgress(plan){
+  let total=0, done=0;
+  (plan.weeks||[]).forEach(w=>(w.days||[]).forEach(d=>(d.classes||[]).forEach(c=>{
+    if(c.type==="rest") return;
+    total++; if(c.done) done++;
+  })));
+  return total ? Math.round(done/total*100) : 0;
+}
+function extractPlanJSON(text){
+  const re = /```cadence-plan\s*([\s\S]*?)```/g;
+  let m, last=null;
+  while((m = re.exec(text))) last = m[1];
+  if(!last) return null;
+  const raw = last.trim();
+  try{ return JSON.parse(raw); }
+  catch(e){
+    try{ return JSON.parse(raw.replace(/,(\s*[}\]])/g, "$1")); }
+    catch(e2){ return null; }
+  }
+}
+function applyPlanData(plan, data){
+  const oldClassIdx = {}, oldTodoIdx = {};
+  (plan.weeks||[]).forEach(w=>(w.days||[]).forEach(d=>{
+    (d.classes||[]).forEach(c=>{ oldClassIdx[`${w.weekNumber}|${d.dayNumber}|${c.title}`] = c; });
+    (d.todos||[]).forEach(t=>{ oldTodoIdx[`${w.weekNumber}|${d.dayNumber}|${t.text}`] = t; });
+  }));
+
+  plan.title = data.title || plan.title;
+  plan.subject = data.subject || plan.subject;
+  plan.language = data.language || plan.language;
+  plan.durationWeeks = Math.min(MAX_WEEKS, Number(data.durationWeeks)||plan.durationWeeks);
+  plan.dailyMinutes = Number(data.dailyMinutes)||plan.dailyMinutes;
+
+  plan.weeks = (data.weeks||[]).slice(0, MAX_WEEKS).map(w=>({
+    weekNumber: Number(w.weekNumber)||1,
+    theme: w.theme || "",
+    days: (w.days||[]).slice(0,7).map(d=>({
+      dayNumber: Number(d.dayNumber)||1,
+      classes: (d.classes||[]).map(c=>{
+        const old = oldClassIdx[`${w.weekNumber}|${d.dayNumber}|${c.title}`];
+        return {
+          id: (old && old.id) || uid(),
+          title: c.title || "Untitled class",
+          type: c.type || "video",
+          resourceUrl: c.resourceUrl || "",
+          channel: c.channel || "",
+          durationMinutes: Number(c.durationMinutes)||plan.dailyMinutes,
+          notes: c.notes || "",
+          done: (old && old.done) || false,
+          completionTime: (old && old.completionTime) || null,
+        };
+      }),
+      todos: (d.todos||[]).map(t=>{
+        const old = oldTodoIdx[`${w.weekNumber}|${d.dayNumber}|${t.text}`];
+        return { id:(old && old.id)||uid(), text: t.text||"", done:(old && old.done)||false };
+      })
+    }))
+  }));
+  plan.updatedAt = Date.now();
+  persistPlans();
+}
+
+/* ============================================================
+   Claude API — system prompt, streaming call, continuation loop
+============================================================ */
+function buildSystemPrompt(plan){
+  const langLabel = LANGS[plan.language] || "English";
+  return `You are Atlas, an expert personal learning coach and curriculum designer helping one learner build a real, achievable self-study plan.
+
+LEARNER CONTEXT
+- Subject / goal: ${plan.subject}
+- Content language for resources: ${langLabel}
+- Current level: ${plan.level}
+- Duration: ${plan.durationWeeks} week(s) (hard max ${MAX_WEEKS} weeks, ~3 months)
+- Daily study time available: ${plan.dailyMinutes} minutes
+- Rest days per week: ${(plan.daysOff&&plan.daysOff.length) ? plan.daysOff.join(", ") : "none specified, use your judgement"}
+- Today's date: ${ymd(new Date())}
+
+RESEARCH REQUIREMENT
+Use the web_search and web_fetch tools to find REAL, currently available, FREE YouTube videos, playlists, or channels that teach this subject in ${langLabel}. Prefer well-known, reputable educators/channels for that language and subject. Never invent a URL — every resourceUrl must come from an actual search result you found this conversation. If you cannot find a strong match for a specific day, use the closest general playlist/channel and say so in "notes".
+
+OUTPUT FORMAT
+Once you have enough information (ask brief clarifying questions first if something important is missing), respond with a short friendly note OUTSIDE any code fence, then ALWAYS append the FULL current plan as one single fenced block starting with \`\`\`cadence-plan and ending with \`\`\`, containing STRICT JSON (no comments, no trailing commas) in exactly this shape:
+
+\`\`\`cadence-plan
+{
+  "title": "short plan title",
+  "subject": "${plan.subject}",
+  "language": "${plan.language}",
+  "durationWeeks": ${plan.durationWeeks},
+  "dailyMinutes": ${plan.dailyMinutes},
+  "weeks": [
+    {
+      "weekNumber": 1,
+      "theme": "what this week focuses on",
+      "days": [
+        {
+          "dayNumber": 1,
+          "classes": [
+            {
+              "title": "class / video title",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=...",
+              "channel": "channel name",
+              "durationMinutes": 30,
+              "notes": "what to do / focus on"
+            }
+          ],
+          "todos": [ { "text": "short actionable todo for the day" } ]
+        }
+      ]
+    }
+  ]
+}
+\`\`\`
+
+RULES FOR THE JSON
+- Every week object must contain exactly 7 entries in "days" (dayNumber 1-7), even rest days — use "type":"rest" with an empty or near-empty classes array and a light todo like "Review this week's notes".
+- classes[].type is one of: "video", "practice", "reading", "quiz", "rest".
+- Total class duration for a day should roughly match the learner's daily study time.
+- durationWeeks must never exceed ${MAX_WEEKS}.
+- Always output the WHOLE plan (every week decided so far), never a partial diff — even when the learner only asked to tweak one part.
+- Never include dates or clock times in the JSON — the learner sets their own daily completion time in the app.
+- Talk to the learner in whichever language they write to you in, but keep resourceUrl/channel values exactly as found.
+- Keep the prose outside the code fence brief (a few sentences) — the plan JSON itself carries the detail.`;
+}
+
+async function sendToClaude(plan, userText, {onStatus, onChunk} = {}){
+  const apiKey = (state.settings.apiKey||"").trim();
+  if(!apiKey) throw new Error("missing-api-key");
+
+  plan.chat.push({role:"user", content:userText, ts:Date.now()});
+  persistPlans();
+
+  let apiMessages = plan.chat.map(m=>({role:m.role, content:m.content}));
+  let fullText = "";
+  let continuations = 0;
+  let finalStopReason = null;
+
+  while(true){
+    const body = {
+      model: state.settings.model || "claude-opus-5",
+      max_tokens: 32000,
+      stream: true,
+      system: buildSystemPrompt(plan),
+      messages: apiMessages,
+      tools: [
+        {type:"web_search_20260209", name:"web_search", max_uses:6},
+        {type:"web_fetch_20260209", name:"web_fetch", max_uses:6}
+      ]
+    };
+    if(state.settings.effort) body.output_config = {effort: state.settings.effort};
+
+    let resp;
+    try{
+      resp = await fetch("https://api.anthropic.com/v1/messages", {
+        method:"POST",
+        headers:{
+          "content-type":"application/json",
+          "x-api-key": apiKey,
+          "anthropic-version":"2023-06-01",
+          "anthropic-dangerous-direct-browser-access":"true"
+        },
+        body: JSON.stringify(body)
+      });
+    }catch(networkErr){
+      throw new Error("Network error reaching the Claude API. Check your connection.");
+    }
+
+    if(!resp.ok){
+      let msg = `Request failed (HTTP ${resp.status})`;
+      try{ const errBody = await resp.json(); if(errBody && errBody.error && errBody.error.message) msg = errBody.error.message; }catch(e){}
+      if(resp.status===401) msg = "Invalid API key. Check it in Settings.";
+      throw new Error(msg);
+    }
+
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    let turnText = "";
+
+    readLoop:
+    while(true){
+      const {done, value} = await reader.read();
+      if(done) break;
+      buffer += decoder.decode(value, {stream:true});
+      const parts = buffer.split("\n\n");
+      buffer = parts.pop();
+      for(const part of parts){
+        for(const line of part.split("\n")){
+          if(!line.startsWith("data:")) continue;
+          const jsonStr = line.slice(5).trim();
+          if(!jsonStr) continue;
+          let payload;
+          try{ payload = JSON.parse(jsonStr); }catch(e){ continue; }
+
+          if(payload.type === "content_block_start"){
+            const cb = payload.content_block;
+            if(cb && cb.type === "server_tool_use"){
+              const q = (cb.input && (cb.input.query||cb.input.url)) || "the web";
+              onStatus && onStatus(`🔎 Researching: ${q}`);
+            }
+          } else if(payload.type === "content_block_delta"){
+            if(payload.delta && payload.delta.type === "text_delta"){
+              turnText += payload.delta.text;
+              fullText += payload.delta.text;
+              onChunk && onChunk(fullText);
+            }
+          } else if(payload.type === "message_delta"){
+            if(payload.delta && payload.delta.stop_reason) finalStopReason = payload.delta.stop_reason;
+          } else if(payload.type === "error"){
+            throw new Error((payload.error && payload.error.message) || "Stream error");
+          }
+        }
+      }
+    }
+
+    const hasOpenFence = fullText.includes("```cadence-plan");
+    const fenceClosed = hasOpenFence && (fullText.split("```cadence-plan")[1]||"").includes("```");
+
+    if(finalStopReason === "max_tokens" && (!hasOpenFence || !fenceClosed) && continuations < MAX_CONTINUATIONS){
+      continuations++;
+      apiMessages.push({role:"assistant", content: turnText});
+      apiMessages.push({role:"user", content:"Continue exactly where you left off. Do not repeat any earlier text and do not restart the JSON — just continue the raw output so it can be concatenated with what you already wrote."});
+      onStatus && onStatus(`✍️ Plan is long — continuing (part ${continuations+1})…`);
+      continue;
+    }
+    break;
+  }
+
+  plan.chat.push({role:"assistant", content: fullText, ts:Date.now()});
+  persistPlans();
+
+  const planData = extractPlanJSON(fullText);
+  if(planData) applyPlanData(plan, planData);
+
+  return {text: fullText, planUpdated: !!planData, stopReason: finalStopReason};
+}
+
+/* ============================================================
+   Notifications
+============================================================ */
+function fireNotification(title, body){
+  if(!("Notification" in window) || Notification.permission !== "granted") return;
+  try{ new Notification(title, {body}); }catch(e){}
+}
+function checkReminders(){
+  if(!state.settings.notifEnabled) return;
+  if(!("Notification" in window) || Notification.permission !== "granted") return;
+  const now = new Date();
+  const todayStr = ymd(now);
+  const fired = store.get("firedNotifs", {});
+  let changed = false;
+
+  state.plans.forEach(plan=>{
+    (plan.weeks||[]).forEach(week=>{
+      (week.days||[]).forEach(day=>{
+        const dateStr = computeDateForDay(plan, week.weekNumber, day.dayNumber);
+        if(dateStr !== todayStr) return;
+        (day.classes||[]).forEach(cls=>{
+          if(!cls.completionTime || cls.done) return;
+          const [hh,mm] = cls.completionTime.split(":").map(Number);
+          if(isNaN(hh)||isNaN(mm)) return;
+          const target = new Date(now); target.setHours(hh,mm,0,0);
+          const diffMin = (target - now)/60000;
+          const key10 = `${plan.id}|${cls.id}|${dateStr}|10`;
+          const key5  = `${plan.id}|${cls.id}|${dateStr}|5`;
+          if(diffMin<=10.25 && diffMin>=9.25 && !fired[key10]){
+            fireNotification("⏰ 10 minutes left", `"${cls.title}" (${plan.title}) is due to finish at ${cls.completionTime}.`);
+            fired[key10]=true; changed=true;
+          }
+          if(diffMin<=5.25 && diffMin>=4.25 && !fired[key5]){
+            fireNotification("⏰ 5 minutes left", `Wrap up "${cls.title}" (${plan.title}) — due ${cls.completionTime}.`);
+            fired[key5]=true; changed=true;
+          }
+        });
+      });
+    });
+  });
+  if(changed) store.set("firedNotifs", fired);
+  if(state.view === "today") renderView();
+}
+setInterval(checkReminders, 20000);
+
+/* ============================================================
+   Rendering — shell / nav
+============================================================ */
+function renderSidebar(){
+  document.querySelectorAll(".navbtn").forEach(b=>{
+    b.classList.toggle("active", b.dataset.nav === state.view);
+  });
+  const wrap = document.getElementById("sidebarPlans");
+  if(!state.plans.length){
+    wrap.innerHTML = `<div style="padding:8px 10px; font-size:12px; color:var(--text-faint);">No plans yet</div>`;
+  } else {
+    wrap.innerHTML = state.plans.slice().sort((a,b)=>b.updatedAt-a.updatedAt).map(p=>`
+      <div class="plan-item ${p.id===state.activePlanId && state.view==='chat' ? 'active':''}" data-action="open-plan-chat" data-id="${p.id}">
+        <span class="dot"></span><span class="lbl">${escapeHtml(p.title)}</span>
+      </div>
+    `).join("");
+  }
+
+  const ks = document.getElementById("keyStatus");
+  const hasKey = !!(state.settings.apiKey||"").trim();
+  ks.className = "key-status " + (hasKey ? "ok" : "bad");
+  ks.innerHTML = `<span class="pip"></span> ${hasKey ? "API key connected" : "No API key set — go to Settings"}`;
+}
+
+function setTopbar(title, sub){
+  document.getElementById("topTitle").textContent = title;
+  document.getElementById("topSub").textContent = sub || "";
+}
+
+function renderView(){
+  renderSidebar();
+  const v = document.getElementById("view");
+  if(state.view === "chat") return renderChat(v);
+  if(state.view === "plans") return renderPlans(v);
+  if(state.view === "today") return renderToday(v);
+  if(state.view === "settings") return renderSettings(v);
+}
+
+/* ============================================================
+   Chat view
+============================================================ */
+function renderChat(container){
+  const plan = activePlan();
+  setTopbar("Chat", plan ? plan.title : "");
+
+  if(!plan){
+    container.innerHTML = `
+      <div class="chat-empty">
+        <div class="big-ic">🧭</div>
+        <h2>Design your first learning plan</h2>
+        <p>Tell Atlas what you want to learn, in which language, and how much time you have. It'll search the web for real, free YouTube classes and build you a full routine — up to 3 months.</p>
+        <button class="btn primary" id="btnEmptyNewPlan">＋ Create a learning plan</button>
+      </div>`;
+    document.getElementById("btnEmptyNewPlan").onclick = openNewPlanModal;
+    return;
+  }
+
+  const suggestions = [
+    "Make it a bit more intensive, I have more free time on weekends.",
+    "Swap week 2 to focus more on practice than videos.",
+    "Regenerate the resources in Hindi instead.",
+  ];
+
+  container.innerHTML = `
+    <div class="chat-wrap">
+      <div class="chat-scroll" id="chatScroll">
+        ${plan.chat.length ? plan.chat.map(renderMsg).join("") : `
+          <div class="chat-empty">
+            <div class="big-ic">✨</div>
+            <h2>${escapeHtml(plan.title)}</h2>
+            <p>Ready to build your ${plan.durationWeeks}-week ${LANGS[plan.language]||''} plan for <strong>${escapeHtml(plan.subject)}</strong>.</p>
+            <button class="btn primary" id="btnGenerateNow">Generate the full plan</button>
+          </div>`}
+        <div id="streamTarget"></div>
+      </div>
+      <div class="chat-input-bar">
+        <div class="chip-row" style="margin-bottom:10px;">
+          ${plan.chat.length ? suggestions.map(s=>`<span class="chip" data-action="fill-suggestion" data-text="${escapeHtml(s)}">${escapeHtml(s)}</span>`).join("") : ""}
+        </div>
+        <div class="chat-input-row">
+          <textarea id="chatInput" placeholder="Ask Atlas to adjust your plan, add a topic, change language…" rows="1"></textarea>
+          <button class="btn primary" id="btnSend">Send</button>
+        </div>
+        <div class="chat-hint">Enter to send · Shift+Enter for a new line</div>
+      </div>
+    </div>
+  `;
+
+  const scroll = document.getElementById("chatScroll");
+  scroll.scrollTop = scroll.scrollHeight;
+
+  const input = document.getElementById("chatInput");
+  const btnSend = document.getElementById("btnSend");
+  if(input){
+    input.addEventListener("keydown", e=>{
+      if(e.key==="Enter" && !e.shiftKey){ e.preventDefault(); doSend(); }
+    });
+    input.addEventListener("input", ()=>{ input.style.height="auto"; input.style.height=Math.min(160,input.scrollHeight)+"px"; });
+  }
+  if(btnSend) btnSend.onclick = doSend;
+  const genBtn = document.getElementById("btnGenerateNow");
+  if(genBtn) genBtn.onclick = ()=> runChatTurn(buildInitialMessage(plan));
+
+  function doSend(){
+    const text = input.value.trim();
+    if(!text || state.sending) return;
+    input.value=""; input.style.height="auto";
+    runChatTurn(text);
+  }
+}
+
+function renderMsg(m){
+  const isUser = m.role === "user";
+  return `
+    <div class="msg ${isUser?'user':'assistant'}">
+      <div class="avatar">${isUser?'🧑':'🧭'}</div>
+      <div class="bubble">${isUser ? `<p>${escapeHtml(m.content)}</p>` : renderChatBubble(m.content)}</div>
+    </div>`;
+}
+
+function buildInitialMessage(plan){
+  const langLabel = LANGS[plan.language]||"English";
+  let msg = `I want to learn "${plan.subject}" over ${plan.durationWeeks} week(s), studying about ${plan.dailyMinutes} minutes per day. My current level is ${plan.level}. Please use ${langLabel} language video resources.`;
+  if(plan.daysOff && plan.daysOff.length) msg += ` I'd prefer to rest on: ${plan.daysOff.join(", ")}.`;
+  msg += " Please research real free YouTube resources and design the full curriculum now.";
+  return msg;
+}
+
+async function runChatTurn(userText){
+  const plan = activePlan();
+  if(!plan) return;
+  if(!(state.settings.apiKey||"").trim()){
+    toast("Add your Claude API key in Settings first.", "error");
+    state.view = "settings"; renderView();
+    return;
+  }
+  state.sending = true;
+  const scroll = document.getElementById("chatScroll");
+
+  // render the user's message immediately
+  const userMsgHtml = renderMsg({role:"user", content:userText});
+  document.getElementById("streamTarget").insertAdjacentHTML("beforebegin", userMsgHtml);
+
+  const target = document.getElementById("streamTarget");
+  target.innerHTML = `
+    <div class="msg assistant" id="liveMsg">
+      <div class="avatar">🧭</div>
+      <div class="bubble">
+        <div class="status-line" id="liveStatus">Thinking <span class="dotpulse"><span></span><span></span><span></span></span></div>
+        <div id="liveText"></div>
+      </div>
+    </div>`;
+  scroll.scrollTop = scroll.scrollHeight;
+  const liveText = document.getElementById("liveText");
+  const liveStatus = document.getElementById("liveStatus");
+
+  disableChatInput(true);
+  try{
+    const result = await sendToClaude(plan, userText, {
+      onStatus: (s)=>{ liveStatus.textContent = s; },
+      onChunk: (full)=>{ liveText.innerHTML = renderChatBubble(full); scroll.scrollTop = scroll.scrollHeight; }
+    });
+    if(result.planUpdated){
+      toast("Learning plan updated ✅", "success");
+    }
+    renderView(); // full re-render to reflect persisted state cleanly
+    const scroll2 = document.getElementById("chatScroll");
+    if(scroll2) scroll2.scrollTop = scroll2.scrollHeight;
+  }catch(err){
+    toast(err.message || "Something went wrong talking to Claude.", "error");
+    liveStatus.textContent = "";
+    liveText.innerHTML = `<p style="color:var(--danger)">⚠️ ${escapeHtml(err.message||"Request failed.")}</p>`;
+  }finally{
+    state.sending = false;
+    disableChatInput(false);
+  }
+}
+function disableChatInput(disabled){
+  const i = document.getElementById("chatInput");
+  const b = document.getElementById("btnSend");
+  if(i) i.disabled = disabled;
+  if(b) b.disabled = disabled;
+}
+
+/* ============================================================
+   Plans view (list + detail)
+============================================================ */
+function renderPlans(container){
+  if(state.planDetailId && getPlan(state.planDetailId)){
+    return renderPlanDetail(container, getPlan(state.planDetailId));
+  }
+  setTopbar("My Plans", `${state.plans.length} plan(s)`);
+  if(!state.plans.length){
+    container.innerHTML = `
+      <div class="chat-empty">
+        <div class="big-ic">📚</div>
+        <h2>No plans yet</h2>
+        <p>Create a plan and Atlas will build you a full multi-week routine with real class resources.</p>
+        <button class="btn primary" id="btnEmptyNewPlan2">＋ Create a learning plan</button>
+      </div>`;
+    document.getElementById("btnEmptyNewPlan2").onclick = openNewPlanModal;
+    return;
+  }
+  container.innerHTML = `<div class="plans-grid">${state.plans.slice().sort((a,b)=>b.updatedAt-a.updatedAt).map(p=>{
+    const pct = planProgress(p);
+    return `
+    <div class="card plan-card" data-action="open-plan-detail" data-id="${p.id}">
+      <span class="badge">${LANGS[p.language]||p.language}</span>
+      <h3>${escapeHtml(p.title)}</h3>
+      <div class="meta">${p.durationWeeks} week(s) · ${p.dailyMinutes} min/day · ${p.level}</div>
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="plan-card-foot"><span>${pct}% complete</span><span>Updated ${new Date(p.updatedAt).toLocaleDateString()}</span></div>
+    </div>`;
+  }).join("")}</div>`;
+}
+
+function renderPlanDetail(container, plan){
+  setTopbar(plan.title, `${plan.durationWeeks} weeks · starts ${fmtDateNice(plan.startDate)}`);
+  const pct = planProgress(plan);
+  container.innerHTML = `
+    <button class="btn small" data-action="back-to-plans" style="margin-bottom:16px;">← Back to plans</button>
+    <div class="detail-head">
+      <div>
+        <h2>${escapeHtml(plan.title)}</h2>
+        <div style="color:var(--text-dim); font-size:13px;">${escapeHtml(plan.subject)} · <span class="badge">${LANGS[plan.language]||plan.language}</span></div>
+        <div class="progress-track" style="width:240px;"><div class="progress-fill" style="width:${pct}%"></div></div>
+      </div>
+      <div class="detail-actions">
+        <div class="field" style="margin:0;">
+          <label style="margin-bottom:4px;">Start date</label>
+          <input type="date" value="${plan.startDate}" data-action="set-start-date" data-id="${plan.id}" style="width:150px;">
+        </div>
+        <button class="btn small" data-action="open-plan-chat" data-id="${plan.id}">💬 Chat about this plan</button>
+        <button class="btn small" data-action="print-plan">🖨 Print</button>
+        <button class="btn small danger" data-action="delete-plan" data-id="${plan.id}">Delete</button>
+      </div>
+    </div>
+    <div id="weeksWrap">${(plan.weeks||[]).map(w=>renderWeekBlock(plan, w)).join("") || `<p style="color:var(--text-faint);">No weeks generated yet — chat with Atlas to build this plan.</p>`}</div>
+  `;
+}
+
+function renderWeekBlock(plan, week){
+  return `
+    <div class="week-block" data-week="${week.weekNumber}">
+      <div class="week-head" data-action="toggle-week" data-week="${week.weekNumber}">
+        <div><span class="title">Week ${week.weekNumber}</span> — <span class="theme">${escapeHtml(week.theme||"")}</span></div>
+        <span class="chev">▶</span>
+      </div>
+      <div class="week-body">
+        ${(week.days||[]).map(d=>renderDayRow(plan, week, d)).join("")}
+      </div>
+    </div>`;
+}
+
+function renderDayRow(plan, week, day){
+  const dateStr = computeDateForDay(plan, week.weekNumber, day.dayNumber);
+  const isToday = dateStr === ymd(new Date());
+  return `
+    <div class="day-row">
+      <div class="day-head">Day ${day.dayNumber} <span class="date">· ${fmtDateNice(dateStr)}${isToday?' · Today':''}</span></div>
+      ${(day.classes||[]).map(c=>renderClassCard(plan, c)).join("")}
+      ${(day.todos||[]).length ? `<div style="margin-top:4px;">${day.todos.map(t=>`
+        <div class="todo-row ${t.done?'done':''}">
+          <input type="checkbox" class="chk" ${t.done?'checked':''} data-action="toggle-todo" data-plan="${plan.id}" data-week="${week.weekNumber}" data-day="${day.dayNumber}" data-todo="${t.id}">
+          <span class="txt">${escapeHtml(t.text)}</span>
+        </div>`).join("")}</div>` : ""}
+    </div>`;
+}
+
+function renderClassCard(plan, c){
+  if(c.type === "rest"){
+    return `<div class="class-card" style="opacity:.7;"><div class="cc-main"><div class="cc-title">😌 Rest day</div></div></div>`;
+  }
+  const typeIcon = {video:"▶️", practice:"🛠", reading:"📖", quiz:"📝"}[c.type] || "▶️";
+  return `
+    <div class="class-card ${c.done?'done':''}">
+      <div class="cc-main">
+        <div class="cc-title">${typeIcon} ${escapeHtml(c.title)}</div>
+        <div class="cc-meta">${escapeHtml(c.channel||"")} ${c.channel?'· ':''}${c.durationMinutes} min${c.notes ? ' · '+escapeHtml(c.notes) : ''}</div>
+      </div>
+      <div class="cc-controls">
+        ${c.resourceUrl ? `<a class="btn small" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open</a>` : ""}
+        <input type="time" value="${c.completionTime||''}" data-action="set-completion" data-plan="${plan.id}" data-class="${c.id}" title="Notify me 10 & 5 min before this time">
+        <input type="checkbox" class="chk" ${c.done?'checked':''} data-action="toggle-class-done" data-plan="${plan.id}" data-class="${c.id}" title="Mark done">
+      </div>
+    </div>`;
+}
+
+/* ============================================================
+   Today view
+============================================================ */
+function renderToday(container){
+  setTopbar("Today", fmtDateNice(ymd(new Date())));
+  const todayStr = ymd(new Date());
+  const items = [];
+  const todos = [];
+  state.plans.forEach(plan=>{
+    (plan.weeks||[]).forEach(week=>(week.days||[]).forEach(day=>{
+      const dateStr = computeDateForDay(plan, week.weekNumber, day.dayNumber);
+      if(dateStr !== todayStr) return;
+      (day.classes||[]).forEach(c=>{ if(c.type!=="rest") items.push({plan, week, day, c}); });
+      (day.todos||[]).forEach(t=> todos.push({plan, week, day, t}));
+    }));
+  });
+  items.sort((a,b)=>{
+    if(!a.c.completionTime) return 1;
+    if(!b.c.completionTime) return -1;
+    return a.c.completionTime.localeCompare(b.c.completionTime);
+  });
+
+  const notifBanner = (!("Notification" in window) || Notification.permission!=="granted" || !state.settings.notifEnabled)
+    ? `<div class="card" style="margin-bottom:16px; border-color:var(--warn);">🔔 Reminders are off. <button class="btn small" data-action="enable-notifs" style="margin-left:8px;">Enable notifications</button></div>`
+    : "";
+
+  container.innerHTML = `
+    ${notifBanner}
+    <h3 style="margin:0 0 10px;">Classes today</h3>
+    <div class="today-list" style="margin-bottom:26px;">
+      ${items.length ? items.map(it=>renderTodayClass(it)).join("") : `<div class="card" style="color:var(--text-faint);">Nothing scheduled today. Enjoy the rest, or open a plan to add more.</div>`}
+    </div>
+    <h3 style="margin:0 0 10px;">To-dos today</h3>
+    <div class="today-list">
+      ${todos.length ? todos.map(it=>`
+        <div class="card" style="display:flex; align-items:center; gap:10px; padding:12px 14px;">
+          <input type="checkbox" class="chk" ${it.t.done?'checked':''} data-action="toggle-todo" data-plan="${it.plan.id}" data-week="${it.week.weekNumber}" data-day="${it.day.dayNumber}" data-todo="${it.t.id}">
+          <span style="${it.t.done?'text-decoration:line-through;color:var(--text-faint);':''}">${escapeHtml(it.t.text)}</span>
+          <span class="badge" style="margin-left:auto;">${escapeHtml(it.plan.title)}</span>
+        </div>`).join("") : `<div class="card" style="color:var(--text-faint);">No to-dos for today.</div>`}
+    </div>
+  `;
+}
+
+function renderTodayClass(it){
+  const {plan, c} = it;
+  let countdown = "";
+  if(c.completionTime && !c.done){
+    const [hh,mm] = c.completionTime.split(":").map(Number);
+    const now = new Date(); const target = new Date(); target.setHours(hh,mm,0,0);
+    const diff = Math.round((target-now)/60000);
+    if(diff > 0 && diff <= 15) countdown = `<span class="count-badge warn">in ${diff} min</span>`;
+    else if(diff <= 0) countdown = `<span class="count-badge ok">due</span>`;
+  }
+  return `
+    <div class="card" style="display:flex; align-items:center; gap:12px; padding:12px 14px; flex-wrap:wrap;">
+      <input type="checkbox" class="chk" ${c.done?'checked':''} data-action="toggle-class-done" data-plan="${plan.id}" data-class="${c.id}">
+      <div style="flex:1; min-width:180px;">
+        <div style="font-weight:600; ${c.done?'text-decoration:line-through;color:var(--text-faint);':''}">${escapeHtml(c.title)}</div>
+        <div style="font-size:11.5px; color:var(--text-faint);">${escapeHtml(plan.title)} · ${c.durationMinutes} min ${c.channel? '· '+escapeHtml(c.channel):''}</div>
+      </div>
+      ${countdown}
+      <input type="time" value="${c.completionTime||''}" data-action="set-completion" data-plan="${plan.id}" data-class="${c.id}">
+      ${c.resourceUrl ? `<a class="btn small" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open</a>` : ""}
+    </div>`;
+}
+
+/* ============================================================
+   Settings view
+============================================================ */
+function renderSettings(container){
+  setTopbar("Settings", "");
+  const s = state.settings;
+  const notifState = ("Notification" in window) ? Notification.permission : "unsupported";
+  container.innerHTML = `
+    <div class="settings-section card">
+      <h3>Claude API key</h3>
+      <p class="desc">Stored only in this browser's local storage — never sent anywhere except directly to Anthropic's API.</p>
+      <div class="pwd-wrap">
+        <input type="password" id="apiKeyInput" placeholder="sk-ant-..." value="${escapeHtml(s.apiKey||"")}">
+        <button class="btn small" id="btnToggleKeyVis">Show</button>
+        <button class="btn primary small" id="btnSaveKey">Save</button>
+      </div>
+    </div>
+
+    <div class="settings-section card">
+      <h3>Model & response depth</h3>
+      <p class="desc">Opus 5 gives the richest, most thoroughly-researched plans. Sonnet/Haiku are faster and cheaper for quick chat.</p>
+      <div class="row">
+        <div class="field">
+          <label>Model</label>
+          <select id="modelSelect">${MODELS.map(m=>`<option value="${m.id}" ${m.id===s.model?'selected':''}>${m.label}</option>`).join("")}</select>
+        </div>
+        <div class="field">
+          <label>Effort</label>
+          <select id="effortSelect">
+            <option value="" ${!s.effort?'selected':''}>Default</option>
+            ${["low","medium","high","xhigh","max"].map(e=>`<option value="${e}" ${s.effort===e?'selected':''}>${e}</option>`).join("")}
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="settings-section card">
+      <h3>Appearance</h3>
+      <div class="chip-row">
+        <span class="chip ${s.theme==='dark'?'selected':''}" data-action="set-theme" data-theme="dark">🌙 Dark</span>
+        <span class="chip ${s.theme==='light'?'selected':''}" data-action="set-theme" data-theme="light">☀️ Light</span>
+      </div>
+    </div>
+
+    <div class="settings-section card">
+      <h3>Reminders</h3>
+      <p class="desc">Get a browser notification 10 minutes and 5 minutes before each class's completion time you set. Keep this tab open for reminders to fire.</p>
+      <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+        <span class="badge">${notifState}</span>
+        <button class="btn small" id="btnAskNotif">Enable notifications</button>
+        <button class="btn small" id="btnTestNotif">Send test notification</button>
+        <label style="display:flex; align-items:center; gap:6px; font-weight:500; margin:0;">
+          <input type="checkbox" id="notifToggle" ${s.notifEnabled?'checked':''}> Enabled
+        </label>
+      </div>
+    </div>
+
+    <div class="settings-section card">
+      <h3>Your data</h3>
+      <p class="desc">Everything lives in this browser. Export a backup, restore it later, or wipe it clean.</p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn small" id="btnExport">⬇ Export data</button>
+        <label class="btn small" style="cursor:pointer;">⬆ Import data<input type="file" id="importFile" accept="application/json" class="hidden"></label>
+        <button class="btn small danger" id="btnClearAll">Clear all data</button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById("btnToggleKeyVis").onclick = ()=>{
+    const inp = document.getElementById("apiKeyInput");
+    inp.type = inp.type==="password" ? "text" : "password";
+  };
+  document.getElementById("btnSaveKey").onclick = ()=>{
+    state.settings.apiKey = document.getElementById("apiKeyInput").value.trim();
+    persistSettings(); renderSidebar(); toast("API key saved", "success");
+  };
+  document.getElementById("modelSelect").onchange = e=>{ state.settings.model = e.target.value; persistSettings(); };
+  document.getElementById("effortSelect").onchange = e=>{ state.settings.effort = e.target.value; persistSettings(); };
+  document.getElementById("btnAskNotif").onclick = requestNotifPermission;
+  document.getElementById("btnTestNotif").onclick = ()=> fireNotification("🔔 Test reminder", "This is what your class reminders will look like.");
+  document.getElementById("notifToggle").onchange = e=>{ state.settings.notifEnabled = e.target.checked; persistSettings(); };
+  document.getElementById("btnExport").onclick = exportData;
+  document.getElementById("importFile").onchange = importData;
+  document.getElementById("btnClearAll").onclick = clearAllData;
+}
+
+function requestNotifPermission(){
+  if(!("Notification" in window)){ toast("Notifications aren't supported in this browser.", "error"); return; }
+  Notification.requestPermission().then(perm=>{
+    if(perm==="granted"){
+      state.settings.notifEnabled = true; persistSettings();
+      toast("Notifications enabled 🎉", "success");
+    } else {
+      toast("Notification permission was not granted.", "error");
+    }
+    renderView();
+  });
+}
+
+function exportData(){
+  const blob = new Blob([JSON.stringify({settings:{...state.settings, apiKey:""}, plans: state.plans}, null, 2)], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `atlas-backup-${ymd(new Date())}.json`;
+  a.click();
+}
+function importData(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    try{
+      const data = JSON.parse(reader.result);
+      if(Array.isArray(data.plans)){
+        state.plans = data.plans;
+        persistPlans();
+        toast("Data imported", "success");
+        renderView();
+      } else toast("That file doesn't look like an Atlas backup.", "error");
+    }catch(err){ toast("Could not read that file.", "error"); }
+  };
+  reader.readAsText(file);
+}
+function clearAllData(){
+  if(!confirm("This deletes all plans and settings from this browser. Continue?")) return;
+  Object.keys(localStorage).filter(k=>k.startsWith(LS_PREFIX)).forEach(k=>localStorage.removeItem(k));
+  state.plans = []; state.activePlanId = null;
+  state.settings = {theme:"dark", apiKey:"", model:"claude-opus-5", effort:"", notifEnabled:false};
+  state.view = "chat";
+  applyTheme(); renderView();
+  toast("All data cleared", "success");
+}
+
+/* ============================================================
+   New plan modal
+============================================================ */
+function openNewPlanModal(){
+  const root = document.getElementById("modalRoot");
+  root.innerHTML = `
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal">
+        <h2>Create a learning plan</h2>
+        <p class="desc">Atlas will research free YouTube resources and design your full routine.</p>
+        <div class="field">
+          <label>What do you want to learn?</label>
+          <input type="text" id="npSubject" placeholder="e.g. Web development, Guitar, IELTS, Data Structures">
+        </div>
+        <div class="field">
+          <label>Content language</label>
+          <div class="chip-row">
+            <span class="chip selected" data-lang="en">English</span>
+            <span class="chip" data-lang="bn">বাংলা Bangla</span>
+            <span class="chip" data-lang="hi">हिन्दी Hindi</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label>Current level</label>
+            <select id="npLevel">
+              <option>Beginner</option><option>Intermediate</option><option>Advanced</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Duration (weeks, max 13)</label>
+            <input type="number" id="npWeeks" min="1" max="13" value="4">
+          </div>
+        </div>
+        <div class="field">
+          <label>Daily study time (minutes)</label>
+          <input type="number" id="npMinutes" min="10" max="480" value="45">
+        </div>
+        <div class="field">
+          <label>Rest days (optional)</label>
+          <div class="chip-row" id="npDaysOff">
+            ${["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map(d=>`<span class="chip" data-day="${d}">${d}</span>`).join("")}
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn" id="npCancel">Cancel</button>
+          <button class="btn primary" id="npCreate">Create & generate</button>
+        </div>
+      </div>
+    </div>`;
+  let selLang = "en";
+  root.querySelectorAll("[data-lang]").forEach(chip=>{
+    chip.onclick = ()=>{ root.querySelectorAll("[data-lang]").forEach(c=>c.classList.remove("selected")); chip.classList.add("selected"); selLang = chip.dataset.lang; };
+  });
+  root.querySelectorAll("#npDaysOff [data-day]").forEach(chip=>{
+    chip.onclick = ()=> chip.classList.toggle("selected");
+  });
+  document.getElementById("npCancel").onclick = closeModal;
+  document.getElementById("modalOverlay").addEventListener("click", e=>{ if(e.target.id==="modalOverlay") closeModal(); });
+  document.getElementById("npCreate").onclick = ()=>{
+    const subject = document.getElementById("npSubject").value.trim();
+    if(!subject){ toast("Tell Atlas what you want to learn first.", "error"); return; }
+    if(!(state.settings.apiKey||"").trim()){
+      toast("Add your Claude API key in Settings first.", "error");
+      closeModal(); state.view="settings"; renderView();
+      return;
+    }
+    const weeks = Math.max(1, Math.min(MAX_WEEKS, Number(document.getElementById("npWeeks").value)||4));
+    const minutes = Math.max(10, Number(document.getElementById("npMinutes").value)||45);
+    const level = document.getElementById("npLevel").value;
+    const daysOff = Array.from(root.querySelectorAll("#npDaysOff .selected")).map(c=>c.dataset.day);
+
+    const plan = {
+      id: uid(),
+      title: subject,
+      subject, level, language: selLang,
+      durationWeeks: weeks, dailyMinutes: minutes, daysOff,
+      startDate: ymd(new Date()),
+      weeks: [], chat: [],
+      createdAt: Date.now(), updatedAt: Date.now(),
+    };
+    state.plans.push(plan);
+    state.activePlanId = plan.id;
+    state.view = "chat";
+    persistPlans(); store.set("activePlanId", plan.id);
+    closeModal();
+    renderView();
+    runChatTurn(buildInitialMessage(plan));
+  };
+}
+function closeModal(){ document.getElementById("modalRoot").innerHTML = ""; }
+
+/* ============================================================
+   Global event delegation
+============================================================ */
+document.addEventListener("click", e=>{
+  const navBtn = e.target.closest("[data-nav]");
+  if(navBtn){ state.view = navBtn.dataset.nav; state.planDetailId = null; renderView(); closeMobileSidebar(); return; }
+
+  const action = e.target.closest("[data-action]");
+  if(!action) return;
+  const act = action.dataset.action;
+
+  if(act==="open-plan-chat"){ state.activePlanId = action.dataset.id; store.set("activePlanId", action.dataset.id); state.view="chat"; renderView(); closeMobileSidebar(); }
+  else if(act==="open-plan-detail"){ state.planDetailId = action.dataset.id; state.view="plans"; renderView(); }
+  else if(act==="back-to-plans"){ state.planDetailId = null; renderView(); }
+  else if(act==="toggle-week"){ action.closest(".week-block").classList.toggle("open"); }
+  else if(act==="delete-plan"){
+    if(confirm("Delete this plan permanently?")){
+      state.plans = state.plans.filter(p=>p.id!==action.dataset.id);
+      if(state.activePlanId===action.dataset.id) state.activePlanId=null;
+      state.planDetailId=null;
+      persistPlans(); renderView(); toast("Plan deleted","success");
+    }
+  }
+  else if(act==="view-plan"){
+    const plan = activePlan();
+    if(plan){ state.planDetailId = plan.id; state.view="plans"; renderView(); }
+  }
+  else if(act==="print-plan"){ window.print(); }
+  else if(act==="fill-suggestion"){
+    const input = document.getElementById("chatInput");
+    if(input){ input.value = action.dataset.text; input.focus(); }
+  }
+  else if(act==="toggle-class-done"){
+    const plan = getPlan(action.dataset.plan);
+    const cls = findClass(plan, action.dataset.class);
+    if(cls){ cls.done = !cls.done; plan.updatedAt=Date.now(); persistPlans(); renderView(); }
+  }
+  else if(act==="toggle-todo"){
+    const plan = getPlan(action.dataset.plan);
+    const week = (plan.weeks||[]).find(w=>String(w.weekNumber)===action.dataset.week);
+    const day = week && (week.days||[]).find(d=>String(d.dayNumber)===action.dataset.day);
+    const t = day && (day.todos||[]).find(t=>t.id===action.dataset.todo);
+    if(t){ t.done = !t.done; plan.updatedAt=Date.now(); persistPlans(); renderView(); }
+  }
+  else if(act==="set-theme"){ state.settings.theme = action.dataset.theme; persistSettings(); applyTheme(); renderView(); }
+  else if(act==="enable-notifs"){ requestNotifPermission(); }
+});
+
+document.addEventListener("change", e=>{
+  const action = e.target.closest("[data-action]");
+  if(!action) return;
+  const act = action.dataset.action;
+  if(act==="set-completion"){
+    const plan = getPlan(action.dataset.plan);
+    const cls = findClass(plan, action.dataset.class);
+    if(cls){
+      cls.completionTime = action.value || null;
+      plan.updatedAt = Date.now(); persistPlans();
+      const fired = store.get("firedNotifs", {});
+      const today = ymd(new Date());
+      delete fired[`${plan.id}|${cls.id}|${today}|10`];
+      delete fired[`${plan.id}|${cls.id}|${today}|5`];
+      store.set("firedNotifs", fired);
+      if(state.view==="today") renderView();
+    }
+  } else if(act==="set-start-date"){
+    const plan = getPlan(action.dataset.id);
+    if(plan){ plan.startDate = action.value; plan.updatedAt=Date.now(); persistPlans(); renderView(); }
+  }
+});
+
+function findClass(plan, classId){
+  if(!plan) return null;
+  for(const w of (plan.weeks||[])) for(const d of (w.days||[])) {
+    const c = (d.classes||[]).find(c=>c.id===classId);
+    if(c) return c;
+  }
+  return null;
+}
+
+/* ============================================================
+   Init
+============================================================ */
+document.getElementById("btnNewPlan").onclick = openNewPlanModal;
+document.getElementById("btnThemeToggle").onclick = toggleTheme;
+document.getElementById("btnHamburger").onclick = ()=> document.getElementById("sidebar").classList.toggle("open");
+function closeMobileSidebar(){ document.getElementById("sidebar").classList.remove("open"); }
+
+applyTheme();
+renderView();
+checkReminders();
+
+})();
+</script>
+</body>
+</html>
