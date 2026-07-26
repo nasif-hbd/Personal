@@ -2,7 +2,7 @@
 // and still open (from cache) if the network briefly drops. Chat still
 // requires a live connection to reach the Claude API.
 const CACHE = "atlas-shell-v1";
-const SHELL = ["./", "./index.html", "./manifest.json", "./icon.svg"];
+const SHELL = ["./", "./index.html", "./manifest.json", "./icon.svg", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", (e) => {
   self.skipWaiting();
