@@ -382,7 +382,8 @@ const store = {
 };
 
 let state = {
-  settings: store.get("settings", {theme:"dark", apiKey:"", model:"claude-sonnet-5", effort:"medium", notifEnabled:false}),
+  settings: store.get("settings", {theme:"dark", apiKey:"", model:"claude-sonnet-5", effort:"medium", notifEnabled:false,
+    driveClientId:"", driveConnected:false, driveFileId:null, driveLastSync:null}),
   plans: store.get("plans", []),
   activePlanId: store.get("activePlanId", null),
   view: "chat",
@@ -390,7 +391,14 @@ let state = {
   sending: false,
 };
 
-function persistPlans(){ store.set("plans", state.plans); }
+let syncDebounceTimer = null;
+function persistPlans(){
+  store.set("plans", state.plans);
+  if(state.settings.driveConnected){
+    clearTimeout(syncDebounceTimer);
+    syncDebounceTimer = setTimeout(syncToDrive, 4000);
+  }
+}
 function persistSettings(){ store.set("settings", state.settings); }
 function getPlan(id){ return state.plans.find(p=>p.id===id); }
 function activePlan(){ return getPlan(state.activePlanId); }
@@ -759,6 +767,160 @@ function checkReminders(){
   if(state.view === "today") renderView();
 }
 setInterval(checkReminders, 20000);
+
+/* ============================================================
+   Google Drive sync — data lives only in this browser unless the
+   learner connects their own Google Drive. No server of ours is ever
+   involved: this app talks to Google's APIs directly from the browser
+   using an OAuth Client ID the learner creates for free themselves
+   (just like their own Claude API key — we can't create that for them).
+   One JSON file ("atlas-backup.json") in their own Drive is created and
+   kept up to date; only files this app itself creates are ever touched
+   (scope: drive.file), nothing else in their Drive is readable.
+============================================================ */
+const DRIVE_FILENAME = "atlas-backup.json";
+const DRIVE_SCOPE = "https://www.googleapis.com/auth/drive.file";
+let driveAccessToken = null;
+let driveTokenClient = null;
+
+function ensureGisLoaded(cb){
+  if(window.google && google.accounts && google.accounts.oauth2) return cb();
+  const existing = document.getElementById("gisScript");
+  if(existing){ existing.addEventListener("load", cb, {once:true}); return; }
+  const s = document.createElement("script");
+  s.id = "gisScript";
+  s.src = "https://accounts.google.com/gsi/client";
+  s.async = true; s.defer = true;
+  s.onload = cb;
+  s.onerror = ()=> toast("Couldn't reach Google's sign-in script. Check your connection.", "error");
+  document.head.appendChild(s);
+}
+
+function driveClientId(){ return (state.settings.driveClientId||"").trim(); }
+
+function requestDriveToken(interactive){
+  return new Promise((resolve, reject)=>{
+    const clientId = driveClientId();
+    if(!clientId){ reject(new Error("Add your Google OAuth Client ID first.")); return; }
+    ensureGisLoaded(()=>{
+      try{
+        driveTokenClient = google.accounts.oauth2.initTokenClient({
+          client_id: clientId,
+          scope: DRIVE_SCOPE,
+          callback: (resp)=>{
+            if(resp && resp.error){ reject(new Error(resp.error)); return; }
+            driveAccessToken = resp.access_token;
+            resolve(driveAccessToken);
+          },
+          error_callback: (err)=> reject(new Error((err && err.type) || "Google sign-in was cancelled or failed.")),
+        });
+        driveTokenClient.requestAccessToken({prompt: interactive ? "consent" : ""});
+      }catch(e){ reject(e); }
+    });
+  });
+}
+
+async function ensureDriveToken(){
+  if(driveAccessToken) return driveAccessToken;
+  return requestDriveToken(false);
+}
+
+async function findOrCreateDriveFile(token){
+  let fileId = state.settings.driveFileId;
+  if(fileId){
+    const check = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?fields=id,trashed`, {headers:{Authorization:`Bearer ${token}`}});
+    if(check.ok){
+      const j = await check.json();
+      if(!j.trashed) return fileId;
+    }
+  }
+  const q = encodeURIComponent(`name='${DRIVE_FILENAME}' and trashed=false`);
+  const searchResp = await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name)`, {headers:{Authorization:`Bearer ${token}`}});
+  if(searchResp.ok){
+    const j = await searchResp.json();
+    if(j.files && j.files.length){
+      state.settings.driveFileId = j.files[0].id;
+      persistSettings();
+      return j.files[0].id;
+    }
+  }
+  const createResp = await fetch("https://www.googleapis.com/drive/v3/files", {
+    method:"POST",
+    headers:{Authorization:`Bearer ${token}`, "Content-Type":"application/json"},
+    body: JSON.stringify({name: DRIVE_FILENAME, mimeType:"application/json"})
+  });
+  if(!createResp.ok) throw new Error("Could not create the backup file in Drive.");
+  const created = await createResp.json();
+  state.settings.driveFileId = created.id;
+  persistSettings();
+  return created.id;
+}
+
+function currentBackupPayload(){
+  return JSON.stringify({exportedAt: Date.now(), plans: state.plans}, null, 2);
+}
+
+async function syncToDrive(){
+  if(!state.settings.driveConnected) return;
+  try{
+    const token = await ensureDriveToken();
+    const fileId = await findOrCreateDriveFile(token);
+    const resp = await fetch(`https://www.googleapis.com/upload/drive/v3/files/${fileId}?uploadType=media`, {
+      method:"PATCH",
+      headers:{Authorization:`Bearer ${token}`, "Content-Type":"application/json"},
+      body: currentBackupPayload()
+    });
+    if(resp.ok){
+      state.settings.driveLastSync = Date.now();
+      persistSettings();
+      if(state.view==="settings") renderView();
+    }
+  }catch(e){
+    console.warn("Drive sync failed", e);
+  }
+}
+
+async function connectDrive(){
+  if(!driveClientId()){ toast("Paste your Google OAuth Client ID first.", "error"); return; }
+  try{
+    await requestDriveToken(true);
+    state.settings.driveConnected = true;
+    persistSettings();
+    toast("Google Drive connected ✅", "success");
+    await syncToDrive();
+    renderView();
+  }catch(e){
+    toast(e.message || "Could not connect to Google Drive.", "error");
+  }
+}
+
+async function restoreFromDrive(){
+  try{
+    const token = await ensureDriveToken();
+    const fileId = await findOrCreateDriveFile(token);
+    const resp = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, {headers:{Authorization:`Bearer ${token}`}});
+    if(!resp.ok) throw new Error("Could not read the Drive backup file.");
+    const data = await resp.json();
+    if(Array.isArray(data.plans)){
+      state.plans = data.plans;
+      store.set("plans", state.plans);
+      toast("Restored from Google Drive", "success");
+      renderView();
+    } else {
+      toast("That Drive file doesn't look like an Atlas backup.", "error");
+    }
+  }catch(e){
+    toast(e.message || "Could not restore from Drive.", "error");
+  }
+}
+
+function disconnectDrive(){
+  driveAccessToken = null;
+  state.settings.driveConnected = false;
+  persistSettings();
+  toast("Disconnected from Google Drive (your Drive file is untouched)", "success");
+  renderView();
+}
 
 /* ============================================================
    Rendering — shell / nav
@@ -1183,6 +1345,37 @@ function renderSettings(container){
         <button class="btn small danger" id="btnClearAll">Clear all data</button>
       </div>
     </div>
+
+    <div class="settings-section card">
+      <h3>Google Drive backup</h3>
+      <p class="desc">Auto-save every plan to a file in your own Google Drive so it survives a cleared browser or follows you to another device. Nothing goes through any server of ours — this app talks to Google directly from your browser, and only the one file it creates (<code>${DRIVE_FILENAME}</code>) is ever touched.</p>
+      ${s.driveConnected ? `
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:12px;">
+          <span class="badge" style="background:rgba(34,197,94,.15); color:var(--success);">Connected</span>
+          <span style="font-size:12px; color:var(--text-faint);">${s.driveLastSync ? "Last synced " + new Date(s.driveLastSync).toLocaleString() : "Not synced yet"}</span>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn small" id="btnDriveSyncNow">🔄 Sync now</button>
+          <button class="btn small" id="btnDriveRestore">⬇ Restore latest from Drive</button>
+          <button class="btn small danger" id="btnDriveDisconnect">Disconnect</button>
+        </div>
+      ` : `
+        <div class="field">
+          <label>Google OAuth Client ID</label>
+          <input type="text" id="driveClientIdInput" placeholder="xxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com" value="${escapeHtml(s.driveClientId||"")}">
+        </div>
+        <button class="btn primary small" id="btnDriveConnect">🔗 Connect Google Drive</button>
+        <p class="desc" style="margin-top:12px; margin-bottom:0;">
+          <strong>One-time setup (free, ~5 minutes, only you can do this):</strong><br>
+          1. Go to <strong>console.cloud.google.com</strong> → create a project (any name).<br>
+          2. <strong>APIs &amp; Services → Library</strong> → search "Google Drive API" → Enable.<br>
+          3. <strong>APIs &amp; Services → OAuth consent screen</strong> → External → fill the required fields → add yourself under "Test users".<br>
+          4. <strong>APIs &amp; Services → Credentials → Create Credentials → OAuth client ID</strong> → type "Web application".<br>
+          5. Under <strong>Authorized JavaScript origins</strong>, add the exact URL this app is hosted at (e.g. <code>https://nasif-hbd.github.io</code>) — no trailing slash.<br>
+          6. Copy the Client ID it gives you and paste it above.
+        </p>
+      `}
+    </div>
   `;
 
   document.getElementById("btnToggleKeyVis").onclick = ()=>{
@@ -1207,6 +1400,17 @@ function renderSettings(container){
   document.getElementById("btnExport").onclick = exportData;
   document.getElementById("importFile").onchange = importData;
   document.getElementById("btnClearAll").onclick = clearAllData;
+
+  if(s.driveConnected){
+    document.getElementById("btnDriveSyncNow").onclick = async ()=>{ await syncToDrive(); toast("Synced to Drive", "success"); renderView(); };
+    document.getElementById("btnDriveRestore").onclick = ()=>{
+      if(confirm("Replace what's in this browser with the latest backup from Drive?")) restoreFromDrive();
+    };
+    document.getElementById("btnDriveDisconnect").onclick = disconnectDrive;
+  } else {
+    document.getElementById("driveClientIdInput").onchange = e=>{ state.settings.driveClientId = e.target.value.trim(); persistSettings(); };
+    document.getElementById("btnDriveConnect").onclick = connectDrive;
+  }
 }
 
 function requestNotifPermission(){
@@ -1250,7 +1454,9 @@ function clearAllData(){
   if(!confirm("This deletes all plans and settings from this browser. Continue?")) return;
   Object.keys(localStorage).filter(k=>k.startsWith(LS_PREFIX)).forEach(k=>localStorage.removeItem(k));
   state.plans = []; state.activePlanId = null;
-  state.settings = {theme:"dark", apiKey:"", model:"claude-sonnet-5", effort:"medium", notifEnabled:false};
+  state.settings = {theme:"dark", apiKey:"", model:"claude-sonnet-5", effort:"medium", notifEnabled:false,
+    driveClientId:"", driveConnected:false, driveFileId:null, driveLastSync:null};
+  driveAccessToken = null;
   state.view = "chat";
   applyTheme(); renderView();
   toast("All data cleared", "success");
