@@ -7,59 +7,77 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%AD%3C/text%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-512.png">
-<meta name="theme-color" content="#0b0d12">
+<meta name="theme-color" content="#0a0b10">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Atlas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* ===================== Design tokens ===================== */
 :root{
-  --bg: #0b0d12;
-  --bg-elev: #12151c;
-  --card: #171a22;
-  --card-hover: #1d212b;
-  --border: #262b36;
+  --bg: #0a0b10;
+  --bg-elev: #12141b;
+  --card: #171921;
+  --card-hover: #1d202b;
+  --border: #262a35;
   --text: #eef0f4;
   --text-dim: #9aa2b1;
   --text-faint: #6b7280;
   --accent: #7c6cf6;
   --accent-2: #4f8cff;
   --accent-soft: rgba(124,108,246,.14);
+  --gold: #e8b64b;
+  --gold-soft: rgba(232,182,75,.14);
   --success: #22c55e;
   --warn: #f59e0b;
   --danger: #f4645c;
-  --radius: 14px;
-  --radius-sm: 9px;
+  --radius: 16px;
+  --radius-sm: 10px;
   --shadow: 0 10px 30px -12px rgba(0,0,0,.55);
-  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --shadow-lg: 0 30px 70px -24px rgba(0,0,0,.6);
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 :root[data-theme="light"]{
-  --bg: #f5f6fa;
+  --bg: #f6f5f2;
   --bg-elev: #ffffff;
   --card: #ffffff;
-  --card-hover: #f1f2f8;
-  --border: #e4e6ef;
-  --text: #14161c;
-  --text-dim: #5b6270;
-  --text-faint: #8a90a0;
+  --card-hover: #f4f2ec;
+  --border: #e6e2d8;
+  --text: #1a1a1f;
+  --text-dim: #5b5a63;
+  --text-faint: #8a8a94;
   --accent: #6f5cf0;
   --accent-2: #3f79f0;
   --accent-soft: rgba(111,92,240,.10);
+  --gold: #b8842e;
+  --gold-soft: rgba(184,132,46,.12);
   --shadow: 0 10px 30px -14px rgba(30,30,60,.20);
+  --shadow-lg: 0 30px 70px -24px rgba(30,30,60,.25);
 }
 @media (prefers-color-scheme: light){
   :root:not([data-theme="dark"]){
-    --bg: #f5f6fa; --bg-elev:#ffffff; --card:#ffffff; --card-hover:#f1f2f8;
-    --border:#e4e6ef; --text:#14161c; --text-dim:#5b6270; --text-faint:#8a90a0;
+    --bg: #f6f5f2; --bg-elev:#ffffff; --card:#ffffff; --card-hover:#f4f2ec;
+    --border:#e6e2d8; --text:#1a1a1f; --text-dim:#5b5a63; --text-faint:#8a8a94;
     --accent:#6f5cf0; --accent-2:#3f79f0; --accent-soft:rgba(111,92,240,.10);
+    --gold:#b8842e; --gold-soft:rgba(184,132,46,.12);
     --shadow: 0 10px 30px -14px rgba(30,30,60,.20);
+    --shadow-lg: 0 30px 70px -24px rgba(30,30,60,.25);
   }
 }
 *{box-sizing:border-box;}
 html,body{height:100%;}
 body{
-  margin:0; background:var(--bg); color:var(--text); font-family:var(--font);
+  margin:0; color:var(--text); font-family:var(--font);
   font-size:14.5px; line-height:1.5; -webkit-font-smoothing:antialiased;
+  background:
+    radial-gradient(1100px 620px at 12% -8%, rgba(124,108,246,.13), transparent 60%),
+    radial-gradient(900px 520px at 105% 0%, rgba(79,140,255,.09), transparent 55%),
+    var(--bg);
+  background-attachment:fixed;
 }
+h1,h2,h3{font-family:var(--font-display); font-weight:600; letter-spacing:.1px;}
 ::-webkit-scrollbar{width:10px;height:10px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:8px;}
@@ -71,13 +89,17 @@ button{font-family:inherit;}
 /* ===================== Layout ===================== */
 #app{display:flex; height:100vh; overflow:hidden;}
 .sidebar{
-  width:264px; flex:0 0 264px; background:var(--bg-elev); border-right:1px solid var(--border);
-  display:flex; flex-direction:column; padding:18px 14px; gap:6px; overflow-y:auto;
+  width:266px; flex:0 0 266px; background:var(--bg-elev); border-right:1px solid var(--border);
+  display:flex; flex-direction:column; padding:20px 14px; gap:6px; overflow-y:auto;
 }
-.brand{display:flex; align-items:center; gap:10px; padding:4px 8px 16px; }
-.brand .mark{font-size:22px;}
-.brand .name{font-weight:700; font-size:16.5px; letter-spacing:.2px;}
-.brand .tag{font-size:11px; color:var(--text-faint); margin-top:-2px;}
+.brand{display:flex; align-items:center; gap:11px; padding:4px 8px 20px; }
+.brand .mark{
+  font-size:19px; width:36px; height:36px; border-radius:11px; flex:0 0 auto;
+  display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow:0 6px 16px -6px rgba(124,108,246,.55);
+}
+.brand .name{font-family:var(--font-display); font-weight:600; font-size:18px; letter-spacing:.2px; line-height:1.2;}
+.brand .tag{font-size:10.5px; color:var(--text-faint); margin-top:1px; letter-spacing:.03em;}
 
 .navbtn{
   display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:var(--radius-sm);
@@ -138,13 +160,14 @@ main{flex:1; display:flex; flex-direction:column; min-width:0; height:100vh;}
   font-weight:600; font-size:13.5px; cursor:pointer; transition:.15s; background:var(--card);
   color:var(--text); border:1px solid var(--border);
 }
-.btn:hover{background:var(--card-hover);}
-.btn.primary{background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:#fff; border:none;}
+.btn:hover{background:var(--card-hover); transform:translateY(-1px);}
+.btn:active{transform:translateY(0);}
+.btn.primary{background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:#fff; border:none; box-shadow:0 8px 20px -10px rgba(124,108,246,.6);}
 .btn.primary:hover{filter:brightness(1.08);}
 .btn.danger{color:var(--danger); border-color:rgba(244,100,92,.4);}
 .btn.danger:hover{background:rgba(244,100,92,.1);}
 .btn.small{padding:6px 11px; font-size:12.5px;}
-.btn:disabled{opacity:.5; cursor:not-allowed;}
+.btn:disabled{opacity:.5; cursor:not-allowed; transform:none;}
 
 input[type=text], input[type=number], input[type=password], input[type=time], input[type=date], select, textarea{
   background:var(--bg); border:1px solid var(--border); color:var(--text); border-radius:9px;
@@ -167,6 +190,7 @@ label{font-size:12.5px; color:var(--text-dim); font-weight:600; display:block; m
 .card{background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px;}
 .badge{display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.04em;
   padding:2px 8px; border-radius:20px; background:var(--accent-soft); color:var(--accent);}
+.badge.gold{background:var(--gold-soft); color:var(--gold);}
 
 /* ===================== Chat ===================== */
 .chat-wrap{display:flex; flex-direction:column; height:100%;}
@@ -206,46 +230,65 @@ label{font-size:12.5px; color:var(--text-dim); font-weight:600; display:block; m
 
 /* ===================== Plans ===================== */
 .plans-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(270px,1fr)); gap:16px;}
-.plan-card{cursor:pointer; transition:.15s;}
-.plan-card:hover{border-color:var(--accent); transform:translateY(-2px);}
-.plan-card h3{margin:2px 0 4px; font-size:15px;}
+.plan-card{cursor:pointer; transition:.18s;}
+.plan-card:hover{border-color:var(--accent); transform:translateY(-3px); box-shadow:var(--shadow);}
+.plan-card h3{margin:2px 0 4px; font-size:16px;}
 .plan-card .meta{font-size:12px; color:var(--text-faint); margin-bottom:12px;}
 .progress-track{height:6px; border-radius:5px; background:var(--bg); overflow:hidden; margin-top:10px;}
 .progress-fill{height:100%; background:linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius:5px;}
 .plan-card-foot{display:flex; justify-content:space-between; align-items:center; margin-top:12px; font-size:11.5px; color:var(--text-faint);}
 
 .detail-head{display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:20px; flex-wrap:wrap;}
-.detail-head h2{margin:0 0 6px;}
+.detail-head h2{margin:0 0 6px; font-size:22px;}
 .detail-actions{display:flex; gap:8px; flex-wrap:wrap;}
 
-.week-block{margin-bottom:14px; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden;}
+.week-block{margin-bottom:14px; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--card);}
 .week-head{
-  padding:13px 16px; background:var(--card); cursor:pointer; display:flex; align-items:center; gap:10px;
-  justify-content:space-between;
+  padding:13px 16px; cursor:pointer; display:flex; align-items:center; gap:10px;
+  justify-content:space-between; transition:.15s;
 }
 .week-head:hover{background:var(--card-hover);}
-.week-head .title{font-weight:700; font-size:13.5px;}
-.week-head .theme{font-size:12px; color:var(--text-dim); font-weight:400;}
+.week-head .title{font-family:var(--font-display); font-weight:600; font-size:15px;}
+.week-head .theme{font-size:12px; color:var(--text-dim); font-weight:400; font-family:var(--font);}
 .week-body{padding:6px 14px 14px; display:none;}
 .week-block.open .week-body{display:block;}
 .week-block.open .chev{transform:rotate(90deg);}
 .chev{transition:.15s; color:var(--text-faint); font-size:12px;}
 
-.day-row{padding:10px 4px; border-top:1px solid var(--border);}
+.day-row{padding:12px 4px; border-top:1px solid var(--border);}
 .day-row:first-child{border-top:none;}
-.day-head{display:flex; align-items:center; gap:8px; font-size:12px; color:var(--text-dim); font-weight:700; margin-bottom:8px;}
-.day-head .date{color:var(--text-faint); font-weight:400;}
+.day-head{display:flex; align-items:center; gap:8px; font-size:11.5px; color:var(--text-dim); font-weight:700; text-transform:uppercase; letter-spacing:.04em; margin-bottom:9px;}
+.day-head .date{color:var(--text-faint); font-weight:500; text-transform:none; letter-spacing:0;}
+
 .class-card{
-  display:flex; gap:10px; align-items:center; padding:10px 12px; border-radius:10px; background:var(--bg);
-  border:1px solid var(--border); margin-bottom:8px; flex-wrap:wrap;
+  display:flex; gap:12px; align-items:center; padding:9px; border-radius:12px; background:var(--bg);
+  border:1px solid var(--border); margin-bottom:8px; flex-wrap:wrap; transition:.15s;
 }
-.class-card.done{opacity:.55;}
-.class-card .cc-main{flex:1; min-width:180px;}
-.class-card .cc-title{font-size:13px; font-weight:600;}
-.class-card .cc-meta{font-size:11px; color:var(--text-faint); margin-top:2px;}
+.class-card:hover{border-color:var(--accent);}
+.class-card.done{opacity:.5;}
+.class-card.rest-card{opacity:.75; padding:10px 12px; background:transparent;}
+.class-card .cc-main{flex:1; min-width:160px;}
+.class-card .cc-title{font-size:13.5px; font-weight:600;}
+.class-card .cc-meta{font-size:11px; color:var(--text-faint); margin-top:3px;}
 .class-card .cc-controls{display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
 .class-card input[type=time]{width:110px; padding:5px 8px; font-size:12px;}
-.todo-row{display:flex; align-items:center; gap:8px; font-size:13px; padding:4px 2px;}
+
+.lesson-thumb{
+  position:relative; width:126px; height:71px; flex:0 0 auto; border-radius:9px;
+  background-size:cover; background-position:center; background-color:var(--card-hover);
+  cursor:pointer; overflow:hidden;
+}
+.lesson-thumb.sm{width:92px; height:52px; border-radius:8px;}
+.lesson-thumb.lesson-thumb-icon{display:flex; align-items:center; justify-content:center; font-size:24px; background:var(--card-hover);}
+.lesson-thumb::after{content:""; position:absolute; inset:0; background:linear-gradient(180deg, transparent 50%, rgba(0,0,0,.35));}
+.lesson-thumb .play-badge{
+  position:absolute; inset:0; margin:auto; width:32px; height:32px; border-radius:50%;
+  background:rgba(10,10,14,.6); color:#fff; display:flex; align-items:center; justify-content:center;
+  font-size:12px; z-index:1; transition:.15s; backdrop-filter:blur(2px);
+}
+.lesson-thumb:hover .play-badge{background:var(--accent); transform:scale(1.1);}
+
+.todo-row{display:flex; align-items:center; gap:8px; font-size:13px; padding:5px 2px;}
 .todo-row.done .txt{text-decoration:line-through; color:var(--text-faint);}
 .chk{width:16px; height:16px; accent-color:var(--accent); cursor:pointer;}
 
@@ -268,12 +311,32 @@ label{font-size:12.5px; color:var(--text-dim); font-weight:600; display:block; m
   z-index:100; padding:20px; backdrop-filter:blur(2px);
 }
 .modal{
-  background:var(--bg-elev); border:1px solid var(--border); border-radius:16px; padding:24px;
-  max-width:520px; width:100%; max-height:88vh; overflow-y:auto; box-shadow:var(--shadow);
+  background:var(--bg-elev); border:1px solid var(--border); border-radius:18px; padding:24px;
+  max-width:520px; width:100%; max-height:88vh; overflow-y:auto; box-shadow:var(--shadow-lg);
 }
-.modal h2{margin:0 0 4px; font-size:17px;}
+.modal h2{margin:0 0 4px; font-size:18px;}
 .modal .desc{font-size:12.5px; color:var(--text-faint); margin:0 0 18px;}
 .modal-actions{display:flex; justify-content:flex-end; gap:10px; margin-top:6px;}
+
+/* ===================== Watch modal (in-app YouTube player) ===================== */
+.watch-modal{max-width:840px; padding:20px;}
+.watch-head{display:flex; align-items:flex-start; justify-content:space-between; gap:14px; margin-bottom:14px;}
+.watch-eyebrow{font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--text-faint); font-weight:700; margin-bottom:5px;}
+.watch-head h2{margin:0; font-size:20px; line-height:1.25;}
+.watch-player{position:relative; width:100%; padding-top:56.25%; border-radius:14px; overflow:hidden; background:#000; margin-bottom:16px; box-shadow:var(--shadow);}
+.watch-player iframe{position:absolute; inset:0; width:100%; height:100%; border:0;}
+.watch-noplayer{padding:44px 20px; text-align:center; color:var(--text-dim); background:var(--bg); border:1px dashed var(--border); border-radius:14px; margin-bottom:16px;}
+.watch-meta{font-size:12.5px; color:var(--text-faint); margin-bottom:18px;}
+.watch-notes{color:var(--text-dim); font-size:13.5px; margin:10px 0 0; line-height:1.55;}
+.watch-foot{display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; border-top:1px solid var(--border); padding-top:16px;}
+.watch-nav{display:flex; gap:8px;}
+.watch-done-toggle{display:flex; align-items:center; gap:7px; font-size:13px; font-weight:600; color:var(--text-dim); cursor:pointer;}
+.watch-external{font-size:12.5px; color:var(--accent-2); font-weight:600; text-decoration:none;}
+.watch-external:hover{text-decoration:underline;}
+@media (max-width:640px){
+  .watch-foot{flex-direction:column; align-items:stretch;}
+  .watch-nav{justify-content:space-between;}
+}
 
 /* ===================== Toasts ===================== */
 #toasts{position:fixed; bottom:20px; right:20px; z-index:200; display:flex; flex-direction:column; gap:8px;}
@@ -292,6 +355,7 @@ label{font-size:12.5px; color:var(--text-dim); font-weight:600; display:block; m
   .sidebar.open{transform:translateX(0); box-shadow:var(--shadow);}
   .hamburger{display:inline-flex;}
   .view{padding:16px;}
+  .lesson-thumb{width:96px; height:56px;}
 }
 @media print{
   .sidebar, .topbar, .chat-input-bar{display:none !important;}
@@ -364,6 +428,20 @@ function addDays(dateStr, n){ const d = new Date(dateStr+"T00:00:00"); d.setDate
 function fmtDateNice(dateStr){
   const d = new Date(dateStr+"T00:00:00");
   return d.toLocaleDateString(undefined, {weekday:"short", month:"short", day:"numeric"});
+}
+function extractYouTubeId(url){
+  if(!url) return null;
+  try{
+    const u = new URL(url);
+    const host = u.hostname.replace(/^www\./,"").replace(/^m\./,"");
+    if(host === "youtu.be") return u.pathname.slice(1).split("/")[0] || null;
+    if(host === "youtube.com" || host === "youtube-nocookie.com"){
+      if(u.pathname === "/watch") return u.searchParams.get("v");
+      const m = u.pathname.match(/^\/(embed|shorts|live)\/([^/?]+)/);
+      if(m) return m[2];
+    }
+  }catch(e){}
+  return null;
 }
 function escapeHtml(s){
   return String(s==null?"":s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -1193,17 +1271,25 @@ function renderDayRow(plan, week, day){
 
 function renderClassCard(plan, c){
   if(c.type === "rest"){
-    return `<div class="class-card" style="opacity:.7;"><div class="cc-main"><div class="cc-title">😌 Rest day</div></div></div>`;
+    return `<div class="class-card rest-card"><div class="cc-main"><div class="cc-title">😌 Rest day</div></div></div>`;
   }
   const typeIcon = {video:"▶️", practice:"🛠", reading:"📖", quiz:"📝"}[c.type] || "▶️";
+  const ytId = c.type === "video" ? extractYouTubeId(c.resourceUrl) : null;
+  const media = ytId
+    ? `<div class="lesson-thumb" data-action="watch-class" data-plan="${plan.id}" data-class="${c.id}" style="background-image:url('https://img.youtube.com/vi/${ytId}/hqdefault.jpg')"><span class="play-badge">▶</span></div>`
+    : "";
+  const actionBtn = ytId
+    ? `<button class="btn small primary" data-action="watch-class" data-plan="${plan.id}" data-class="${c.id}">▶ Watch</button>`
+    : (c.resourceUrl ? `<a class="btn small" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open ↗</a>` : "");
   return `
     <div class="class-card ${c.done?'done':''}">
+      ${media}
       <div class="cc-main">
-        <div class="cc-title">${typeIcon} ${escapeHtml(c.title)}</div>
+        <div class="cc-title">${ytId?'':typeIcon+' '}${escapeHtml(c.title)}</div>
         <div class="cc-meta">${escapeHtml(c.channel||"")} ${c.channel?'· ':''}${c.durationMinutes} min${c.notes ? ' · '+escapeHtml(c.notes) : ''}</div>
       </div>
       <div class="cc-controls">
-        ${c.resourceUrl ? `<a class="btn small" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open</a>` : ""}
+        ${actionBtn}
         <input type="time" value="${c.completionTime||''}" data-action="set-completion" data-plan="${plan.id}" data-class="${c.id}" title="Notify me 10 & 5 min before this time">
         <input type="checkbox" class="chk" ${c.done?'checked':''} data-action="toggle-class-done" data-plan="${plan.id}" data-class="${c.id}" title="Mark done">
       </div>
@@ -1264,16 +1350,24 @@ function renderTodayClass(it){
     if(diff > 0 && diff <= 15) countdown = `<span class="count-badge warn">in ${diff} min</span>`;
     else if(diff <= 0) countdown = `<span class="count-badge ok">due</span>`;
   }
+  const ytId = c.type === "video" ? extractYouTubeId(c.resourceUrl) : null;
+  const media = ytId
+    ? `<div class="lesson-thumb sm" data-action="watch-class" data-plan="${plan.id}" data-class="${c.id}" style="background-image:url('https://img.youtube.com/vi/${ytId}/hqdefault.jpg')"><span class="play-badge">▶</span></div>`
+    : "";
+  const actionBtn = ytId
+    ? `<button class="btn small primary" data-action="watch-class" data-plan="${plan.id}" data-class="${c.id}">▶ Watch</button>`
+    : (c.resourceUrl ? `<a class="btn small" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open ↗</a>` : "");
   return `
     <div class="card" style="display:flex; align-items:center; gap:12px; padding:12px 14px; flex-wrap:wrap;">
       <input type="checkbox" class="chk" ${c.done?'checked':''} data-action="toggle-class-done" data-plan="${plan.id}" data-class="${c.id}">
+      ${media}
       <div style="flex:1; min-width:180px;">
         <div style="font-weight:600; ${c.done?'text-decoration:line-through;color:var(--text-faint);':''}">${escapeHtml(c.title)}</div>
         <div style="font-size:11.5px; color:var(--text-faint);">${escapeHtml(plan.title)} · ${c.durationMinutes} min ${c.channel? '· '+escapeHtml(c.channel):''}</div>
       </div>
       ${countdown}
       <input type="time" value="${c.completionTime||''}" data-action="set-completion" data-plan="${plan.id}" data-class="${c.id}">
-      ${c.resourceUrl ? `<a class="btn small" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open</a>` : ""}
+      ${actionBtn}
     </div>`;
 }
 
@@ -1601,6 +1695,7 @@ document.addEventListener("click", e=>{
   }
   else if(act==="set-theme"){ state.settings.theme = action.dataset.theme; persistSettings(); applyTheme(); renderView(); }
   else if(act==="enable-notifs"){ requestNotifPermission(); }
+  else if(act==="watch-class"){ openWatchModal(action.dataset.plan, action.dataset.class); }
 });
 
 document.addEventListener("change", e=>{
@@ -1633,6 +1728,81 @@ function findClass(plan, classId){
     if(c) return c;
   }
   return null;
+}
+function findClassContext(plan, classId){
+  if(!plan) return null;
+  for(const w of (plan.weeks||[])) for(const d of (w.days||[])) {
+    const idx = (d.classes||[]).findIndex(c=>c.id===classId);
+    if(idx !== -1) return {week:w, day:d, classes:d.classes, idx};
+  }
+  return null;
+}
+
+/* ============================================================
+   Watch modal — in-app YouTube player
+============================================================ */
+function openWatchModal(planId, classId){
+  const plan = getPlan(planId);
+  const ctx = plan && findClassContext(plan, classId);
+  if(!ctx) return;
+  const c = ctx.classes[ctx.idx];
+  const ytId = c.type === "video" ? extractYouTubeId(c.resourceUrl) : null;
+  const root = document.getElementById("modalRoot");
+
+  let playerBlock;
+  if(ytId){
+    playerBlock = `
+      <div class="watch-player">
+        <iframe src="https://www.youtube-nocookie.com/embed/${ytId}?rel=0" title="${escapeHtml(c.title)}" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>`;
+  } else if(c.type === "rest"){
+    playerBlock = `<div class="watch-noplayer"><p>😌 It's a rest day — enjoy the break.</p></div>`;
+  } else {
+    playerBlock = `<div class="watch-noplayer">
+      <p>This lesson doesn't have an embeddable video.</p>
+      ${c.resourceUrl ? `<a class="btn primary" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open resource ↗</a>` : ""}
+    </div>`;
+  }
+
+  root.innerHTML = `
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal watch-modal">
+        <div class="watch-head">
+          <div>
+            <div class="watch-eyebrow">${escapeHtml(plan.title)} · Week ${ctx.week.weekNumber}, Day ${ctx.day.dayNumber}</div>
+            <h2>${escapeHtml(c.title)}</h2>
+          </div>
+          <button class="icon-btn" id="watchClose">✕</button>
+        </div>
+        ${playerBlock}
+        <div class="watch-meta">
+          ${escapeHtml(c.channel||"")}${c.channel?' · ':''}${c.durationMinutes} min
+          ${c.notes ? `<p class="watch-notes">${escapeHtml(c.notes)}</p>` : ""}
+        </div>
+        <div class="watch-foot">
+          <div class="watch-nav">
+            <button class="btn small" id="watchPrev" ${ctx.idx<=0?'disabled':''}>← Previous</button>
+            <button class="btn small" id="watchNext" ${ctx.idx>=ctx.classes.length-1?'disabled':''}>Next →</button>
+          </div>
+          <label class="watch-done-toggle">
+            <input type="checkbox" class="chk" id="watchDoneChk" ${c.done?'checked':''}> Mark as complete
+          </label>
+          ${c.resourceUrl ? `<a href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener" class="watch-external">Open on YouTube ↗</a>` : "<span></span>"}
+        </div>
+      </div>
+    </div>`;
+
+  document.getElementById("watchClose").onclick = closeModal;
+  document.getElementById("modalOverlay").addEventListener("click", e=>{ if(e.target.id==="modalOverlay") closeModal(); });
+  document.getElementById("watchDoneChk").onchange = e=>{
+    c.done = e.target.checked; plan.updatedAt = Date.now(); persistPlans();
+    if(state.view!=="chat") renderView();
+  };
+  const prevBtn = document.getElementById("watchPrev");
+  const nextBtn = document.getElementById("watchNext");
+  if(prevBtn) prevBtn.onclick = ()=>{ if(ctx.idx>0) openWatchModal(planId, ctx.classes[ctx.idx-1].id); };
+  if(nextBtn) nextBtn.onclick = ()=>{ if(ctx.idx<ctx.classes.length-1) openWatchModal(planId, ctx.classes[ctx.idx+1].id); };
 }
 
 /* ============================================================
