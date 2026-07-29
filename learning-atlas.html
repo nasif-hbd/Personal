@@ -429,6 +429,28 @@ function fmtDateNice(dateStr){
   const d = new Date(dateStr+"T00:00:00");
   return d.toLocaleDateString(undefined, {weekday:"short", month:"short", day:"numeric"});
 }
+function getYtId(c){
+  if(c.resolvedYtId) return c.resolvedYtId;
+  return c.type === "video" ? extractYouTubeId(c.resourceUrl) : null;
+}
+function ytApiKey(){ return (state.settings.ytApiKey||"").trim(); }
+async function resolveYouTubeVideoId(plan, c){
+  const key = ytApiKey();
+  if(!key) return null;
+  const q = encodeURIComponent(`${c.title} ${c.channel||""}`.trim());
+  const resp = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=1&q=${q}&key=${key}`);
+  if(!resp.ok){
+    if(resp.status === 403) throw new Error("YouTube API key was rejected (check its restrictions or daily quota).");
+    throw new Error(`YouTube search failed (HTTP ${resp.status}).`);
+  }
+  const data = await resp.json();
+  const vid = data.items && data.items[0] && data.items[0].id && data.items[0].id.videoId;
+  if(!vid) return null;
+  c.resolvedYtId = vid;
+  plan.updatedAt = Date.now();
+  persistPlans();
+  return vid;
+}
 function extractYouTubeId(url){
   if(!url) return null;
   try{
@@ -461,7 +483,7 @@ const store = {
 
 let state = {
   settings: store.get("settings", {theme:"dark", apiKey:"", model:"claude-sonnet-5", effort:"medium", notifEnabled:false,
-    driveClientId:"", driveConnected:false, driveFileId:null, driveLastSync:null}),
+    driveClientId:"", driveConnected:false, driveFileId:null, driveLastSync:null, ytApiKey:""}),
   plans: store.get("plans", []),
   activePlanId: store.get("activePlanId", null),
   view: "chat",
@@ -631,7 +653,10 @@ LEARNER CONTEXT
 - Today's date: ${ymd(new Date())}
 
 RESEARCH REQUIREMENT
-Use the web_search and web_fetch tools to find REAL, currently available, FREE YouTube videos, playlists, or channels that teach this subject in ${langLabel}. Prefer well-known, reputable educators/channels for that language and subject. Never invent a URL — every resourceUrl must come from an actual search result you found this conversation. If you cannot find a strong match for a specific day, use the closest general playlist/channel and say so in "notes".
+Use the web_search and web_fetch tools to find REAL, currently available, FREE YouTube videos that teach this subject in ${langLabel}. Prefer well-known, reputable educators/channels for that language and subject.
+- Every "video" class's resourceUrl MUST be a link to one specific, individual YouTube video (a real youtube.com/watch?v=... or youtu.be/... URL for one exact video) — NEVER a channel homepage, a playlist page, a search-results URL, or an instruction like "search this channel for X". The app embeds this exact URL as a video player, so it must point straight at one playable video.
+- Never invent a URL — every resourceUrl must come from an actual search result you found this conversation, and should be plausible as a real, currently-playable video (use web_fetch to spot-check ones you're unsure of).
+- If you cannot find a strong specific-video match for a day, pick the single best real individual video you did find (even if imperfect) rather than falling back to a channel or a "search for" note — a specific video is always required for type "video".
 
 OUTPUT FORMAT
 Once you have enough information (ask brief clarifying questions first if something important is missing), respond with a short friendly note OUTSIDE any code fence, then ALWAYS append the FULL current plan as one single fenced block starting with \`\`\`cadence-plan and ending with \`\`\`, containing STRICT JSON (no comments, no trailing commas) in exactly this shape:
@@ -1274,11 +1299,12 @@ function renderClassCard(plan, c){
     return `<div class="class-card rest-card"><div class="cc-main"><div class="cc-title">😌 Rest day</div></div></div>`;
   }
   const typeIcon = {video:"▶️", practice:"🛠", reading:"📖", quiz:"📝"}[c.type] || "▶️";
-  const ytId = c.type === "video" ? extractYouTubeId(c.resourceUrl) : null;
+  const ytId = getYtId(c);
+  const canResolve = !ytId && c.type === "video" && !!ytApiKey();
   const media = ytId
     ? `<div class="lesson-thumb" data-action="watch-class" data-plan="${plan.id}" data-class="${c.id}" style="background-image:url('https://img.youtube.com/vi/${ytId}/hqdefault.jpg')"><span class="play-badge">▶</span></div>`
-    : "";
-  const actionBtn = ytId
+    : (canResolve ? `<div class="lesson-thumb lesson-thumb-icon" data-action="watch-class" data-plan="${plan.id}" data-class="${c.id}">🔎</div>` : "");
+  const actionBtn = (ytId || canResolve)
     ? `<button class="btn small primary" data-action="watch-class" data-plan="${plan.id}" data-class="${c.id}">▶ Watch</button>`
     : (c.resourceUrl ? `<a class="btn small" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open ↗</a>` : "");
   return `
@@ -1350,11 +1376,12 @@ function renderTodayClass(it){
     if(diff > 0 && diff <= 15) countdown = `<span class="count-badge warn">in ${diff} min</span>`;
     else if(diff <= 0) countdown = `<span class="count-badge ok">due</span>`;
   }
-  const ytId = c.type === "video" ? extractYouTubeId(c.resourceUrl) : null;
+  const ytId = getYtId(c);
+  const canResolve = !ytId && c.type === "video" && !!ytApiKey();
   const media = ytId
     ? `<div class="lesson-thumb sm" data-action="watch-class" data-plan="${plan.id}" data-class="${c.id}" style="background-image:url('https://img.youtube.com/vi/${ytId}/hqdefault.jpg')"><span class="play-badge">▶</span></div>`
-    : "";
-  const actionBtn = ytId
+    : (canResolve ? `<div class="lesson-thumb sm lesson-thumb-icon" data-action="watch-class" data-plan="${plan.id}" data-class="${c.id}">🔎</div>` : "");
+  const actionBtn = (ytId || canResolve)
     ? `<button class="btn small primary" data-action="watch-class" data-plan="${plan.id}" data-class="${c.id}">▶ Watch</button>`
     : (c.resourceUrl ? `<a class="btn small" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open ↗</a>` : "");
   return `
@@ -1441,6 +1468,24 @@ function renderSettings(container){
     </div>
 
     <div class="settings-section card">
+      <h3>In-app YouTube playback</h3>
+      <p class="desc">Atlas already asks Claude for a direct link to one specific video per lesson, but sometimes it can only find a channel or a "search for this" note. Add a free YouTube Data API key and Atlas will look up the exact video itself the moment you hit Watch, so every video lesson plays inside the app.</p>
+      <div class="field">
+        <label>YouTube Data API key</label>
+        <input type="text" id="ytApiKeyInput" placeholder="AIzaSy..." value="${escapeHtml(s.ytApiKey||"")}">
+      </div>
+      <p class="desc" style="margin-top:12px; margin-bottom:0;">
+        <strong>One-time setup (free, ~2 minutes — reuse the same Google Cloud project you made for Drive, if you set that up):</strong><br>
+        1. Go to <strong>console.cloud.google.com</strong> → pick your project (or create one).<br>
+        2. <strong>APIs &amp; Services → Library</strong> → search "YouTube Data API v3" → Enable.<br>
+        3. <strong>APIs &amp; Services → Credentials → Create Credentials → API key</strong>.<br>
+        4. Optional but recommended: click the new key → under "Application restrictions" choose "Websites" and add your Atlas URL, and under "API restrictions" limit it to "YouTube Data API v3".<br>
+        5. Copy the key and paste it above.
+      </p>
+      <p class="desc" style="margin-top:8px; margin-bottom:0;">Free quota is 10,000 units/day and each lookup costs 100, so about 100 lessons a day — plenty for personal use. Atlas only looks a video up the first time you watch it, then remembers it.</p>
+    </div>
+
+    <div class="settings-section card">
       <h3>Google Drive backup</h3>
       <p class="desc">Auto-save every plan to a file in your own Google Drive so it survives a cleared browser or follows you to another device. Nothing goes through any server of ours — this app talks to Google directly from your browser, and only the one file it creates (<code>${DRIVE_FILENAME}</code>) is ever touched.</p>
       ${s.driveConnected ? `
@@ -1494,6 +1539,7 @@ function renderSettings(container){
   document.getElementById("btnExport").onclick = exportData;
   document.getElementById("importFile").onchange = importData;
   document.getElementById("btnClearAll").onclick = clearAllData;
+  document.getElementById("ytApiKeyInput").onchange = e=>{ state.settings.ytApiKey = e.target.value.trim(); persistSettings(); };
 
   if(s.driveConnected){
     document.getElementById("btnDriveSyncNow").onclick = async ()=>{ await syncToDrive(); toast("Synced to Drive", "success"); renderView(); };
@@ -1549,7 +1595,7 @@ function clearAllData(){
   Object.keys(localStorage).filter(k=>k.startsWith(LS_PREFIX)).forEach(k=>localStorage.removeItem(k));
   state.plans = []; state.activePlanId = null;
   state.settings = {theme:"dark", apiKey:"", model:"claude-sonnet-5", effort:"medium", notifEnabled:false,
-    driveClientId:"", driveConnected:false, driveFileId:null, driveLastSync:null};
+    driveClientId:"", driveConnected:false, driveFileId:null, driveLastSync:null, ytApiKey:""};
   driveAccessToken = null;
   state.view = "chat";
   applyTheme(); renderView();
@@ -1741,16 +1787,15 @@ function findClassContext(plan, classId){
 /* ============================================================
    Watch modal — in-app YouTube player
 ============================================================ */
-function openWatchModal(planId, classId){
+function renderWatchModal(planId, ctx, ytId, resolving){
   const plan = getPlan(planId);
-  const ctx = plan && findClassContext(plan, classId);
-  if(!ctx) return;
   const c = ctx.classes[ctx.idx];
-  const ytId = c.type === "video" ? extractYouTubeId(c.resourceUrl) : null;
   const root = document.getElementById("modalRoot");
 
   let playerBlock;
-  if(ytId){
+  if(resolving){
+    playerBlock = `<div class="watch-noplayer"><p>🔎 Finding the exact video for this lesson…</p></div>`;
+  } else if(ytId){
     playerBlock = `
       <div class="watch-player">
         <iframe src="https://www.youtube-nocookie.com/embed/${ytId}?rel=0" title="${escapeHtml(c.title)}" frameborder="0"
@@ -1760,14 +1805,15 @@ function openWatchModal(planId, classId){
     playerBlock = `<div class="watch-noplayer"><p>😌 It's a rest day — enjoy the break.</p></div>`;
   } else {
     playerBlock = `<div class="watch-noplayer">
-      <p>This lesson doesn't have an embeddable video.</p>
+      <p>${c.type==="video" ? "Couldn't find an embeddable video for this lesson." : "This lesson doesn't have an embeddable video."}</p>
+      ${!ytApiKey() && c.type==="video" ? `<p style="font-size:12px;">Add a YouTube API key in Settings so Atlas can always find the exact video.</p>` : ""}
       ${c.resourceUrl ? `<a class="btn primary" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open resource ↗</a>` : ""}
     </div>`;
   }
 
   root.innerHTML = `
     <div class="modal-overlay" id="modalOverlay">
-      <div class="modal watch-modal">
+      <div class="modal watch-modal" data-class="${c.id}">
         <div class="watch-head">
           <div>
             <div class="watch-eyebrow">${escapeHtml(plan.title)} · Week ${ctx.week.weekNumber}, Day ${ctx.day.dayNumber}</div>
@@ -1803,6 +1849,30 @@ function openWatchModal(planId, classId){
   const nextBtn = document.getElementById("watchNext");
   if(prevBtn) prevBtn.onclick = ()=>{ if(ctx.idx>0) openWatchModal(planId, ctx.classes[ctx.idx-1].id); };
   if(nextBtn) nextBtn.onclick = ()=>{ if(ctx.idx<ctx.classes.length-1) openWatchModal(planId, ctx.classes[ctx.idx+1].id); };
+}
+
+async function openWatchModal(planId, classId){
+  const plan = getPlan(planId);
+  const ctx = plan && findClassContext(plan, classId);
+  if(!ctx) return;
+  const c = ctx.classes[ctx.idx];
+  let ytId = getYtId(c);
+
+  if(ytId || !(c.type === "video" && ytApiKey())){
+    renderWatchModal(planId, ctx, ytId, false);
+    return;
+  }
+
+  renderWatchModal(planId, ctx, null, true);
+  let resolveErr = null;
+  try{ ytId = await resolveYouTubeVideoId(plan, c); }
+  catch(e){ resolveErr = e; }
+
+  const stillOpenOnThisClass = document.querySelector(`.watch-modal[data-class="${classId}"]`);
+  if(!stillOpenOnThisClass) return;
+  if(resolveErr) toast(resolveErr.message || "Couldn't find a video for this lesson.", "error");
+  renderWatchModal(planId, ctx, ytId, false);
+  if(ytId && state.view!=="chat") renderView();
 }
 
 /* ============================================================
