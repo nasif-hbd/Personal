@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <title>Atlas — Your AI Learning Studio</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%AD%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%23e07a4e'/%3E%3Ccircle cx='12' cy='12' r='7.2' fill='none' stroke='white' stroke-width='1.8'/%3E%3Cpath d='m14.1 9.9-1.4 3.8-3.8 1.4 1.4-3.8z' fill='white'/%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-512.png">
 <meta name="theme-color" content="#0a0b10">
@@ -85,6 +85,10 @@ h1,h2,h3{font-family:var(--font-display); font-weight:600; letter-spacing:.1px;}
 a{color:var(--accent-2);}
 button{font-family:inherit;}
 .hidden{display:none !important;}
+.ic{width:16px; height:16px; flex:0 0 auto; display:inline-block; vertical-align:-3px;}
+.ic.ic-sm{width:13px; height:13px;}
+.ic.ic-lg{width:22px; height:22px;}
+.ic.ic-xl{width:38px; height:38px;}
 
 /* ===================== Layout ===================== */
 #app{display:flex; height:100vh; overflow:hidden;}
@@ -94,10 +98,11 @@ button{font-family:inherit;}
 }
 .brand{display:flex; align-items:center; gap:11px; padding:4px 8px 20px; }
 .brand .mark{
-  font-size:19px; width:36px; height:36px; border-radius:11px; flex:0 0 auto;
+  width:36px; height:36px; border-radius:11px; flex:0 0 auto; color:#fff;
   display:flex; align-items:center; justify-content:center;
   background:linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow:0 6px 16px -6px rgba(224,122,78,.5);
 }
+.brand .mark .ic{width:20px; height:20px;}
 .brand .name{font-family:var(--font-display); font-weight:600; font-size:18px; letter-spacing:.2px; line-height:1.2;}
 .brand .tag{font-size:10.5px; color:var(--text-faint); margin-top:1px; letter-spacing:.03em;}
 
@@ -108,7 +113,7 @@ button{font-family:inherit;}
 }
 .navbtn:hover{background:var(--card-hover); color:var(--text);}
 .navbtn.active{background:var(--accent-soft); color:var(--accent);}
-.navbtn .ic{width:18px; text-align:center;}
+.navbtn .ic{width:18px; height:18px; flex:0 0 auto;}
 .navbtn .count{margin-left:auto; font-size:11px; background:var(--border); color:var(--text-dim); padding:1px 7px; border-radius:20px;}
 
 .sidebar hr{border:none; border-top:1px solid var(--border); margin:12px 4px;}
@@ -147,9 +152,10 @@ main{flex:1; display:flex; flex-direction:column; min-width:0; height:100vh;}
 .topbar .spacer{flex:1;}
 .icon-btn{
   border:none; background:transparent; color:var(--text-dim); cursor:pointer; padding:7px 9px;
-  border-radius:var(--radius-sm); font-size:14px; transition:.15s;
+  border-radius:var(--radius-sm); font-size:14px; transition:.15s; display:inline-flex; align-items:center; justify-content:center;
 }
 .icon-btn:hover{background:var(--card-hover); color:var(--text);}
+.icon-btn .ic{vertical-align:0;}
 .hamburger{display:none;}
 
 .view{flex:1; overflow-y:auto; padding:22px 26px 60px;}
@@ -217,7 +223,7 @@ label{font-size:12.5px; color:var(--text-dim); font-weight:600; display:block; m
 @keyframes pulse{0%,80%,100%{opacity:.25;transform:scale(.8);} 40%{opacity:1;transform:scale(1);}}
 
 .chat-empty{max-width:520px; margin:60px auto; text-align:center;}
-.chat-empty .big-ic{font-size:44px; margin-bottom:14px;}
+.chat-empty .big-ic{margin-bottom:14px; color:var(--accent); display:flex; justify-content:center;}
 .chat-empty h2{font-size:19px; margin:0 0 8px;}
 .chat-empty p{color:var(--text-dim); margin:0 0 20px; font-size:13.5px;}
 
@@ -279,7 +285,7 @@ label{font-size:12.5px; color:var(--text-dim); font-weight:600; display:block; m
   cursor:pointer; overflow:hidden;
 }
 .lesson-thumb.sm{width:92px; height:52px; border-radius:8px;}
-.lesson-thumb.lesson-thumb-icon{display:flex; align-items:center; justify-content:center; font-size:24px; background:var(--card-hover);}
+.lesson-thumb.lesson-thumb-icon{display:flex; align-items:center; justify-content:center; color:var(--text-faint); background:var(--card-hover);}
 .lesson-thumb::after{content:""; position:absolute; inset:0; background:linear-gradient(180deg, transparent 50%, rgba(0,0,0,.35));}
 .lesson-thumb .play-badge{
   position:absolute; inset:0; margin:auto; width:32px; height:32px; border-radius:50%;
@@ -380,17 +386,17 @@ label{font-size:12.5px; color:var(--text-dim); font-weight:600; display:block; m
 
   <aside class="sidebar" id="sidebar">
     <div class="brand">
-      <div class="mark">🧭</div>
+      <div class="mark" data-icon-slot="compass"></div>
       <div><div class="name">Atlas</div><div class="tag">AI learning studio</div></div>
     </div>
 
-    <button class="navbtn" data-nav="home"><span class="ic">🏠</span> Home</button>
-    <button class="navbtn" data-nav="chat"><span class="ic">💬</span> Chat</button>
-    <button class="navbtn" data-nav="plans"><span class="ic">📚</span> My Plans</button>
-    <button class="navbtn" data-nav="today"><span class="ic">📅</span> Today</button>
-    <button class="navbtn" data-nav="settings"><span class="ic">⚙️</span> Settings</button>
+    <button class="navbtn" data-nav="home"><span class="ic-slot" data-icon-slot="home"></span> Home</button>
+    <button class="navbtn" data-nav="chat"><span class="ic-slot" data-icon-slot="chat"></span> Chat</button>
+    <button class="navbtn" data-nav="plans"><span class="ic-slot" data-icon-slot="book"></span> My Plans</button>
+    <button class="navbtn" data-nav="today"><span class="ic-slot" data-icon-slot="calendar"></span> Today</button>
+    <button class="navbtn" data-nav="settings"><span class="ic-slot" data-icon-slot="settings"></span> Settings</button>
 
-    <button class="newplan-btn" id="btnNewPlan">＋ New learning plan</button>
+    <button class="newplan-btn" id="btnNewPlan"><span class="ic-slot" data-icon-slot="plus"></span> New learning plan</button>
 
     <div class="sidebar-label">Your plans</div>
     <div id="sidebarPlans"></div>
@@ -402,13 +408,13 @@ label{font-size:12.5px; color:var(--text-dim); font-weight:600; display:block; m
 
   <main>
     <div class="topbar">
-      <button class="icon-btn hamburger" id="btnHamburger">☰</button>
+      <button class="icon-btn hamburger" id="btnHamburger"><span class="ic-slot" data-icon-slot="menu"></span></button>
       <div>
-        <h1 id="topTitle">Chat</h1>
+        <h1 id="topTitle">Home</h1>
         <div class="sub" id="topSub"></div>
       </div>
       <div class="spacer"></div>
-      <button class="icon-btn" id="btnThemeToggle" title="Toggle theme">🌓</button>
+      <button class="icon-btn" id="btnThemeToggle" title="Toggle theme"></button>
     </div>
     <div class="view" id="view"></div>
   </main>
@@ -421,6 +427,51 @@ label{font-size:12.5px; color:var(--text-dim); font-weight:600; display:block; m
 <script>
 (function(){
 "use strict";
+
+/* ============================================================
+   Icon set — small inline SVGs (no icon-font/CDN dependency)
+============================================================ */
+const ICONS = {
+  compass: '<circle cx="12" cy="12" r="9"/><path d="m14.3 9.7-1.8 4.8-4.8 1.8 1.8-4.8z"/>',
+  home: '<path d="M3.5 11.5 12 4l8.5 7.5"/><path d="M5.5 10v9.5a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1V10"/><path d="M9.5 20.5v-6.2h5v6.2"/>',
+  chat: '<path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v8A2.5 2.5 0 0 1 17.5 17H10l-4.5 3.5V17h-1A2.5 2.5 0 0 1 2 14.5"/>',
+  book: '<path d="M4 5.8A2.3 2.3 0 0 1 6.3 3.5H19v15.8H6.3A2.3 2.3 0 0 0 4 21.5z"/><path d="M19 19.3H6.3A2.3 2.3 0 0 0 4 21.5"/>',
+  calendar: '<rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M8 3v4M16 3v4M3.5 10h17"/>',
+  settings: '<circle cx="12" cy="12" r="3"/><path d="M19.4 13a1.65 1.65 0 0 0 .33 1.82l.05.05a2 2 0 1 1-2.83 2.83l-.05-.05a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V19.5a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.5 1.65 1.65 0 0 0-1.82.33l-.06.05a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3.5a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.5-1 1.65 1.65 0 0 0-.33-1.82l-.05-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3.5a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.5 1.65 1.65 0 0 0 1.82-.33l.06-.05a2 2 0 1 1 2.83 2.83l-.06.05a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H20.5a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.5 1z"/>',
+  menu: '<path d="M4 6.5h16M4 12h16M4 17.5h16"/>',
+  x: '<path d="M18 6 6 18M6 6l12 12"/>',
+  sun: '<circle cx="12" cy="12" r="4.2"/><path d="M12 2.8v2.4M12 18.8v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.8 12h2.4M18.8 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/>',
+  moon: '<path d="M20 14.2A8.4 8.4 0 1 1 9.8 4a6.9 6.9 0 0 0 10.2 10.2z"/>',
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  play: '<path d="M7.5 4.8v14.4l12-7.2z"/>',
+  search: '<circle cx="10.8" cy="10.8" r="6.3"/><path d="m19.8 19.8-4-4"/>',
+  external: '<path d="M10 5H6a1.5 1.5 0 0 0-1.5 1.5v12A1.5 1.5 0 0 0 6 20h12a1.5 1.5 0 0 0 1.5-1.5V14"/><path d="M14 4h6v6M20 4l-9.5 9.5"/>',
+  arrowLeft: '<path d="M19 12H5M11 18l-6-6 6-6"/>',
+  arrowRight: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+  chevron: '<path d="m9 6 6 6-6 6"/>',
+  download: '<path d="M12 3v12m0 0-4.2-4.2M12 15l4.2-4.2M4 19.5h16"/>',
+  upload: '<path d="M12 15V3m0 0-4.2 4.2M12 3l4.2 4.2M4 19.5h16"/>',
+  refresh: '<path d="M3.5 12a8.5 8.5 0 0 1 14.6-6M20.5 12a8.5 8.5 0 0 1-14.6 6"/><path d="M17.5 2.8v3.7h-3.7M6.5 21.2v-3.7h3.7"/>',
+  link: '<path d="m9.5 14.5 5-5"/><path d="M11 6.7 12.4 5.3a4 4 0 1 1 5.7 5.7l-1.9 1.9"/><path d="M13 17.3 11.6 18.7a4 4 0 1 1-5.7-5.7l1.9-1.9"/>',
+  printer: '<path d="M7 8.5V4h10v4.5"/><rect x="4" y="8.5" width="16" height="7.5" rx="1.4"/><path d="M7 15.5V20h10v-4.5"/>',
+  dollar: '<path d="M12 2.5v19"/><path d="M17 6.8c0-1.8-2.2-3.1-5-3.1s-5 1.3-5 3.1 2.2 2.6 5 3.1 5 1.5 5 3.1-2.2 3.1-5 3.1-5-1.3-5-3.1"/>',
+  bell: '<path d="M6 9.2a6 6 0 1 1 12 0c0 4.1 1.5 5.6 1.5 5.6h-15S6 13.3 6 9.2z"/><path d="M10 19.2a2 2 0 0 0 4 0"/>',
+  flame: '<path d="M12 2.5c-1 3-5.5 6.5-5.5 11a5.5 5.5 0 0 0 11 0c0-1.4-.7-2.7-1.6-3.7.1 1.7-.6 2.6-1.5 2.6-1 0-1.5-.8-1.4-1.8.2-1.8-.3-4.7-1-8.1z"/>',
+  alert: '<path d="M12 3 2.5 20.5h19z"/><path d="M12 9.7v4.3M12 17.3h.01"/>',
+  checkCircle: '<circle cx="12" cy="12" r="9"/><path d="m8 12.4 2.6 2.6 5.4-6"/>',
+  sparkle: '<path d="M12 3.2 13.7 8l4.8 1.7-4.8 1.7-1.7 4.8-1.7-4.8L5.5 9.7 10.3 8z"/><path d="M18.7 14.5l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/>',
+  user: '<circle cx="12" cy="8.2" r="3.5"/><path d="M4.8 20c0-3.5 3.2-6.2 7.2-6.2s7.2 2.7 7.2 6.2"/>',
+  lightbulb: '<path d="M9.2 18h5.6M10 21.5h4"/><path d="M12 2.5a6 6 0 0 0-3.5 10.9c.6.5 1 1.3 1.1 2.1h4.8c.1-.8.5-1.6 1.1-2.1A6 6 0 0 0 12 2.5z"/>',
+  wrench: '<path d="M15.2 6a4 4 0 0 0-5.5 4.9l-6 6v2.6H6.3l6-6A4 4 0 0 0 17.2 8.6L14.8 11l-2-2z"/>',
+  bookOpen: '<path d="M12 6.5c-1.5-1.6-3.8-2.5-6.5-2.5A2 2 0 0 0 3.5 6v11a1.5 1.5 0 0 0 1.5 1.5c2.4 0 4.6.8 6 2.2"/><path d="M12 6.5c1.5-1.6 3.8-2.5 6.5-2.5A2 2 0 0 1 20.5 6v11A1.5 1.5 0 0 1 19 18.5c-2.4 0-4.6.8-6 2.2z"/>',
+  clipboard: '<rect x="6" y="4.5" width="12" height="16.5" rx="2"/><rect x="9" y="2.5" width="6" height="3" rx="1"/><path d="M9 11.5h6M9 15.5h6"/>',
+  pencil: '<path d="M4 20h16"/><path d="M14.5 4.5 19.5 9.5 9 20H4v-5z"/>',
+  hourglass: '<path d="M6 3.5h12M6 20.5h12"/><path d="M7 3.5v3.2a5 5 0 0 0 2 4L12 12l3-1.3a5 5 0 0 0 2-4V3.5"/><path d="M7 20.5v-3.2a5 5 0 0 1 2-4L12 12l3 1.3a5 5 0 0 1 2 4v3.2"/>',
+};
+function icon(name, cls){
+  const body = ICONS[name] || "";
+  return `<svg class="ic${cls?" "+cls:""}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
+}
 
 /* ============================================================
    Constants & tiny utilities
@@ -531,7 +582,15 @@ function toast(msg, type){
    Theme
 ============================================================ */
 function applyTheme(){
-  document.documentElement.setAttribute("data-theme", state.settings.theme==="light" ? "light" : "dark");
+  const isLight = state.settings.theme==="light";
+  document.documentElement.setAttribute("data-theme", isLight ? "light" : "dark");
+  const btn = document.getElementById("btnThemeToggle");
+  if(btn) btn.innerHTML = icon(isLight ? "moon" : "sun");
+}
+function fillIconSlots(root){
+  (root||document).querySelectorAll("[data-icon-slot]").forEach(el=>{
+    el.innerHTML = icon(el.dataset.iconSlot);
+  });
 }
 function toggleTheme(){
   state.settings.theme = state.settings.theme==="light" ? "dark" : "light";
@@ -574,8 +633,8 @@ function renderChatBubble(rawText){
     const after = rawText.slice(idx + fenceTag.length);
     const closed = after.includes("```");
     chip = closed
-      ? `<div class="plan-chip" data-action="view-plan">📅 <strong>Learning plan generated</strong> — click to view it</div>`
-      : `<div class="plan-chip plan-chip-loading">📊 Designing your curriculum <span class="dotpulse"><span></span><span></span><span></span></span></div>`;
+      ? `<div class="plan-chip" data-action="view-plan">${icon("calendar","ic-sm")} <strong>Learning plan generated</strong> — click to view it</div>`
+      : `<div class="plan-chip plan-chip-loading">${icon("hourglass","ic-sm")} Designing your curriculum <span class="dotpulse"><span></span><span></span><span></span></span></div>`;
   }
   return blockFormat(escapeHtml(mainText.trim())) + chip;
 }
@@ -835,7 +894,7 @@ async function sendToClaude(plan, userText, {onStatus, onChunk} = {}){
             const cb = payload.content_block;
             if(cb && cb.type === "server_tool_use"){
               const q = (cb.input && (cb.input.query||cb.input.url)) || "the web";
-              onStatus && onStatus(`🔎 Researching: ${q}`);
+              onStatus && onStatus(`${icon("search","ic-sm")} Researching: ${escapeHtml(q)}`);
             }
           } else if(payload.type === "content_block_delta"){
             if(payload.delta && payload.delta.type === "text_delta"){
@@ -859,7 +918,7 @@ async function sendToClaude(plan, userText, {onStatus, onChunk} = {}){
       continuations++;
       apiMessages.push({role:"assistant", content: turnText});
       apiMessages.push({role:"user", content:"Continue exactly where you left off. Do not repeat any earlier text and do not restart the JSON — just continue the raw output so it can be concatenated with what you already wrote."});
-      onStatus && onStatus(`✍️ Plan is long — continuing (part ${continuations+1})…`);
+      onStatus && onStatus(`${icon("pencil","ic-sm")} Plan is long — continuing (part ${continuations+1})…`);
       continue;
     }
     break;
@@ -1037,7 +1096,7 @@ async function connectDrive(){
     await requestDriveToken(true);
     state.settings.driveConnected = true;
     persistSettings();
-    toast("Google Drive connected ✅", "success");
+    toast("Google Drive connected", "success");
     await syncToDrive();
     renderView();
   }catch(e){
@@ -1122,10 +1181,10 @@ function renderChat(container){
   if(!plan){
     container.innerHTML = `
       <div class="chat-empty">
-        <div class="big-ic">🧭</div>
+        <div class="big-ic">${icon("compass","ic-xl")}</div>
         <h2>Design your first learning plan</h2>
         <p>Tell Atlas what you want to learn, in which language, and how much time you have. It'll search the web for real, free YouTube classes and build you a full routine — up to 3 months.</p>
-        <button class="btn primary" id="btnEmptyNewPlan">＋ Create a learning plan</button>
+        <button class="btn primary" id="btnEmptyNewPlan">${icon("plus","ic-sm")} Create a learning plan</button>
       </div>`;
     document.getElementById("btnEmptyNewPlan").onclick = openNewPlanModal;
     return;
@@ -1142,7 +1201,7 @@ function renderChat(container){
       <div class="chat-scroll" id="chatScroll">
         ${plan.chat.length ? plan.chat.map(renderMsg).join("") : `
           <div class="chat-empty">
-            <div class="big-ic">✨</div>
+            <div class="big-ic">${icon("sparkle","ic-xl")}</div>
             <h2>${escapeHtml(plan.title)}</h2>
             <p>Ready to build your ${plan.durationWeeks}-week ${LANGS[plan.language]||''} plan for <strong>${escapeHtml(plan.subject)}</strong>.</p>
             <button class="btn primary" id="btnGenerateNow">Generate the full plan</button>
@@ -1189,7 +1248,7 @@ function renderMsg(m){
   const isUser = m.role === "user";
   return `
     <div class="msg ${isUser?'user':'assistant'}">
-      <div class="avatar">${isUser?'🧑':'🧭'}</div>
+      <div class="avatar">${isUser?icon("user"):icon("compass")}</div>
       <div class="bubble">${isUser ? `<p>${escapeHtml(m.content)}</p>` : renderChatBubble(m.content)}</div>
     </div>`;
 }
@@ -1220,9 +1279,9 @@ async function runChatTurn(userText){
   const target = document.getElementById("streamTarget");
   target.innerHTML = `
     <div class="msg assistant" id="liveMsg">
-      <div class="avatar">🧭</div>
+      <div class="avatar">${icon("compass")}</div>
       <div class="bubble">
-        <div class="status-line" id="liveStatus">Thinking <span class="dotpulse"><span></span><span></span><span></span></span></div>
+        <div class="status-line" id="liveStatus">${icon("sparkle","ic-sm")} Thinking <span class="dotpulse"><span></span><span></span><span></span></span></div>
         <div id="liveText"></div>
       </div>
     </div>`;
@@ -1233,19 +1292,19 @@ async function runChatTurn(userText){
   disableChatInput(true);
   try{
     const result = await sendToClaude(plan, userText, {
-      onStatus: (s)=>{ liveStatus.textContent = s; },
+      onStatus: (s)=>{ liveStatus.innerHTML = s; },
       onChunk: (full)=>{ liveText.innerHTML = renderChatBubble(full); scroll.scrollTop = scroll.scrollHeight; }
     });
     if(result.planUpdated){
-      toast("Learning plan updated ✅", "success");
+      toast("Learning plan updated", "success");
     }
     renderView(); // full re-render to reflect persisted state cleanly
     const scroll2 = document.getElementById("chatScroll");
     if(scroll2) scroll2.scrollTop = scroll2.scrollHeight;
   }catch(err){
     toast(err.message || "Something went wrong talking to Claude.", "error");
-    liveStatus.textContent = "";
-    liveText.innerHTML = `<p style="color:var(--danger)">⚠️ ${escapeHtml(err.message||"Request failed.")}</p>`;
+    liveStatus.innerHTML = "";
+    liveText.innerHTML = `<p style="color:var(--danger); display:flex; align-items:center; gap:6px;">${icon("alert","ic-sm")} ${escapeHtml(err.message||"Request failed.")}</p>`;
   }finally{
     state.sending = false;
     disableChatInput(false);
@@ -1269,10 +1328,10 @@ function renderPlans(container){
   if(!state.plans.length){
     container.innerHTML = `
       <div class="chat-empty">
-        <div class="big-ic">📚</div>
+        <div class="big-ic">${icon("book","ic-xl")}</div>
         <h2>No plans yet</h2>
         <p>Create a plan and Atlas will build you a full multi-week routine with real class resources.</p>
-        <button class="btn primary" id="btnEmptyNewPlan2">＋ Create a learning plan</button>
+        <button class="btn primary" id="btnEmptyNewPlan2">${icon("plus","ic-sm")} Create a learning plan</button>
       </div>`;
     document.getElementById("btnEmptyNewPlan2").onclick = openNewPlanModal;
     return;
@@ -1296,7 +1355,7 @@ function renderPlanDetail(container, plan){
   setTopbar(plan.title, `${plan.durationWeeks} weeks · starts ${fmtDateNice(plan.startDate)}`);
   const pct = planProgress(plan);
   container.innerHTML = `
-    <button class="btn small" data-action="back-to-plans" style="margin-bottom:16px;">← Back to plans</button>
+    <button class="btn small" data-action="back-to-plans" style="margin-bottom:16px;">${icon("arrowLeft","ic-sm")} Back to plans</button>
     <div class="detail-head">
       <div>
         <h2>${escapeHtml(plan.title)}</h2>
@@ -1308,8 +1367,8 @@ function renderPlanDetail(container, plan){
           <label style="margin-bottom:4px;">Start date</label>
           <input type="date" value="${plan.startDate}" data-action="set-start-date" data-id="${plan.id}" style="width:150px;">
         </div>
-        <button class="btn small" data-action="open-plan-chat" data-id="${plan.id}">💬 Chat about this plan</button>
-        <button class="btn small" data-action="print-plan">🖨 Print</button>
+        <button class="btn small" data-action="open-plan-chat" data-id="${plan.id}">${icon("chat","ic-sm")} Chat about this plan</button>
+        <button class="btn small" data-action="print-plan">${icon("printer","ic-sm")} Print</button>
         <button class="btn small danger" data-action="delete-plan" data-id="${plan.id}">Delete</button>
       </div>
     </div>
@@ -1322,7 +1381,7 @@ function renderWeekBlock(plan, week){
     <div class="week-block" data-week="${week.weekNumber}">
       <div class="week-head" data-action="toggle-week" data-week="${week.weekNumber}">
         <div><span class="title">Week ${week.weekNumber}</span> — <span class="theme">${escapeHtml(week.theme||"")}</span></div>
-        <span class="chev">▶</span>
+        <span class="chev">${icon("chevron","ic-sm")}</span>
       </div>
       <div class="week-body">
         ${(week.days||[]).map(d=>renderDayRow(plan, week, d)).join("")}
@@ -1347,17 +1406,17 @@ function renderDayRow(plan, week, day){
 
 function renderClassCard(plan, c){
   if(c.type === "rest"){
-    return `<div class="class-card rest-card"><div class="cc-main"><div class="cc-title">😌 Rest day</div></div></div>`;
+    return `<div class="class-card rest-card"><div class="cc-main"><div class="cc-title">${icon("moon","ic-sm")} Rest day</div></div></div>`;
   }
-  const typeIcon = {video:"▶️", practice:"🛠", reading:"📖", quiz:"📝"}[c.type] || "▶️";
+  const typeIcon = {video:icon("play","ic-sm"), practice:icon("wrench","ic-sm"), reading:icon("bookOpen","ic-sm"), quiz:icon("clipboard","ic-sm")}[c.type] || icon("play","ic-sm");
   const ytId = getYtId(c);
   const canResolve = !ytId && c.type === "video" && !!ytApiKey();
   const media = ytId
-    ? `<div class="lesson-thumb" data-action="watch-class" data-plan="${plan.id}" data-class="${c.id}" style="background-image:url('https://img.youtube.com/vi/${ytId}/hqdefault.jpg')"><span class="play-badge">▶</span></div>`
-    : (canResolve ? `<div class="lesson-thumb lesson-thumb-icon" data-action="watch-class" data-plan="${plan.id}" data-class="${c.id}">🔎</div>` : "");
+    ? `<div class="lesson-thumb" data-action="watch-class" data-plan="${plan.id}" data-class="${c.id}" style="background-image:url('https://img.youtube.com/vi/${ytId}/hqdefault.jpg')"><span class="play-badge">${icon("play")}</span></div>`
+    : (canResolve ? `<div class="lesson-thumb lesson-thumb-icon" data-action="watch-class" data-plan="${plan.id}" data-class="${c.id}">${icon("search","ic-lg")}</div>` : "");
   const actionBtn = (ytId || canResolve)
-    ? `<button class="btn small primary" data-action="watch-class" data-plan="${plan.id}" data-class="${c.id}">▶ Watch</button>`
-    : (c.resourceUrl ? `<a class="btn small" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open ↗</a>` : "");
+    ? `<button class="btn small primary" data-action="watch-class" data-plan="${plan.id}" data-class="${c.id}">${icon("play","ic-sm")} Watch</button>`
+    : (c.resourceUrl ? `<a class="btn small" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open ${icon("external","ic-sm")}</a>` : "");
   return `
     <div class="class-card ${c.done?'done':''}">
       ${media}
@@ -1397,7 +1456,7 @@ function renderHome(container){
         <div class="home-eyebrow">${fmtDateNice(todayStr)}</div>
         <h2 class="home-title">Your learning, at a glance</h2>
       </div>
-      <button class="btn primary" id="homeNewPlan">＋ New learning plan</button>
+      <button class="btn primary" id="homeNewPlan">${icon("plus","ic-sm")} New learning plan</button>
     </div>
 
     <div class="stat-row">
@@ -1406,7 +1465,7 @@ function renderHome(container){
         <div class="stat-label">Active plan${state.plans.length===1?'':'s'}</div>
       </div>
       <div class="stat-tile">
-        <div class="stat-value">${streak}${streak>0?' 🔥':''}</div>
+        <div class="stat-value">${streak}${streak>0?` ${icon("flame","ic-lg")}`:''}</div>
         <div class="stat-label">Day streak</div>
       </div>
       <div class="stat-tile">
@@ -1418,7 +1477,7 @@ function renderHome(container){
     <div class="home-section">
       <div class="home-section-head">
         <h3>Today</h3>
-        <button class="btn small" data-nav="today">See all →</button>
+        <button class="btn small" data-nav="today">See all ${icon("arrowRight","ic-sm")}</button>
       </div>
       <div class="today-list">
         ${todayItems.length ? todayItems.slice(0,4).map(renderTodayClass).join("") : `<div class="card" style="color:var(--text-faint);">Nothing scheduled today. Enjoy the rest, or start a new plan above.</div>`}
@@ -1428,7 +1487,7 @@ function renderHome(container){
     <div class="home-section">
       <div class="home-section-head">
         <h3>Your plans</h3>
-        ${state.plans.length ? `<button class="btn small" data-nav="plans">See all →</button>` : ""}
+        ${state.plans.length ? `<button class="btn small" data-nav="plans">See all ${icon("arrowRight","ic-sm")}</button>` : ""}
       </div>
       ${recentPlans.length
         ? `<div class="plans-grid">${recentPlans.map(renderPlanCard).join("")}</div>`
@@ -1458,7 +1517,7 @@ function renderToday(container){
   });
 
   const notifBanner = (!("Notification" in window) || Notification.permission!=="granted" || !state.settings.notifEnabled)
-    ? `<div class="card" style="margin-bottom:16px; border-color:var(--warn);">🔔 Reminders are off. <button class="btn small" data-action="enable-notifs" style="margin-left:8px;">Enable notifications</button></div>`
+    ? `<div class="card" style="margin-bottom:16px; border-color:var(--warn); display:flex; align-items:center; gap:6px;">${icon("bell","ic-sm")} Reminders are off. <button class="btn small" data-action="enable-notifs" style="margin-left:8px;">Enable notifications</button></div>`
     : "";
 
   container.innerHTML = `
@@ -1492,11 +1551,11 @@ function renderTodayClass(it){
   const ytId = getYtId(c);
   const canResolve = !ytId && c.type === "video" && !!ytApiKey();
   const media = ytId
-    ? `<div class="lesson-thumb sm" data-action="watch-class" data-plan="${plan.id}" data-class="${c.id}" style="background-image:url('https://img.youtube.com/vi/${ytId}/hqdefault.jpg')"><span class="play-badge">▶</span></div>`
-    : (canResolve ? `<div class="lesson-thumb sm lesson-thumb-icon" data-action="watch-class" data-plan="${plan.id}" data-class="${c.id}">🔎</div>` : "");
+    ? `<div class="lesson-thumb sm" data-action="watch-class" data-plan="${plan.id}" data-class="${c.id}" style="background-image:url('https://img.youtube.com/vi/${ytId}/hqdefault.jpg')"><span class="play-badge">${icon("play")}</span></div>`
+    : (canResolve ? `<div class="lesson-thumb sm lesson-thumb-icon" data-action="watch-class" data-plan="${plan.id}" data-class="${c.id}">${icon("search","ic-lg")}</div>` : "");
   const actionBtn = (ytId || canResolve)
-    ? `<button class="btn small primary" data-action="watch-class" data-plan="${plan.id}" data-class="${c.id}">▶ Watch</button>`
-    : (c.resourceUrl ? `<a class="btn small" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open ↗</a>` : "");
+    ? `<button class="btn small primary" data-action="watch-class" data-plan="${plan.id}" data-class="${c.id}">${icon("play","ic-sm")} Watch</button>`
+    : (c.resourceUrl ? `<a class="btn small" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open ${icon("external","ic-sm")}</a>` : "");
   return `
     <div class="card" style="display:flex; align-items:center; gap:12px; padding:12px 14px; flex-wrap:wrap;">
       <input type="checkbox" class="chk" ${c.done?'checked':''} data-action="toggle-class-done" data-plan="${plan.id}" data-class="${c.id}">
@@ -1545,15 +1604,15 @@ function renderSettings(container){
           </select>
         </div>
       </div>
-      <button class="btn small" id="btnCostSaving">💰 Use cost-saving defaults (Sonnet 5 + medium effort)</button>
+      <button class="btn small" id="btnCostSaving">${icon("dollar","ic-sm")} Use cost-saving defaults (Sonnet 5 + medium effort)</button>
       <p class="desc" style="margin-top:8px; margin-bottom:0;">Every plan generation also researches the web (up to 3 searches + 2 page fetches) and can write up to ~12,000 tokens per response — both are already tuned down from launch defaults to keep cost reasonable without hurting the quality of the plan itself.</p>
     </div>
 
     <div class="settings-section card">
       <h3>Appearance</h3>
       <div class="chip-row">
-        <span class="chip ${s.theme==='dark'?'selected':''}" data-action="set-theme" data-theme="dark">🌙 Dark</span>
-        <span class="chip ${s.theme==='light'?'selected':''}" data-action="set-theme" data-theme="light">☀️ Light</span>
+        <span class="chip ${s.theme==='dark'?'selected':''}" data-action="set-theme" data-theme="dark">${icon("moon","ic-sm")} Dark</span>
+        <span class="chip ${s.theme==='light'?'selected':''}" data-action="set-theme" data-theme="light">${icon("sun","ic-sm")} Light</span>
       </div>
     </div>
 
@@ -1574,8 +1633,8 @@ function renderSettings(container){
       <h3>Your data</h3>
       <p class="desc">Everything lives in this browser. Export a backup, restore it later, or wipe it clean.</p>
       <div style="display:flex; gap:10px; flex-wrap:wrap;">
-        <button class="btn small" id="btnExport">⬇ Export data</button>
-        <label class="btn small" style="cursor:pointer;">⬆ Import data<input type="file" id="importFile" accept="application/json" class="hidden"></label>
+        <button class="btn small" id="btnExport">${icon("download","ic-sm")} Export data</button>
+        <label class="btn small" style="cursor:pointer;">${icon("upload","ic-sm")} Import data<input type="file" id="importFile" accept="application/json" class="hidden"></label>
         <button class="btn small danger" id="btnClearAll">Clear all data</button>
       </div>
     </div>
@@ -1607,8 +1666,8 @@ function renderSettings(container){
           <span style="font-size:12px; color:var(--text-faint);">${s.driveLastSync ? "Last synced " + new Date(s.driveLastSync).toLocaleString() : "Not synced yet"}</span>
         </div>
         <div style="display:flex; gap:10px; flex-wrap:wrap;">
-          <button class="btn small" id="btnDriveSyncNow">🔄 Sync now</button>
-          <button class="btn small" id="btnDriveRestore">⬇ Restore latest from Drive</button>
+          <button class="btn small" id="btnDriveSyncNow">${icon("refresh","ic-sm")} Sync now</button>
+          <button class="btn small" id="btnDriveRestore">${icon("download","ic-sm")} Restore latest from Drive</button>
           <button class="btn small danger" id="btnDriveDisconnect">Disconnect</button>
         </div>
       ` : `
@@ -1616,7 +1675,7 @@ function renderSettings(container){
           <label>Google OAuth Client ID</label>
           <input type="text" id="driveClientIdInput" placeholder="xxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com" value="${escapeHtml(s.driveClientId||"")}">
         </div>
-        <button class="btn primary small" id="btnDriveConnect">🔗 Connect Google Drive</button>
+        <button class="btn primary small" id="btnDriveConnect">${icon("link","ic-sm")} Connect Google Drive</button>
         <p class="desc" style="margin-top:12px; margin-bottom:0;">
           <strong>One-time setup (free, ~5 minutes, only you can do this):</strong><br>
           1. Go to <strong>console.cloud.google.com</strong> → create a project (any name).<br>
@@ -1647,7 +1706,7 @@ function renderSettings(container){
     toast("Switched to Sonnet 5 + medium effort", "success");
   };
   document.getElementById("btnAskNotif").onclick = requestNotifPermission;
-  document.getElementById("btnTestNotif").onclick = ()=> fireNotification("🔔 Test reminder", "This is what your class reminders will look like.");
+  document.getElementById("btnTestNotif").onclick = ()=> fireNotification("Test reminder", "This is what your class reminders will look like.");
   document.getElementById("notifToggle").onchange = e=>{ state.settings.notifEnabled = e.target.checked; persistSettings(); };
   document.getElementById("btnExport").onclick = exportData;
   document.getElementById("importFile").onchange = importData;
@@ -1671,7 +1730,7 @@ function requestNotifPermission(){
   Notification.requestPermission().then(perm=>{
     if(perm==="granted"){
       state.settings.notifEnabled = true; persistSettings();
-      toast("Notifications enabled 🎉", "success");
+      toast("Notifications enabled", "success");
     } else {
       toast("Notification permission was not granted.", "error");
     }
@@ -1753,7 +1812,7 @@ function openNewPlanModal(){
           <label>Daily study time (minutes)</label>
           <input type="number" id="npMinutes" min="10" max="480" value="45">
         </div>
-        <p class="desc" style="margin-top:-6px;">💡 Tip: start with 2 weeks — it's cheaper to generate and you can ask Atlas to extend it later in chat once you like the direction.</p>
+        <p class="desc" style="margin-top:-6px; display:flex; gap:6px;">${icon("lightbulb","ic-sm")} <span>Tip: start with 2 weeks — it's cheaper to generate and you can ask Atlas to extend it later in chat once you like the direction.</span></p>
         <div class="field">
           <label>Rest days (optional)</label>
           <div class="chip-row" id="npDaysOff">
@@ -1907,7 +1966,7 @@ function renderWatchModal(planId, ctx, ytId, resolving){
 
   let playerBlock;
   if(resolving){
-    playerBlock = `<div class="watch-noplayer"><p>🔎 Finding the exact video for this lesson…</p></div>`;
+    playerBlock = `<div class="watch-noplayer"><p style="display:flex; align-items:center; justify-content:center; gap:6px;">${icon("search","ic-sm")} Finding the exact video for this lesson…</p></div>`;
   } else if(ytId){
     playerBlock = `
       <div class="watch-player">
@@ -1915,12 +1974,12 @@ function renderWatchModal(planId, ctx, ytId, resolving){
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>`;
   } else if(c.type === "rest"){
-    playerBlock = `<div class="watch-noplayer"><p>😌 It's a rest day — enjoy the break.</p></div>`;
+    playerBlock = `<div class="watch-noplayer"><p style="display:flex; align-items:center; justify-content:center; gap:6px;">${icon("moon","ic-sm")} It's a rest day — enjoy the break.</p></div>`;
   } else {
     playerBlock = `<div class="watch-noplayer">
       <p>${c.type==="video" ? "Couldn't find an embeddable video for this lesson." : "This lesson doesn't have an embeddable video."}</p>
       ${!ytApiKey() && c.type==="video" ? `<p style="font-size:12px;">Add a YouTube API key in Settings so Atlas can always find the exact video.</p>` : ""}
-      ${c.resourceUrl ? `<a class="btn primary" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open resource ↗</a>` : ""}
+      ${c.resourceUrl ? `<a class="btn primary" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open resource ${icon("external","ic-sm")}</a>` : ""}
     </div>`;
   }
 
@@ -1932,7 +1991,7 @@ function renderWatchModal(planId, ctx, ytId, resolving){
             <div class="watch-eyebrow">${escapeHtml(plan.title)} · Week ${ctx.week.weekNumber}, Day ${ctx.day.dayNumber}</div>
             <h2>${escapeHtml(c.title)}</h2>
           </div>
-          <button class="icon-btn" id="watchClose">✕</button>
+          <button class="icon-btn" id="watchClose">${icon("x")}</button>
         </div>
         ${playerBlock}
         <div class="watch-meta">
@@ -1941,13 +2000,13 @@ function renderWatchModal(planId, ctx, ytId, resolving){
         </div>
         <div class="watch-foot">
           <div class="watch-nav">
-            <button class="btn small" id="watchPrev" ${ctx.idx<=0?'disabled':''}>← Previous</button>
-            <button class="btn small" id="watchNext" ${ctx.idx>=ctx.classes.length-1?'disabled':''}>Next →</button>
+            <button class="btn small" id="watchPrev" ${ctx.idx<=0?'disabled':''}>${icon("arrowLeft","ic-sm")} Previous</button>
+            <button class="btn small" id="watchNext" ${ctx.idx>=ctx.classes.length-1?'disabled':''}>Next ${icon("arrowRight","ic-sm")}</button>
           </div>
           <label class="watch-done-toggle">
             <input type="checkbox" class="chk" id="watchDoneChk" ${c.done?'checked':''}> Mark as complete
           </label>
-          ${c.resourceUrl ? `<a href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener" class="watch-external">Open on YouTube ↗</a>` : "<span></span>"}
+          ${c.resourceUrl ? `<a href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener" class="watch-external">Open on YouTube ${icon("external","ic-sm")}</a>` : "<span></span>"}
         </div>
       </div>
     </div>`;
@@ -1996,6 +2055,7 @@ document.getElementById("btnThemeToggle").onclick = toggleTheme;
 document.getElementById("btnHamburger").onclick = ()=> document.getElementById("sidebar").classList.toggle("open");
 function closeMobileSidebar(){ document.getElementById("sidebar").classList.remove("open"); }
 
+fillIconSlots();
 applyTheme();
 renderView();
 checkReminders();
