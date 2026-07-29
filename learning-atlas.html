@@ -16,19 +16,19 @@
 <style>
 /* ===================== Design tokens ===================== */
 :root{
-  --bg: #0a0b10;
-  --bg-elev: #12141b;
-  --card: #171921;
-  --card-hover: #1d202b;
-  --border: #262a35;
-  --text: #eef0f4;
-  --text-dim: #9aa2b1;
-  --text-faint: #6b7280;
-  --accent: #7c6cf6;
-  --accent-2: #4f8cff;
-  --accent-soft: rgba(124,108,246,.14);
+  --bg: #16130f;
+  --bg-elev: #1c1812;
+  --card: #211c15;
+  --card-hover: #282219;
+  --border: #342c20;
+  --text: #f3ede2;
+  --text-dim: #b6ab97;
+  --text-faint: #82796a;
+  --accent: #e07a4e;
+  --accent-2: #4f9484;
+  --accent-soft: rgba(224,122,78,.16);
   --gold: #e8b64b;
-  --gold-soft: rgba(232,182,75,.14);
+  --gold-soft: rgba(232,182,75,.16);
   --success: #22c55e;
   --warn: #f59e0b;
   --danger: #f4645c;
@@ -40,30 +40,30 @@
   --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 :root[data-theme="light"]{
-  --bg: #f6f5f2;
+  --bg: #faf6ef;
   --bg-elev: #ffffff;
   --card: #ffffff;
-  --card-hover: #f4f2ec;
-  --border: #e6e2d8;
-  --text: #1a1a1f;
-  --text-dim: #5b5a63;
-  --text-faint: #8a8a94;
-  --accent: #6f5cf0;
-  --accent-2: #3f79f0;
-  --accent-soft: rgba(111,92,240,.10);
+  --card-hover: #f5efe3;
+  --border: #e8ddc8;
+  --text: #23201b;
+  --text-dim: #6b6355;
+  --text-faint: #9b9382;
+  --accent: #c1502e;
+  --accent-2: #2f6d5e;
+  --accent-soft: rgba(193,80,46,.10);
   --gold: #b8842e;
   --gold-soft: rgba(184,132,46,.12);
-  --shadow: 0 10px 30px -14px rgba(30,30,60,.20);
-  --shadow-lg: 0 30px 70px -24px rgba(30,30,60,.25);
+  --shadow: 0 10px 30px -14px rgba(60,45,20,.16);
+  --shadow-lg: 0 30px 70px -24px rgba(60,45,20,.22);
 }
 @media (prefers-color-scheme: light){
   :root:not([data-theme="dark"]){
-    --bg: #f6f5f2; --bg-elev:#ffffff; --card:#ffffff; --card-hover:#f4f2ec;
-    --border:#e6e2d8; --text:#1a1a1f; --text-dim:#5b5a63; --text-faint:#8a8a94;
-    --accent:#6f5cf0; --accent-2:#3f79f0; --accent-soft:rgba(111,92,240,.10);
+    --bg: #faf6ef; --bg-elev:#ffffff; --card:#ffffff; --card-hover:#f5efe3;
+    --border:#e8ddc8; --text:#23201b; --text-dim:#6b6355; --text-faint:#9b9382;
+    --accent:#c1502e; --accent-2:#2f6d5e; --accent-soft:rgba(193,80,46,.10);
     --gold:#b8842e; --gold-soft:rgba(184,132,46,.12);
-    --shadow: 0 10px 30px -14px rgba(30,30,60,.20);
-    --shadow-lg: 0 30px 70px -24px rgba(30,30,60,.25);
+    --shadow: 0 10px 30px -14px rgba(60,45,20,.16);
+    --shadow-lg: 0 30px 70px -24px rgba(60,45,20,.22);
   }
 }
 *{box-sizing:border-box;}
@@ -72,8 +72,8 @@ body{
   margin:0; color:var(--text); font-family:var(--font);
   font-size:14.5px; line-height:1.5; -webkit-font-smoothing:antialiased;
   background:
-    radial-gradient(1100px 620px at 12% -8%, rgba(124,108,246,.13), transparent 60%),
-    radial-gradient(900px 520px at 105% 0%, rgba(79,140,255,.09), transparent 55%),
+    radial-gradient(1100px 620px at 12% -8%, var(--accent-soft), transparent 60%),
+    radial-gradient(900px 520px at 105% 0%, rgba(47,109,94,.08), transparent 55%),
     var(--bg);
   background-attachment:fixed;
 }
@@ -96,7 +96,7 @@ button{font-family:inherit;}
 .brand .mark{
   font-size:19px; width:36px; height:36px; border-radius:11px; flex:0 0 auto;
   display:flex; align-items:center; justify-content:center;
-  background:linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow:0 6px 16px -6px rgba(124,108,246,.55);
+  background:linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow:0 6px 16px -6px rgba(224,122,78,.5);
 }
 .brand .name{font-family:var(--font-display); font-weight:600; font-size:18px; letter-spacing:.2px; line-height:1.2;}
 .brand .tag{font-size:10.5px; color:var(--text-faint); margin-top:1px; letter-spacing:.03em;}
@@ -162,7 +162,7 @@ main{flex:1; display:flex; flex-direction:column; min-width:0; height:100vh;}
 }
 .btn:hover{background:var(--card-hover); transform:translateY(-1px);}
 .btn:active{transform:translateY(0);}
-.btn.primary{background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:#fff; border:none; box-shadow:0 8px 20px -10px rgba(124,108,246,.6);}
+.btn.primary{background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:#fff; border:none; box-shadow:0 8px 20px -10px rgba(224,122,78,.55);}
 .btn.primary:hover{filter:brightness(1.08);}
 .btn.danger{color:var(--danger); border-color:rgba(244,100,92,.4);}
 .btn.danger:hover{background:rgba(244,100,92,.1);}
@@ -298,6 +298,18 @@ label{font-size:12.5px; color:var(--text-dim); font-weight:600; display:block; m
 .count-badge.warn{background:rgba(245,158,11,.15); color:var(--warn);}
 .count-badge.ok{background:rgba(34,197,94,.15); color:var(--success);}
 
+/* ===================== Home ===================== */
+.home-hero{display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:22px;}
+.home-eyebrow{font-size:11.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--text-faint); font-weight:700; margin-bottom:6px;}
+.home-title{font-size:26px; margin:0;}
+.stat-row{display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:14px; margin-bottom:30px; max-width:760px;}
+.stat-tile{background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:18px 20px;}
+.stat-value{font-family:var(--font-display); font-size:30px; font-weight:600; line-height:1.1;}
+.stat-label{font-size:12px; color:var(--text-faint); margin-top:4px; font-weight:600;}
+.home-section{margin-bottom:30px;}
+.home-section-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;}
+.home-section-head h3{margin:0; font-size:16px;}
+
 /* ===================== Settings ===================== */
 .settings-section{max-width:640px; margin-bottom:28px;}
 .settings-section h3{font-size:14px; margin:0 0 4px;}
@@ -372,6 +384,7 @@ label{font-size:12.5px; color:var(--text-dim); font-weight:600; display:block; m
       <div><div class="name">Atlas</div><div class="tag">AI learning studio</div></div>
     </div>
 
+    <button class="navbtn" data-nav="home"><span class="ic">🏠</span> Home</button>
     <button class="navbtn" data-nav="chat"><span class="ic">💬</span> Chat</button>
     <button class="navbtn" data-nav="plans"><span class="ic">📚</span> My Plans</button>
     <button class="navbtn" data-nav="today"><span class="ic">📅</span> Today</button>
@@ -486,7 +499,7 @@ let state = {
     driveClientId:"", driveConnected:false, driveFileId:null, driveLastSync:null, ytApiKey:""}),
   plans: store.get("plans", []),
   activePlanId: store.get("activePlanId", null),
-  view: "chat",
+  view: "home",
   planDetailId: null,
   sending: false,
 };
@@ -581,6 +594,41 @@ function planProgress(plan){
     total++; if(c.done) done++;
   })));
   return total ? Math.round(done/total*100) : 0;
+}
+function classesScheduledOn(dateStr){
+  const items = [];
+  state.plans.forEach(plan=>{
+    (plan.weeks||[]).forEach(week=>(week.days||[]).forEach(day=>{
+      if(computeDateForDay(plan, week.weekNumber, day.dayNumber) !== dateStr) return;
+      (day.classes||[]).forEach(c=>{ if(c.type!=="rest") items.push({plan, week, day, c}); });
+    }));
+  });
+  return items;
+}
+function computeStreak(){
+  let streak = 0;
+  const cursor = new Date();
+  for(let i=0;i<400;i++){
+    const dateStr = ymd(cursor);
+    const items = classesScheduledOn(dateStr);
+    const allDone = items.length > 0 && items.every(it=>it.c.done);
+    if(!allDone){
+      if(i===0){ cursor.setDate(cursor.getDate()-1); continue; }
+      break;
+    }
+    streak++;
+    cursor.setDate(cursor.getDate()-1);
+  }
+  return streak;
+}
+function completedThisWeek(){
+  const today = new Date();
+  let count = 0;
+  for(let i=0;i<7;i++){
+    const dateStr = ymd(addDays(ymd(today), -i));
+    classesScheduledOn(dateStr).forEach(it=>{ if(it.c.done) count++; });
+  }
+  return count;
 }
 function extractPlanJSON(text){
   const re = /```cadence-plan\s*([\s\S]*?)```/g;
@@ -1057,6 +1105,7 @@ function setTopbar(title, sub){
 function renderView(){
   renderSidebar();
   const v = document.getElementById("view");
+  if(state.view === "home") return renderHome(v);
   if(state.view === "chat") return renderChat(v);
   if(state.view === "plans") return renderPlans(v);
   if(state.view === "today") return renderToday(v);
@@ -1228,9 +1277,12 @@ function renderPlans(container){
     document.getElementById("btnEmptyNewPlan2").onclick = openNewPlanModal;
     return;
   }
-  container.innerHTML = `<div class="plans-grid">${state.plans.slice().sort((a,b)=>b.updatedAt-a.updatedAt).map(p=>{
-    const pct = planProgress(p);
-    return `
+  container.innerHTML = `<div class="plans-grid">${state.plans.slice().sort((a,b)=>b.updatedAt-a.updatedAt).map(renderPlanCard).join("")}</div>`;
+}
+
+function renderPlanCard(p){
+  const pct = planProgress(p);
+  return `
     <div class="card plan-card" data-action="open-plan-detail" data-id="${p.id}">
       <span class="badge">${LANGS[p.language]||p.language}</span>
       <h3>${escapeHtml(p.title)}</h3>
@@ -1238,7 +1290,6 @@ function renderPlans(container){
       <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
       <div class="plan-card-foot"><span>${pct}% complete</span><span>Updated ${new Date(p.updatedAt).toLocaleDateString()}</span></div>
     </div>`;
-  }).join("")}</div>`;
 }
 
 function renderPlanDetail(container, plan){
@@ -1325,6 +1376,68 @@ function renderClassCard(plan, c){
 /* ============================================================
    Today view
 ============================================================ */
+/* ============================================================
+   Home view (dashboard)
+============================================================ */
+function renderHome(container){
+  const todayStr = ymd(new Date());
+  setTopbar("Home", fmtDateNice(todayStr));
+  const todayItems = classesScheduledOn(todayStr).sort((a,b)=>{
+    if(!a.c.completionTime) return 1;
+    if(!b.c.completionTime) return -1;
+    return a.c.completionTime.localeCompare(b.c.completionTime);
+  });
+  const streak = computeStreak();
+  const completed = completedThisWeek();
+  const recentPlans = state.plans.slice().sort((a,b)=>b.updatedAt-a.updatedAt).slice(0,3);
+
+  container.innerHTML = `
+    <div class="home-hero">
+      <div>
+        <div class="home-eyebrow">${fmtDateNice(todayStr)}</div>
+        <h2 class="home-title">Your learning, at a glance</h2>
+      </div>
+      <button class="btn primary" id="homeNewPlan">＋ New learning plan</button>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-tile">
+        <div class="stat-value">${state.plans.length}</div>
+        <div class="stat-label">Active plan${state.plans.length===1?'':'s'}</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-value">${streak}${streak>0?' 🔥':''}</div>
+        <div class="stat-label">Day streak</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-value">${completed}</div>
+        <div class="stat-label">Completed this week</div>
+      </div>
+    </div>
+
+    <div class="home-section">
+      <div class="home-section-head">
+        <h3>Today</h3>
+        <button class="btn small" data-nav="today">See all →</button>
+      </div>
+      <div class="today-list">
+        ${todayItems.length ? todayItems.slice(0,4).map(renderTodayClass).join("") : `<div class="card" style="color:var(--text-faint);">Nothing scheduled today. Enjoy the rest, or start a new plan above.</div>`}
+      </div>
+    </div>
+
+    <div class="home-section">
+      <div class="home-section-head">
+        <h3>Your plans</h3>
+        ${state.plans.length ? `<button class="btn small" data-nav="plans">See all →</button>` : ""}
+      </div>
+      ${recentPlans.length
+        ? `<div class="plans-grid">${recentPlans.map(renderPlanCard).join("")}</div>`
+        : `<div class="card" style="color:var(--text-faint);">No plans yet — create one above and Atlas will build your first routine.</div>`}
+    </div>
+  `;
+  document.getElementById("homeNewPlan").onclick = openNewPlanModal;
+}
+
 function renderToday(container){
   setTopbar("Today", fmtDateNice(ymd(new Date())));
   const todayStr = ymd(new Date());
