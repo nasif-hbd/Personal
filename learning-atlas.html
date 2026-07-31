@@ -525,6 +525,10 @@ const MODELS = [
   {id:"claude-haiku-4-5", label:"Claude Haiku 4.5 — fastest & cheapest, ~5x cheaper than Opus ($1 / $5)"},
 ];
 const LANGS = {bn:"Bangla (বাংলা)", hi:"Hindi (हिन्दी)", en:"English"};
+// OAuth Client IDs for browser apps are not secret (Google restricts issuance to the
+// registered origin below) — safe to ship as the default so reconnecting on a new
+// device is one click instead of a copy-paste trip back to Google Cloud Console.
+const DEFAULT_DRIVE_CLIENT_ID = "428108795876-nce203od5v5a51gbmtovg3t0u2nj8flu.apps.googleusercontent.com";
 
 function uid(){ return Math.random().toString(36).slice(2,10) + Date.now().toString(36).slice(-4); }
 function ymd(d){ const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,"0"), day=String(d.getDate()).padStart(2,"0"); return `${y}-${m}-${day}`; }
@@ -587,7 +591,7 @@ const store = {
 
 let state = {
   settings: store.get("settings", {theme:"dark", apiKey:"", model:"claude-sonnet-5", effort:"medium", notifEnabled:false,
-    driveClientId:"", driveConnected:false, driveFileId:null, driveLastSync:null, ytApiKey:""}),
+    driveClientId:DEFAULT_DRIVE_CLIENT_ID, driveConnected:false, driveFileId:null, driveLastSync:null, ytApiKey:""}),
   plans: store.get("plans", []),
   activePlanId: store.get("activePlanId", null),
   view: "home",
@@ -1115,6 +1119,23 @@ function currentBackupPayload(){
   return JSON.stringify({exportedAt: Date.now(), plans: state.plans}, null, 2);
 }
 
+// Per-plan last-write-wins merge, so opening Atlas on a second device picks up
+// whatever changed elsewhere instead of silently overwriting it. Plans that exist
+// on only one side are kept; plans on both sides keep whichever copy has the
+// newer updatedAt. (Deleting a plan on one device can still have it reappear if
+// another device syncs an older copy before seeing the deletion — acceptable for
+// a single-user app; just delete it again.)
+function mergePlansData(localPlans, drivePlans){
+  const byId = new Map();
+  (drivePlans||[]).forEach(p=>{ if(p && p.id) byId.set(p.id, p); });
+  (localPlans||[]).forEach(p=>{
+    if(!p || !p.id) return;
+    const other = byId.get(p.id);
+    if(!other || (p.updatedAt||0) >= (other.updatedAt||0)) byId.set(p.id, p);
+  });
+  return Array.from(byId.values());
+}
+
 async function syncToDrive(){
   if(!state.settings.driveConnected) return;
   try{
@@ -1166,6 +1187,36 @@ async function restoreFromDrive(){
     }
   }catch(e){
     toast(e.message || "Could not restore from Drive.", "error");
+  }
+}
+
+// Runs once at startup when this browser was already connected to Drive. Tries a
+// silent (non-interactive) token refresh — works if the user's still signed into
+// Google in this browser, fails quietly on a brand-new device/profile (no popup,
+// no error toast; they just click "Connect" in Settings once to link it). On
+// success, merges Drive's copy into local storage so a plan edited on another
+// device shows up here without any manual "Restore" click.
+async function autoSyncFromDrive(){
+  if(!state.settings.driveConnected) return;
+  try{
+    const token = await ensureDriveToken();
+    const fileId = await findOrCreateDriveFile(token);
+    const resp = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, {headers:{Authorization:`Bearer ${token}`}});
+    if(!resp.ok) return;
+    const data = await resp.json();
+    if(!Array.isArray(data.plans)) return;
+    const merged = mergePlansData(state.plans, data.plans);
+    const changed = JSON.stringify(merged) !== JSON.stringify(state.plans);
+    state.plans = merged;
+    store.set("plans", state.plans);
+    state.settings.driveLastSync = Date.now();
+    persistSettings();
+    if(changed){
+      renderView();
+      toast("Synced latest from Google Drive", "success");
+    }
+  }catch(e){
+    console.warn("Auto-sync from Drive skipped", e);
   }
 }
 
@@ -1708,8 +1759,8 @@ function renderSettings(container){
     </div>
 
     <div class="settings-section card">
-      <h3>Google Drive backup</h3>
-      <p class="desc">Auto-save every plan to a file in your own Google Drive so it survives a cleared browser or follows you to another device. Nothing goes through any server of ours — this app talks to Google directly from your browser, and only the one file it creates (<code>${DRIVE_FILENAME}</code>) is ever touched.</p>
+      <h3>Google Drive — your memory</h3>
+      <p class="desc">Your own Google Drive is where Atlas remembers everything: every plan and chat auto-saves there as you go, and connected devices pull the latest the moment you open the app — no manual export/import. Nothing goes through any server of ours — this app talks to Google directly from your browser, and only the one file it creates (<code>${DRIVE_FILENAME}</code>) is ever touched.</p>
       ${s.driveConnected ? `
         <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:12px;">
           <span class="badge" style="background:rgba(34,197,94,.15); color:var(--success);">Connected</span>
@@ -1817,7 +1868,7 @@ function clearAllData(){
   Object.keys(localStorage).filter(k=>k.startsWith(LS_PREFIX)).forEach(k=>localStorage.removeItem(k));
   state.plans = []; state.activePlanId = null;
   state.settings = {theme:"dark", apiKey:"", model:"claude-sonnet-5", effort:"medium", notifEnabled:false,
-    driveClientId:"", driveConnected:false, driveFileId:null, driveLastSync:null, ytApiKey:""};
+    driveClientId:DEFAULT_DRIVE_CLIENT_ID, driveConnected:false, driveFileId:null, driveLastSync:null, ytApiKey:""};
   driveAccessToken = null;
   state.view = "chat";
   applyTheme(); renderView();
@@ -2109,6 +2160,7 @@ fillIconSlots();
 applyTheme();
 renderView();
 checkReminders();
+autoSyncFromDrive();
 
 // Only registers when actually served over http(s) (e.g. GitHub Pages) with
 // sw.js sitting alongside this file — silently does nothing when this page
