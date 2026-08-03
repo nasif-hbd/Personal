@@ -441,7 +441,13 @@ label{
   transition:transform var(--dur-fast) var(--ease-spring);
 }
 .lesson-facade:hover .play-badge{transform:scale(1.16);}
-.lesson-facade .ic, .lesson-facade .play-badge{pointer-events:none;}
+.lesson-facade .ic, .lesson-facade .play-badge, .lesson-facade .alt-flag{pointer-events:none;}
+.lesson-facade .alt-flag{
+  position:absolute; left:6px; bottom:6px; z-index:2;
+  font-family:var(--font-mono); font-size:8px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+  padding:2px 6px; border-radius:99px; color:var(--accent);
+  background:rgba(4,6,14,.72); border:1px solid rgba(34,211,238,.4);
+}
 .week-block, .day-row{scroll-margin-top:130px;}
 
 .lesson-embed{
@@ -783,9 +789,21 @@ function fmtDateNice(dateStr){
 // Returns {kind:"video"|"playlist", id} for anything Atlas can actually embed, or
 // null when the link is a channel page / search page / non-YouTube URL that can
 // only be opened externally (or resolved on-demand via the YouTube Data API key).
+// Resolution order for what plays inside the app:
+//   1. a video already resolved via the YouTube Data API and cached on the class
+//   2. the lesson's own resourceUrl, when it happens to be a YouTube link
+//   3. altVideoUrl — a YouTube stand-in for lessons whose main resource can't be
+//      embedded (Khan Academy, MIT OCW, edX and friends all forbid iframing)
+// Anything flagged isAlt is surfaced as "alternative", with the primary resource
+// still one click away, so the two never get confused for each other.
 function getYtEmbed(c){
-  if(c.resolvedYtId) return {kind:"video", id:c.resolvedYtId};
-  return c.type === "video" ? extractYouTubeEmbed(c.resourceUrl) : null;
+  if(!c || c.type === "rest") return null;
+  if(c.resolvedYtId) return {kind:"video", id:c.resolvedYtId, isAlt:!!c.resolvedIsAlt, channel:c.resolvedIsAlt ? (c.altChannel||"") : (c.channel||"")};
+  const primary = extractYouTubeEmbed(c.resourceUrl);
+  if(primary) return Object.assign(primary, {isAlt:false, channel:c.channel||""});
+  const alt = extractYouTubeEmbed(c.altVideoUrl);
+  if(alt) return Object.assign(alt, {isAlt:true, channel:c.altChannel||""});
+  return null;
 }
 function ytApiKey(){ return (state.settings.ytApiKey||"").trim(); }
 async function resolveYouTubeVideoId(plan, c){
@@ -798,9 +816,13 @@ async function resolveYouTubeVideoId(plan, c){
     throw new Error(`YouTube search failed (HTTP ${resp.status}).`);
   }
   const data = await resp.json();
-  const vid = data.items && data.items[0] && data.items[0].id && data.items[0].id.videoId;
+  const item = data.items && data.items[0];
+  const vid = item && item.id && item.id.videoId;
   if(!vid) return null;
   c.resolvedYtId = vid;
+  // Anything we had to go find is an alternative to the lesson's own resource.
+  c.resolvedIsAlt = true;
+  if(item.snippet && item.snippet.channelTitle) c.altChannel = item.snippet.channelTitle;
   plan.updatedAt = Date.now();
   persistPlans();
   return vid;
@@ -1047,10 +1069,16 @@ function applyPlanData(plan, data){
           type: c.type || "video",
           resourceUrl: c.resourceUrl || "",
           channel: c.channel || "",
+          altVideoUrl: c.altVideoUrl || "",
+          altChannel: c.altChannel || "",
           durationMinutes: Number(c.durationMinutes)||plan.dailyMinutes,
           notes: c.notes || "",
           done: (old && old.done) || false,
           completionTime: (old && old.completionTime) || null,
+          // Keep any video we already looked up, so regenerating a plan doesn't
+          // spend YouTube quota re-finding the same clip.
+          resolvedYtId: (old && old.resolvedYtId) || null,
+          resolvedIsAlt: (old && old.resolvedIsAlt) || false,
         };
       }),
       todos: (d.todos||[]).map(t=>{
@@ -1108,6 +1136,8 @@ Once you have enough information (ask brief clarifying questions first if someth
               "type": "video",
               "resourceUrl": "https://www.youtube.com/watch?v=...",
               "channel": "channel name",
+              "altVideoUrl": "https://www.youtube.com/watch?v=... (a YouTube stand-in when resourceUrl can't be embedded)",
+              "altChannel": "channel name for altVideoUrl",
               "durationMinutes": 30,
               "notes": "what to do / focus on"
             }
@@ -1123,6 +1153,7 @@ Once you have enough information (ask brief clarifying questions first if someth
 RULES FOR THE JSON
 - Every week object must contain exactly 7 entries in "days" (dayNumber 1-7), even rest days — use "type":"rest" with an empty or near-empty classes array and a light todo like "Review this week's notes".
 - classes[].type is one of: "video", "practice", "reading", "quiz", "rest".
+- EVERY non-rest class must be watchable inside the app. Whenever resourceUrl is NOT an embeddable YouTube link — i.e. it points at Khan Academy, MIT OCW, edX, Coursera, freeCodeCamp, British Council, a YouTube channel page, or a search page, none of which allow iframing — also set "altVideoUrl" to a real, specific YouTube video or playlist covering the same topic (plus "altChannel"). Same sourcing rule as resourceUrl: it must come from an actual search result, never invented. Omit altVideoUrl only when resourceUrl is already an embeddable YouTube video/playlist.
 - Total class duration for a day should roughly match the learner's daily study time.
 - durationWeeks must never exceed ${MAX_WEEKS}.
 - Always output the WHOLE plan (every week decided so far), never a partial diff — even when the learner only asked to tweak one part.
@@ -1792,11 +1823,12 @@ function ytEmbedSrc(yt, autoplay){
 }
 function renderLessonMedia(plan, c, small){
   const yt = getYtEmbed(c);
-  const canResolve = !yt && c.type === "video" && !!ytApiKey();
+  const canResolve = !yt && c.type !== "rest" && !!ytApiKey();
   if(!yt && !canResolve) return "";
   const attrs = `data-plan="${plan.id}" data-class="${c.id}"`;
 
   if(yt && state.inlineOpen.has(c.id)){
+    const what = yt.kind === "playlist" ? "Playlist" : "Now playing";
     return `
       <div class="lesson-media expanded" data-media="${c.id}">
         <div class="lesson-embed">
@@ -1805,7 +1837,7 @@ function renderLessonMedia(plan, c, small){
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
           <div class="lesson-embed-bar">
-            <span>${yt.kind === "playlist" ? "Playlist" : "Now playing"}</span>
+            <span>${yt.isAlt ? "Alt video" : what}${yt.channel ? " · " + escapeHtml(yt.channel) : ""}</span>
             <span class="lb-actions">
               <button data-action="focus-mode" ${attrs}>Focus mode</button>
               <button data-action="close-inline" ${attrs}>Close</button>
@@ -1815,7 +1847,9 @@ function renderLessonMedia(plan, c, small){
       </div>`;
   }
 
-  const label = canResolve ? `Find and play ${escapeHtml(c.title)}` : `Play ${escapeHtml(c.title)}`;
+  const label = canResolve
+    ? `Find an alternative video for ${escapeHtml(c.title)}`
+    : (yt.isAlt ? `Play alternative video for ${escapeHtml(c.title)}` : `Play ${escapeHtml(c.title)}`);
   let inner, extraCls = "", style = "";
   if(yt && yt.kind === "video"){
     style = ` style="background-image:url('https://img.youtube.com/vi/${yt.id}/hqdefault.jpg')"`;
@@ -1827,9 +1861,10 @@ function renderLessonMedia(plan, c, small){
     extraCls = " icon-only";
     inner = icon("search","ic-lg");
   }
+  const flag = (yt && yt.isAlt) ? `<span class="alt-flag">Alt</span>` : "";
   return `
     <div class="lesson-media${small?" sm":""}" data-media="${c.id}">
-      <button class="lesson-facade${extraCls}" data-action="play-inline" ${attrs} aria-label="${label}"${style}>${inner}</button>
+      <button class="lesson-facade${extraCls}" data-action="play-inline" ${attrs} aria-label="${label}"${style}>${inner}${flag}</button>
     </div>`;
 }
 
@@ -1839,7 +1874,10 @@ function renderClassCard(plan, c){
   }
   const typeIcon = {video:icon("play","ic-sm"), practice:icon("wrench","ic-sm"), reading:icon("bookOpen","ic-sm"), quiz:icon("clipboard","ic-sm")}[c.type] || icon("play","ic-sm");
   const media = renderLessonMedia(plan, c, false);
-  const openExternal = (!media && c.resourceUrl)
+  // The embedded player may only be a stand-in, so keep the lesson's real
+  // resource one click away whenever it isn't what's playing.
+  const emb = getYtEmbed(c);
+  const openExternal = (c.resourceUrl && (!emb || emb.isAlt))
     ? `<a class="btn small" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open ${icon("external","ic-sm")}</a>` : "";
   return `
     <div class="class-card ${c.done?'done':''}" data-card="${c.id}">
@@ -2019,7 +2057,10 @@ function renderTodayClass(it){
     else if(diff <= 0) countdown = `<span class="count-badge ok">due</span>`;
   }
   const media = renderLessonMedia(plan, c, true);
-  const openExternal = (!media && c.resourceUrl)
+  // The embedded player may only be a stand-in, so keep the lesson's real
+  // resource one click away whenever it isn't what's playing.
+  const emb = getYtEmbed(c);
+  const openExternal = (c.resourceUrl && (!emb || emb.isAlt))
     ? `<a class="btn small" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open ${icon("external","ic-sm")}</a>` : "";
   return `
     <div class="class-card" data-card="${c.id}">
@@ -2108,7 +2149,7 @@ function renderSettings(container){
 
     <div class="settings-section card">
       <h3>In-app YouTube playback</h3>
-      <p class="desc">Atlas already asks Claude for a direct link to one specific video per lesson, but sometimes it can only find a channel or a "search for this" note. Add a free YouTube Data API key and Atlas will look up the exact video itself the moment you hit Watch, so every video lesson plays inside the app.</p>
+      <p class="desc">Lessons whose main resource can't be embedded (Khan Academy, MIT OCW, edX and similar all block iframes) fall back to an <strong>alternative YouTube video</strong> — marked <em>Alt</em> — so you can still watch inside the app, with the original resource one click away. Curated paths ship with alternatives already attached. Add a free YouTube Data API key and Atlas will find one automatically for any lesson still missing it, the moment you press play.</p>
       <div class="field">
         <label>YouTube Data API key</label>
         <input type="text" id="ytApiKeyInput" placeholder="AIzaSy..." value="${escapeHtml(s.ytApiKey||"")}">
@@ -2257,6 +2298,16 @@ function sd(title, resourceUrl, opts){
 function vd(title, resourceUrl, channel, opts){
   return {classes:[Object.assign({title, type:"video", resourceUrl, channel, duration:30, notes:""}, opts||{})], todos:(opts&&opts.todo)?[opts.todo]:[]};
 }
+// Embeddable YouTube stand-ins for lessons whose main resource (Khan Academy,
+// MIT OCW, freeCodeCamp…) can't be iframed. Every ID below is taken verbatim
+// from the Global Learning Resource Directory — none are guessed.
+const ALT_CALC  = {altVideoUrl:"https://www.youtube.com/playlist?list=PLDesaqWTN6ESk16YRmzuJ8f7WiRxHnK0y", altChannel:"Professor Leonard"};
+const ALT_LIT   = {altVideoUrl:"https://www.youtube.com/playlist?list=PL8dPuuaLjXtOAKed10QOhrE9wDoWSSa9m", altChannel:"CrashCourse"};
+const ALT_PHYS  = {altVideoUrl:"https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8", altChannel:"CrashCourse"};
+const ALT_CHEM  = {altVideoUrl:"https://www.youtube.com/playlist?list=PLG61LF8I_OXoh2mhx2YNY9s4ekXiriMAf", altChannel:"CrashCourse"};
+const ALT_OCHEM = {altVideoUrl:"https://www.youtube.com/playlist?list=PL0o_zxa4K1BWziAvOKdqsMFSB_MyyLAqS", altChannel:"The Organic Chemistry Tutor"};
+const ALT_BIO   = {altVideoUrl:"https://www.youtube.com/playlist?list=PL7A9646BC5110CF64", altChannel:"Khan Academy"};
+const ALT_PY    = {altVideoUrl:"https://www.youtube.com/watch?v=rfscVS0vtbw", altChannel:"freeCodeCamp"};
 const FEATURED_PATHS = [
   {
     id:"math", title:"High School Math Foundations", subject:"Math", level:"High School", dailyMinutes:40,
@@ -2284,12 +2335,12 @@ const FEATURED_PATHS = [
     blurb:"Limits through multivariable calculus, linear algebra and differential equations — Khan Academy, Professor Leonard, and 3Blue1Brown.",
     weekThemes:["Single-Variable Calculus", "Multivariable Calc & Linear Algebra"],
     days:[
-      sd("Limits & Continuity","https://www.khanacademy.org/math/calculus-1",{todo:"Solve 10 limit problems"}),
-      sd("Derivatives & Differentiation Rules","https://www.khanacademy.org/math/calculus-1",{todo:"Practice chain rule & product rule"}),
-      sd("Derivative Applications","https://www.khanacademy.org/math/calculus-1",{todo:"Solve 3 optimization word problems"}),
-      sd("Integrals & the Fundamental Theorem","https://www.khanacademy.org/math/calculus-1",{todo:"Practice definite integrals"}),
-      sd("Integral Applications","https://www.khanacademy.org/math/calculus-1",{todo:"Solve area-between-curves problems"}),
-      vd("Full Lecture Practice Session","https://www.youtube.com/@ProfessorLeonard","Professor Leonard",{duration:45,todo:"Follow one full lecture and take notes"}),
+      sd("Limits & Continuity","https://www.khanacademy.org/math/calculus-1",{...ALT_CALC, todo:"Solve 10 limit problems"}),
+      sd("Derivatives & Differentiation Rules","https://www.khanacademy.org/math/calculus-1",{...ALT_CALC, todo:"Practice chain rule & product rule"}),
+      sd("Derivative Applications","https://www.khanacademy.org/math/calculus-1",{...ALT_CALC, todo:"Solve 3 optimization word problems"}),
+      sd("Integrals & the Fundamental Theorem","https://www.khanacademy.org/math/calculus-1",{...ALT_CALC, todo:"Practice definite integrals"}),
+      sd("Integral Applications","https://www.khanacademy.org/math/calculus-1",{...ALT_CALC, todo:"Solve area-between-curves problems"}),
+      vd("Full Lecture Practice Session","https://www.youtube.com/@ProfessorLeonard","Professor Leonard",{...ALT_CALC, duration:45,todo:"Follow one full lecture and take notes"}),
       REST_DAY,
       sd("Multivariable Calculus — Partial Derivatives","https://www.khanacademy.org/math/multivariable-calculus",{todo:"Practice partial derivatives"}),
       sd("Multivariable Calculus — Multiple Integrals","https://www.khanacademy.org/math/multivariable-calculus",{todo:"Solve a double-integral problem set"}),
@@ -2309,7 +2360,7 @@ const FEATURED_PATHS = [
       sd("Grammar & Mechanics","https://www.khanacademy.org/humanities/grammar",{todo:"Complete a grammar practice set"}),
       sd("Vocabulary Building","https://www.khanacademy.org/ela",{todo:"Learn 15 new words and use each in a sentence"}),
       vd("Crash Course Literature — Part 1","https://www.youtube.com/playlist?list=PL8dPuuaLjXtOAKed10QOhrE9wDoWSSa9m","CrashCourse",{duration:15,todo:"Watch 1-2 episodes and note the central theme"}),
-      sd("Literature Analysis","https://www.khanacademy.org/ela",{todo:"Analyze one poem or short story"}),
+      sd("Literature Analysis","https://www.khanacademy.org/ela",{...ALT_LIT, todo:"Analyze one poem or short story"}),
       sd("Academic Essay Writing","https://www.khanacademy.org/ela",{todo:"Draft a 5-paragraph essay outline"}),
       REST_DAY,
       sd("Creative Writing","https://www.khanacademy.org/ela",{todo:"Write a short creative piece (500 words)"}),
@@ -2326,19 +2377,19 @@ const FEATURED_PATHS = [
     blurb:"Mechanics, E&M, waves, thermodynamics and quantum physics — Khan Academy plus Crash Course Physics' full 46-episode playlist.",
     weekThemes:["Mechanics, Waves & Thermo", "E&M, Optics & Modern Physics"],
     days:[
-      sd("Mechanics — Forces & Motion","https://www.khanacademy.org/science/physics",{todo:"Solve 5 kinematics problems"}),
+      sd("Mechanics — Forces & Motion","https://www.khanacademy.org/science/physics",{...ALT_PHYS, todo:"Solve 5 kinematics problems"}),
       vd("Crash Course Physics — Episodes 1-5","https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8","CrashCourse",{duration:40,todo:"Watch episodes 1-5 and take notes"}),
-      sd("Waves & Sound","https://www.khanacademy.org/science/physics",{todo:"Practice wave-property problems"}),
-      sd("Thermodynamics","https://www.khanacademy.org/science/physics",{todo:"Solve 3 thermodynamics problems"}),
+      sd("Waves & Sound","https://www.khanacademy.org/science/physics",{...ALT_PHYS, todo:"Practice wave-property problems"}),
+      sd("Thermodynamics","https://www.khanacademy.org/science/physics",{...ALT_PHYS, todo:"Solve 3 thermodynamics problems"}),
       vd("Crash Course Physics — Episodes 6-10","https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8","CrashCourse",{duration:40,todo:"Watch episodes 6-10 and take notes"}),
-      sd("Mechanics Review & Practice","https://www.khanacademy.org/science/physics",{todo:"Redo any missed mechanics problems"}),
+      sd("Mechanics Review & Practice","https://www.khanacademy.org/science/physics",{...ALT_PHYS, todo:"Redo any missed mechanics problems"}),
       REST_DAY,
-      sd("Electricity & Magnetism","https://www.khanacademy.org/science/physics",{todo:"Solve 5 circuit problems"}),
-      sd("Optics","https://www.khanacademy.org/science/physics",{todo:"Practice lens & mirror ray diagrams"}),
+      sd("Electricity & Magnetism","https://www.khanacademy.org/science/physics",{...ALT_PHYS, todo:"Solve 5 circuit problems"}),
+      sd("Optics","https://www.khanacademy.org/science/physics",{...ALT_PHYS, todo:"Practice lens & mirror ray diagrams"}),
       vd("Crash Course Physics — Episodes 11-15","https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8","CrashCourse",{duration:40,todo:"Watch episodes 11-15 and take notes"}),
-      sd("Modern & Quantum Physics","https://www.khanacademy.org/science/physics",{todo:"Read about wave-particle duality, summarize it"}),
-      sd("Astrophysics & Cosmology","https://www.khanacademy.org/science/physics",{todo:"Watch one astrophysics topic video and note 3 facts"}),
-      vd("MIT OCW Physics Lectures","https://www.youtube.com/@mitocw","MIT OpenCourseWare",{duration:45,todo:"Watch one full lecture on a topic you found hardest"}),
+      sd("Modern & Quantum Physics","https://www.khanacademy.org/science/physics",{...ALT_PHYS, todo:"Read about wave-particle duality, summarize it"}),
+      sd("Astrophysics & Cosmology","https://www.khanacademy.org/science/physics",{...ALT_PHYS, todo:"Watch one astrophysics topic video and note 3 facts"}),
+      vd("MIT OCW Physics Lectures","https://www.youtube.com/@mitocw","MIT OpenCourseWare",{...ALT_PHYS, duration:45,todo:"Watch one full lecture on a topic you found hardest"}),
       REST_DAY,
     ]
   },
@@ -2347,17 +2398,17 @@ const FEATURED_PATHS = [
     blurb:"General, organic, physical and biochemistry — Khan Academy, Crash Course Chemistry, and The Organic Chemistry Tutor's full playlists.",
     weekThemes:["General & Physical Chemistry", "Organic Chemistry & Biochemistry"],
     days:[
-      sd("General & Inorganic Chemistry","https://www.khanacademy.org/science/chemistry",{todo:"Practice balancing chemical equations"}),
+      sd("General & Inorganic Chemistry","https://www.khanacademy.org/science/chemistry",{...ALT_CHEM, todo:"Practice balancing chemical equations"}),
       vd("Crash Course Chemistry — Episodes 1-5","https://www.youtube.com/playlist?list=PLG61LF8I_OXoh2mhx2YNY9s4ekXiriMAf","CrashCourse",{duration:40,todo:"Watch episodes 1-5 and take notes"}),
-      sd("Physical Chemistry Basics","https://www.khanacademy.org/science/chemistry",{todo:"Practice thermochemistry problems"}),
-      sd("Analytical Chemistry","https://www.khanacademy.org/science/chemistry",{todo:"Practice stoichiometry calculations"}),
+      sd("Physical Chemistry Basics","https://www.khanacademy.org/science/chemistry",{...ALT_CHEM, todo:"Practice thermochemistry problems"}),
+      sd("Analytical Chemistry","https://www.khanacademy.org/science/chemistry",{...ALT_CHEM, todo:"Practice stoichiometry calculations"}),
       vd("Crash Course Chemistry — Episodes 6-10","https://www.youtube.com/playlist?list=PLG61LF8I_OXoh2mhx2YNY9s4ekXiriMAf","CrashCourse",{duration:40,todo:"Watch episodes 6-10 and take notes"}),
-      sd("Environmental Chemistry","https://www.khanacademy.org/science/chemistry",{todo:"Read one case study and summarize it"}),
+      sd("Environmental Chemistry","https://www.khanacademy.org/science/chemistry",{...ALT_CHEM, todo:"Read one case study and summarize it"}),
       REST_DAY,
       vd("Organic Chemistry — Full Playlist Pt.1","https://www.youtube.com/playlist?list=PL0o_zxa4K1BWziAvOKdqsMFSB_MyyLAqS","The Organic Chemistry Tutor",{duration:40,todo:"Watch the intro lessons and take notes on nomenclature"}),
       vd("Organic Chemistry — Full Playlist Pt.2","https://www.youtube.com/playlist?list=PL0o_zxa4K1BWziAvOKdqsMFSB_MyyLAqS","The Organic Chemistry Tutor",{duration:40,todo:"Continue the playlist, practice reaction mechanisms"}),
-      sd("Organic Chemistry — Khan Academy","https://www.khanacademy.org/science/chemistry",{todo:"Practice functional group identification"}),
-      sd("Biochemistry","https://www.khanacademy.org/science/chemistry",{todo:"Read about macromolecules, summarize each"}),
+      sd("Organic Chemistry — Khan Academy","https://www.khanacademy.org/science/chemistry",{...ALT_OCHEM, todo:"Practice functional group identification"}),
+      sd("Biochemistry","https://www.khanacademy.org/science/chemistry",{...ALT_CHEM, todo:"Read about macromolecules, summarize each"}),
       vd("Crash Course Chemistry — Finale","https://www.youtube.com/playlist?list=PLG61LF8I_OXoh2mhx2YNY9s4ekXiriMAf","CrashCourse",{duration:40,todo:"Finish the playlist"}),
       sd("Practice Problems & Review","https://www.khanacademy.org/science/chemistry",{todo:"Complete a mixed review problem set"}),
       REST_DAY,
@@ -2368,19 +2419,19 @@ const FEATURED_PATHS = [
     blurb:"Cell biology, genetics, anatomy, ecology and molecular biology — Khan Academy's Biology playlist plus Crash Course Biology.",
     weekThemes:["Cells, Genetics & Anatomy", "Ecology, Microbiology & Molecular Biology"],
     days:[
-      sd("Cell Biology & Genetics","https://www.khanacademy.org/science/biology",{todo:"Diagram a cell and label its organelles"}),
+      sd("Cell Biology & Genetics","https://www.khanacademy.org/science/biology",{...ALT_BIO, todo:"Diagram a cell and label its organelles"}),
       vd("Khan Academy Biology Playlist — Pt.1","https://www.youtube.com/playlist?list=PL7A9646BC5110CF64","Khan Academy",{duration:30,todo:"Watch the first few videos and take notes"}),
-      sd("Human Anatomy & Physiology","https://www.khanacademy.org/science/biology",{todo:"Study one body system and summarize its function"}),
-      sd("Ecology & Evolution","https://www.khanacademy.org/science/biology",{todo:"Explain natural selection in your own words"}),
-      vd("Crash Course Biology","https://www.youtube.com/@crashcourse","CrashCourse",{duration:15,todo:"Watch one episode and note 3 key takeaways"}),
-      sd("Genetics Practice & Review","https://www.khanacademy.org/science/biology",{todo:"Solve 3 Punnett square problems"}),
+      sd("Human Anatomy & Physiology","https://www.khanacademy.org/science/biology",{...ALT_BIO, todo:"Study one body system and summarize its function"}),
+      sd("Ecology & Evolution","https://www.khanacademy.org/science/biology",{...ALT_BIO, todo:"Explain natural selection in your own words"}),
+      vd("Crash Course Biology","https://www.youtube.com/@crashcourse","CrashCourse",{...ALT_BIO, duration:15,todo:"Watch one episode and note 3 key takeaways"}),
+      sd("Genetics Practice & Review","https://www.khanacademy.org/science/biology",{...ALT_BIO, todo:"Solve 3 Punnett square problems"}),
       REST_DAY,
-      sd("Microbiology","https://www.khanacademy.org/science/biology",{todo:"Compare bacteria, viruses, and fungi"}),
-      sd("Botany & Plant Science","https://www.khanacademy.org/science/biology",{todo:"Diagram photosynthesis"}),
+      sd("Microbiology","https://www.khanacademy.org/science/biology",{...ALT_BIO, todo:"Compare bacteria, viruses, and fungi"}),
+      sd("Botany & Plant Science","https://www.khanacademy.org/science/biology",{...ALT_BIO, todo:"Diagram photosynthesis"}),
       vd("Khan Academy Biology Playlist — Pt.2","https://www.youtube.com/playlist?list=PL7A9646BC5110CF64","Khan Academy",{duration:30,todo:"Continue the playlist, focus on molecular topics"}),
-      sd("Molecular Biology","https://www.khanacademy.org/science/biology",{todo:"Summarize DNA replication & protein synthesis"}),
-      sd("MIT OCW Intro Biology","https://ocw.mit.edu/search/?d=Biology",{todo:"Skim one lecture's notes on a topic you're weakest in"}),
-      sd("Review Quiz & Practice","https://www.khanacademy.org/science/biology",{todo:"Take a mixed practice quiz"}),
+      sd("Molecular Biology","https://www.khanacademy.org/science/biology",{...ALT_BIO, todo:"Summarize DNA replication & protein synthesis"}),
+      sd("MIT OCW Intro Biology","https://ocw.mit.edu/search/?d=Biology",{...ALT_BIO, todo:"Skim one lecture's notes on a topic you're weakest in"}),
+      sd("Review Quiz & Practice","https://www.khanacademy.org/science/biology",{...ALT_BIO, todo:"Take a mixed practice quiz"}),
       REST_DAY,
     ]
   },
@@ -2412,17 +2463,17 @@ const FEATURED_PATHS = [
     days:[
       vd("Learn Python — Full Course Pt.1","https://www.youtube.com/watch?v=rfscVS0vtbw","freeCodeCamp",{duration:45,todo:"Follow along and write your first 3 scripts"}),
       vd("Learn Python — Full Course Pt.2","https://www.youtube.com/watch?v=rfscVS0vtbw","freeCodeCamp",{duration:45,todo:"Continue the course, practice loops & functions"}),
-      sd("Python Fundamentals Practice","https://www.freecodecamp.org/learn",{todo:"Complete a variables & control-flow exercise set"}),
-      sd("Object-Oriented Python","https://www.freecodecamp.org/learn",{todo:"Write a simple class with 2 methods"}),
+      sd("Python Fundamentals Practice","https://www.freecodecamp.org/learn",{...ALT_PY, todo:"Complete a variables & control-flow exercise set"}),
+      sd("Object-Oriented Python","https://www.freecodecamp.org/learn",{...ALT_PY, todo:"Write a simple class with 2 methods"}),
       vd("Learn Python — Full Course Pt.3","https://www.youtube.com/watch?v=rfscVS0vtbw","freeCodeCamp",{duration:45,todo:"Finish the course, practice file I/O"}),
-      sd("Python for Data Science (NumPy/Pandas)","https://www.freecodecamp.org/learn",{todo:"Load a CSV with pandas and explore it"}),
+      sd("Python for Data Science (NumPy/Pandas)","https://www.freecodecamp.org/learn",{...ALT_PY, todo:"Load a CSV with pandas and explore it"}),
       REST_DAY,
-      sd("Python for Automation & Scripting","https://www.freecodecamp.org/learn",{todo:"Write a script that automates a small task"}),
+      sd("Python for Automation & Scripting","https://www.freecodecamp.org/learn",{...ALT_PY, todo:"Write a script that automates a small task"}),
       vd("Python Tutorials — OOP & Tools","https://www.youtube.com/@coreyms","Corey Schafer",{duration:25,todo:"Watch one OOP video and apply it to your own class"}),
-      sd("Web Development with Python (Django/Flask)","https://www.freecodecamp.org/learn",{todo:"Build a minimal Flask 'hello world' app"}),
-      sd("Python for Machine Learning Intro","https://www.freecodecamp.org/learn",{todo:"Read the intro module on ML libraries"}),
-      sd("Data Structures in Python","https://www.freecodecamp.org/learn",{todo:"Practice with lists, dicts, and sets"}),
-      sd("Build a Python Project","https://www.freecodecamp.org/learn",{todo:"Build one small end-to-end script or app"}),
+      sd("Web Development with Python (Django/Flask)","https://www.freecodecamp.org/learn",{...ALT_PY, todo:"Build a minimal Flask 'hello world' app"}),
+      sd("Python for Machine Learning Intro","https://www.freecodecamp.org/learn",{...ALT_PY, todo:"Read the intro module on ML libraries"}),
+      sd("Data Structures in Python","https://www.freecodecamp.org/learn",{...ALT_PY, todo:"Practice with lists, dicts, and sets"}),
+      sd("Build a Python Project","https://www.freecodecamp.org/learn",{...ALT_PY, todo:"Build one small end-to-end script or app"}),
       REST_DAY,
     ]
   },
@@ -2485,6 +2536,7 @@ function buildFeaturedPlan(pathId){
         dayNumber,
         classes: d.classes.map(c=>({
           id:uid(), title:c.title, type:c.type, resourceUrl:c.resourceUrl, channel:c.channel||"",
+          altVideoUrl:c.altVideoUrl||"", altChannel:c.altChannel||"",
           durationMinutes:c.duration||def.dailyMinutes, notes:c.notes||"", done:false, completionTime:null
         })),
         todos: (d.todos||[]).map(t=>({id:uid(), text:t, done:false}))
