@@ -1,2 +1,5 @@
-link-report.json
 __pycache__/
+.pytest_cache/
+link-report.json
+server/*.db
+server/data_store/

@@ -900,7 +900,7 @@ const store = {
 
 let state = {
   settings: store.get("settings", {theme:"dark", apiKey:"", model:"claude-sonnet-5", effort:"medium", notifEnabled:false,
-    driveClientId:DEFAULT_DRIVE_CLIENT_ID, driveConnected:false, driveFileId:null, driveLastSync:null, ytApiKey:""}),
+    driveClientId:DEFAULT_DRIVE_CLIENT_ID, driveConnected:false, driveFileId:null, driveLastSync:null, ytApiKey:"", backendUrl:"", accessCode:""}),
   plans: store.get("plans", []),
   activePlanId: store.get("activePlanId", null),
   view: "home",
@@ -917,6 +917,7 @@ let state = {
 let syncDebounceTimer = null;
 function persistPlans(){
   store.set("plans", state.plans);
+  pushToBackend();
   if(state.settings.driveConnected){
     clearTimeout(syncDebounceTimer);
     syncDebounceTimer = setTimeout(syncToDrive, 4000);
@@ -1189,7 +1190,8 @@ RULES FOR THE JSON
 
 async function sendToClaude(plan, userText, {onStatus, onChunk} = {}){
   const apiKey = (state.settings.apiKey||"").trim();
-  if(!apiKey) throw new Error("missing-api-key");
+  // With a backend configured the server holds the key, so visitors need none.
+  if(!apiKey && !backendUrl()) throw new Error("missing-api-key");
 
   plan.chat.push({role:"user", content:userText, ts:Date.now()});
   persistPlans();
@@ -1224,19 +1226,37 @@ async function sendToClaude(plan, userText, {onStatus, onChunk} = {}){
     if(state.settings.effort) body.output_config = {effort: state.settings.effort};
 
     let resp;
+    const via = backendUrl();
     try{
-      resp = await fetch("https://api.anthropic.com/v1/messages", {
-        method:"POST",
-        headers:{
-          "content-type":"application/json",
-          "x-api-key": apiKey,
-          "anthropic-version":"2023-06-01",
-          "anthropic-dangerous-direct-browser-access":"true"
-        },
-        body: JSON.stringify(body)
-      });
+      if(via){
+        // Shared mode: the server injects the owner's key and enforces caps.
+        resp = await fetch(via + "/api/chat", {
+          method:"POST",
+          headers: Object.assign({"content-type":"application/json"}, backendHeaders()),
+          body: JSON.stringify({
+            messages: apiMessages,
+            system: body.system,
+            model: state.settings.model,
+            effort: state.settings.effort || null,
+          })
+        });
+        rememberVisitorToken(resp);
+      } else {
+        resp = await fetch("https://api.anthropic.com/v1/messages", {
+          method:"POST",
+          headers:{
+            "content-type":"application/json",
+            "x-api-key": apiKey,
+            "anthropic-version":"2023-06-01",
+            "anthropic-dangerous-direct-browser-access":"true"
+          },
+          body: JSON.stringify(body)
+        });
+      }
     }catch(networkErr){
-      throw new Error("Network error reaching the Claude API. Check your connection.");
+      throw new Error(via
+        ? "Couldn't reach the Atlas server. It may be asleep or offline."
+        : "Network error reaching the Claude API. Check your connection.");
     }
 
     if(!resp.ok){
@@ -1565,9 +1585,11 @@ function renderSidebar(){
     b.setAttribute("aria-current", isActive ? "page" : "false");
   });
   const ks = document.getElementById("keyStatus");
-  const hasKey = !!(state.settings.apiKey||"").trim();
+  const shared = !!backendUrl();
+  const hasKey = shared || !!(state.settings.apiKey||"").trim();
   ks.className = "key-status " + (hasKey ? "ok" : "bad");
-  ks.innerHTML = `<span class="pip"></span> ${hasKey ? "Key set" : "No key"}`;
+  ks.innerHTML = `<span class="pip"></span> ${shared ? "Shared" : (hasKey ? "Key set" : "No key")}`;
+  ks.title = shared ? "Using the shared Atlas server — no key needed" : "";
 }
 
 function setTopbar(title, sub){
@@ -1685,7 +1707,7 @@ function buildInitialMessage(plan){
 async function runChatTurn(userText){
   const plan = activePlan();
   if(!plan) return;
-  if(!(state.settings.apiKey||"").trim()){
+  if(!(state.settings.apiKey||"").trim() && !backendUrl()){
     toast("Add your Claude API key in Settings first.", "error");
     state.view = "settings"; renderView();
     return;
@@ -2130,8 +2152,27 @@ function renderSettings(container){
   const notifState = ("Notification" in window) ? Notification.permission : "unsupported";
   container.innerHTML = `
     <div class="settings-section card">
+      <h3>Shared Atlas server</h3>
+      <p class="desc">Point Atlas at a backend and it stops asking for a key or a Drive connection — the server supplies both, and stores your plans for you. Leave this empty to run fully on your own key and your own Drive. ${backendUrl() ? `<span class="badge" style="margin-left:6px;">Active</span>` : ""}</p>
+      <div class="field">
+        <label>Server URL</label>
+        <input type="text" id="backendUrlInput" placeholder="https://atlas-backend.onrender.com" value="${escapeHtml(s.backendUrl||"")}">
+      </div>
+      <div class="field" style="margin-bottom:8px;">
+        <label>Access code (only if the server asks for one)</label>
+        <input type="text" id="accessCodeInput" placeholder="leave empty if not required" value="${escapeHtml(s.accessCode||"")}">
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn small" id="btnTestBackend">Test connection</button>
+      </div>
+      <p class="desc" style="margin-top:12px; margin-bottom:0;">Setup lives in <code>server/README.md</code>. The owner's Claude key and Google credentials stay on the server and are never sent to browsers.</p>
+    </div>
+
+    <div class="settings-section card">
       <h3>Claude API key</h3>
-      <p class="desc">Stored only in this browser's local storage — never sent anywhere except directly to Anthropic's API.</p>
+      <p class="desc">${backendUrl()
+        ? "Not needed while a shared server is configured — the server uses its own key. Anything set here is ignored."
+        : "Stored only in this browser's local storage — never sent anywhere except directly to Anthropic's API."}</p>
       <div class="pwd-wrap">
         <input type="password" id="apiKeyInput" placeholder="sk-ant-..." value="${escapeHtml(s.apiKey||"")}">
         <button class="btn small" id="btnToggleKeyVis">Show</button>
@@ -2263,6 +2304,30 @@ function renderSettings(container){
   document.getElementById("importFile").onchange = importData;
   document.getElementById("btnClearAll").onclick = clearAllData;
   document.getElementById("ytApiKeyInput").onchange = e=>{ state.settings.ytApiKey = e.target.value.trim(); persistSettings(); };
+  document.getElementById("backendUrlInput").onchange = e=>{
+    state.settings.backendUrl = e.target.value.trim();
+    persistSettings(); renderSidebar(); renderView();
+    if(backendUrl()) pullFromBackend();
+  };
+  document.getElementById("accessCodeInput").onchange = e=>{ state.settings.accessCode = e.target.value.trim(); persistSettings(); };
+  document.getElementById("btnTestBackend").onclick = async ()=>{
+    const via = (document.getElementById("backendUrlInput").value||"").trim().replace(/\/+$/,"");
+    if(!via){ toast("Enter a server URL first.", "error"); return; }
+    try{
+      const resp = await fetch(via + "/api/health");
+      if(!resp.ok) throw new Error(`Server replied ${resp.status}`);
+      const h = await resp.json();
+      const bits = [
+        h.chat ? "Claude ready" : "no Claude key on server",
+        `storage: ${h.storage}`,
+        h.quota ? `${h.quota.remaining}/${h.quota.cap} requests left today` : "",
+        h.accessCode ? "access code required" : "",
+      ].filter(Boolean);
+      toast("Connected — " + bits.join(" · "), "success");
+    }catch(e){
+      toast("Couldn't reach that server: " + (e.message||"unknown error"), "error");
+    }
+  };
 
   if(s.driveConnected){
     document.getElementById("btnDriveSyncNow").onclick = async ()=>{ await syncToDrive(); toast("Synced to Drive", "success"); renderView(); };
@@ -2318,7 +2383,7 @@ function clearAllData(){
   Object.keys(localStorage).filter(k=>k.startsWith(LS_PREFIX)).forEach(k=>localStorage.removeItem(k));
   state.plans = []; state.activePlanId = null;
   state.settings = {theme:"dark", apiKey:"", model:"claude-sonnet-5", effort:"medium", notifEnabled:false,
-    driveClientId:DEFAULT_DRIVE_CLIENT_ID, driveConnected:false, driveFileId:null, driveLastSync:null, ytApiKey:""};
+    driveClientId:DEFAULT_DRIVE_CLIENT_ID, driveConnected:false, driveFileId:null, driveLastSync:null, ytApiKey:"", backendUrl:"", accessCode:""};
   driveAccessToken = null;
   state.view = "chat";
   applyTheme(); renderView();
@@ -2689,7 +2754,7 @@ function openNewPlanModal(){
   document.getElementById("npCreate").onclick = ()=>{
     const subject = document.getElementById("npSubject").value.trim();
     if(!subject){ toast("Tell Atlas what you want to learn first.", "error"); return; }
-    if(!(state.settings.apiKey||"").trim()){
+    if(!(state.settings.apiKey||"").trim() && !backendUrl()){
       toast("Add your Claude API key in Settings first.", "error");
       closeModal(); state.view="settings"; renderView();
       return;
@@ -2838,6 +2903,70 @@ document.addEventListener("click", e=>{
   }
   else if(act==="focus-mode"){ openWatchModal(action.dataset.plan, action.dataset.class); }
 });
+
+/* ============================================================
+   Shared backend (optional)
+   When a backend URL is set, Atlas stops asking each visitor for their own
+   Claude key and Google Drive: the server holds the owner's credentials,
+   enforces spend caps, and stores each visitor's plans in the owner's Drive
+   under a separate file. With no backend set, everything below is inert and
+   the app works exactly as before — own key, own Drive.
+============================================================ */
+function backendUrl(){ return (state.settings.backendUrl||"").trim().replace(/\/+$/,""); }
+function backendHeaders(){
+  const h = {};
+  const token = store.get("visitorToken", "");
+  if(token) h["x-atlas-visitor"] = token;
+  const code = (state.settings.accessCode||"").trim();
+  if(code) h["x-atlas-code"] = code;
+  return h;
+}
+// The server issues an anonymous, signed id on first contact; holding onto it
+// is what makes a returning browser find its own saved plans.
+function rememberVisitorToken(resp){
+  try{
+    const token = resp.headers.get("x-atlas-visitor");
+    if(token) store.set("visitorToken", token);
+  }catch(e){}
+}
+
+let backendSaveTimer = null;
+async function pullFromBackend(){
+  const via = backendUrl();
+  if(!via) return;
+  try{
+    const resp = await fetch(via + "/api/state", {headers: backendHeaders()});
+    if(!resp.ok) return;
+    rememberVisitorToken(resp);
+    const data = await resp.json();
+    const remote = data && data.state;
+    if(!remote || !Array.isArray(remote.plans)) return;
+    const merged = mergePlansData(state.plans, remote.plans);
+    const changed = JSON.stringify(merged) !== JSON.stringify(state.plans);
+    state.plans = merged;
+    store.set("plans", state.plans);
+    if(changed){ renderView(); toast("Synced your plans from the server", "success"); }
+  }catch(e){
+    console.info("Backend state pull skipped:", e && e.message);
+  }
+}
+function pushToBackend(){
+  const via = backendUrl();
+  if(!via) return;
+  clearTimeout(backendSaveTimer);
+  backendSaveTimer = setTimeout(async ()=>{
+    try{
+      const resp = await fetch(via + "/api/state", {
+        method:"PUT",
+        headers: Object.assign({"content-type":"application/json"}, backendHeaders()),
+        body: JSON.stringify({state:{plans: state.plans}})
+      });
+      rememberVisitorToken(resp);
+    }catch(e){
+      console.info("Backend state push failed:", e && e.message);
+    }
+  }, 3000);
+}
 
 /* ============================================================
    Course data — courses.json, generated by tools/build_catalog.py from
@@ -3340,6 +3469,7 @@ fillIconSlots();
 applyTheme();
 renderView();
 loadCourseData();
+pullFromBackend();
 checkReminders();
 autoSyncFromDrive();
 

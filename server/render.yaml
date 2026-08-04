@@ -1,0 +1,32 @@
+# Render blueprint — push this repo, then set the secret env vars in the
+# dashboard. Never put real keys in this file; it is committed.
+services:
+  - type: web
+    name: atlas-backend
+    runtime: docker
+    dockerfilePath: ./server/Dockerfile
+    dockerContext: ./server
+    healthCheckPath: /api/health
+    disk:
+      name: atlas-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: ANTHROPIC_API_KEY     # secret — set in dashboard
+        sync: false
+      - key: GOOGLE_CLIENT_ID      # secret — set in dashboard
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET  # secret — set in dashboard
+        sync: false
+      - key: GOOGLE_REFRESH_TOKEN  # secret — set in dashboard
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALLOWED_ORIGINS
+        value: https://nasif-hbd.github.io
+      - key: DAILY_REQUEST_CAP
+        value: "300"
+      - key: PER_VISITOR_DAILY_CAP
+        value: "25"
+      - key: DB_PATH
+        value: /data/atlas.db
