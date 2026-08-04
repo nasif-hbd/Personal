@@ -470,6 +470,29 @@ label{
   transition:color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
 }
 .lesson-embed-bar button:hover{color:var(--accent); border-color:var(--accent);}
+.watch-bar{height:4px; background:rgba(255,255,255,.10); overflow:hidden;}
+.watch-bar-fill{
+  height:100%; width:0; background:linear-gradient(90deg, var(--accent), var(--accent-2));
+  box-shadow:0 0 12px rgba(34,211,238,.8); transition:width .6s linear;
+}
+.watch-pct{color:var(--text-faint); align-self:center;}
+.facade-progress{
+  position:absolute; left:0; right:0; bottom:0; height:4px; z-index:2;
+  background:rgba(0,0,0,.55);
+}
+.facade-progress > span{
+  display:block; height:100%; background:linear-gradient(90deg, var(--accent), var(--accent-2));
+  box-shadow:0 0 10px rgba(34,211,238,.9);
+}
+.plan-card-remove{
+  position:absolute; top:10px; right:10px; z-index:3; width:26px; height:26px; padding:0;
+  display:inline-flex; align-items:center; justify-content:center; cursor:pointer;
+  border-radius:8px; border:1px solid var(--line); background:var(--surface-2); color:var(--text-faint);
+  opacity:0; transition:opacity var(--dur) var(--ease), color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+.plan-card:hover .plan-card-remove, .plan-card-remove:focus-visible{opacity:1;}
+.plan-card-remove:hover{color:var(--danger); border-color:var(--danger);}
+@media (hover: none){ .plan-card-remove{opacity:1;} }
 
 .todo-row{display:flex; align-items:flex-start; gap:10px; font-size:13.5px; padding:6px 2px;}
 .todo-row.done .txt{text-decoration:line-through; color:var(--text-faint);}
@@ -1556,11 +1579,14 @@ function renderView(){
   v.classList.remove("view-anim");
   void v.offsetWidth;
   v.classList.add("view-anim");
-  if(state.view === "home") return renderHome(v);
-  if(state.view === "chat") return renderChat(v);
-  if(state.view === "plans") return renderPlans(v);
-  if(state.view === "today") return renderToday(v);
-  if(state.view === "settings") return renderSettings(v);
+  if(state.view === "home") renderHome(v);
+  else if(state.view === "chat") renderChat(v);
+  else if(state.view === "plans") renderPlans(v);
+  else if(state.view === "today") renderToday(v);
+  else if(state.view === "settings") renderSettings(v);
+  // Any iframe rebuilt by that render is a brand-new element, so re-attach the
+  // YouTube player objects that report watch progress back to us.
+  bindInlinePlayers();
 }
 
 /* ============================================================
@@ -1735,6 +1761,7 @@ function renderPlanCard(p){
   const pct = planProgress(p);
   return `
     <div class="card plan-card" data-action="open-plan-detail" data-id="${p.id}" tabindex="0" role="button" aria-label="Open ${escapeHtml(p.title)}">
+      <button class="plan-card-remove" data-action="delete-plan" data-id="${p.id}" title="Remove this plan" aria-label="Remove ${escapeHtml(p.title)}">${icon("x","ic-sm")}</button>
       <span class="badge">${escapeHtml(p.subject||LANGS[p.language]||p.language)}</span>
       <h3>${escapeHtml(p.title)}</h3>
       <div class="meta">${p.durationWeeks} week(s) · ${p.dailyMinutes} min/day · ${p.level}</div>
@@ -1817,9 +1844,12 @@ function renderDayRow(plan, week, day){
 // inside the card, spanning its full width, and stays open across re-renders.
 function ytEmbedSrc(yt, autoplay){
   const a = autoplay ? "1" : "0";
+  // enablejsapi lets the IFrame Player API report playback position back to us;
+  // origin is required alongside it, but only meaningful over http(s).
+  const origin = location.protocol.startsWith("http") ? `&origin=${encodeURIComponent(location.origin)}` : "";
   return yt.kind === "playlist"
-    ? `https://www.youtube-nocookie.com/embed/videoseries?list=${yt.id}&rel=0&autoplay=${a}`
-    : `https://www.youtube-nocookie.com/embed/${yt.id}?rel=0&autoplay=${a}`;
+    ? `https://www.youtube-nocookie.com/embed/videoseries?list=${yt.id}&rel=0&autoplay=${a}&enablejsapi=1${origin}`
+    : `https://www.youtube-nocookie.com/embed/${yt.id}?rel=0&autoplay=${a}&enablejsapi=1${origin}`;
 }
 function renderLessonMedia(plan, c, small){
   const yt = getYtEmbed(c);
@@ -1833,12 +1863,16 @@ function renderLessonMedia(plan, c, small){
       <div class="lesson-media expanded" data-media="${c.id}">
         <div class="lesson-embed">
           <div class="frame">
-            <iframe src="${ytEmbedSrc(yt, true)}" title="${escapeHtml(c.title)}"
+            <iframe id="ytf-${c.id}" data-yt-class="${c.id}" src="${ytEmbedSrc(yt, true)}" title="${escapeHtml(c.title)}"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <div class="watch-bar" title="How much of this video you've watched">
+            <div class="watch-bar-fill" data-watchfill="${c.id}" style="width:${Math.round(watchPct(c)*100)}%"></div>
           </div>
           <div class="lesson-embed-bar">
             <span>${yt.isAlt ? "Alt video" : what}${yt.channel ? " · " + escapeHtml(yt.channel) : ""}</span>
             <span class="lb-actions">
+              <span class="watch-pct" data-watchpct="${c.id}">${Math.round(watchPct(c)*100)}% watched</span>
               <button data-action="focus-mode" ${attrs}>Focus mode</button>
               <button data-action="close-inline" ${attrs}>Close</button>
             </span>
@@ -1862,9 +1896,12 @@ function renderLessonMedia(plan, c, small){
     inner = icon("search","ic-lg");
   }
   const flag = (yt && yt.isAlt) ? `<span class="alt-flag">Alt</span>` : "";
+  const seen = watchPct(c);
+  const seenBar = seen > 0.01
+    ? `<span class="facade-progress" title="${Math.round(seen*100)}% watched"><span style="width:${Math.round(seen*100)}%"></span></span>` : "";
   return `
     <div class="lesson-media${small?" sm":""}" data-media="${c.id}">
-      <button class="lesson-facade${extraCls}" data-action="play-inline" ${attrs} aria-label="${label}"${style}>${inner}${flag}</button>
+      <button class="lesson-facade${extraCls}" data-action="play-inline" ${attrs} aria-label="${label}"${style}>${inner}${flag}${seenBar}</button>
     </div>`;
 }
 
@@ -2743,11 +2780,19 @@ document.addEventListener("click", e=>{
     action.setAttribute("aria-expanded", isOpen ? "true" : "false");
   }
   else if(act==="delete-plan"){
-    if(confirm("Delete this plan permanently?")){
-      state.plans = state.plans.filter(p=>p.id!==action.dataset.id);
-      if(state.activePlanId===action.dataset.id) state.activePlanId=null;
+    const id = action.dataset.id;
+    const doomed = getPlan(id);
+    if(doomed && confirm(`Remove "${doomed.title}"? This deletes the plan and its progress from this browser.`)){
+      // Drop any player/accordion state belonging to the plan so it can't leak
+      // into whatever gets created next.
+      (doomed.weeks||[]).forEach(w=>{
+        state.openWeeks.delete(weekKey(id, w.weekNumber));
+        (w.days||[]).forEach(d=>(d.classes||[]).forEach(c=>state.inlineOpen.delete(c.id)));
+      });
+      state.plans = state.plans.filter(p=>p.id!==id);
+      if(state.activePlanId===id) state.activePlanId=null;
       state.planDetailId=null;
-      persistPlans(); renderView(); toast("Plan deleted","success");
+      persistPlans(); renderView(); toast(`Removed "${doomed.title}"`,"success");
     }
   }
   else if(act==="view-plan"){
@@ -2789,6 +2834,144 @@ document.addEventListener("click", e=>{
   }
   else if(act==="focus-mode"){ openWatchModal(action.dataset.plan, action.dataset.class); }
 });
+
+/* ============================================================
+   Watch tracking — YouTube IFrame Player API
+   Reports how far through each video the learner actually is, and completes
+   the lesson on its own once the video finishes. Entirely best-effort: if the
+   API script is blocked or fails, the embed is still a normal iframe and
+   simply plays without tracking.
+============================================================ */
+const AUTO_DONE_AT = 0.95;   // treat "basically finished" as finished
+const inlinePlayers = new Map();   // classId -> {player, el, timer}
+let ytApiPromise = null;
+let watchSaveTimer = null;
+
+function watchPct(c){ return Math.min(1, Math.max(0, Number(c && c.watchPct) || 0)); }
+
+function loadYouTubeApi(){
+  if(ytApiPromise) return ytApiPromise;
+  ytApiPromise = new Promise(resolve=>{
+    if(window.YT && window.YT.Player) return resolve();
+    const prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = function(){
+      if(typeof prev === "function"){ try{ prev(); }catch(e){} }
+      resolve();
+    };
+    const s = document.createElement("script");
+    s.src = "https://www.youtube.com/iframe_api";
+    s.async = true;
+    s.onerror = ()=> resolve();   // fail soft — playback still works, tracking doesn't
+    document.head.appendChild(s);
+    setTimeout(resolve, 8000);    // never hang forever on a blocked network
+  });
+  return ytApiPromise;
+}
+
+function findClassAnywhere(classId){
+  for(const plan of state.plans){
+    const c = findClass(plan, classId);
+    if(c) return {plan, c};
+  }
+  return null;
+}
+
+function bindInlinePlayers(){
+  // Drop players whose iframe was replaced or removed by a re-render.
+  for(const [cid, rec] of Array.from(inlinePlayers)){
+    if(rec.el !== document.getElementById("ytf-"+cid)){
+      clearInterval(rec.timer);
+      try{ rec.player && rec.player.destroy && rec.player.destroy(); }catch(e){}
+      inlinePlayers.delete(cid);
+    }
+  }
+  const frames = Array.from(document.querySelectorAll("iframe[data-yt-class]"))
+    .filter(f => !inlinePlayers.has(f.dataset.ytClass));
+  if(!frames.length) return;
+
+  loadYouTubeApi().then(()=>{
+    if(!(window.YT && window.YT.Player)) return;
+    frames.forEach(f=>{
+      const cid = f.dataset.ytClass;
+      if(inlinePlayers.has(cid) || !document.contains(f)) return;
+      let player;
+      try{
+        player = new YT.Player(f, {
+          events:{ onStateChange: e=>{ if(e.data === YT.PlayerState.ENDED) handleVideoEnded(cid, player); } }
+        });
+      }catch(e){ return; }
+      const timer = setInterval(()=>{
+        try{
+          const dur = player.getDuration ? player.getDuration() : 0;
+          const cur = player.getCurrentTime ? player.getCurrentTime() : 0;
+          if(dur > 0) recordWatchProgress(cid, cur/dur, player);
+        }catch(e){}
+      }, 1000);
+      inlinePlayers.set(cid, {player, el:f, timer});
+    });
+  });
+}
+
+// Progress only ever moves forward — scrubbing backwards shouldn't lose credit.
+function recordWatchProgress(classId, frac, player){
+  const found = findClassAnywhere(classId);
+  if(!found) return;
+  const {plan, c} = found;
+  const next = Math.min(1, Math.max(watchPct(c), frac));
+  if(next - watchPct(c) < 0.005 && !(next >= AUTO_DONE_AT && !c.done)) return;
+  c.watchPct = next;
+  paintWatchProgress(classId, next);
+  // localStorage (and the Drive sync it triggers) shouldn't run every second.
+  clearTimeout(watchSaveTimer);
+  watchSaveTimer = setTimeout(()=>{ plan.updatedAt = Date.now(); persistPlans(); }, 4000);
+  if(next >= AUTO_DONE_AT) maybeAutoComplete(classId, player);
+}
+
+function paintWatchProgress(classId, frac){
+  const pctText = Math.round(frac*100) + "% watched";
+  const fill = document.querySelector(`[data-watchfill="${classId}"]`);
+  if(fill) fill.style.width = Math.round(frac*100) + "%";
+  const label = document.querySelector(`[data-watchpct="${classId}"]`);
+  if(label) label.textContent = pctText;
+}
+
+function handleVideoEnded(classId, player){
+  recordWatchProgress(classId, 1, player);
+  maybeAutoComplete(classId, player);
+}
+
+// A playlist isn't finished just because its first video ended, so only
+// auto-complete on the last entry. Single videos complete straight away.
+function maybeAutoComplete(classId, player){
+  const found = findClassAnywhere(classId);
+  if(!found || found.c.done) return;
+  try{
+    const list = player && player.getPlaylist && player.getPlaylist();
+    if(list && list.length > 1){
+      const idx = player.getPlaylistIndex ? player.getPlaylistIndex() : 0;
+      if(idx < list.length - 1) return;
+    }
+  }catch(e){}
+  const {plan, c} = found;
+  c.done = true;
+  c.watchPct = 1;
+  plan.updatedAt = Date.now();
+  persistPlans();
+  paintWatchProgress(classId, 1);
+  syncDoneUI(classId, plan, true);
+  toast(`Finished — "${c.title}" marked complete`, "success");
+}
+
+// Updates the checkbox/card/progress bar without a re-render, so the video the
+// learner is watching is never torn down mid-playback.
+function syncDoneUI(classId, plan, isDone){
+  const card = document.querySelector(`[data-card="${classId}"]`);
+  if(card) card.classList.toggle("done", !!isDone);
+  const box = document.querySelector(`[data-action="toggle-class-done"][data-class="${classId}"]`);
+  if(box) box.checked = !!isDone;
+  const fill = document.querySelector(".detail-head .progress-fill");
+  if(fill) fill.style.width = planProgress(plan) + "%";
+}
 
 // Manual escape hatch: attach any YouTube video/playlist to a lesson that has no
 // embeddable one. Works with no API key — the learner just pastes a link, or
@@ -2865,11 +3048,7 @@ async function playInline(planId, classId){
 }
 
 function patchDoneInPlace(checkbox, cls, plan){
-  const card = checkbox.closest("[data-card]");
-  if(card) card.classList.toggle("done", !!cls.done);
-  checkbox.checked = !!cls.done;
-  const fill = document.querySelector(".detail-head .progress-fill");
-  if(fill) fill.style.width = planProgress(plan) + "%";
+  syncDoneUI(checkbox.dataset.class, plan, cls.done);
 }
 
 document.addEventListener("change", e=>{
