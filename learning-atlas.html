@@ -2,13 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Atlas — Your AI Learning Studio</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%2322d3ee'/%3E%3Ccircle cx='12' cy='12' r='7.2' fill='none' stroke='white' stroke-width='1.8'/%3E%3Cpath d='m14.1 9.9-1.4 3.8-3.8 1.4 1.4-3.8z' fill='white'/%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-512.png">
 <meta name="theme-color" content="#07080f">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Atlas">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -679,13 +681,54 @@ label{
 .toast-msg{color:var(--text);}
 .toast.error .toast-msg{color:var(--danger);}
 
+/* ===================== Installed-app chrome ===================== */
+.update-bar, .offline-pill{
+  position:fixed; left:50%; transform:translateX(-50%); z-index:300;
+  display:flex; align-items:center; gap:12px; padding:12px 16px;
+  background:var(--surface-solid); border:1px solid var(--line-2); border-radius:14px;
+  box-shadow:var(--shadow-lg); font-size:13.5px;
+  animation:popIn var(--dur) var(--ease-spring);
+  /* Sit above the iOS home indicator on installed devices. */
+  bottom:calc(20px + env(safe-area-inset-bottom, 0px));
+}
+.offline-pill{
+  bottom:auto; top:calc(12px + env(safe-area-inset-top, 0px));
+  color:var(--warn); border-color:rgba(251,191,36,.45); font-size:12.5px;
+}
+.offline-pill .ic{color:var(--warn);}
+
+/* Respect notches and rounded corners when installed full-screen. */
+.topnav-inner{
+  padding-left:max(24px, env(safe-area-inset-left));
+  padding-right:max(24px, env(safe-area-inset-right));
+}
+.view{
+  padding-left:max(24px, env(safe-area-inset-left));
+  padding-right:max(24px, env(safe-area-inset-right));
+  padding-bottom:calc(96px + env(safe-area-inset-bottom, 0px));
+}
+
 /* ===================== Responsive ===================== */
 @media (max-width:900px){
-  .topnav-inner{flex-wrap:wrap; padding:0 14px; gap:10px; min-height:56px;}
+  .topnav-inner{flex-wrap:wrap; gap:10px; min-height:56px;
+    padding-left:max(14px, env(safe-area-inset-left)); padding-right:max(14px, env(safe-area-inset-right));}
   .brand{padding:10px 0; flex:1;}
-  .navrow{order:3; flex:1 0 100%; border-top:1px solid var(--line); padding:8px 0; gap:6px;}
-  .navbtn{padding:7px 13px; font-size:13px;}
-  .view{padding:24px 14px 84px;}
+  /* The tagline costs a whole line on a phone and says nothing the logo doesn't. */
+  .brand .tag{display:none;}
+  .brand .name{font-size:16px;}
+  .brand .mark{width:32px; height:32px;}
+  .navrow{
+    order:3; flex:1 0 100%; border-top:1px solid var(--line); padding:7px 0; gap:2px;
+    /* Six tabs won't fit 390px, so it scrolls — fade the edge to show that. */
+    -webkit-mask-image:linear-gradient(90deg, #000 88%, transparent);
+    mask-image:linear-gradient(90deg, #000 88%, transparent);
+  }
+  .navbtn{padding:7px 11px; font-size:12.5px;}
+  .topnav-right{gap:7px;}
+  .key-status{padding:5px 9px; font-size:9px;}
+  .update-bar, .offline-pill{left:12px; right:12px; transform:none; justify-content:center;}
+  .view{padding-top:24px; padding-bottom:calc(84px + env(safe-area-inset-bottom, 0px));
+    padding-left:max(14px, env(safe-area-inset-left)); padding-right:max(14px, env(safe-area-inset-right));}
   .pagehead-inner{padding:10px 14px;}
   .home-hero{padding:26px 20px;}
   .home-title{font-size:32px;}
@@ -3512,8 +3555,26 @@ document.getElementById("btnThemeToggle").onclick = toggleTheme;
 // call sites don't each need a guard.
 function closeMobileSidebar(){}
 
+/* Deep links: the installed-app shortcuts in manifest.json point at
+   #today / #plans / #catalog, and sharing a URL should land where expected. */
+const HASH_VIEWS = ["home","chat","plans","catalog","today","settings"];
+function viewFromHash(){
+  const wanted = (location.hash||"").replace(/^#/,"").toLowerCase();
+  return HASH_VIEWS.includes(wanted) ? wanted : null;
+}
+function applyHashRoute(){
+  const wanted = viewFromHash();
+  if(wanted && wanted !== state.view){
+    state.view = wanted;
+    state.planDetailId = null;
+    renderView();
+  }
+}
+window.addEventListener("hashchange", applyHashRoute);
+
 fillIconSlots();
 applyTheme();
+state.view = viewFromHash() || state.view;
 renderView();
 loadCourseData();
 pullFromBackend();
@@ -3524,8 +3585,63 @@ autoSyncFromDrive();
 // sw.js sitting alongside this file — silently does nothing when this page
 // is just double-clicked as a local file, or opened standalone elsewhere.
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
-  navigator.serviceWorker.register("sw.js").catch(()=>{});
+  navigator.serviceWorker.register("sw.js").then(reg=>{
+    // A cached app that can never update is worse than no cache at all, so
+    // surface new versions instead of pinning people to an old build.
+    reg.addEventListener("updatefound", ()=>{
+      const incoming = reg.installing;
+      if(!incoming) return;
+      incoming.addEventListener("statechange", ()=>{
+        if(incoming.state === "installed" && navigator.serviceWorker.controller){
+          showUpdateBar(reg);
+        }
+      });
+    });
+  }).catch(()=>{});
+
+  let reloading = false;
+  navigator.serviceWorker.addEventListener("controllerchange", ()=>{
+    if(reloading) return;
+    reloading = true;
+    location.reload();
+  });
 }
+
+function showUpdateBar(reg){
+  if(document.getElementById("updateBar")) return;
+  const bar = document.createElement("div");
+  bar.id = "updateBar";
+  bar.className = "update-bar";
+  bar.innerHTML = `<span>A new version of Atlas is ready.</span>
+    <button class="btn small primary" id="updateNow">Reload</button>
+    <button class="btn small" id="updateLater">Later</button>`;
+  document.body.appendChild(bar);
+  document.getElementById("updateNow").onclick = ()=>{
+    if(reg.waiting) reg.waiting.postMessage("skip-waiting");
+    else location.reload();
+  };
+  document.getElementById("updateLater").onclick = ()=> bar.remove();
+}
+
+/* Connection state — an installed app gets opened on planes and trains, so
+   say plainly when features that need the network won't work. */
+function paintOnlineState(){
+  const off = !navigator.onLine;
+  document.body.classList.toggle("is-offline", off);
+  let pill = document.getElementById("offlinePill");
+  if(off && !pill){
+    pill = document.createElement("div");
+    pill.id = "offlinePill";
+    pill.className = "offline-pill";
+    pill.innerHTML = `${icon("alert","ic-sm")} Offline — saved plans still work`;
+    document.body.appendChild(pill);
+  } else if(!off && pill){
+    pill.remove();
+  }
+}
+window.addEventListener("online", paintOnlineState);
+window.addEventListener("offline", paintOnlineState);
+paintOnlineState();
 
 })();
 </script>

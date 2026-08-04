@@ -1,16 +1,45 @@
 {
+  "id": "/Personal/",
   "name": "Atlas — AI Learning Studio",
   "short_name": "Atlas",
-  "description": "AI-powered learning coach: chat-built study plans, real YouTube resources, and completion-time reminders.",
+  "description": "Build a study plan with AI, watch real courses inside the app, and track what you've finished.",
+  "lang": "en",
+  "dir": "ltr",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#0b0d12",
-  "theme_color": "#0b0d12",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#07080f",
+  "theme_color": "#07080f",
+  "categories": ["education", "productivity"],
   "icons": [
     { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
     { "src": "icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
     { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Today's lessons",
+      "short_name": "Today",
+      "description": "Jump straight to what's scheduled today",
+      "url": "./index.html#today",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "My plans",
+      "short_name": "Plans",
+      "description": "Open your learning plans",
+      "url": "./index.html#plans",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Browse catalog",
+      "short_name": "Catalog",
+      "description": "Search every course in the directory",
+      "url": "./index.html#catalog",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    }
   ]
 }

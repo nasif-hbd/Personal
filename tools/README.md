@@ -74,3 +74,24 @@ That last row matters: a flaky runner or a firewalled network reports
 
 The link-check issue is reused rather than re-filed each week, so a persistent
 problem doesn't bury you in duplicates.
+
+## Installing Atlas as an app
+
+Atlas is a PWA — the same build installs on phone, tablet and desktop:
+
+* **Android / Chrome / Edge** — "Install app" from the address bar or ⋮ menu
+* **iOS Safari** — Share → Add to Home Screen
+* **Desktop Chrome/Edge** — install icon in the address bar
+
+Once installed it launches without browser chrome, respects notches and the
+home indicator, and **works offline**: the app shell and the full course
+catalog are cached, so saved plans and browsing stay available with no
+network. Chat and video need a connection, and the app says so with an
+"Offline" pill rather than failing silently.
+
+Long-press the installed icon for shortcuts straight to Today, Plans or the
+Catalog. When a new version ships, the app offers a Reload rather than
+stranding you on a cached build.
+
+Deliberately never cached: the backend API, Anthropic, and YouTube — those are
+per-visitor or streaming, and a cached copy would be wrong.
