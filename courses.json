@@ -1,0 +1,5489 @@
+{
+  "_generated_by": "tools/build_catalog.py — edit data/, not this file",
+  "stats": {
+    "courses": 348,
+    "subjects": {
+      "AI": 36,
+      "Advanced Math": 39,
+      "Biology": 16,
+      "Chemistry": 24,
+      "Coding": 40,
+      "English": 31,
+      "IELTS": 22,
+      "Math": 55,
+      "Physics": 34,
+      "Python": 23,
+      "Research": 15,
+      "SAT": 13
+    },
+    "embeddable": 6,
+    "paths": 10,
+    "pathLessons": 121,
+    "pathLessonsPlayable": 107
+  },
+  "paths": [
+    {
+      "id": "math",
+      "title": "High School Math Foundations",
+      "subject": "Math",
+      "level": "High School",
+      "dailyMinutes": 40,
+      "blurb": "Algebra, Geometry, Trigonometry, Precalculus and Statistics — a complete two-week refresher on Khan Academy's free curriculum.",
+      "weekThemes": [
+        "Algebra & Geometry",
+        "Trig, Precalc & Data"
+      ],
+      "days": [
+        {
+          "classes": [
+            {
+              "title": "Pre-Algebra Foundations",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/math/pre-algebra",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PL4C9296DF81B9EF13",
+              "altChannel": "Professor Leonard",
+              "todo": "Complete 2 practice sets on ratios & integers"
+            }
+          ],
+          "todos": [
+            "Complete 2 practice sets on ratios & integers"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Algebra 1 — Linear Equations",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/math/algebra",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESsmwELdrzhcGiRhk5DjwLP",
+              "altChannel": "Professor Leonard",
+              "todo": "Solve 10 linear equation practice problems"
+            }
+          ],
+          "todos": [
+            "Solve 10 linear equation practice problems"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Algebra 1 — Quadratics & Factoring",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/math/algebra",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESsmwELdrzhcGiRhk5DjwLP",
+              "altChannel": "Professor Leonard",
+              "todo": "Practice factoring quadratics"
+            }
+          ],
+          "todos": [
+            "Practice factoring quadratics"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Geometry — Shapes & Proofs",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/math/geometry",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLKi4WTp6PRGVBM1nPhwW1lTuxi32Q0IZ3",
+              "altChannel": "High School Geometry",
+              "todo": "Complete one geometry proof set"
+            }
+          ],
+          "todos": [
+            "Complete one geometry proof set"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Geometry — Circles & Area",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/math/geometry",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLKi4WTp6PRGVBM1nPhwW1lTuxi32Q0IZ3",
+              "altChannel": "High School Geometry",
+              "todo": "Practice circle theorems"
+            }
+          ],
+          "todos": [
+            "Practice circle theorems"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Visual Math Intuition",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/@3blue1brown",
+              "channel": "3Blue1Brown",
+              "duration": 30,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab",
+              "altChannel": "3Blue1Brown",
+              "todo": "Watch one visual-intuition video and journal what clicked"
+            }
+          ],
+          "todos": [
+            "Watch one visual-intuition video and journal what clicked"
+          ]
+        },
+        {
+          "rest": true
+        },
+        {
+          "classes": [
+            {
+              "title": "Algebra 2 — Functions & Polynomials",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/math/algebra2",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESsmwELdrzhcGiRhk5DjwLP",
+              "altChannel": "Professor Leonard",
+              "todo": "Graph 5 polynomial functions"
+            }
+          ],
+          "todos": [
+            "Graph 5 polynomial functions"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Trigonometry — Unit Circle & Identities",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/math/trigonometry",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESsmwELdrzhcGiRhk5DjwLP",
+              "altChannel": "Professor Leonard",
+              "todo": "Memorize the unit circle, quiz yourself"
+            }
+          ],
+          "todos": [
+            "Memorize the unit circle, quiz yourself"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Precalculus — Sequences & Limits",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/math/precalculus",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESsmwELdrzhcGiRhk5DjwLP",
+              "altChannel": "Professor Leonard",
+              "todo": "Practice sequence & series problems"
+            }
+          ],
+          "todos": [
+            "Practice sequence & series problems"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Statistics & Probability",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/math/statistics-probability",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/watch?v=xqO9yuYeAMQ",
+              "altChannel": "Khan Academy via freeCodeCamp",
+              "todo": "Complete a probability practice set"
+            }
+          ],
+          "todos": [
+            "Complete a probability practice set"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Number Theory Basics",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/math",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESsmwELdrzhcGiRhk5DjwLP",
+              "altChannel": "Professor Leonard",
+              "todo": "Practice prime factorization & modular arithmetic"
+            }
+          ],
+          "todos": [
+            "Practice prime factorization & modular arithmetic"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Consumer & Financial Math",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/math",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESsmwELdrzhcGiRhk5DjwLP",
+              "altChannel": "Professor Leonard",
+              "todo": "Work through interest & budgeting problems"
+            }
+          ],
+          "todos": [
+            "Work through interest & budgeting problems"
+          ]
+        },
+        {
+          "rest": true
+        }
+      ]
+    },
+    {
+      "id": "advmath",
+      "title": "Calculus & Linear Algebra Deep Dive",
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "dailyMinutes": 50,
+      "blurb": "Limits through multivariable calculus, linear algebra and differential equations — Khan Academy, Professor Leonard, and 3Blue1Brown.",
+      "weekThemes": [
+        "Single-Variable Calculus",
+        "Multivariable Calc & Linear Algebra"
+      ],
+      "days": [
+        {
+          "classes": [
+            {
+              "title": "Limits & Continuity",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/math/calculus-1",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESk16YRmzuJ8f7WiRxHnK0y",
+              "altChannel": "Professor Leonard",
+              "todo": "Solve 10 limit problems"
+            }
+          ],
+          "todos": [
+            "Solve 10 limit problems"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Derivatives & Differentiation Rules",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/math/calculus-1",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESk16YRmzuJ8f7WiRxHnK0y",
+              "altChannel": "Professor Leonard",
+              "todo": "Practice chain rule & product rule"
+            }
+          ],
+          "todos": [
+            "Practice chain rule & product rule"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Derivative Applications",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/math/calculus-1",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESk16YRmzuJ8f7WiRxHnK0y",
+              "altChannel": "Professor Leonard",
+              "todo": "Solve 3 optimization word problems"
+            }
+          ],
+          "todos": [
+            "Solve 3 optimization word problems"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Integrals & the Fundamental Theorem",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/math/calculus-1",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESk16YRmzuJ8f7WiRxHnK0y",
+              "altChannel": "Professor Leonard",
+              "todo": "Practice definite integrals"
+            }
+          ],
+          "todos": [
+            "Practice definite integrals"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Integral Applications",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/math/calculus-1",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESk16YRmzuJ8f7WiRxHnK0y",
+              "altChannel": "Professor Leonard",
+              "todo": "Solve area-between-curves problems"
+            }
+          ],
+          "todos": [
+            "Solve area-between-curves problems"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Full Lecture Practice Session",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/@ProfessorLeonard",
+              "channel": "Professor Leonard",
+              "duration": 45,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESk16YRmzuJ8f7WiRxHnK0y",
+              "altChannel": "Professor Leonard",
+              "todo": "Follow one full lecture and take notes"
+            }
+          ],
+          "todos": [
+            "Follow one full lecture and take notes"
+          ]
+        },
+        {
+          "rest": true
+        },
+        {
+          "classes": [
+            {
+              "title": "Multivariable Calculus — Partial Derivatives",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/math/multivariable-calculus",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "todo": "Practice partial derivatives"
+            }
+          ],
+          "todos": [
+            "Practice partial derivatives"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Multivariable Calculus — Multiple Integrals",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/math/multivariable-calculus",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "todo": "Solve a double-integral problem set"
+            }
+          ],
+          "todos": [
+            "Solve a double-integral problem set"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Linear Algebra — Vectors & Matrices",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/math/linear-algebra",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab",
+              "altChannel": "3Blue1Brown",
+              "todo": "Practice matrix multiplication"
+            }
+          ],
+          "todos": [
+            "Practice matrix multiplication"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Linear Algebra — Eigenvalues & Eigenvectors",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/math/linear-algebra",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab",
+              "altChannel": "3Blue1Brown",
+              "todo": "Find eigenvalues for 3 matrices"
+            }
+          ],
+          "todos": [
+            "Find eigenvalues for 3 matrices"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Differential Equations Intro",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/math/differential-equations",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "todo": "Solve 3 first-order ODEs"
+            }
+          ],
+          "todos": [
+            "Solve 3 first-order ODEs"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Essence of Linear Algebra",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/@3blue1brown",
+              "channel": "3Blue1Brown",
+              "duration": 30,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab",
+              "altChannel": "3Blue1Brown",
+              "todo": "Watch and sketch the transformations shown"
+            }
+          ],
+          "todos": [
+            "Watch and sketch the transformations shown"
+          ]
+        },
+        {
+          "rest": true
+        }
+      ]
+    },
+    {
+      "id": "english",
+      "title": "English: Reading, Grammar & Literature",
+      "subject": "English",
+      "level": "Middle–High School",
+      "dailyMinutes": 35,
+      "blurb": "Grammar, vocabulary, literary analysis and essay writing — with Khan Academy and Crash Course Literature's full playlist.",
+      "weekThemes": [
+        "Reading & Grammar",
+        "Literature & Writing"
+      ],
+      "days": [
+        {
+          "classes": [
+            {
+              "title": "Reading Comprehension",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/ela",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "todo": "Read one passage and answer comprehension questions"
+            }
+          ],
+          "todos": [
+            "Read one passage and answer comprehension questions"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Grammar & Mechanics",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/humanities/grammar",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "todo": "Complete a grammar practice set"
+            }
+          ],
+          "todos": [
+            "Complete a grammar practice set"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Vocabulary Building",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/ela",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "todo": "Learn 15 new words and use each in a sentence"
+            }
+          ],
+          "todos": [
+            "Learn 15 new words and use each in a sentence"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Crash Course Literature — Part 1",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/playlist?list=PL8dPuuaLjXtOAKed10QOhrE9wDoWSSa9m",
+              "channel": "CrashCourse",
+              "duration": 15,
+              "notes": "",
+              "todo": "Watch 1-2 episodes and note the central theme"
+            }
+          ],
+          "todos": [
+            "Watch 1-2 episodes and note the central theme"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Literature Analysis",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/ela",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PL8dPuuaLjXtOAKed10QOhrE9wDoWSSa9m",
+              "altChannel": "CrashCourse",
+              "todo": "Analyze one poem or short story"
+            }
+          ],
+          "todos": [
+            "Analyze one poem or short story"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Academic Essay Writing",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/ela",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "todo": "Draft a 5-paragraph essay outline"
+            }
+          ],
+          "todos": [
+            "Draft a 5-paragraph essay outline"
+          ]
+        },
+        {
+          "rest": true
+        },
+        {
+          "classes": [
+            {
+              "title": "Creative Writing",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/ela",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "todo": "Write a short creative piece (500 words)"
+            }
+          ],
+          "todos": [
+            "Write a short creative piece (500 words)"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Public Speaking & Presentation",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/ela",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "todo": "Practice a 2-minute speech out loud"
+            }
+          ],
+          "todos": [
+            "Practice a 2-minute speech out loud"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Crash Course Literature — Part 2",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/playlist?list=PL8dPuuaLjXtOAKed10QOhrE9wDoWSSa9m",
+              "channel": "CrashCourse",
+              "duration": 15,
+              "notes": "",
+              "todo": "Watch 1-2 more episodes and compare themes"
+            }
+          ],
+          "todos": [
+            "Watch 1-2 more episodes and compare themes"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Grammar Review & ESL Support",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/humanities/grammar",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "todo": "Redo any missed grammar practice questions"
+            }
+          ],
+          "todos": [
+            "Redo any missed grammar practice questions"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Language & Rhetoric Shorts",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/@TEDEd",
+              "channel": "TED-Ed",
+              "duration": 10,
+              "notes": "",
+              "todo": "Watch one short and summarize its argument"
+            }
+          ],
+          "todos": [
+            "Watch one short and summarize its argument"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Essay Practice & Peer Review",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/ela",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "todo": "Finish and proofread your essay draft"
+            }
+          ],
+          "todos": [
+            "Finish and proofread your essay draft"
+          ]
+        },
+        {
+          "rest": true
+        }
+      ]
+    },
+    {
+      "id": "physics",
+      "title": "Physics: Mechanics to Modern Physics",
+      "subject": "Physics",
+      "level": "High School",
+      "dailyMinutes": 40,
+      "blurb": "Mechanics, E&M, waves, thermodynamics and quantum physics — Khan Academy plus Crash Course Physics' full 46-episode playlist.",
+      "weekThemes": [
+        "Mechanics, Waves & Thermo",
+        "E&M, Optics & Modern Physics"
+      ],
+      "days": [
+        {
+          "classes": [
+            {
+              "title": "Mechanics — Forces & Motion",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/science/physics",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+              "altChannel": "CrashCourse",
+              "todo": "Solve 5 kinematics problems"
+            }
+          ],
+          "todos": [
+            "Solve 5 kinematics problems"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Crash Course Physics — Episodes 1-5",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+              "channel": "CrashCourse",
+              "duration": 40,
+              "notes": "",
+              "todo": "Watch episodes 1-5 and take notes"
+            }
+          ],
+          "todos": [
+            "Watch episodes 1-5 and take notes"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Waves & Sound",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/science/physics",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+              "altChannel": "CrashCourse",
+              "todo": "Practice wave-property problems"
+            }
+          ],
+          "todos": [
+            "Practice wave-property problems"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Thermodynamics",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/science/physics",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+              "altChannel": "CrashCourse",
+              "todo": "Solve 3 thermodynamics problems"
+            }
+          ],
+          "todos": [
+            "Solve 3 thermodynamics problems"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Crash Course Physics — Episodes 6-10",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+              "channel": "CrashCourse",
+              "duration": 40,
+              "notes": "",
+              "todo": "Watch episodes 6-10 and take notes"
+            }
+          ],
+          "todos": [
+            "Watch episodes 6-10 and take notes"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Mechanics Review & Practice",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/science/physics",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+              "altChannel": "CrashCourse",
+              "todo": "Redo any missed mechanics problems"
+            }
+          ],
+          "todos": [
+            "Redo any missed mechanics problems"
+          ]
+        },
+        {
+          "rest": true
+        },
+        {
+          "classes": [
+            {
+              "title": "Electricity & Magnetism",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/science/physics",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+              "altChannel": "CrashCourse",
+              "todo": "Solve 5 circuit problems"
+            }
+          ],
+          "todos": [
+            "Solve 5 circuit problems"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Optics",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/science/physics",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+              "altChannel": "CrashCourse",
+              "todo": "Practice lens & mirror ray diagrams"
+            }
+          ],
+          "todos": [
+            "Practice lens & mirror ray diagrams"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Crash Course Physics — Episodes 11-15",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+              "channel": "CrashCourse",
+              "duration": 40,
+              "notes": "",
+              "todo": "Watch episodes 11-15 and take notes"
+            }
+          ],
+          "todos": [
+            "Watch episodes 11-15 and take notes"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Modern & Quantum Physics",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/science/physics",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+              "altChannel": "CrashCourse",
+              "todo": "Read about wave-particle duality, summarize it"
+            }
+          ],
+          "todos": [
+            "Read about wave-particle duality, summarize it"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Astrophysics & Cosmology",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/science/physics",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+              "altChannel": "CrashCourse",
+              "todo": "Watch one astrophysics topic video and note 3 facts"
+            }
+          ],
+          "todos": [
+            "Watch one astrophysics topic video and note 3 facts"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "MIT OCW Physics Lectures",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/@mitocw",
+              "channel": "MIT OpenCourseWare",
+              "duration": 45,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+              "altChannel": "CrashCourse",
+              "todo": "Watch one full lecture on a topic you found hardest"
+            }
+          ],
+          "todos": [
+            "Watch one full lecture on a topic you found hardest"
+          ]
+        },
+        {
+          "rest": true
+        }
+      ]
+    },
+    {
+      "id": "chemistry",
+      "title": "Chemistry: General to Organic",
+      "subject": "Chemistry",
+      "level": "High School",
+      "dailyMinutes": 40,
+      "blurb": "General, organic, physical and biochemistry — Khan Academy, Crash Course Chemistry, and The Organic Chemistry Tutor's full playlists.",
+      "weekThemes": [
+        "General & Physical Chemistry",
+        "Organic Chemistry & Biochemistry"
+      ],
+      "days": [
+        {
+          "classes": [
+            {
+              "title": "General & Inorganic Chemistry",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/science/chemistry",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLG61LF8I_OXoh2mhx2YNY9s4ekXiriMAf",
+              "altChannel": "CrashCourse",
+              "todo": "Practice balancing chemical equations"
+            }
+          ],
+          "todos": [
+            "Practice balancing chemical equations"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Crash Course Chemistry — Episodes 1-5",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/playlist?list=PLG61LF8I_OXoh2mhx2YNY9s4ekXiriMAf",
+              "channel": "CrashCourse",
+              "duration": 40,
+              "notes": "",
+              "todo": "Watch episodes 1-5 and take notes"
+            }
+          ],
+          "todos": [
+            "Watch episodes 1-5 and take notes"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Physical Chemistry Basics",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/science/chemistry",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLG61LF8I_OXoh2mhx2YNY9s4ekXiriMAf",
+              "altChannel": "CrashCourse",
+              "todo": "Practice thermochemistry problems"
+            }
+          ],
+          "todos": [
+            "Practice thermochemistry problems"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Analytical Chemistry",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/science/chemistry",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLG61LF8I_OXoh2mhx2YNY9s4ekXiriMAf",
+              "altChannel": "CrashCourse",
+              "todo": "Practice stoichiometry calculations"
+            }
+          ],
+          "todos": [
+            "Practice stoichiometry calculations"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Crash Course Chemistry — Episodes 6-10",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/playlist?list=PLG61LF8I_OXoh2mhx2YNY9s4ekXiriMAf",
+              "channel": "CrashCourse",
+              "duration": 40,
+              "notes": "",
+              "todo": "Watch episodes 6-10 and take notes"
+            }
+          ],
+          "todos": [
+            "Watch episodes 6-10 and take notes"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Environmental Chemistry",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/science/chemistry",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLG61LF8I_OXoh2mhx2YNY9s4ekXiriMAf",
+              "altChannel": "CrashCourse",
+              "todo": "Read one case study and summarize it"
+            }
+          ],
+          "todos": [
+            "Read one case study and summarize it"
+          ]
+        },
+        {
+          "rest": true
+        },
+        {
+          "classes": [
+            {
+              "title": "Organic Chemistry — Full Playlist Pt.1",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/playlist?list=PL0o_zxa4K1BWziAvOKdqsMFSB_MyyLAqS",
+              "channel": "The Organic Chemistry Tutor",
+              "duration": 40,
+              "notes": "",
+              "todo": "Watch the intro lessons and take notes on nomenclature"
+            }
+          ],
+          "todos": [
+            "Watch the intro lessons and take notes on nomenclature"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Organic Chemistry — Full Playlist Pt.2",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/playlist?list=PL0o_zxa4K1BWziAvOKdqsMFSB_MyyLAqS",
+              "channel": "The Organic Chemistry Tutor",
+              "duration": 40,
+              "notes": "",
+              "todo": "Continue the playlist, practice reaction mechanisms"
+            }
+          ],
+          "todos": [
+            "Continue the playlist, practice reaction mechanisms"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Organic Chemistry — Khan Academy",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/science/chemistry",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PL0o_zxa4K1BWziAvOKdqsMFSB_MyyLAqS",
+              "altChannel": "The Organic Chemistry Tutor",
+              "todo": "Practice functional group identification"
+            }
+          ],
+          "todos": [
+            "Practice functional group identification"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Biochemistry",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/science/chemistry",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLG61LF8I_OXoh2mhx2YNY9s4ekXiriMAf",
+              "altChannel": "CrashCourse",
+              "todo": "Read about macromolecules, summarize each"
+            }
+          ],
+          "todos": [
+            "Read about macromolecules, summarize each"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Crash Course Chemistry — Finale",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/playlist?list=PLG61LF8I_OXoh2mhx2YNY9s4ekXiriMAf",
+              "channel": "CrashCourse",
+              "duration": 40,
+              "notes": "",
+              "todo": "Finish the playlist"
+            }
+          ],
+          "todos": [
+            "Finish the playlist"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Practice Problems & Review",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/science/chemistry",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "todo": "Complete a mixed review problem set"
+            }
+          ],
+          "todos": [
+            "Complete a mixed review problem set"
+          ]
+        },
+        {
+          "rest": true
+        }
+      ]
+    },
+    {
+      "id": "biology",
+      "title": "Biology: Cells to Ecosystems",
+      "subject": "Biology",
+      "level": "High School",
+      "dailyMinutes": 35,
+      "blurb": "Cell biology, genetics, anatomy, ecology and molecular biology — Khan Academy's Biology playlist plus Crash Course Biology.",
+      "weekThemes": [
+        "Cells, Genetics & Anatomy",
+        "Ecology, Microbiology & Molecular Biology"
+      ],
+      "days": [
+        {
+          "classes": [
+            {
+              "title": "Cell Biology & Genetics",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/science/biology",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+              "altChannel": "Khan Academy",
+              "todo": "Diagram a cell and label its organelles"
+            }
+          ],
+          "todos": [
+            "Diagram a cell and label its organelles"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Khan Academy Biology Playlist — Pt.1",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+              "channel": "Khan Academy",
+              "duration": 30,
+              "notes": "",
+              "todo": "Watch the first few videos and take notes"
+            }
+          ],
+          "todos": [
+            "Watch the first few videos and take notes"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Human Anatomy & Physiology",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/science/biology",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+              "altChannel": "Khan Academy",
+              "todo": "Study one body system and summarize its function"
+            }
+          ],
+          "todos": [
+            "Study one body system and summarize its function"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Ecology & Evolution",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/science/biology",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+              "altChannel": "Khan Academy",
+              "todo": "Explain natural selection in your own words"
+            }
+          ],
+          "todos": [
+            "Explain natural selection in your own words"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Crash Course Biology",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/@crashcourse",
+              "channel": "CrashCourse",
+              "duration": 15,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+              "altChannel": "Khan Academy",
+              "todo": "Watch one episode and note 3 key takeaways"
+            }
+          ],
+          "todos": [
+            "Watch one episode and note 3 key takeaways"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Genetics Practice & Review",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/science/biology",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+              "altChannel": "Khan Academy",
+              "todo": "Solve 3 Punnett square problems"
+            }
+          ],
+          "todos": [
+            "Solve 3 Punnett square problems"
+          ]
+        },
+        {
+          "rest": true
+        },
+        {
+          "classes": [
+            {
+              "title": "Microbiology",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/science/biology",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+              "altChannel": "Khan Academy",
+              "todo": "Compare bacteria, viruses, and fungi"
+            }
+          ],
+          "todos": [
+            "Compare bacteria, viruses, and fungi"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Botany & Plant Science",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/science/biology",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+              "altChannel": "Khan Academy",
+              "todo": "Diagram photosynthesis"
+            }
+          ],
+          "todos": [
+            "Diagram photosynthesis"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Khan Academy Biology Playlist — Pt.2",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+              "channel": "Khan Academy",
+              "duration": 30,
+              "notes": "",
+              "todo": "Continue the playlist, focus on molecular topics"
+            }
+          ],
+          "todos": [
+            "Continue the playlist, focus on molecular topics"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Molecular Biology",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/science/biology",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+              "altChannel": "Khan Academy",
+              "todo": "Summarize DNA replication & protein synthesis"
+            }
+          ],
+          "todos": [
+            "Summarize DNA replication & protein synthesis"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "MIT OCW Intro Biology",
+              "type": "reading",
+              "resourceUrl": "https://ocw.mit.edu/search/?d=Biology",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+              "altChannel": "Khan Academy",
+              "todo": "Skim one lecture's notes on a topic you're weakest in"
+            }
+          ],
+          "todos": [
+            "Skim one lecture's notes on a topic you're weakest in"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Review Quiz & Practice",
+              "type": "reading",
+              "resourceUrl": "https://www.khanacademy.org/science/biology",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+              "altChannel": "Khan Academy",
+              "todo": "Take a mixed practice quiz"
+            }
+          ],
+          "todos": [
+            "Take a mixed practice quiz"
+          ]
+        },
+        {
+          "rest": true
+        }
+      ]
+    },
+    {
+      "id": "coding",
+      "title": "Coding & CS Fundamentals",
+      "subject": "Coding",
+      "level": "All Levels",
+      "dailyMinutes": 45,
+      "blurb": "Programming logic, web development, data structures, Git, and SQL — freeCodeCamp's free curriculum plus CS50.",
+      "weekThemes": [
+        "Programming Logic & Web Basics",
+        "Data, Tools & Real Projects"
+      ],
+      "days": [
+        {
+          "classes": [
+            {
+              "title": "Intro to Programming Logic",
+              "type": "reading",
+              "resourceUrl": "https://www.freecodecamp.org/learn",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+              "altChannel": "Harvard CS50",
+              "todo": "Complete the first programming-logic module"
+            }
+          ],
+          "todos": [
+            "Complete the first programming-logic module"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Web Development — HTML & CSS",
+              "type": "reading",
+              "resourceUrl": "https://www.freecodecamp.org/learn",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+              "altChannel": "Harvard CS50",
+              "todo": "Build a simple static webpage"
+            }
+          ],
+          "todos": [
+            "Build a simple static webpage"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Web Development — JavaScript Basics",
+              "type": "reading",
+              "resourceUrl": "https://www.freecodecamp.org/learn",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+              "altChannel": "Harvard CS50",
+              "todo": "Complete a JS basics challenge set"
+            }
+          ],
+          "todos": [
+            "Complete a JS basics challenge set"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "freeCodeCamp Practice Session",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/@freecodecamp",
+              "channel": "freeCodeCamp",
+              "duration": 40,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+              "altChannel": "Harvard CS50",
+              "todo": "Follow along with one full-length tutorial"
+            }
+          ],
+          "todos": [
+            "Follow along with one full-length tutorial"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Git & Version Control",
+              "type": "reading",
+              "resourceUrl": "https://www.freecodecamp.org/learn",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+              "altChannel": "Harvard CS50",
+              "todo": "Initialize a repo and make 3 commits"
+            }
+          ],
+          "todos": [
+            "Initialize a repo and make 3 commits"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "SQL & Databases",
+              "type": "reading",
+              "resourceUrl": "https://www.freecodecamp.org/learn",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+              "altChannel": "Harvard CS50",
+              "todo": "Write 5 basic SQL queries"
+            }
+          ],
+          "todos": [
+            "Write 5 basic SQL queries"
+          ]
+        },
+        {
+          "rest": true
+        },
+        {
+          "classes": [
+            {
+              "title": "CS50: Intro to Computer Science",
+              "type": "reading",
+              "resourceUrl": "https://www.edx.org/learn/computer-science/harvard-university-cs50-s-introduction-to-computer-science",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+              "altChannel": "Harvard CS50",
+              "todo": "Watch the first CS50 lecture and take notes"
+            }
+          ],
+          "todos": [
+            "Watch the first CS50 lecture and take notes"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Data Structures & Algorithms",
+              "type": "reading",
+              "resourceUrl": "https://www.freecodecamp.org/learn",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+              "altChannel": "Harvard CS50",
+              "todo": "Implement a basic sorting algorithm"
+            }
+          ],
+          "todos": [
+            "Implement a basic sorting algorithm"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Mobile App Development Intro",
+              "type": "reading",
+              "resourceUrl": "https://www.freecodecamp.org/learn",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+              "altChannel": "Harvard CS50",
+              "todo": "Read the intro module on mobile frameworks"
+            }
+          ],
+          "todos": [
+            "Read the intro module on mobile frameworks"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Cybersecurity Fundamentals",
+              "type": "reading",
+              "resourceUrl": "https://www.freecodecamp.org/learn",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+              "altChannel": "Harvard CS50",
+              "todo": "Complete a basic security-concepts quiz"
+            }
+          ],
+          "todos": [
+            "Complete a basic security-concepts quiz"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Full-Stack Crash Course",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/@TraversyMedia",
+              "channel": "Traversy Media",
+              "duration": 45,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+              "altChannel": "Harvard CS50",
+              "todo": "Follow one crash-course project end to end"
+            }
+          ],
+          "todos": [
+            "Follow one crash-course project end to end"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Build a Small Project",
+              "type": "reading",
+              "resourceUrl": "https://www.freecodecamp.org/learn",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+              "altChannel": "Harvard CS50",
+              "todo": "Build and deploy one small project using what you learned"
+            }
+          ],
+          "todos": [
+            "Build and deploy one small project using what you learned"
+          ]
+        },
+        {
+          "rest": true
+        }
+      ]
+    },
+    {
+      "id": "python",
+      "title": "Python Programming",
+      "subject": "Python",
+      "level": "Beginner (All Ages)",
+      "dailyMinutes": 40,
+      "blurb": "From syntax basics to OOP, data science, and automation — built around freeCodeCamp's full Python course video.",
+      "weekThemes": [
+        "Python Fundamentals",
+        "Applied Python: Data, OOP & Automation"
+      ],
+      "days": [
+        {
+          "classes": [
+            {
+              "title": "Learn Python — Full Course Pt.1",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+              "channel": "freeCodeCamp",
+              "duration": 45,
+              "notes": "",
+              "todo": "Follow along and write your first 3 scripts"
+            }
+          ],
+          "todos": [
+            "Follow along and write your first 3 scripts"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Learn Python — Full Course Pt.2",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+              "channel": "freeCodeCamp",
+              "duration": 45,
+              "notes": "",
+              "todo": "Continue the course, practice loops & functions"
+            }
+          ],
+          "todos": [
+            "Continue the course, practice loops & functions"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Python Fundamentals Practice",
+              "type": "reading",
+              "resourceUrl": "https://www.freecodecamp.org/learn",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+              "altChannel": "freeCodeCamp",
+              "todo": "Complete a variables & control-flow exercise set"
+            }
+          ],
+          "todos": [
+            "Complete a variables & control-flow exercise set"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Object-Oriented Python",
+              "type": "reading",
+              "resourceUrl": "https://www.freecodecamp.org/learn",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+              "altChannel": "freeCodeCamp",
+              "todo": "Write a simple class with 2 methods"
+            }
+          ],
+          "todos": [
+            "Write a simple class with 2 methods"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Learn Python — Full Course Pt.3",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+              "channel": "freeCodeCamp",
+              "duration": 45,
+              "notes": "",
+              "todo": "Finish the course, practice file I/O"
+            }
+          ],
+          "todos": [
+            "Finish the course, practice file I/O"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Python for Data Science (NumPy/Pandas)",
+              "type": "reading",
+              "resourceUrl": "https://www.freecodecamp.org/learn",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+              "altChannel": "freeCodeCamp",
+              "todo": "Load a CSV with pandas and explore it"
+            }
+          ],
+          "todos": [
+            "Load a CSV with pandas and explore it"
+          ]
+        },
+        {
+          "rest": true
+        },
+        {
+          "classes": [
+            {
+              "title": "Python for Automation & Scripting",
+              "type": "reading",
+              "resourceUrl": "https://www.freecodecamp.org/learn",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+              "altChannel": "freeCodeCamp",
+              "todo": "Write a script that automates a small task"
+            }
+          ],
+          "todos": [
+            "Write a script that automates a small task"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Python Tutorials — OOP & Tools",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/@coreyms",
+              "channel": "Corey Schafer",
+              "duration": 25,
+              "notes": "",
+              "todo": "Watch one OOP video and apply it to your own class"
+            }
+          ],
+          "todos": [
+            "Watch one OOP video and apply it to your own class"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Web Development with Python (Django/Flask)",
+              "type": "reading",
+              "resourceUrl": "https://www.freecodecamp.org/learn",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+              "altChannel": "freeCodeCamp",
+              "todo": "Build a minimal Flask 'hello world' app"
+            }
+          ],
+          "todos": [
+            "Build a minimal Flask 'hello world' app"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Python for Machine Learning Intro",
+              "type": "reading",
+              "resourceUrl": "https://www.freecodecamp.org/learn",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+              "altChannel": "freeCodeCamp",
+              "todo": "Read the intro module on ML libraries"
+            }
+          ],
+          "todos": [
+            "Read the intro module on ML libraries"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Data Structures in Python",
+              "type": "reading",
+              "resourceUrl": "https://www.freecodecamp.org/learn",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+              "altChannel": "freeCodeCamp",
+              "todo": "Practice with lists, dicts, and sets"
+            }
+          ],
+          "todos": [
+            "Practice with lists, dicts, and sets"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Build a Python Project",
+              "type": "reading",
+              "resourceUrl": "https://www.freecodecamp.org/learn",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+              "altChannel": "freeCodeCamp",
+              "todo": "Build one small end-to-end script or app"
+            }
+          ],
+          "todos": [
+            "Build one small end-to-end script or app"
+          ]
+        },
+        {
+          "rest": true
+        }
+      ]
+    },
+    {
+      "id": "ai",
+      "title": "AI & Machine Learning Foundations",
+      "subject": "AI",
+      "level": "Beginner / All Levels",
+      "dailyMinutes": 40,
+      "blurb": "From AI For Everyone to neural networks, NLP, computer vision, and prompt engineering — DeepLearning.AI, Elements of AI & MIT OCW.",
+      "weekThemes": [
+        "AI Foundations & Machine Learning",
+        "Deep Learning, NLP & Generative AI"
+      ],
+      "days": [
+        {
+          "classes": [
+            {
+              "title": "AI For Everyone",
+              "type": "reading",
+              "resourceUrl": "https://www.deeplearning.ai/courses/ai-for-everyone/",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/watch?v=i_LwzRVP7bg",
+              "altChannel": "freeCodeCamp",
+              "todo": "Watch the first module and summarize key ideas"
+            }
+          ],
+          "todos": [
+            "Watch the first module and summarize key ideas"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Elements of AI",
+              "type": "reading",
+              "resourceUrl": "https://www.elementsofai.com/",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/watch?v=i_LwzRVP7bg",
+              "altChannel": "freeCodeCamp",
+              "todo": "Complete the first chapter's exercises"
+            }
+          ],
+          "todos": [
+            "Complete the first chapter's exercises"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Machine Learning Foundations",
+              "type": "reading",
+              "resourceUrl": "https://www.coursera.org/specializations/machine-learning-introduction",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLkDaE6sCZn6FNC6YRfRQc_FbeQrF8BwGI",
+              "altChannel": "Andrew Ng",
+              "todo": "Watch the intro lecture on supervised learning"
+            }
+          ],
+          "todos": [
+            "Watch the intro lecture on supervised learning"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Latest AI Research Explained",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/@TwoMinutePapers",
+              "channel": "Two Minute Papers",
+              "duration": 10,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi",
+              "altChannel": "3Blue1Brown",
+              "todo": "Watch 2 videos and note what each paper improved"
+            }
+          ],
+          "todos": [
+            "Watch 2 videos and note what each paper improved"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Deep Learning & Neural Networks",
+              "type": "reading",
+              "resourceUrl": "https://www.coursera.org/specializations/deep-learning",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi",
+              "altChannel": "3Blue1Brown",
+              "todo": "Watch the intro lecture on neural network basics"
+            }
+          ],
+          "todos": [
+            "Watch the intro lecture on neural network basics"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "AI Fundamentals & Ethics",
+              "type": "reading",
+              "resourceUrl": "https://www.deeplearning.ai/courses/",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/watch?v=i_LwzRVP7bg",
+              "altChannel": "freeCodeCamp",
+              "todo": "Read about one AI ethics case study"
+            }
+          ],
+          "todos": [
+            "Read about one AI ethics case study"
+          ]
+        },
+        {
+          "rest": true
+        },
+        {
+          "classes": [
+            {
+              "title": "Natural Language Processing",
+              "type": "reading",
+              "resourceUrl": "https://www.deeplearning.ai/courses/",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/watch?v=i_LwzRVP7bg",
+              "altChannel": "freeCodeCamp",
+              "todo": "Watch the intro NLP lecture"
+            }
+          ],
+          "todos": [
+            "Watch the intro NLP lecture"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Computer Vision",
+              "type": "reading",
+              "resourceUrl": "https://www.deeplearning.ai/courses/",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/watch?v=i_LwzRVP7bg",
+              "altChannel": "freeCodeCamp",
+              "todo": "Watch the intro computer-vision lecture"
+            }
+          ],
+          "todos": [
+            "Watch the intro computer-vision lecture"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Generative AI & LLMs",
+              "type": "reading",
+              "resourceUrl": "https://www.deeplearning.ai/courses/",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/watch?v=i_LwzRVP7bg",
+              "altChannel": "freeCodeCamp",
+              "todo": "Try 3 prompts with an LLM and note what worked"
+            }
+          ],
+          "todos": [
+            "Try 3 prompts with an LLM and note what worked"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Prompt Engineering",
+              "type": "reading",
+              "resourceUrl": "https://www.deeplearning.ai/courses/",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/watch?v=i_LwzRVP7bg",
+              "altChannel": "freeCodeCamp",
+              "todo": "Practice 3 prompting techniques from the course"
+            }
+          ],
+          "todos": [
+            "Practice 3 prompting techniques from the course"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "AI Agents",
+              "type": "reading",
+              "resourceUrl": "https://www.deeplearning.ai/courses/",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/watch?v=i_LwzRVP7bg",
+              "altChannel": "freeCodeCamp",
+              "todo": "Read the intro module on agentic workflows"
+            }
+          ],
+          "todos": [
+            "Read the intro module on agentic workflows"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "DeepLearning.AI Channel",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/@Deeplearningai",
+              "channel": "DeepLearning.AI",
+              "duration": 20,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/watch?v=i_LwzRVP7bg",
+              "altChannel": "freeCodeCamp",
+              "todo": "Watch one channel video on a topic that interests you"
+            }
+          ],
+          "todos": [
+            "Watch one channel video on a topic that interests you"
+          ]
+        },
+        {
+          "rest": true
+        }
+      ]
+    },
+    {
+      "id": "ielts",
+      "title": "IELTS Exam Preparation",
+      "subject": "IELTS",
+      "level": "High School / Adult",
+      "dailyMinutes": 45,
+      "blurb": "Listening, Reading, Writing, and Speaking — British Council's free IELTS Ready and Road to IELTS materials, ending in a full mock test.",
+      "weekThemes": [
+        "Listening, Reading & Writing Basics",
+        "Speaking, Advanced Writing & Mock Test"
+      ],
+      "days": [
+        {
+          "classes": [
+            {
+              "title": "Listening Skills — IELTS Ready",
+              "type": "reading",
+              "resourceUrl": "https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLfSUFKdFlttn1MWrG5Q0-a9Cbm9y3uulX",
+              "altChannel": "IELTS Full Course",
+              "todo": "Complete one listening practice module"
+            }
+          ],
+          "todos": [
+            "Complete one listening practice module"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Reading Skills — IELTS Ready",
+              "type": "reading",
+              "resourceUrl": "https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLfSUFKdFlttn1MWrG5Q0-a9Cbm9y3uulX",
+              "altChannel": "IELTS Full Course",
+              "todo": "Complete one reading passage under timed conditions"
+            }
+          ],
+          "todos": [
+            "Complete one reading passage under timed conditions"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Writing Task 1 (Academic/General)",
+              "type": "reading",
+              "resourceUrl": "https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLfSUFKdFlttn1MWrG5Q0-a9Cbm9y3uulX",
+              "altChannel": "IELTS Full Course",
+              "todo": "Write one Task 1 response and self-check the structure"
+            }
+          ],
+          "todos": [
+            "Write one Task 1 response and self-check the structure"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Writing Task 2 (Essay)",
+              "type": "reading",
+              "resourceUrl": "https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLfSUFKdFlttn1MWrG5Q0-a9Cbm9y3uulX",
+              "altChannel": "IELTS Full Course",
+              "todo": "Write one Task 2 essay within 40 minutes"
+            }
+          ],
+          "todos": [
+            "Write one Task 2 essay within 40 minutes"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "IELTS Tips & Preparation Videos",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/@britishcouncil",
+              "channel": "British Council",
+              "duration": 20,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLfSUFKdFlttn1MWrG5Q0-a9Cbm9y3uulX",
+              "altChannel": "IELTS Full Course",
+              "todo": "Watch one tips video and note 3 takeaways"
+            }
+          ],
+          "todos": [
+            "Watch one tips video and note 3 takeaways"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Speaking Skills — Part 1 & 2",
+              "type": "reading",
+              "resourceUrl": "https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/watch?v=rqmv0LCcPTs",
+              "altChannel": "IELTS Speaking Course",
+              "todo": "Record yourself answering 3 Part 1 questions"
+            }
+          ],
+          "todos": [
+            "Record yourself answering 3 Part 1 questions"
+          ]
+        },
+        {
+          "rest": true
+        },
+        {
+          "classes": [
+            {
+              "title": "Listening Skills — Road to IELTS",
+              "type": "reading",
+              "resourceUrl": "https://www.roadtoielts.com/",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLfSUFKdFlttn1MWrG5Q0-a9Cbm9y3uulX",
+              "altChannel": "IELTS Full Course",
+              "todo": "Complete one more listening module"
+            }
+          ],
+          "todos": [
+            "Complete one more listening module"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Reading Skills — Road to IELTS",
+              "type": "reading",
+              "resourceUrl": "https://www.roadtoielts.com/",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLfSUFKdFlttn1MWrG5Q0-a9Cbm9y3uulX",
+              "altChannel": "IELTS Full Course",
+              "todo": "Complete one more timed reading passage"
+            }
+          ],
+          "todos": [
+            "Complete one more timed reading passage"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Writing Task 1 — Road to IELTS",
+              "type": "reading",
+              "resourceUrl": "https://www.roadtoielts.com/",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLfSUFKdFlttn1MWrG5Q0-a9Cbm9y3uulX",
+              "altChannel": "IELTS Full Course",
+              "todo": "Write another Task 1 response, compare to a model answer"
+            }
+          ],
+          "todos": [
+            "Write another Task 1 response, compare to a model answer"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Writing Task 2 — Road to IELTS",
+              "type": "reading",
+              "resourceUrl": "https://www.roadtoielts.com/",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLfSUFKdFlttn1MWrG5Q0-a9Cbm9y3uulX",
+              "altChannel": "IELTS Full Course",
+              "todo": "Write another Task 2 essay, self-grade against band descriptors"
+            }
+          ],
+          "todos": [
+            "Write another Task 2 essay, self-grade against band descriptors"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Speaking Skills — Part 3 & Fluency",
+              "type": "reading",
+              "resourceUrl": "https://learnenglish.britishcouncil.org/ielts-preparation",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/watch?v=rqmv0LCcPTs",
+              "altChannel": "IELTS Speaking Course",
+              "todo": "Practice Part 3 discussion questions aloud"
+            }
+          ],
+          "todos": [
+            "Practice Part 3 discussion questions aloud"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "LearnEnglish IELTS Preparation",
+              "type": "reading",
+              "resourceUrl": "https://learnenglish.britishcouncil.org/ielts-preparation",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLfSUFKdFlttn1MWrG5Q0-a9Cbm9y3uulX",
+              "altChannel": "IELTS Full Course",
+              "todo": "Review your weakest skill area from this week"
+            }
+          ],
+          "todos": [
+            "Review your weakest skill area from this week"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Full Mock Test & Band Score Practice",
+              "type": "reading",
+              "resourceUrl": "https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",
+              "channel": "",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "https://www.youtube.com/playlist?list=PLfSUFKdFlttn1MWrG5Q0-a9Cbm9y3uulX",
+              "altChannel": "IELTS Full Course",
+              "todo": "Take one full timed mock test"
+            }
+          ],
+          "todos": [
+            "Take one full timed mock test"
+          ]
+        }
+      ]
+    }
+  ],
+  "catalog": [
+    {
+      "subject": "AI",
+      "level": "All Levels",
+      "platform": "YouTube — Two Minute Papers",
+      "title": "Latest AI Research Explained Simply",
+      "url": "https://www.youtube.com/@TwoMinutePapers",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "Beginner / All Levels",
+      "platform": "DeepLearning.AI (Coursera)",
+      "title": "AI For Everyone",
+      "url": "https://www.deeplearning.ai/courses/ai-for-everyone/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "Beginner / All Levels",
+      "platform": "Elements of AI",
+      "title": "Elements of AI (University of Helsinki + Reaktor)",
+      "url": "https://www.elementsofai.com/",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / Professional",
+      "platform": "DeepLearning.AI (Coursera)",
+      "title": "AI Agents — DeepLearning.AI",
+      "url": "https://www.deeplearning.ai/courses/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / Professional",
+      "platform": "DeepLearning.AI (Coursera)",
+      "title": "AI Fundamentals & Ethics — DeepLearning.AI",
+      "url": "https://www.deeplearning.ai/courses/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / Professional",
+      "platform": "DeepLearning.AI (Coursera)",
+      "title": "Computer Vision — DeepLearning.AI",
+      "url": "https://www.deeplearning.ai/courses/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / Professional",
+      "platform": "DeepLearning.AI (Coursera)",
+      "title": "Deep Learning & Neural Networks — DeepLearning.AI",
+      "url": "https://www.deeplearning.ai/courses/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / Professional",
+      "platform": "DeepLearning.AI (Coursera)",
+      "title": "Deep Learning Specialization",
+      "url": "https://www.coursera.org/specializations/deep-learning",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / Professional",
+      "platform": "DeepLearning.AI",
+      "title": "Generative AI & LLM Short Courses (Prompt Engineering, LangChain, RAG, Agents)",
+      "url": "https://www.deeplearning.ai/courses/",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / Professional",
+      "platform": "DeepLearning.AI (Coursera)",
+      "title": "Generative AI & LLMs — DeepLearning.AI",
+      "url": "https://www.deeplearning.ai/courses/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / Professional",
+      "platform": "DeepLearning.AI (Coursera)",
+      "title": "Machine Learning Foundations — DeepLearning.AI",
+      "url": "https://www.deeplearning.ai/courses/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / Professional",
+      "platform": "DeepLearning.AI (Coursera)",
+      "title": "Machine Learning Specialization (Andrew Ng / Stanford)",
+      "url": "https://www.coursera.org/specializations/machine-learning-introduction",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / Professional",
+      "platform": "DeepLearning.AI (Coursera)",
+      "title": "Natural Language Processing — DeepLearning.AI",
+      "url": "https://www.deeplearning.ai/courses/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / Professional",
+      "platform": "YouTube — DeepLearning.AI",
+      "title": "Official DeepLearning.AI Channel",
+      "url": "https://www.youtube.com/@Deeplearningai",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / Professional",
+      "platform": "DeepLearning.AI (Coursera)",
+      "title": "Prompt Engineering — DeepLearning.AI",
+      "url": "https://www.deeplearning.ai/courses/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / Professional",
+      "platform": "DeepLearning.AI (Coursera)",
+      "title": "Reinforcement Learning — DeepLearning.AI",
+      "url": "https://www.deeplearning.ai/courses/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "AI Agents — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=AI%20Agents",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "AI Agents — MIT OCW EECS",
+      "url": "https://ocw.mit.edu/search/?d=Electrical Engineering and Computer Science",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "AI Fundamentals & Ethics — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=AI%20Fundamentals",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "AI Fundamentals & Ethics — MIT OCW EECS",
+      "url": "https://ocw.mit.edu/search/?d=Electrical Engineering and Computer Science",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "Computer Vision — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Computer%20Vision",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Computer Vision — MIT OCW EECS",
+      "url": "https://ocw.mit.edu/search/?d=Electrical Engineering and Computer Science",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "Deep Learning & Neural Networks — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Deep%20Learning",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Deep Learning & Neural Networks — MIT OCW EECS",
+      "url": "https://ocw.mit.edu/search/?d=Electrical Engineering and Computer Science",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "Generative AI & LLMs — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Generative%20AI",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Generative AI & LLMs — MIT OCW EECS",
+      "url": "https://ocw.mit.edu/search/?d=Electrical Engineering and Computer Science",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Introduction to Machine Learning (6.036) / AI (6.034)",
+      "url": "https://ocw.mit.edu/search/?d=Electrical Engineering and Computer Science",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "Machine Learning Foundations — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Machine%20Learning%20Foundations",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Machine Learning Foundations — MIT OCW EECS",
+      "url": "https://ocw.mit.edu/search/?d=Electrical Engineering and Computer Science",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "Natural Language Processing — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Natural%20Language%20Processing",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Natural Language Processing — MIT OCW EECS",
+      "url": "https://ocw.mit.edu/search/?d=Electrical Engineering and Computer Science",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "Prompt Engineering — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Prompt%20Engineering",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Prompt Engineering — MIT OCW EECS",
+      "url": "https://ocw.mit.edu/search/?d=Electrical Engineering and Computer Science",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "Reinforcement Learning — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Reinforcement%20Learning",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Reinforcement Learning — MIT OCW EECS",
+      "url": "https://ocw.mit.edu/search/?d=Electrical Engineering and Computer Science",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "AI",
+      "level": "High School / College",
+      "platform": "Google",
+      "title": "Elements of AI / Google AI Essentials",
+      "url": "https://www.elementsofai.com/",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "Abstract Algebra — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Abstract",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "Khan Academy",
+      "title": "Abstract Algebra — Khan Academy",
+      "url": "https://www.khanacademy.org/math",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Abstract Algebra — MIT OCW",
+      "url": "https://ocw.mit.edu/search/?d=Mathematics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "NPTEL",
+      "title": "Abstract Algebra — NPTEL (IIT)",
+      "url": "https://nptel.ac.in/course.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "Calculus 1 (Differential Calculus) — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Calculus",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "Khan Academy",
+      "title": "Calculus 1 (Differential Calculus) — Khan Academy",
+      "url": "https://www.khanacademy.org/math",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Calculus 1 (Differential Calculus) — MIT OCW",
+      "url": "https://ocw.mit.edu/search/?d=Mathematics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "NPTEL",
+      "title": "Calculus 1 (Differential Calculus) — NPTEL (IIT)",
+      "url": "https://nptel.ac.in/course.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "YouTube — Professor Leonard",
+      "title": "Calculus 1, 2, 3 & Linear Algebra Full Lecture Series",
+      "url": "https://www.youtube.com/@ProfessorLeonard",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "YouTube — Professor Leonard",
+      "title": "Calculus 1/2/3 & Linear Algebra Full Lectures",
+      "url": "https://www.youtube.com/@ProfessorLeonard",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "Calculus 2 (Integral Calculus) — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Calculus",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "Khan Academy",
+      "title": "Calculus 2 (Integral Calculus) — Khan Academy",
+      "url": "https://www.khanacademy.org/math",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Calculus 2 (Integral Calculus) — MIT OCW",
+      "url": "https://ocw.mit.edu/search/?d=Mathematics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "NPTEL",
+      "title": "Calculus 2 (Integral Calculus) — NPTEL (IIT)",
+      "url": "https://nptel.ac.in/course.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "Calculus 3 (Multivariable Calculus) — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Calculus",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "Khan Academy",
+      "title": "Calculus 3 (Multivariable Calculus) — Khan Academy",
+      "url": "https://www.khanacademy.org/math",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Calculus 3 (Multivariable Calculus) — MIT OCW",
+      "url": "https://ocw.mit.edu/search/?d=Mathematics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "NPTEL",
+      "title": "Calculus 3 (Multivariable Calculus) — NPTEL (IIT)",
+      "url": "https://nptel.ac.in/course.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "Differential Equations — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Differential",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "Khan Academy",
+      "title": "Differential Equations — Khan Academy",
+      "url": "https://www.khanacademy.org/math",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Differential Equations — MIT OCW",
+      "url": "https://ocw.mit.edu/search/?d=Mathematics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "NPTEL",
+      "title": "Differential Equations — NPTEL (IIT)",
+      "url": "https://nptel.ac.in/course.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "NPTEL",
+      "title": "Engineering Mathematics I, II & III",
+      "url": "https://nptel.ac.in/course.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "YouTube — 3Blue1Brown",
+      "title": "Essence of Calculus & Essence of Linear Algebra",
+      "url": "https://www.youtube.com/@3blue1brown",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "Linear Algebra — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Linear",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "Khan Academy",
+      "title": "Linear Algebra — Khan Academy",
+      "url": "https://www.khanacademy.org/math",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Linear Algebra — MIT OCW",
+      "url": "https://ocw.mit.edu/search/?d=Mathematics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "NPTEL",
+      "title": "Linear Algebra — NPTEL (IIT)",
+      "url": "https://nptel.ac.in/course.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "Mathematical Proof & Logic — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Mathematical",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "Khan Academy",
+      "title": "Mathematical Proof & Logic — Khan Academy",
+      "url": "https://www.khanacademy.org/math",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Mathematical Proof & Logic — MIT OCW",
+      "url": "https://ocw.mit.edu/search/?d=Mathematics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "NPTEL",
+      "title": "Mathematical Proof & Logic — NPTEL (IIT)",
+      "url": "https://nptel.ac.in/course.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "Mathematics for Machine Learning Specialization (Imperial College London)",
+      "url": "https://www.coursera.org/specializations/mathematics-machine-learning",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "Real Analysis — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Real",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "Khan Academy",
+      "title": "Real Analysis — Khan Academy",
+      "url": "https://www.khanacademy.org/math",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Real Analysis — MIT OCW",
+      "url": "https://ocw.mit.edu/search/?d=Mathematics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "NPTEL",
+      "title": "Real Analysis — NPTEL (IIT)",
+      "url": "https://nptel.ac.in/course.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Single Variable & Multivariable Calculus, Linear Algebra (18.01/18.02/18.06)",
+      "url": "https://ocw.mit.edu/search/?d=Mathematics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Advanced Math",
+      "level": "High School Advanced / College",
+      "platform": "Khan Academy",
+      "title": "AP Calculus AB & BC, Multivariable Calculus, Linear Algebra, Differential Equations",
+      "url": "https://www.khanacademy.org/math/calculus-1",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Biology",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Botany & Plant Science — MIT OCW Biology",
+      "url": "https://ocw.mit.edu/search/?d=Biology",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Biology",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Cell Biology & Genetics — MIT OCW Biology",
+      "url": "https://ocw.mit.edu/search/?d=Biology",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Biology",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Ecology & Evolution — MIT OCW Biology",
+      "url": "https://ocw.mit.edu/search/?d=Biology",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Biology",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Human Anatomy & Physiology — MIT OCW Biology",
+      "url": "https://ocw.mit.edu/search/?d=Biology",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Biology",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Introductory Biology (7.01x)",
+      "url": "https://ocw.mit.edu/search/?d=Biology",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Biology",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Microbiology — MIT OCW Biology",
+      "url": "https://ocw.mit.edu/search/?d=Biology",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Biology",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Molecular Biology — MIT OCW Biology",
+      "url": "https://ocw.mit.edu/search/?d=Biology",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Biology",
+      "level": "High School",
+      "platform": "YouTube — Khan Academy",
+      "title": "Biology Playlist",
+      "url": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "playlist",
+      "embedId": "PL7A9646BC5110CF64"
+    },
+    {
+      "subject": "Biology",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Botany & Plant Science — Khan Academy Biology",
+      "url": "https://www.khanacademy.org/science/biology",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Biology",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Cell Biology & Genetics — Khan Academy Biology",
+      "url": "https://www.khanacademy.org/science/biology",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Biology",
+      "level": "High School",
+      "platform": "YouTube — CrashCourse",
+      "title": "Crash Course Biology",
+      "url": "https://www.youtube.com/@crashcourse",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Biology",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Ecology & Evolution — Khan Academy Biology",
+      "url": "https://www.khanacademy.org/science/biology",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Biology",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "High School Biology",
+      "url": "https://www.khanacademy.org/science/biology",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Biology",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Human Anatomy & Physiology — Khan Academy Biology",
+      "url": "https://www.khanacademy.org/science/biology",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Biology",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Microbiology — Khan Academy Biology",
+      "url": "https://www.khanacademy.org/science/biology",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Biology",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Molecular Biology — Khan Academy Biology",
+      "url": "https://www.khanacademy.org/science/biology",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chemistry",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Analytical Chemistry — MIT OCW Chemistry",
+      "url": "https://ocw.mit.edu/search/?d=Chemistry",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chemistry",
+      "level": "College / University",
+      "platform": "NPTEL",
+      "title": "Analytical Chemistry — NPTEL Chemistry",
+      "url": "https://nptel.ac.in/course.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chemistry",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Biochemistry — MIT OCW Chemistry",
+      "url": "https://ocw.mit.edu/search/?d=Chemistry",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chemistry",
+      "level": "College / University",
+      "platform": "NPTEL",
+      "title": "Biochemistry — NPTEL Chemistry",
+      "url": "https://nptel.ac.in/course.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chemistry",
+      "level": "College / University",
+      "platform": "NPTEL",
+      "title": "Engineering & Physical Chemistry",
+      "url": "https://nptel.ac.in/course.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chemistry",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Environmental Chemistry — MIT OCW Chemistry",
+      "url": "https://ocw.mit.edu/search/?d=Chemistry",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chemistry",
+      "level": "College / University",
+      "platform": "NPTEL",
+      "title": "Environmental Chemistry — NPTEL Chemistry",
+      "url": "https://nptel.ac.in/course.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chemistry",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "General & Inorganic Chemistry — MIT OCW Chemistry",
+      "url": "https://ocw.mit.edu/search/?d=Chemistry",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chemistry",
+      "level": "College / University",
+      "platform": "NPTEL",
+      "title": "General & Inorganic Chemistry — NPTEL Chemistry",
+      "url": "https://nptel.ac.in/course.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chemistry",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Organic Chemistry — MIT OCW Chemistry",
+      "url": "https://ocw.mit.edu/search/?d=Chemistry",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chemistry",
+      "level": "College / University",
+      "platform": "NPTEL",
+      "title": "Organic Chemistry — NPTEL Chemistry",
+      "url": "https://nptel.ac.in/course.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chemistry",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Physical Chemistry — MIT OCW Chemistry",
+      "url": "https://ocw.mit.edu/search/?d=Chemistry",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chemistry",
+      "level": "College / University",
+      "platform": "NPTEL",
+      "title": "Physical Chemistry — NPTEL Chemistry",
+      "url": "https://nptel.ac.in/course.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chemistry",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Principles of Chemical Science (5.111/5.112)",
+      "url": "https://ocw.mit.edu/search/?d=Chemistry",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chemistry",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Analytical Chemistry — Khan Academy Chemistry",
+      "url": "https://www.khanacademy.org/science/chemistry",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chemistry",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Biochemistry — Khan Academy Chemistry",
+      "url": "https://www.khanacademy.org/science/chemistry",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chemistry",
+      "level": "High School",
+      "platform": "YouTube — CrashCourse",
+      "title": "Crash Course Chemistry (46 episodes)",
+      "url": "https://www.youtube.com/playlist?list=PLG61LF8I_OXoh2mhx2YNY9s4ekXiriMAf",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "playlist",
+      "embedId": "PLG61LF8I_OXoh2mhx2YNY9s4ekXiriMAf"
+    },
+    {
+      "subject": "Chemistry",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Environmental Chemistry — Khan Academy Chemistry",
+      "url": "https://www.khanacademy.org/science/chemistry",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chemistry",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "General & Inorganic Chemistry — Khan Academy Chemistry",
+      "url": "https://www.khanacademy.org/science/chemistry",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chemistry",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "High School Chemistry",
+      "url": "https://www.khanacademy.org/science/chemistry",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chemistry",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Organic Chemistry — Khan Academy Chemistry",
+      "url": "https://www.khanacademy.org/science/chemistry",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chemistry",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Physical Chemistry — Khan Academy Chemistry",
+      "url": "https://www.khanacademy.org/science/chemistry",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chemistry",
+      "level": "High School / College",
+      "platform": "YouTube — The Organic Chemistry Tutor",
+      "title": "General & Organic Chemistry Playlists",
+      "url": "https://www.youtube.com/@TheOrganicChemistryTutor",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chemistry",
+      "level": "High School / College",
+      "platform": "YouTube — The Organic Chemistry Tutor",
+      "title": "General Chemistry Playlist",
+      "url": "https://www.youtube.com/playlist?list=PL0o_zxa4K1BWziAvOKdqsMFSB_MyyLAqS",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "playlist",
+      "embedId": "PL0o_zxa4K1BWziAvOKdqsMFSB_MyyLAqS"
+    },
+    {
+      "subject": "Coding",
+      "level": "All Levels",
+      "platform": "freeCodeCamp.org",
+      "title": "Cloud Computing Basics — freeCodeCamp Curriculum",
+      "url": "https://www.freecodecamp.org/learn",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "All Levels",
+      "platform": "freeCodeCamp.org",
+      "title": "Cybersecurity Fundamentals — freeCodeCamp Curriculum",
+      "url": "https://www.freecodecamp.org/learn",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "All Levels",
+      "platform": "freeCodeCamp.org",
+      "title": "Data Structures & Algorithms — freeCodeCamp Curriculum",
+      "url": "https://www.freecodecamp.org/learn",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "All Levels",
+      "platform": "freeCodeCamp.org",
+      "title": "Full Interactive Curriculum (Responsive Web Design → Data Analysis)",
+      "url": "https://www.freecodecamp.org/learn",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "All Levels",
+      "platform": "freeCodeCamp.org",
+      "title": "Git & Version Control — freeCodeCamp Curriculum",
+      "url": "https://www.freecodecamp.org/learn",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "All Levels",
+      "platform": "freeCodeCamp.org",
+      "title": "Intro to Programming Logic — freeCodeCamp Curriculum",
+      "url": "https://www.freecodecamp.org/learn",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "All Levels",
+      "platform": "freeCodeCamp.org",
+      "title": "Mobile App Development — freeCodeCamp Curriculum",
+      "url": "https://www.freecodecamp.org/learn",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "All Levels",
+      "platform": "freeCodeCamp.org",
+      "title": "SQL & Databases — freeCodeCamp Curriculum",
+      "url": "https://www.freecodecamp.org/learn",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "All Levels",
+      "platform": "freeCodeCamp.org",
+      "title": "Web Development (HTML/CSS/JS) — freeCodeCamp Curriculum",
+      "url": "https://www.freecodecamp.org/learn",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "All Levels",
+      "platform": "YouTube — freeCodeCamp",
+      "title": "freeCodeCamp Channel (1000s of hours of coding courses)",
+      "url": "https://www.youtube.com/@freecodecamp",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "All Levels",
+      "platform": "YouTube — freeCodeCamp",
+      "title": "freeCodeCamp Full-Length Courses",
+      "url": "https://www.youtube.com/@freecodecamp",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "College / Professional",
+      "platform": "Coursera",
+      "title": "Cloud Computing Basics — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Cloud%20Computing%20Basics",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "College / Professional",
+      "platform": "Coursera",
+      "title": "Cybersecurity Fundamentals — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Cybersecurity%20Fundamentals",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "College / Professional",
+      "platform": "Coursera",
+      "title": "Data Structures & Algorithms — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Data%20Structures%20&%20Algorithms",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "College / Professional",
+      "platform": "YouTube — Traversy Media",
+      "title": "Full-Stack & Web Dev Crash Courses",
+      "url": "https://www.youtube.com/@TraversyMedia",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "College / Professional",
+      "platform": "Coursera",
+      "title": "Git & Version Control — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Git%20&%20Version%20Control",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "College / Professional",
+      "platform": "Coursera — Google",
+      "title": "Google IT Support / Google IT Automation with Python",
+      "url": "https://www.coursera.org/professional-certificates/google-it-support",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "College / Professional",
+      "platform": "Coursera",
+      "title": "Intro to Programming Logic — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Intro%20to%20Programming%20Logic",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "College / Professional",
+      "platform": "Coursera",
+      "title": "Mobile App Development — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Mobile%20App%20Development",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "College / Professional",
+      "platform": "Coursera",
+      "title": "SQL & Databases — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=SQL%20&%20Databases",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "College / Professional",
+      "platform": "Coursera",
+      "title": "Web Development (HTML/CSS/JS) — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Web%20Development",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "College / University",
+      "platform": "edX",
+      "title": "Cloud Computing Basics — edX incl. Harvard CS50",
+      "url": "https://www.edx.org/learn/computer-science",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "College / University",
+      "platform": "edX",
+      "title": "Cybersecurity Fundamentals — edX incl. Harvard CS50",
+      "url": "https://www.edx.org/learn/computer-science",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "College / University",
+      "platform": "edX",
+      "title": "Data Structures & Algorithms — edX incl. Harvard CS50",
+      "url": "https://www.edx.org/learn/computer-science",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "College / University",
+      "platform": "edX",
+      "title": "Git & Version Control — edX incl. Harvard CS50",
+      "url": "https://www.edx.org/learn/computer-science",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "College / University",
+      "platform": "edX",
+      "title": "Intro to Programming Logic — edX incl. Harvard CS50",
+      "url": "https://www.edx.org/learn/computer-science",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "College / University",
+      "platform": "edX",
+      "title": "Mobile App Development — edX incl. Harvard CS50",
+      "url": "https://www.edx.org/learn/computer-science",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "College / University",
+      "platform": "edX",
+      "title": "SQL & Databases — edX incl. Harvard CS50",
+      "url": "https://www.edx.org/learn/computer-science",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "College / University",
+      "platform": "edX",
+      "title": "Web Development (HTML/CSS/JS) — edX incl. Harvard CS50",
+      "url": "https://www.edx.org/learn/computer-science",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "High School / College",
+      "platform": "YouTube — Programming with Mosh",
+      "title": "Beginner Programming & Web Dev",
+      "url": "https://www.youtube.com/@programmingwithmosh",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "High School / College",
+      "platform": "Harvard (edX)",
+      "title": "CS50: Introduction to Computer Science",
+      "url": "https://www.edx.org/learn/computer-science/harvard-university-cs50-s-introduction-to-computer-science",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "High School / College",
+      "platform": "Codecademy",
+      "title": "Cloud Computing Basics — Codecademy Catalog",
+      "url": "https://www.codecademy.com/catalog",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "High School / College",
+      "platform": "Codecademy",
+      "title": "Cybersecurity Fundamentals — Codecademy Catalog",
+      "url": "https://www.codecademy.com/catalog",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "High School / College",
+      "platform": "Codecademy",
+      "title": "Data Structures & Algorithms — Codecademy Catalog",
+      "url": "https://www.codecademy.com/catalog",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "High School / College",
+      "platform": "Codecademy",
+      "title": "Git & Version Control — Codecademy Catalog",
+      "url": "https://www.codecademy.com/catalog",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "High School / College",
+      "platform": "Codecademy",
+      "title": "Intro to Programming Logic — Codecademy Catalog",
+      "url": "https://www.codecademy.com/catalog",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "High School / College",
+      "platform": "Codecademy",
+      "title": "Mobile App Development — Codecademy Catalog",
+      "url": "https://www.codecademy.com/catalog",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "High School / College",
+      "platform": "Codecademy",
+      "title": "SQL & Databases — Codecademy Catalog",
+      "url": "https://www.codecademy.com/catalog",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "High School / College",
+      "platform": "Codecademy",
+      "title": "Web Development (HTML/CSS/JS) — Codecademy Catalog",
+      "url": "https://www.codecademy.com/catalog",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding",
+      "level": "Middle–High School",
+      "platform": "Khan Academy",
+      "title": "Intro to Computer Science / AP CS Principles",
+      "url": "https://www.khanacademy.org/computing/ap-computer-science-principles",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "All Levels",
+      "platform": "Coursera",
+      "title": "Creative Writing — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Creative%20Writing",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "All Levels",
+      "platform": "Khan Academy",
+      "title": "Creative Writing — Khan Academy",
+      "url": "https://www.khanacademy.org/ela",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "All Levels",
+      "platform": "edX",
+      "title": "Creative Writing — University Courses (edX)",
+      "url": "https://www.edx.org/learn/writing",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "All Levels",
+      "platform": "Coursera",
+      "title": "English as a Second Language (ESL) — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=English%20as%20a%20Second%20Language",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "All Levels",
+      "platform": "Khan Academy",
+      "title": "English as a Second Language (ESL) — Khan Academy",
+      "url": "https://www.khanacademy.org/ela",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "All Levels",
+      "platform": "edX",
+      "title": "English as a Second Language (ESL) — University Courses (edX)",
+      "url": "https://www.edx.org/learn/writing",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "All Levels",
+      "platform": "YouTube — TED-Ed",
+      "title": "Language, Writing & Rhetoric Shorts",
+      "url": "https://www.youtube.com/@TEDEd",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "All Levels",
+      "platform": "Coursera",
+      "title": "Vocabulary Building — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Vocabulary%20Building",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "All Levels",
+      "platform": "Khan Academy",
+      "title": "Vocabulary Building — Khan Academy",
+      "url": "https://www.khanacademy.org/ela",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "All Levels",
+      "platform": "edX",
+      "title": "Vocabulary Building — University Courses (edX)",
+      "url": "https://www.edx.org/learn/writing",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "College / Professional",
+      "platform": "Coursera",
+      "title": "Good with Words: Writing and Editing (University of Michigan)",
+      "url": "https://www.coursera.org/specializations/good-with-words",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "Elementary–High School",
+      "platform": "Coursera",
+      "title": "Reading Comprehension — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Reading%20Comprehension",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "Elementary–High School",
+      "platform": "Khan Academy",
+      "title": "Reading Comprehension — Khan Academy",
+      "url": "https://www.khanacademy.org/ela",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "Elementary–High School",
+      "platform": "edX",
+      "title": "Reading Comprehension — University Courses (edX)",
+      "url": "https://www.edx.org/learn/writing",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "Elementary–Middle School",
+      "platform": "Khan Academy",
+      "title": "Reading & Language Arts (Grades 2-9)",
+      "url": "https://www.khanacademy.org/ela",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Grammar Course",
+      "url": "https://www.khanacademy.org/humanities/grammar",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "High School / College",
+      "platform": "Coursera",
+      "title": "Academic Essay Writing — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Academic%20Essay%20Writing",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "High School / College",
+      "platform": "Khan Academy",
+      "title": "Academic Essay Writing — Khan Academy",
+      "url": "https://www.khanacademy.org/ela",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "High School / College",
+      "platform": "edX",
+      "title": "Academic Essay Writing — University Courses (edX)",
+      "url": "https://www.edx.org/learn/writing",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "High School / College",
+      "platform": "edX",
+      "title": "College Writing & Composition (various universities)",
+      "url": "https://www.edx.org/learn/writing",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "High School / College",
+      "platform": "Coursera",
+      "title": "Literature Analysis — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Literature%20Analysis",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "High School / College",
+      "platform": "Khan Academy",
+      "title": "Literature Analysis — Khan Academy",
+      "url": "https://www.khanacademy.org/ela",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "High School / College",
+      "platform": "edX",
+      "title": "Literature Analysis — University Courses (edX)",
+      "url": "https://www.edx.org/learn/writing",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "High School / College",
+      "platform": "Coursera",
+      "title": "Public Speaking & Presentation — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Public%20Speaking%20&%20Presentation",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "High School / College",
+      "platform": "Khan Academy",
+      "title": "Public Speaking & Presentation — Khan Academy",
+      "url": "https://www.khanacademy.org/ela",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "High School / College",
+      "platform": "edX",
+      "title": "Public Speaking & Presentation — University Courses (edX)",
+      "url": "https://www.edx.org/learn/writing",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "Middle–High School",
+      "platform": "YouTube — CrashCourse",
+      "title": "Crash Course Literature",
+      "url": "https://www.youtube.com/@crashcourse",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "Middle–High School",
+      "platform": "YouTube — CrashCourse",
+      "title": "Crash Course Literature",
+      "url": "https://www.youtube.com/playlist?list=PL8dPuuaLjXtOAKed10QOhrE9wDoWSSa9m",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "playlist",
+      "embedId": "PL8dPuuaLjXtOAKed10QOhrE9wDoWSSa9m"
+    },
+    {
+      "subject": "English",
+      "level": "Middle–High School",
+      "platform": "Coursera",
+      "title": "Grammar & Mechanics — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Grammar%20&%20Mechanics",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "Middle–High School",
+      "platform": "Khan Academy",
+      "title": "Grammar & Mechanics — Khan Academy",
+      "url": "https://www.khanacademy.org/ela",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "English",
+      "level": "Middle–High School",
+      "platform": "edX",
+      "title": "Grammar & Mechanics — University Courses (edX)",
+      "url": "https://www.edx.org/learn/writing",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "IELTS",
+      "level": "High School / Adult",
+      "platform": "British Council",
+      "title": "Full Mock Tests & Band Score Practice — IELTS Ready",
+      "url": "https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "IELTS",
+      "level": "High School / Adult",
+      "platform": "British Council",
+      "title": "Full Mock Tests & Band Score Practice — LearnEnglish",
+      "url": "https://learnenglish.britishcouncil.org/ielts-preparation",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "IELTS",
+      "level": "High School / Adult",
+      "platform": "British Council",
+      "title": "Full Mock Tests & Band Score Practice — Road to IELTS",
+      "url": "https://www.roadtoielts.com/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "IELTS",
+      "level": "High School / Adult",
+      "platform": "British Council",
+      "title": "IELTS Ready — Free Preparation Modules",
+      "url": "https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "IELTS",
+      "level": "High School / Adult",
+      "platform": "YouTube — British Council",
+      "title": "IELTS Tips & Preparation Videos",
+      "url": "https://www.youtube.com/@britishcouncil",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "IELTS",
+      "level": "High School / Adult",
+      "platform": "British Council",
+      "title": "LearnEnglish — IELTS Preparation",
+      "url": "https://learnenglish.britishcouncil.org/ielts-preparation",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "IELTS",
+      "level": "High School / Adult",
+      "platform": "British Council",
+      "title": "Listening Skills — IELTS Ready",
+      "url": "https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "IELTS",
+      "level": "High School / Adult",
+      "platform": "British Council",
+      "title": "Listening Skills — LearnEnglish",
+      "url": "https://learnenglish.britishcouncil.org/ielts-preparation",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "IELTS",
+      "level": "High School / Adult",
+      "platform": "British Council",
+      "title": "Listening Skills — Road to IELTS",
+      "url": "https://www.roadtoielts.com/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "IELTS",
+      "level": "High School / Adult",
+      "platform": "British Council",
+      "title": "Reading Skills — IELTS Ready",
+      "url": "https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "IELTS",
+      "level": "High School / Adult",
+      "platform": "British Council",
+      "title": "Reading Skills — LearnEnglish",
+      "url": "https://learnenglish.britishcouncil.org/ielts-preparation",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "IELTS",
+      "level": "High School / Adult",
+      "platform": "British Council",
+      "title": "Reading Skills — Road to IELTS",
+      "url": "https://www.roadtoielts.com/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "IELTS",
+      "level": "High School / Adult",
+      "platform": "British Council",
+      "title": "Road to IELTS",
+      "url": "https://www.roadtoielts.com/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "IELTS",
+      "level": "High School / Adult",
+      "platform": "British Council",
+      "title": "Speaking Skills — IELTS Ready",
+      "url": "https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "IELTS",
+      "level": "High School / Adult",
+      "platform": "British Council",
+      "title": "Speaking Skills — LearnEnglish",
+      "url": "https://learnenglish.britishcouncil.org/ielts-preparation",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "IELTS",
+      "level": "High School / Adult",
+      "platform": "British Council",
+      "title": "Speaking Skills — Road to IELTS",
+      "url": "https://www.roadtoielts.com/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "IELTS",
+      "level": "High School / Adult",
+      "platform": "British Council",
+      "title": "Writing Task 1 (Academic/General) — IELTS Ready",
+      "url": "https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "IELTS",
+      "level": "High School / Adult",
+      "platform": "British Council",
+      "title": "Writing Task 1 (Academic/General) — LearnEnglish",
+      "url": "https://learnenglish.britishcouncil.org/ielts-preparation",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "IELTS",
+      "level": "High School / Adult",
+      "platform": "British Council",
+      "title": "Writing Task 1 (Academic/General) — Road to IELTS",
+      "url": "https://www.roadtoielts.com/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "IELTS",
+      "level": "High School / Adult",
+      "platform": "British Council",
+      "title": "Writing Task 2 (Essay) — IELTS Ready",
+      "url": "https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "IELTS",
+      "level": "High School / Adult",
+      "platform": "British Council",
+      "title": "Writing Task 2 (Essay) — LearnEnglish",
+      "url": "https://learnenglish.britishcouncil.org/ielts-preparation",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "IELTS",
+      "level": "High School / Adult",
+      "platform": "British Council",
+      "title": "Writing Task 2 (Essay) — Road to IELTS",
+      "url": "https://www.roadtoielts.com/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "All Levels",
+      "platform": "YouTube — Khan Academy",
+      "title": "Khan Academy Math Playlists",
+      "url": "https://www.youtube.com/@khanacademy",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "Discrete Mathematics — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Discrete%20Mathematics",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "College / University",
+      "platform": "Brilliant.org",
+      "title": "Discrete Mathematics — Interactive Problem-Solving",
+      "url": "https://brilliant.org/courses/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "College / University",
+      "platform": "Khan Academy",
+      "title": "Discrete Mathematics — Khan Academy",
+      "url": "https://www.khanacademy.org/math",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "College / University",
+      "platform": "edX",
+      "title": "Discrete Mathematics — University Courses (edX)",
+      "url": "https://www.edx.org/learn/math",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "Elementary (K-5)",
+      "platform": "Coursera",
+      "title": "Early Math & Arithmetic — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Early%20Math%20&%20Arithmetic",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "Elementary (K-5)",
+      "platform": "Brilliant.org",
+      "title": "Early Math & Arithmetic — Interactive Problem-Solving",
+      "url": "https://brilliant.org/courses/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "Elementary (K-5)",
+      "platform": "Khan Academy",
+      "title": "Early Math & Arithmetic — Khan Academy",
+      "url": "https://www.khanacademy.org/math",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "Elementary (K-5)",
+      "platform": "edX",
+      "title": "Early Math & Arithmetic — University Courses (edX)",
+      "url": "https://www.edx.org/learn/math",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "Elementary (K-5)",
+      "platform": "Khan Academy",
+      "title": "Early Math through 5th Grade Math",
+      "url": "https://www.khanacademy.org/math/cc-fifth-grade-math",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "Coursera",
+      "title": "Algebra 1 — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Algebra%201",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "Brilliant.org",
+      "title": "Algebra 1 — Interactive Problem-Solving",
+      "url": "https://brilliant.org/courses/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Algebra 1 — Khan Academy",
+      "url": "https://www.khanacademy.org/math",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "edX",
+      "title": "Algebra 1 — University Courses (edX)",
+      "url": "https://www.edx.org/learn/math",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Algebra 1, Geometry, Algebra 2, Trigonometry, Precalculus",
+      "url": "https://www.khanacademy.org/math/algebra",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "Coursera",
+      "title": "Algebra 2 — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Algebra%202",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "Brilliant.org",
+      "title": "Algebra 2 — Interactive Problem-Solving",
+      "url": "https://brilliant.org/courses/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Algebra 2 — Khan Academy",
+      "url": "https://www.khanacademy.org/math",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "edX",
+      "title": "Algebra 2 — University Courses (edX)",
+      "url": "https://www.edx.org/learn/math",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "Coursera",
+      "title": "Consumer & Financial Math — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Consumer%20&%20Financial%20Math",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "Brilliant.org",
+      "title": "Consumer & Financial Math — Interactive Problem-Solving",
+      "url": "https://brilliant.org/courses/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Consumer & Financial Math — Khan Academy",
+      "url": "https://www.khanacademy.org/math",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "edX",
+      "title": "Consumer & Financial Math — University Courses (edX)",
+      "url": "https://www.edx.org/learn/math",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "Coursera",
+      "title": "Geometry — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Geometry",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "Brilliant.org",
+      "title": "Geometry — Interactive Problem-Solving",
+      "url": "https://brilliant.org/courses/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Geometry — Khan Academy",
+      "url": "https://www.khanacademy.org/math",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "edX",
+      "title": "Geometry — University Courses (edX)",
+      "url": "https://www.edx.org/learn/math",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "edX",
+      "title": "High School Math via MIT & Rice (various)",
+      "url": "https://www.edx.org/learn/math",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "Coursera",
+      "title": "Precalculus — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Precalculus",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "Brilliant.org",
+      "title": "Precalculus — Interactive Problem-Solving",
+      "url": "https://brilliant.org/courses/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Precalculus — Khan Academy",
+      "url": "https://www.khanacademy.org/math",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "edX",
+      "title": "Precalculus — University Courses (edX)",
+      "url": "https://www.edx.org/learn/math",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "Coursera",
+      "title": "Statistics & Probability — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Statistics%20&%20Probability",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "Brilliant.org",
+      "title": "Statistics & Probability — Interactive Problem-Solving",
+      "url": "https://brilliant.org/courses/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Statistics & Probability — Khan Academy",
+      "url": "https://www.khanacademy.org/math",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "edX",
+      "title": "Statistics & Probability — University Courses (edX)",
+      "url": "https://www.edx.org/learn/math",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "Coursera",
+      "title": "Trigonometry — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Trigonometry",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "Brilliant.org",
+      "title": "Trigonometry — Interactive Problem-Solving",
+      "url": "https://brilliant.org/courses/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Trigonometry — Khan Academy",
+      "url": "https://www.khanacademy.org/math",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School",
+      "platform": "edX",
+      "title": "Trigonometry — University Courses (edX)",
+      "url": "https://www.edx.org/learn/math",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School / College",
+      "platform": "Coursera",
+      "title": "Number Theory — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Number%20Theory",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School / College",
+      "platform": "Brilliant.org",
+      "title": "Number Theory — Interactive Problem-Solving",
+      "url": "https://brilliant.org/courses/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School / College",
+      "platform": "Khan Academy",
+      "title": "Number Theory — Khan Academy",
+      "url": "https://www.khanacademy.org/math",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School / College",
+      "platform": "edX",
+      "title": "Number Theory — University Courses (edX)",
+      "url": "https://www.edx.org/learn/math",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School / College",
+      "platform": "YouTube — 3Blue1Brown",
+      "title": "Visual Math Intuition Series",
+      "url": "https://www.youtube.com/@3blue1brown",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School Advanced",
+      "platform": "Coursera",
+      "title": "Competition / Olympiad Math — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Competition%20/%20Olympiad%20Math",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School Advanced",
+      "platform": "Brilliant.org",
+      "title": "Competition / Olympiad Math — Interactive Problem-Solving",
+      "url": "https://brilliant.org/courses/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School Advanced",
+      "platform": "Khan Academy",
+      "title": "Competition / Olympiad Math — Khan Academy",
+      "url": "https://www.khanacademy.org/math",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "High School Advanced",
+      "platform": "edX",
+      "title": "Competition / Olympiad Math — University Courses (edX)",
+      "url": "https://www.edx.org/learn/math",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "Middle School (6-8)",
+      "platform": "Khan Academy",
+      "title": "6th, 7th & 8th Grade Math",
+      "url": "https://www.khanacademy.org/math/pre-algebra",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "Middle School (6-8)",
+      "platform": "YouTube — Khan Academy",
+      "title": "Pre-Algebra Playlist",
+      "url": "https://www.youtube.com/@khanacademy",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "Middle School (6-8)",
+      "platform": "Coursera",
+      "title": "Pre-Algebra — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Pre-Algebra",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "Middle School (6-8)",
+      "platform": "Brilliant.org",
+      "title": "Pre-Algebra — Interactive Problem-Solving",
+      "url": "https://brilliant.org/courses/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "Middle School (6-8)",
+      "platform": "Khan Academy",
+      "title": "Pre-Algebra — Khan Academy",
+      "url": "https://www.khanacademy.org/math",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Math",
+      "level": "Middle School (6-8)",
+      "platform": "edX",
+      "title": "Pre-Algebra — University Courses (edX)",
+      "url": "https://www.edx.org/learn/math",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Astrophysics & Cosmology — MIT OCW Physics",
+      "url": "https://ocw.mit.edu/search/?d=Physics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "NPTEL",
+      "title": "Astrophysics & Cosmology — NPTEL Physics",
+      "url": "https://nptel.ac.in/course.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "edX",
+      "title": "Astrophysics & Cosmology — University Physics (edX)",
+      "url": "https://www.edx.org/learn/physics",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Classical Mechanics, E&M, Quantum Physics (8.01/8.02/8.04)",
+      "url": "https://ocw.mit.edu/search/?d=Physics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Electricity & Magnetism — MIT OCW Physics",
+      "url": "https://ocw.mit.edu/search/?d=Physics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "NPTEL",
+      "title": "Electricity & Magnetism — NPTEL Physics",
+      "url": "https://nptel.ac.in/course.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "edX",
+      "title": "Electricity & Magnetism — University Physics (edX)",
+      "url": "https://www.edx.org/learn/physics",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "NPTEL",
+      "title": "Engineering Physics",
+      "url": "https://nptel.ac.in/course.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "YouTube — MIT OpenCourseWare",
+      "title": "MIT OCW Physics Lecture Recordings",
+      "url": "https://www.youtube.com/@mitocw",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Mechanics — MIT OCW Physics",
+      "url": "https://ocw.mit.edu/search/?d=Physics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "NPTEL",
+      "title": "Mechanics — NPTEL Physics",
+      "url": "https://nptel.ac.in/course.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "edX",
+      "title": "Mechanics — University Physics (edX)",
+      "url": "https://www.edx.org/learn/physics",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Modern & Quantum Physics — MIT OCW Physics",
+      "url": "https://ocw.mit.edu/search/?d=Physics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "NPTEL",
+      "title": "Modern & Quantum Physics — NPTEL Physics",
+      "url": "https://nptel.ac.in/course.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "edX",
+      "title": "Modern & Quantum Physics — University Physics (edX)",
+      "url": "https://www.edx.org/learn/physics",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Optics — MIT OCW Physics",
+      "url": "https://ocw.mit.edu/search/?d=Physics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "NPTEL",
+      "title": "Optics — NPTEL Physics",
+      "url": "https://nptel.ac.in/course.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "edX",
+      "title": "Optics — University Physics (edX)",
+      "url": "https://www.edx.org/learn/physics",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Thermodynamics — MIT OCW Physics",
+      "url": "https://ocw.mit.edu/search/?d=Physics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "NPTEL",
+      "title": "Thermodynamics — NPTEL Physics",
+      "url": "https://nptel.ac.in/course.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "edX",
+      "title": "Thermodynamics — University Physics (edX)",
+      "url": "https://www.edx.org/learn/physics",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "edX",
+      "title": "University Physics (various, incl. MITx)",
+      "url": "https://www.edx.org/learn/physics",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "MIT OpenCourseWare",
+      "title": "Waves & Sound — MIT OCW Physics",
+      "url": "https://ocw.mit.edu/search/?d=Physics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "NPTEL",
+      "title": "Waves & Sound — NPTEL Physics",
+      "url": "https://nptel.ac.in/course.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "College / University",
+      "platform": "edX",
+      "title": "Waves & Sound — University Physics (edX)",
+      "url": "https://www.edx.org/learn/physics",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Astrophysics & Cosmology — Khan Academy Physics",
+      "url": "https://www.khanacademy.org/science/physics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "High School",
+      "platform": "YouTube — CrashCourse",
+      "title": "Crash Course Physics (46 episodes)",
+      "url": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "playlist",
+      "embedId": "PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8"
+    },
+    {
+      "subject": "Physics",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Electricity & Magnetism — Khan Academy Physics",
+      "url": "https://www.khanacademy.org/science/physics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "High School Physics",
+      "url": "https://www.khanacademy.org/science/physics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Mechanics — Khan Academy Physics",
+      "url": "https://www.khanacademy.org/science/physics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Modern & Quantum Physics — Khan Academy Physics",
+      "url": "https://www.khanacademy.org/science/physics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Optics — Khan Academy Physics",
+      "url": "https://www.khanacademy.org/science/physics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Thermodynamics — Khan Academy Physics",
+      "url": "https://www.khanacademy.org/science/physics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Physics",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Waves & Sound — Khan Academy Physics",
+      "url": "https://www.khanacademy.org/science/physics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Python",
+      "level": "Beginner (All Ages)",
+      "platform": "YouTube — freeCodeCamp",
+      "title": "Learn Python — Full Course for Beginners",
+      "url": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "rfscVS0vtbw"
+    },
+    {
+      "subject": "Python",
+      "level": "Beginner (All Ages)",
+      "platform": "freeCodeCamp.org",
+      "title": "Object-Oriented Python — freeCodeCamp",
+      "url": "https://www.freecodecamp.org/learn",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Python",
+      "level": "Beginner (All Ages)",
+      "platform": "freeCodeCamp.org",
+      "title": "Python Fundamentals — freeCodeCamp",
+      "url": "https://www.freecodecamp.org/learn",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Python",
+      "level": "Beginner (All Ages)",
+      "platform": "freeCodeCamp.org",
+      "title": "Python for Automation & Scripting — freeCodeCamp",
+      "url": "https://www.freecodecamp.org/learn",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Python",
+      "level": "Beginner (All Ages)",
+      "platform": "freeCodeCamp.org",
+      "title": "Python for Data Science (NumPy/Pandas) — freeCodeCamp",
+      "url": "https://www.freecodecamp.org/learn",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Python",
+      "level": "Beginner (All Ages)",
+      "platform": "freeCodeCamp.org",
+      "title": "Python for Machine Learning — freeCodeCamp",
+      "url": "https://www.freecodecamp.org/learn",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Python",
+      "level": "Beginner (All Ages)",
+      "platform": "freeCodeCamp.org",
+      "title": "Web Development with Python (Django/Flask) — freeCodeCamp",
+      "url": "https://www.freecodecamp.org/learn",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Python",
+      "level": "College / Professional",
+      "platform": "Codecademy",
+      "title": "Learn Python 3",
+      "url": "https://www.codecademy.com/learn/learn-python-3",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Python",
+      "level": "College / Professional",
+      "platform": "Codecademy",
+      "title": "Object-Oriented Python — Learn Python 3",
+      "url": "https://www.codecademy.com/learn/learn-python-3",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Python",
+      "level": "College / Professional",
+      "platform": "Codecademy",
+      "title": "Python Fundamentals — Learn Python 3",
+      "url": "https://www.codecademy.com/learn/learn-python-3",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Python",
+      "level": "College / Professional",
+      "platform": "YouTube — Corey Schafer",
+      "title": "Python Tutorials (OOP, Flask, Data Tools)",
+      "url": "https://www.youtube.com/@coreyms",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Python",
+      "level": "College / Professional",
+      "platform": "Codecademy",
+      "title": "Python for Automation & Scripting — Learn Python 3",
+      "url": "https://www.codecademy.com/learn/learn-python-3",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Python",
+      "level": "College / Professional",
+      "platform": "Codecademy",
+      "title": "Python for Data Science (NumPy/Pandas) — Learn Python 3",
+      "url": "https://www.codecademy.com/learn/learn-python-3",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Python",
+      "level": "College / Professional",
+      "platform": "Codecademy",
+      "title": "Python for Machine Learning — Learn Python 3",
+      "url": "https://www.codecademy.com/learn/learn-python-3",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Python",
+      "level": "College / Professional",
+      "platform": "freeCodeCamp.org",
+      "title": "Scientific Computing with Python Certification",
+      "url": "https://www.freecodecamp.org/learn/scientific-computing-with-python/",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Python",
+      "level": "College / Professional",
+      "platform": "Codecademy",
+      "title": "Web Development with Python (Django/Flask) — Learn Python 3",
+      "url": "https://www.codecademy.com/learn/learn-python-3",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Python",
+      "level": "High School / College",
+      "platform": "Coursera — University of Michigan",
+      "title": "Object-Oriented Python — Python for Everybody",
+      "url": "https://www.coursera.org/specializations/python",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Python",
+      "level": "High School / College",
+      "platform": "Coursera — University of Michigan",
+      "title": "Python Fundamentals — Python for Everybody",
+      "url": "https://www.coursera.org/specializations/python",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Python",
+      "level": "High School / College",
+      "platform": "Coursera — University of Michigan",
+      "title": "Python for Automation & Scripting — Python for Everybody",
+      "url": "https://www.coursera.org/specializations/python",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Python",
+      "level": "High School / College",
+      "platform": "Coursera — University of Michigan",
+      "title": "Python for Data Science (NumPy/Pandas) — Python for Everybody",
+      "url": "https://www.coursera.org/specializations/python",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Python",
+      "level": "High School / College",
+      "platform": "Coursera — University of Michigan",
+      "title": "Python for Everybody Specialization",
+      "url": "https://www.coursera.org/specializations/python",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Python",
+      "level": "High School / College",
+      "platform": "Coursera — University of Michigan",
+      "title": "Python for Machine Learning — Python for Everybody",
+      "url": "https://www.coursera.org/specializations/python",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Python",
+      "level": "High School / College",
+      "platform": "Coursera — University of Michigan",
+      "title": "Web Development with Python (Django/Flask) — Python for Everybody",
+      "url": "https://www.coursera.org/specializations/python",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Research",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "Academic Databases & Search Strategy — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Academic%20Databases%20&%20Search%20Strategy",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Research",
+      "level": "College / University",
+      "platform": "JSTOR",
+      "title": "Academic Journal Archive",
+      "url": "https://www.jstor.org/",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Research",
+      "level": "College / University",
+      "platform": "Google Scholar",
+      "title": "Academic Search Engine",
+      "url": "https://scholar.google.com/",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Research",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "Citation & Referencing (APA/MLA/Chicago) — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Citation%20&%20Referencing",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Research",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "Data Analysis Basics for Research — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Data%20Analysis%20Basics%20for%20Research",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Research",
+      "level": "College / University",
+      "platform": "Google",
+      "title": "Google Scholar",
+      "url": "https://scholar.google.com/",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Research",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "Literature Review Skills — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Literature%20Review%20Skills",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Research",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "Research Methodology & Design — Coursera Search",
+      "url": "https://www.coursera.org/courses?query=Research%20Methodology%20&%20Design",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Research",
+      "level": "College / University",
+      "platform": "Coursera",
+      "title": "Research Methods Specializations (various universities)",
+      "url": "https://www.coursera.org/courses?query=research%20methods",
+      "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Research",
+      "level": "High School / College",
+      "platform": "Purdue OWL",
+      "title": "Academic Databases & Search Strategy — Purdue OWL",
+      "url": "https://owl.purdue.edu/owl/purdue_owl.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Research",
+      "level": "High School / College",
+      "platform": "Purdue OWL",
+      "title": "Citation & Referencing (APA/MLA/Chicago) — Purdue OWL",
+      "url": "https://owl.purdue.edu/owl/purdue_owl.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Research",
+      "level": "High School / College",
+      "platform": "Purdue OWL",
+      "title": "Data Analysis Basics for Research — Purdue OWL",
+      "url": "https://owl.purdue.edu/owl/purdue_owl.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Research",
+      "level": "High School / College",
+      "platform": "Purdue OWL",
+      "title": "Literature Review Skills — Purdue OWL",
+      "url": "https://owl.purdue.edu/owl/purdue_owl.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Research",
+      "level": "High School / College",
+      "platform": "Purdue OWL",
+      "title": "Online Writing Lab — Research & Citation Guides (APA, MLA, Chicago)",
+      "url": "https://owl.purdue.edu/owl/purdue_owl.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Research",
+      "level": "High School / College",
+      "platform": "Purdue OWL",
+      "title": "Research Methodology & Design — Purdue OWL",
+      "url": "https://owl.purdue.edu/owl/purdue_owl.html",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "SAT",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Full-Length Practice Tests — Official Digital SAT Prep",
+      "url": "https://www.khanacademy.org/digital-sat",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "SAT",
+      "level": "High School",
+      "platform": "College Board",
+      "title": "Full-Length Practice Tests — SAT Suite Practice",
+      "url": "https://satsuite.collegeboard.org/practice",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "SAT",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "Official Digital SAT Prep (in partnership with College Board)",
+      "url": "https://www.khanacademy.org/digital-sat",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "SAT",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "SAT Math Prerequisite Review (Algebra 1, Algebra 2 basics, Geometry)",
+      "url": "https://www.khanacademy.org/math/algebra",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "SAT",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "SAT Math — Advanced Math & Problem Solving — Official Digital SAT Prep",
+      "url": "https://www.khanacademy.org/digital-sat",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "SAT",
+      "level": "High School",
+      "platform": "College Board",
+      "title": "SAT Math — Advanced Math & Problem Solving — SAT Suite Practice",
+      "url": "https://satsuite.collegeboard.org/practice",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "SAT",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "SAT Math — Algebra — Official Digital SAT Prep",
+      "url": "https://www.khanacademy.org/digital-sat",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "SAT",
+      "level": "High School",
+      "platform": "College Board",
+      "title": "SAT Math — Algebra — SAT Suite Practice",
+      "url": "https://satsuite.collegeboard.org/practice",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "SAT",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "SAT Reading — Official Digital SAT Prep",
+      "url": "https://www.khanacademy.org/digital-sat",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "SAT",
+      "level": "High School",
+      "platform": "College Board",
+      "title": "SAT Reading — SAT Suite Practice",
+      "url": "https://satsuite.collegeboard.org/practice",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "SAT",
+      "level": "High School",
+      "platform": "College Board",
+      "title": "SAT Suite — Practice & Bluebook App",
+      "url": "https://satsuite.collegeboard.org/practice",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "SAT",
+      "level": "High School",
+      "platform": "Khan Academy",
+      "title": "SAT Writing & Language — Official Digital SAT Prep",
+      "url": "https://www.khanacademy.org/digital-sat",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "SAT",
+      "level": "High School",
+      "platform": "College Board",
+      "title": "SAT Writing & Language — SAT Suite Practice",
+      "url": "https://satsuite.collegeboard.org/practice",
+      "cost": "Free",
+      "embeddable": false
+    }
+  ]
+}

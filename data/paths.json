@@ -1,0 +1,2319 @@
+[
+  {
+    "id": "math",
+    "title": "High School Math Foundations",
+    "subject": "Math",
+    "level": "High School",
+    "dailyMinutes": 40,
+    "blurb": "Algebra, Geometry, Trigonometry, Precalculus and Statistics — a complete two-week refresher on Khan Academy's free curriculum.",
+    "weekThemes": [
+      "Algebra & Geometry",
+      "Trig, Precalc & Data"
+    ],
+    "days": [
+      {
+        "classes": [
+          {
+            "title": "Pre-Algebra Foundations",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/math/pre-algebra",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PL4C9296DF81B9EF13",
+            "altChannel": "Professor Leonard",
+            "todo": "Complete 2 practice sets on ratios & integers"
+          }
+        ],
+        "todos": [
+          "Complete 2 practice sets on ratios & integers"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Algebra 1 — Linear Equations",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/math/algebra",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESsmwELdrzhcGiRhk5DjwLP",
+            "altChannel": "Professor Leonard",
+            "todo": "Solve 10 linear equation practice problems"
+          }
+        ],
+        "todos": [
+          "Solve 10 linear equation practice problems"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Algebra 1 — Quadratics & Factoring",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/math/algebra",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESsmwELdrzhcGiRhk5DjwLP",
+            "altChannel": "Professor Leonard",
+            "todo": "Practice factoring quadratics"
+          }
+        ],
+        "todos": [
+          "Practice factoring quadratics"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Geometry — Shapes & Proofs",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/math/geometry",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLKi4WTp6PRGVBM1nPhwW1lTuxi32Q0IZ3",
+            "altChannel": "High School Geometry",
+            "todo": "Complete one geometry proof set"
+          }
+        ],
+        "todos": [
+          "Complete one geometry proof set"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Geometry — Circles & Area",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/math/geometry",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLKi4WTp6PRGVBM1nPhwW1lTuxi32Q0IZ3",
+            "altChannel": "High School Geometry",
+            "todo": "Practice circle theorems"
+          }
+        ],
+        "todos": [
+          "Practice circle theorems"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Visual Math Intuition",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/@3blue1brown",
+            "channel": "3Blue1Brown",
+            "duration": 30,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab",
+            "altChannel": "3Blue1Brown",
+            "todo": "Watch one visual-intuition video and journal what clicked"
+          }
+        ],
+        "todos": [
+          "Watch one visual-intuition video and journal what clicked"
+        ]
+      },
+      {
+        "rest": true
+      },
+      {
+        "classes": [
+          {
+            "title": "Algebra 2 — Functions & Polynomials",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/math/algebra2",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESsmwELdrzhcGiRhk5DjwLP",
+            "altChannel": "Professor Leonard",
+            "todo": "Graph 5 polynomial functions"
+          }
+        ],
+        "todos": [
+          "Graph 5 polynomial functions"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Trigonometry — Unit Circle & Identities",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/math/trigonometry",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESsmwELdrzhcGiRhk5DjwLP",
+            "altChannel": "Professor Leonard",
+            "todo": "Memorize the unit circle, quiz yourself"
+          }
+        ],
+        "todos": [
+          "Memorize the unit circle, quiz yourself"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Precalculus — Sequences & Limits",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/math/precalculus",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESsmwELdrzhcGiRhk5DjwLP",
+            "altChannel": "Professor Leonard",
+            "todo": "Practice sequence & series problems"
+          }
+        ],
+        "todos": [
+          "Practice sequence & series problems"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Statistics & Probability",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/math/statistics-probability",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/watch?v=xqO9yuYeAMQ",
+            "altChannel": "Khan Academy via freeCodeCamp",
+            "todo": "Complete a probability practice set"
+          }
+        ],
+        "todos": [
+          "Complete a probability practice set"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Number Theory Basics",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/math",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESsmwELdrzhcGiRhk5DjwLP",
+            "altChannel": "Professor Leonard",
+            "todo": "Practice prime factorization & modular arithmetic"
+          }
+        ],
+        "todos": [
+          "Practice prime factorization & modular arithmetic"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Consumer & Financial Math",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/math",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESsmwELdrzhcGiRhk5DjwLP",
+            "altChannel": "Professor Leonard",
+            "todo": "Work through interest & budgeting problems"
+          }
+        ],
+        "todos": [
+          "Work through interest & budgeting problems"
+        ]
+      },
+      {
+        "rest": true
+      }
+    ]
+  },
+  {
+    "id": "advmath",
+    "title": "Calculus & Linear Algebra Deep Dive",
+    "subject": "Advanced Math",
+    "level": "College / University",
+    "dailyMinutes": 50,
+    "blurb": "Limits through multivariable calculus, linear algebra and differential equations — Khan Academy, Professor Leonard, and 3Blue1Brown.",
+    "weekThemes": [
+      "Single-Variable Calculus",
+      "Multivariable Calc & Linear Algebra"
+    ],
+    "days": [
+      {
+        "classes": [
+          {
+            "title": "Limits & Continuity",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/math/calculus-1",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESk16YRmzuJ8f7WiRxHnK0y",
+            "altChannel": "Professor Leonard",
+            "todo": "Solve 10 limit problems"
+          }
+        ],
+        "todos": [
+          "Solve 10 limit problems"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Derivatives & Differentiation Rules",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/math/calculus-1",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESk16YRmzuJ8f7WiRxHnK0y",
+            "altChannel": "Professor Leonard",
+            "todo": "Practice chain rule & product rule"
+          }
+        ],
+        "todos": [
+          "Practice chain rule & product rule"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Derivative Applications",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/math/calculus-1",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESk16YRmzuJ8f7WiRxHnK0y",
+            "altChannel": "Professor Leonard",
+            "todo": "Solve 3 optimization word problems"
+          }
+        ],
+        "todos": [
+          "Solve 3 optimization word problems"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Integrals & the Fundamental Theorem",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/math/calculus-1",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESk16YRmzuJ8f7WiRxHnK0y",
+            "altChannel": "Professor Leonard",
+            "todo": "Practice definite integrals"
+          }
+        ],
+        "todos": [
+          "Practice definite integrals"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Integral Applications",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/math/calculus-1",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESk16YRmzuJ8f7WiRxHnK0y",
+            "altChannel": "Professor Leonard",
+            "todo": "Solve area-between-curves problems"
+          }
+        ],
+        "todos": [
+          "Solve area-between-curves problems"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Full Lecture Practice Session",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/@ProfessorLeonard",
+            "channel": "Professor Leonard",
+            "duration": 45,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLDesaqWTN6ESk16YRmzuJ8f7WiRxHnK0y",
+            "altChannel": "Professor Leonard",
+            "todo": "Follow one full lecture and take notes"
+          }
+        ],
+        "todos": [
+          "Follow one full lecture and take notes"
+        ]
+      },
+      {
+        "rest": true
+      },
+      {
+        "classes": [
+          {
+            "title": "Multivariable Calculus — Partial Derivatives",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/math/multivariable-calculus",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "todo": "Practice partial derivatives"
+          }
+        ],
+        "todos": [
+          "Practice partial derivatives"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Multivariable Calculus — Multiple Integrals",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/math/multivariable-calculus",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "todo": "Solve a double-integral problem set"
+          }
+        ],
+        "todos": [
+          "Solve a double-integral problem set"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Linear Algebra — Vectors & Matrices",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/math/linear-algebra",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab",
+            "altChannel": "3Blue1Brown",
+            "todo": "Practice matrix multiplication"
+          }
+        ],
+        "todos": [
+          "Practice matrix multiplication"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Linear Algebra — Eigenvalues & Eigenvectors",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/math/linear-algebra",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab",
+            "altChannel": "3Blue1Brown",
+            "todo": "Find eigenvalues for 3 matrices"
+          }
+        ],
+        "todos": [
+          "Find eigenvalues for 3 matrices"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Differential Equations Intro",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/math/differential-equations",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "todo": "Solve 3 first-order ODEs"
+          }
+        ],
+        "todos": [
+          "Solve 3 first-order ODEs"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Essence of Linear Algebra",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/@3blue1brown",
+            "channel": "3Blue1Brown",
+            "duration": 30,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab",
+            "altChannel": "3Blue1Brown",
+            "todo": "Watch and sketch the transformations shown"
+          }
+        ],
+        "todos": [
+          "Watch and sketch the transformations shown"
+        ]
+      },
+      {
+        "rest": true
+      }
+    ]
+  },
+  {
+    "id": "english",
+    "title": "English: Reading, Grammar & Literature",
+    "subject": "English",
+    "level": "Middle–High School",
+    "dailyMinutes": 35,
+    "blurb": "Grammar, vocabulary, literary analysis and essay writing — with Khan Academy and Crash Course Literature's full playlist.",
+    "weekThemes": [
+      "Reading & Grammar",
+      "Literature & Writing"
+    ],
+    "days": [
+      {
+        "classes": [
+          {
+            "title": "Reading Comprehension",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/ela",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "todo": "Read one passage and answer comprehension questions"
+          }
+        ],
+        "todos": [
+          "Read one passage and answer comprehension questions"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Grammar & Mechanics",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/humanities/grammar",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "todo": "Complete a grammar practice set"
+          }
+        ],
+        "todos": [
+          "Complete a grammar practice set"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Vocabulary Building",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/ela",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "todo": "Learn 15 new words and use each in a sentence"
+          }
+        ],
+        "todos": [
+          "Learn 15 new words and use each in a sentence"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Crash Course Literature — Part 1",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/playlist?list=PL8dPuuaLjXtOAKed10QOhrE9wDoWSSa9m",
+            "channel": "CrashCourse",
+            "duration": 15,
+            "notes": "",
+            "todo": "Watch 1-2 episodes and note the central theme"
+          }
+        ],
+        "todos": [
+          "Watch 1-2 episodes and note the central theme"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Literature Analysis",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/ela",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PL8dPuuaLjXtOAKed10QOhrE9wDoWSSa9m",
+            "altChannel": "CrashCourse",
+            "todo": "Analyze one poem or short story"
+          }
+        ],
+        "todos": [
+          "Analyze one poem or short story"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Academic Essay Writing",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/ela",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "todo": "Draft a 5-paragraph essay outline"
+          }
+        ],
+        "todos": [
+          "Draft a 5-paragraph essay outline"
+        ]
+      },
+      {
+        "rest": true
+      },
+      {
+        "classes": [
+          {
+            "title": "Creative Writing",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/ela",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "todo": "Write a short creative piece (500 words)"
+          }
+        ],
+        "todos": [
+          "Write a short creative piece (500 words)"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Public Speaking & Presentation",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/ela",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "todo": "Practice a 2-minute speech out loud"
+          }
+        ],
+        "todos": [
+          "Practice a 2-minute speech out loud"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Crash Course Literature — Part 2",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/playlist?list=PL8dPuuaLjXtOAKed10QOhrE9wDoWSSa9m",
+            "channel": "CrashCourse",
+            "duration": 15,
+            "notes": "",
+            "todo": "Watch 1-2 more episodes and compare themes"
+          }
+        ],
+        "todos": [
+          "Watch 1-2 more episodes and compare themes"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Grammar Review & ESL Support",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/humanities/grammar",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "todo": "Redo any missed grammar practice questions"
+          }
+        ],
+        "todos": [
+          "Redo any missed grammar practice questions"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Language & Rhetoric Shorts",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/@TEDEd",
+            "channel": "TED-Ed",
+            "duration": 10,
+            "notes": "",
+            "todo": "Watch one short and summarize its argument"
+          }
+        ],
+        "todos": [
+          "Watch one short and summarize its argument"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Essay Practice & Peer Review",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/ela",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "todo": "Finish and proofread your essay draft"
+          }
+        ],
+        "todos": [
+          "Finish and proofread your essay draft"
+        ]
+      },
+      {
+        "rest": true
+      }
+    ]
+  },
+  {
+    "id": "physics",
+    "title": "Physics: Mechanics to Modern Physics",
+    "subject": "Physics",
+    "level": "High School",
+    "dailyMinutes": 40,
+    "blurb": "Mechanics, E&M, waves, thermodynamics and quantum physics — Khan Academy plus Crash Course Physics' full 46-episode playlist.",
+    "weekThemes": [
+      "Mechanics, Waves & Thermo",
+      "E&M, Optics & Modern Physics"
+    ],
+    "days": [
+      {
+        "classes": [
+          {
+            "title": "Mechanics — Forces & Motion",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/science/physics",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+            "altChannel": "CrashCourse",
+            "todo": "Solve 5 kinematics problems"
+          }
+        ],
+        "todos": [
+          "Solve 5 kinematics problems"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Crash Course Physics — Episodes 1-5",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+            "channel": "CrashCourse",
+            "duration": 40,
+            "notes": "",
+            "todo": "Watch episodes 1-5 and take notes"
+          }
+        ],
+        "todos": [
+          "Watch episodes 1-5 and take notes"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Waves & Sound",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/science/physics",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+            "altChannel": "CrashCourse",
+            "todo": "Practice wave-property problems"
+          }
+        ],
+        "todos": [
+          "Practice wave-property problems"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Thermodynamics",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/science/physics",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+            "altChannel": "CrashCourse",
+            "todo": "Solve 3 thermodynamics problems"
+          }
+        ],
+        "todos": [
+          "Solve 3 thermodynamics problems"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Crash Course Physics — Episodes 6-10",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+            "channel": "CrashCourse",
+            "duration": 40,
+            "notes": "",
+            "todo": "Watch episodes 6-10 and take notes"
+          }
+        ],
+        "todos": [
+          "Watch episodes 6-10 and take notes"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Mechanics Review & Practice",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/science/physics",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+            "altChannel": "CrashCourse",
+            "todo": "Redo any missed mechanics problems"
+          }
+        ],
+        "todos": [
+          "Redo any missed mechanics problems"
+        ]
+      },
+      {
+        "rest": true
+      },
+      {
+        "classes": [
+          {
+            "title": "Electricity & Magnetism",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/science/physics",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+            "altChannel": "CrashCourse",
+            "todo": "Solve 5 circuit problems"
+          }
+        ],
+        "todos": [
+          "Solve 5 circuit problems"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Optics",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/science/physics",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+            "altChannel": "CrashCourse",
+            "todo": "Practice lens & mirror ray diagrams"
+          }
+        ],
+        "todos": [
+          "Practice lens & mirror ray diagrams"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Crash Course Physics — Episodes 11-15",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+            "channel": "CrashCourse",
+            "duration": 40,
+            "notes": "",
+            "todo": "Watch episodes 11-15 and take notes"
+          }
+        ],
+        "todos": [
+          "Watch episodes 11-15 and take notes"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Modern & Quantum Physics",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/science/physics",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+            "altChannel": "CrashCourse",
+            "todo": "Read about wave-particle duality, summarize it"
+          }
+        ],
+        "todos": [
+          "Read about wave-particle duality, summarize it"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Astrophysics & Cosmology",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/science/physics",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+            "altChannel": "CrashCourse",
+            "todo": "Watch one astrophysics topic video and note 3 facts"
+          }
+        ],
+        "todos": [
+          "Watch one astrophysics topic video and note 3 facts"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "MIT OCW Physics Lectures",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/@mitocw",
+            "channel": "MIT OpenCourseWare",
+            "duration": 45,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PL58rKAc12lkJZ_AEYekzyKqFtiFXPD2g8",
+            "altChannel": "CrashCourse",
+            "todo": "Watch one full lecture on a topic you found hardest"
+          }
+        ],
+        "todos": [
+          "Watch one full lecture on a topic you found hardest"
+        ]
+      },
+      {
+        "rest": true
+      }
+    ]
+  },
+  {
+    "id": "chemistry",
+    "title": "Chemistry: General to Organic",
+    "subject": "Chemistry",
+    "level": "High School",
+    "dailyMinutes": 40,
+    "blurb": "General, organic, physical and biochemistry — Khan Academy, Crash Course Chemistry, and The Organic Chemistry Tutor's full playlists.",
+    "weekThemes": [
+      "General & Physical Chemistry",
+      "Organic Chemistry & Biochemistry"
+    ],
+    "days": [
+      {
+        "classes": [
+          {
+            "title": "General & Inorganic Chemistry",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/science/chemistry",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLG61LF8I_OXoh2mhx2YNY9s4ekXiriMAf",
+            "altChannel": "CrashCourse",
+            "todo": "Practice balancing chemical equations"
+          }
+        ],
+        "todos": [
+          "Practice balancing chemical equations"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Crash Course Chemistry — Episodes 1-5",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/playlist?list=PLG61LF8I_OXoh2mhx2YNY9s4ekXiriMAf",
+            "channel": "CrashCourse",
+            "duration": 40,
+            "notes": "",
+            "todo": "Watch episodes 1-5 and take notes"
+          }
+        ],
+        "todos": [
+          "Watch episodes 1-5 and take notes"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Physical Chemistry Basics",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/science/chemistry",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLG61LF8I_OXoh2mhx2YNY9s4ekXiriMAf",
+            "altChannel": "CrashCourse",
+            "todo": "Practice thermochemistry problems"
+          }
+        ],
+        "todos": [
+          "Practice thermochemistry problems"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Analytical Chemistry",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/science/chemistry",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLG61LF8I_OXoh2mhx2YNY9s4ekXiriMAf",
+            "altChannel": "CrashCourse",
+            "todo": "Practice stoichiometry calculations"
+          }
+        ],
+        "todos": [
+          "Practice stoichiometry calculations"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Crash Course Chemistry — Episodes 6-10",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/playlist?list=PLG61LF8I_OXoh2mhx2YNY9s4ekXiriMAf",
+            "channel": "CrashCourse",
+            "duration": 40,
+            "notes": "",
+            "todo": "Watch episodes 6-10 and take notes"
+          }
+        ],
+        "todos": [
+          "Watch episodes 6-10 and take notes"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Environmental Chemistry",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/science/chemistry",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLG61LF8I_OXoh2mhx2YNY9s4ekXiriMAf",
+            "altChannel": "CrashCourse",
+            "todo": "Read one case study and summarize it"
+          }
+        ],
+        "todos": [
+          "Read one case study and summarize it"
+        ]
+      },
+      {
+        "rest": true
+      },
+      {
+        "classes": [
+          {
+            "title": "Organic Chemistry — Full Playlist Pt.1",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/playlist?list=PL0o_zxa4K1BWziAvOKdqsMFSB_MyyLAqS",
+            "channel": "The Organic Chemistry Tutor",
+            "duration": 40,
+            "notes": "",
+            "todo": "Watch the intro lessons and take notes on nomenclature"
+          }
+        ],
+        "todos": [
+          "Watch the intro lessons and take notes on nomenclature"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Organic Chemistry — Full Playlist Pt.2",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/playlist?list=PL0o_zxa4K1BWziAvOKdqsMFSB_MyyLAqS",
+            "channel": "The Organic Chemistry Tutor",
+            "duration": 40,
+            "notes": "",
+            "todo": "Continue the playlist, practice reaction mechanisms"
+          }
+        ],
+        "todos": [
+          "Continue the playlist, practice reaction mechanisms"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Organic Chemistry — Khan Academy",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/science/chemistry",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PL0o_zxa4K1BWziAvOKdqsMFSB_MyyLAqS",
+            "altChannel": "The Organic Chemistry Tutor",
+            "todo": "Practice functional group identification"
+          }
+        ],
+        "todos": [
+          "Practice functional group identification"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Biochemistry",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/science/chemistry",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLG61LF8I_OXoh2mhx2YNY9s4ekXiriMAf",
+            "altChannel": "CrashCourse",
+            "todo": "Read about macromolecules, summarize each"
+          }
+        ],
+        "todos": [
+          "Read about macromolecules, summarize each"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Crash Course Chemistry — Finale",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/playlist?list=PLG61LF8I_OXoh2mhx2YNY9s4ekXiriMAf",
+            "channel": "CrashCourse",
+            "duration": 40,
+            "notes": "",
+            "todo": "Finish the playlist"
+          }
+        ],
+        "todos": [
+          "Finish the playlist"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Practice Problems & Review",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/science/chemistry",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "todo": "Complete a mixed review problem set"
+          }
+        ],
+        "todos": [
+          "Complete a mixed review problem set"
+        ]
+      },
+      {
+        "rest": true
+      }
+    ]
+  },
+  {
+    "id": "biology",
+    "title": "Biology: Cells to Ecosystems",
+    "subject": "Biology",
+    "level": "High School",
+    "dailyMinutes": 35,
+    "blurb": "Cell biology, genetics, anatomy, ecology and molecular biology — Khan Academy's Biology playlist plus Crash Course Biology.",
+    "weekThemes": [
+      "Cells, Genetics & Anatomy",
+      "Ecology, Microbiology & Molecular Biology"
+    ],
+    "days": [
+      {
+        "classes": [
+          {
+            "title": "Cell Biology & Genetics",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/science/biology",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+            "altChannel": "Khan Academy",
+            "todo": "Diagram a cell and label its organelles"
+          }
+        ],
+        "todos": [
+          "Diagram a cell and label its organelles"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Khan Academy Biology Playlist — Pt.1",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+            "channel": "Khan Academy",
+            "duration": 30,
+            "notes": "",
+            "todo": "Watch the first few videos and take notes"
+          }
+        ],
+        "todos": [
+          "Watch the first few videos and take notes"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Human Anatomy & Physiology",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/science/biology",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+            "altChannel": "Khan Academy",
+            "todo": "Study one body system and summarize its function"
+          }
+        ],
+        "todos": [
+          "Study one body system and summarize its function"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Ecology & Evolution",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/science/biology",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+            "altChannel": "Khan Academy",
+            "todo": "Explain natural selection in your own words"
+          }
+        ],
+        "todos": [
+          "Explain natural selection in your own words"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Crash Course Biology",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/@crashcourse",
+            "channel": "CrashCourse",
+            "duration": 15,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+            "altChannel": "Khan Academy",
+            "todo": "Watch one episode and note 3 key takeaways"
+          }
+        ],
+        "todos": [
+          "Watch one episode and note 3 key takeaways"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Genetics Practice & Review",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/science/biology",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+            "altChannel": "Khan Academy",
+            "todo": "Solve 3 Punnett square problems"
+          }
+        ],
+        "todos": [
+          "Solve 3 Punnett square problems"
+        ]
+      },
+      {
+        "rest": true
+      },
+      {
+        "classes": [
+          {
+            "title": "Microbiology",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/science/biology",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+            "altChannel": "Khan Academy",
+            "todo": "Compare bacteria, viruses, and fungi"
+          }
+        ],
+        "todos": [
+          "Compare bacteria, viruses, and fungi"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Botany & Plant Science",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/science/biology",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+            "altChannel": "Khan Academy",
+            "todo": "Diagram photosynthesis"
+          }
+        ],
+        "todos": [
+          "Diagram photosynthesis"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Khan Academy Biology Playlist — Pt.2",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+            "channel": "Khan Academy",
+            "duration": 30,
+            "notes": "",
+            "todo": "Continue the playlist, focus on molecular topics"
+          }
+        ],
+        "todos": [
+          "Continue the playlist, focus on molecular topics"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Molecular Biology",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/science/biology",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+            "altChannel": "Khan Academy",
+            "todo": "Summarize DNA replication & protein synthesis"
+          }
+        ],
+        "todos": [
+          "Summarize DNA replication & protein synthesis"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "MIT OCW Intro Biology",
+            "type": "reading",
+            "resourceUrl": "https://ocw.mit.edu/search/?d=Biology",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+            "altChannel": "Khan Academy",
+            "todo": "Skim one lecture's notes on a topic you're weakest in"
+          }
+        ],
+        "todos": [
+          "Skim one lecture's notes on a topic you're weakest in"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Review Quiz & Practice",
+            "type": "reading",
+            "resourceUrl": "https://www.khanacademy.org/science/biology",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PL7A9646BC5110CF64",
+            "altChannel": "Khan Academy",
+            "todo": "Take a mixed practice quiz"
+          }
+        ],
+        "todos": [
+          "Take a mixed practice quiz"
+        ]
+      },
+      {
+        "rest": true
+      }
+    ]
+  },
+  {
+    "id": "coding",
+    "title": "Coding & CS Fundamentals",
+    "subject": "Coding",
+    "level": "All Levels",
+    "dailyMinutes": 45,
+    "blurb": "Programming logic, web development, data structures, Git, and SQL — freeCodeCamp's free curriculum plus CS50.",
+    "weekThemes": [
+      "Programming Logic & Web Basics",
+      "Data, Tools & Real Projects"
+    ],
+    "days": [
+      {
+        "classes": [
+          {
+            "title": "Intro to Programming Logic",
+            "type": "reading",
+            "resourceUrl": "https://www.freecodecamp.org/learn",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+            "altChannel": "Harvard CS50",
+            "todo": "Complete the first programming-logic module"
+          }
+        ],
+        "todos": [
+          "Complete the first programming-logic module"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Web Development — HTML & CSS",
+            "type": "reading",
+            "resourceUrl": "https://www.freecodecamp.org/learn",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+            "altChannel": "Harvard CS50",
+            "todo": "Build a simple static webpage"
+          }
+        ],
+        "todos": [
+          "Build a simple static webpage"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Web Development — JavaScript Basics",
+            "type": "reading",
+            "resourceUrl": "https://www.freecodecamp.org/learn",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+            "altChannel": "Harvard CS50",
+            "todo": "Complete a JS basics challenge set"
+          }
+        ],
+        "todos": [
+          "Complete a JS basics challenge set"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "freeCodeCamp Practice Session",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/@freecodecamp",
+            "channel": "freeCodeCamp",
+            "duration": 40,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+            "altChannel": "Harvard CS50",
+            "todo": "Follow along with one full-length tutorial"
+          }
+        ],
+        "todos": [
+          "Follow along with one full-length tutorial"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Git & Version Control",
+            "type": "reading",
+            "resourceUrl": "https://www.freecodecamp.org/learn",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+            "altChannel": "Harvard CS50",
+            "todo": "Initialize a repo and make 3 commits"
+          }
+        ],
+        "todos": [
+          "Initialize a repo and make 3 commits"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "SQL & Databases",
+            "type": "reading",
+            "resourceUrl": "https://www.freecodecamp.org/learn",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+            "altChannel": "Harvard CS50",
+            "todo": "Write 5 basic SQL queries"
+          }
+        ],
+        "todos": [
+          "Write 5 basic SQL queries"
+        ]
+      },
+      {
+        "rest": true
+      },
+      {
+        "classes": [
+          {
+            "title": "CS50: Intro to Computer Science",
+            "type": "reading",
+            "resourceUrl": "https://www.edx.org/learn/computer-science/harvard-university-cs50-s-introduction-to-computer-science",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+            "altChannel": "Harvard CS50",
+            "todo": "Watch the first CS50 lecture and take notes"
+          }
+        ],
+        "todos": [
+          "Watch the first CS50 lecture and take notes"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Data Structures & Algorithms",
+            "type": "reading",
+            "resourceUrl": "https://www.freecodecamp.org/learn",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+            "altChannel": "Harvard CS50",
+            "todo": "Implement a basic sorting algorithm"
+          }
+        ],
+        "todos": [
+          "Implement a basic sorting algorithm"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Mobile App Development Intro",
+            "type": "reading",
+            "resourceUrl": "https://www.freecodecamp.org/learn",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+            "altChannel": "Harvard CS50",
+            "todo": "Read the intro module on mobile frameworks"
+          }
+        ],
+        "todos": [
+          "Read the intro module on mobile frameworks"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Cybersecurity Fundamentals",
+            "type": "reading",
+            "resourceUrl": "https://www.freecodecamp.org/learn",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+            "altChannel": "Harvard CS50",
+            "todo": "Complete a basic security-concepts quiz"
+          }
+        ],
+        "todos": [
+          "Complete a basic security-concepts quiz"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Full-Stack Crash Course",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/@TraversyMedia",
+            "channel": "Traversy Media",
+            "duration": 45,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+            "altChannel": "Harvard CS50",
+            "todo": "Follow one crash-course project end to end"
+          }
+        ],
+        "todos": [
+          "Follow one crash-course project end to end"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Build a Small Project",
+            "type": "reading",
+            "resourceUrl": "https://www.freecodecamp.org/learn",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+            "altChannel": "Harvard CS50",
+            "todo": "Build and deploy one small project using what you learned"
+          }
+        ],
+        "todos": [
+          "Build and deploy one small project using what you learned"
+        ]
+      },
+      {
+        "rest": true
+      }
+    ]
+  },
+  {
+    "id": "python",
+    "title": "Python Programming",
+    "subject": "Python",
+    "level": "Beginner (All Ages)",
+    "dailyMinutes": 40,
+    "blurb": "From syntax basics to OOP, data science, and automation — built around freeCodeCamp's full Python course video.",
+    "weekThemes": [
+      "Python Fundamentals",
+      "Applied Python: Data, OOP & Automation"
+    ],
+    "days": [
+      {
+        "classes": [
+          {
+            "title": "Learn Python — Full Course Pt.1",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+            "channel": "freeCodeCamp",
+            "duration": 45,
+            "notes": "",
+            "todo": "Follow along and write your first 3 scripts"
+          }
+        ],
+        "todos": [
+          "Follow along and write your first 3 scripts"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Learn Python — Full Course Pt.2",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+            "channel": "freeCodeCamp",
+            "duration": 45,
+            "notes": "",
+            "todo": "Continue the course, practice loops & functions"
+          }
+        ],
+        "todos": [
+          "Continue the course, practice loops & functions"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Python Fundamentals Practice",
+            "type": "reading",
+            "resourceUrl": "https://www.freecodecamp.org/learn",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+            "altChannel": "freeCodeCamp",
+            "todo": "Complete a variables & control-flow exercise set"
+          }
+        ],
+        "todos": [
+          "Complete a variables & control-flow exercise set"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Object-Oriented Python",
+            "type": "reading",
+            "resourceUrl": "https://www.freecodecamp.org/learn",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+            "altChannel": "freeCodeCamp",
+            "todo": "Write a simple class with 2 methods"
+          }
+        ],
+        "todos": [
+          "Write a simple class with 2 methods"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Learn Python — Full Course Pt.3",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+            "channel": "freeCodeCamp",
+            "duration": 45,
+            "notes": "",
+            "todo": "Finish the course, practice file I/O"
+          }
+        ],
+        "todos": [
+          "Finish the course, practice file I/O"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Python for Data Science (NumPy/Pandas)",
+            "type": "reading",
+            "resourceUrl": "https://www.freecodecamp.org/learn",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+            "altChannel": "freeCodeCamp",
+            "todo": "Load a CSV with pandas and explore it"
+          }
+        ],
+        "todos": [
+          "Load a CSV with pandas and explore it"
+        ]
+      },
+      {
+        "rest": true
+      },
+      {
+        "classes": [
+          {
+            "title": "Python for Automation & Scripting",
+            "type": "reading",
+            "resourceUrl": "https://www.freecodecamp.org/learn",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+            "altChannel": "freeCodeCamp",
+            "todo": "Write a script that automates a small task"
+          }
+        ],
+        "todos": [
+          "Write a script that automates a small task"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Python Tutorials — OOP & Tools",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/@coreyms",
+            "channel": "Corey Schafer",
+            "duration": 25,
+            "notes": "",
+            "todo": "Watch one OOP video and apply it to your own class"
+          }
+        ],
+        "todos": [
+          "Watch one OOP video and apply it to your own class"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Web Development with Python (Django/Flask)",
+            "type": "reading",
+            "resourceUrl": "https://www.freecodecamp.org/learn",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+            "altChannel": "freeCodeCamp",
+            "todo": "Build a minimal Flask 'hello world' app"
+          }
+        ],
+        "todos": [
+          "Build a minimal Flask 'hello world' app"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Python for Machine Learning Intro",
+            "type": "reading",
+            "resourceUrl": "https://www.freecodecamp.org/learn",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+            "altChannel": "freeCodeCamp",
+            "todo": "Read the intro module on ML libraries"
+          }
+        ],
+        "todos": [
+          "Read the intro module on ML libraries"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Data Structures in Python",
+            "type": "reading",
+            "resourceUrl": "https://www.freecodecamp.org/learn",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+            "altChannel": "freeCodeCamp",
+            "todo": "Practice with lists, dicts, and sets"
+          }
+        ],
+        "todos": [
+          "Practice with lists, dicts, and sets"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Build a Python Project",
+            "type": "reading",
+            "resourceUrl": "https://www.freecodecamp.org/learn",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+            "altChannel": "freeCodeCamp",
+            "todo": "Build one small end-to-end script or app"
+          }
+        ],
+        "todos": [
+          "Build one small end-to-end script or app"
+        ]
+      },
+      {
+        "rest": true
+      }
+    ]
+  },
+  {
+    "id": "ai",
+    "title": "AI & Machine Learning Foundations",
+    "subject": "AI",
+    "level": "Beginner / All Levels",
+    "dailyMinutes": 40,
+    "blurb": "From AI For Everyone to neural networks, NLP, computer vision, and prompt engineering — DeepLearning.AI, Elements of AI & MIT OCW.",
+    "weekThemes": [
+      "AI Foundations & Machine Learning",
+      "Deep Learning, NLP & Generative AI"
+    ],
+    "days": [
+      {
+        "classes": [
+          {
+            "title": "AI For Everyone",
+            "type": "reading",
+            "resourceUrl": "https://www.deeplearning.ai/courses/ai-for-everyone/",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/watch?v=i_LwzRVP7bg",
+            "altChannel": "freeCodeCamp",
+            "todo": "Watch the first module and summarize key ideas"
+          }
+        ],
+        "todos": [
+          "Watch the first module and summarize key ideas"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Elements of AI",
+            "type": "reading",
+            "resourceUrl": "https://www.elementsofai.com/",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/watch?v=i_LwzRVP7bg",
+            "altChannel": "freeCodeCamp",
+            "todo": "Complete the first chapter's exercises"
+          }
+        ],
+        "todos": [
+          "Complete the first chapter's exercises"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Machine Learning Foundations",
+            "type": "reading",
+            "resourceUrl": "https://www.coursera.org/specializations/machine-learning-introduction",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLkDaE6sCZn6FNC6YRfRQc_FbeQrF8BwGI",
+            "altChannel": "Andrew Ng",
+            "todo": "Watch the intro lecture on supervised learning"
+          }
+        ],
+        "todos": [
+          "Watch the intro lecture on supervised learning"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Latest AI Research Explained",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/@TwoMinutePapers",
+            "channel": "Two Minute Papers",
+            "duration": 10,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi",
+            "altChannel": "3Blue1Brown",
+            "todo": "Watch 2 videos and note what each paper improved"
+          }
+        ],
+        "todos": [
+          "Watch 2 videos and note what each paper improved"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Deep Learning & Neural Networks",
+            "type": "reading",
+            "resourceUrl": "https://www.coursera.org/specializations/deep-learning",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi",
+            "altChannel": "3Blue1Brown",
+            "todo": "Watch the intro lecture on neural network basics"
+          }
+        ],
+        "todos": [
+          "Watch the intro lecture on neural network basics"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "AI Fundamentals & Ethics",
+            "type": "reading",
+            "resourceUrl": "https://www.deeplearning.ai/courses/",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/watch?v=i_LwzRVP7bg",
+            "altChannel": "freeCodeCamp",
+            "todo": "Read about one AI ethics case study"
+          }
+        ],
+        "todos": [
+          "Read about one AI ethics case study"
+        ]
+      },
+      {
+        "rest": true
+      },
+      {
+        "classes": [
+          {
+            "title": "Natural Language Processing",
+            "type": "reading",
+            "resourceUrl": "https://www.deeplearning.ai/courses/",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/watch?v=i_LwzRVP7bg",
+            "altChannel": "freeCodeCamp",
+            "todo": "Watch the intro NLP lecture"
+          }
+        ],
+        "todos": [
+          "Watch the intro NLP lecture"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Computer Vision",
+            "type": "reading",
+            "resourceUrl": "https://www.deeplearning.ai/courses/",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/watch?v=i_LwzRVP7bg",
+            "altChannel": "freeCodeCamp",
+            "todo": "Watch the intro computer-vision lecture"
+          }
+        ],
+        "todos": [
+          "Watch the intro computer-vision lecture"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Generative AI & LLMs",
+            "type": "reading",
+            "resourceUrl": "https://www.deeplearning.ai/courses/",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/watch?v=i_LwzRVP7bg",
+            "altChannel": "freeCodeCamp",
+            "todo": "Try 3 prompts with an LLM and note what worked"
+          }
+        ],
+        "todos": [
+          "Try 3 prompts with an LLM and note what worked"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Prompt Engineering",
+            "type": "reading",
+            "resourceUrl": "https://www.deeplearning.ai/courses/",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/watch?v=i_LwzRVP7bg",
+            "altChannel": "freeCodeCamp",
+            "todo": "Practice 3 prompting techniques from the course"
+          }
+        ],
+        "todos": [
+          "Practice 3 prompting techniques from the course"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "AI Agents",
+            "type": "reading",
+            "resourceUrl": "https://www.deeplearning.ai/courses/",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/watch?v=i_LwzRVP7bg",
+            "altChannel": "freeCodeCamp",
+            "todo": "Read the intro module on agentic workflows"
+          }
+        ],
+        "todos": [
+          "Read the intro module on agentic workflows"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "DeepLearning.AI Channel",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/@Deeplearningai",
+            "channel": "DeepLearning.AI",
+            "duration": 20,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/watch?v=i_LwzRVP7bg",
+            "altChannel": "freeCodeCamp",
+            "todo": "Watch one channel video on a topic that interests you"
+          }
+        ],
+        "todos": [
+          "Watch one channel video on a topic that interests you"
+        ]
+      },
+      {
+        "rest": true
+      }
+    ]
+  },
+  {
+    "id": "ielts",
+    "title": "IELTS Exam Preparation",
+    "subject": "IELTS",
+    "level": "High School / Adult",
+    "dailyMinutes": 45,
+    "blurb": "Listening, Reading, Writing, and Speaking — British Council's free IELTS Ready and Road to IELTS materials, ending in a full mock test.",
+    "weekThemes": [
+      "Listening, Reading & Writing Basics",
+      "Speaking, Advanced Writing & Mock Test"
+    ],
+    "days": [
+      {
+        "classes": [
+          {
+            "title": "Listening Skills — IELTS Ready",
+            "type": "reading",
+            "resourceUrl": "https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLfSUFKdFlttn1MWrG5Q0-a9Cbm9y3uulX",
+            "altChannel": "IELTS Full Course",
+            "todo": "Complete one listening practice module"
+          }
+        ],
+        "todos": [
+          "Complete one listening practice module"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Reading Skills — IELTS Ready",
+            "type": "reading",
+            "resourceUrl": "https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLfSUFKdFlttn1MWrG5Q0-a9Cbm9y3uulX",
+            "altChannel": "IELTS Full Course",
+            "todo": "Complete one reading passage under timed conditions"
+          }
+        ],
+        "todos": [
+          "Complete one reading passage under timed conditions"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Writing Task 1 (Academic/General)",
+            "type": "reading",
+            "resourceUrl": "https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLfSUFKdFlttn1MWrG5Q0-a9Cbm9y3uulX",
+            "altChannel": "IELTS Full Course",
+            "todo": "Write one Task 1 response and self-check the structure"
+          }
+        ],
+        "todos": [
+          "Write one Task 1 response and self-check the structure"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Writing Task 2 (Essay)",
+            "type": "reading",
+            "resourceUrl": "https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLfSUFKdFlttn1MWrG5Q0-a9Cbm9y3uulX",
+            "altChannel": "IELTS Full Course",
+            "todo": "Write one Task 2 essay within 40 minutes"
+          }
+        ],
+        "todos": [
+          "Write one Task 2 essay within 40 minutes"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "IELTS Tips & Preparation Videos",
+            "type": "video",
+            "resourceUrl": "https://www.youtube.com/@britishcouncil",
+            "channel": "British Council",
+            "duration": 20,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLfSUFKdFlttn1MWrG5Q0-a9Cbm9y3uulX",
+            "altChannel": "IELTS Full Course",
+            "todo": "Watch one tips video and note 3 takeaways"
+          }
+        ],
+        "todos": [
+          "Watch one tips video and note 3 takeaways"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Speaking Skills — Part 1 & 2",
+            "type": "reading",
+            "resourceUrl": "https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/watch?v=rqmv0LCcPTs",
+            "altChannel": "IELTS Speaking Course",
+            "todo": "Record yourself answering 3 Part 1 questions"
+          }
+        ],
+        "todos": [
+          "Record yourself answering 3 Part 1 questions"
+        ]
+      },
+      {
+        "rest": true
+      },
+      {
+        "classes": [
+          {
+            "title": "Listening Skills — Road to IELTS",
+            "type": "reading",
+            "resourceUrl": "https://www.roadtoielts.com/",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLfSUFKdFlttn1MWrG5Q0-a9Cbm9y3uulX",
+            "altChannel": "IELTS Full Course",
+            "todo": "Complete one more listening module"
+          }
+        ],
+        "todos": [
+          "Complete one more listening module"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Reading Skills — Road to IELTS",
+            "type": "reading",
+            "resourceUrl": "https://www.roadtoielts.com/",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLfSUFKdFlttn1MWrG5Q0-a9Cbm9y3uulX",
+            "altChannel": "IELTS Full Course",
+            "todo": "Complete one more timed reading passage"
+          }
+        ],
+        "todos": [
+          "Complete one more timed reading passage"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Writing Task 1 — Road to IELTS",
+            "type": "reading",
+            "resourceUrl": "https://www.roadtoielts.com/",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLfSUFKdFlttn1MWrG5Q0-a9Cbm9y3uulX",
+            "altChannel": "IELTS Full Course",
+            "todo": "Write another Task 1 response, compare to a model answer"
+          }
+        ],
+        "todos": [
+          "Write another Task 1 response, compare to a model answer"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Writing Task 2 — Road to IELTS",
+            "type": "reading",
+            "resourceUrl": "https://www.roadtoielts.com/",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLfSUFKdFlttn1MWrG5Q0-a9Cbm9y3uulX",
+            "altChannel": "IELTS Full Course",
+            "todo": "Write another Task 2 essay, self-grade against band descriptors"
+          }
+        ],
+        "todos": [
+          "Write another Task 2 essay, self-grade against band descriptors"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Speaking Skills — Part 3 & Fluency",
+            "type": "reading",
+            "resourceUrl": "https://learnenglish.britishcouncil.org/ielts-preparation",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/watch?v=rqmv0LCcPTs",
+            "altChannel": "IELTS Speaking Course",
+            "todo": "Practice Part 3 discussion questions aloud"
+          }
+        ],
+        "todos": [
+          "Practice Part 3 discussion questions aloud"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "LearnEnglish IELTS Preparation",
+            "type": "reading",
+            "resourceUrl": "https://learnenglish.britishcouncil.org/ielts-preparation",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLfSUFKdFlttn1MWrG5Q0-a9Cbm9y3uulX",
+            "altChannel": "IELTS Full Course",
+            "todo": "Review your weakest skill area from this week"
+          }
+        ],
+        "todos": [
+          "Review your weakest skill area from this week"
+        ]
+      },
+      {
+        "classes": [
+          {
+            "title": "Full Mock Test & Band Score Practice",
+            "type": "reading",
+            "resourceUrl": "https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",
+            "channel": "",
+            "duration": 35,
+            "notes": "",
+            "altVideoUrl": "https://www.youtube.com/playlist?list=PLfSUFKdFlttn1MWrG5Q0-a9Cbm9y3uulX",
+            "altChannel": "IELTS Full Course",
+            "todo": "Take one full timed mock test"
+          }
+        ],
+        "todos": [
+          "Take one full timed mock test"
+        ]
+      }
+    ]
+  }
+]

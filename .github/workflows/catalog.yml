@@ -1,0 +1,44 @@
+name: Rebuild course catalog
+
+# courses.json is generated, never hand-edited. Rebuild it whenever the data
+# it comes from changes, and commit the result so GitHub Pages serves it.
+on:
+  push:
+    branches: [main, claude/learning-app-claude-api-a4lz1w]
+    paths:
+      - "data/**"
+      - "tools/build_catalog.py"
+      - ".github/workflows/catalog.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r tools/requirements.txt
+
+      - name: Build courses.json
+        run: python tools/build_catalog.py
+
+      - name: Commit if the catalog changed
+        run: |
+          if git diff --quiet -- courses.json; then
+            echo "catalog unchanged"
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add courses.json
+          git commit -m "Rebuild courses.json from data/"
+          git push
