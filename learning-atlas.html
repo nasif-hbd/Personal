@@ -250,7 +250,9 @@ input[type=text], input[type=number], input[type=password], input[type=time], in
   transition:border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
 }
 input:focus, select:focus, textarea:focus{border-color:var(--accent); box-shadow:var(--glow); background:var(--surface-2);}
-label{
+/* Scoped away from labels that are styled as something else (the file-picker
+   is a <label class="btn">, and would otherwise render uppercase mono). */
+label:not(.btn):not(.watch-done-toggle){
   font-family:var(--font-mono); font-size:10px; color:var(--text-faint); font-weight:500;
   display:block; margin-bottom:7px; text-transform:uppercase; letter-spacing:.14em;
 }
@@ -611,7 +613,13 @@ label{
 .featured-card-foot{display:flex; justify-content:flex-end;}
 
 /* ===================== Settings ===================== */
-.settings-section{max-width:700px; margin-bottom:24px;}
+.settings-grid{
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(360px, 1fr));
+  gap:18px; align-items:start;
+}
+.settings-section{margin:0;}
+/* Cards that hold long prose read better spanning the full width. */
+.settings-section.wide{grid-column:1 / -1;}
 .settings-section h3{font-size:19px; margin:0 0 8px;}
 .settings-section .desc{font-size:13.5px; color:var(--text-dim); margin:0 0 16px; line-height:1.65;}
 .settings-section code{font-family:var(--font-mono); font-size:12px; background:rgba(0,0,0,.3); padding:2px 6px; border-radius:6px;}
@@ -851,9 +859,9 @@ const LS_PREFIX = "atlas_v1_";
 const MAX_WEEKS = 13;
 const MAX_CONTINUATIONS = 2;
 const MODELS = [
-  {id:"claude-opus-5", label:"Claude Opus 5 — most capable ($5 / $25 per M tokens)"},
-  {id:"claude-sonnet-5", label:"Claude Sonnet 5 — near-Opus quality, ~40% cheaper ($3 / $15)"},
-  {id:"claude-haiku-4-5", label:"Claude Haiku 4.5 — fastest & cheapest, ~5x cheaper than Opus ($1 / $5)"},
+  {id:"claude-opus-5", label:"Opus 5 — most capable ($5 / $25)"},
+  {id:"claude-sonnet-5", label:"Sonnet 5 — balanced ($3 / $15)"},
+  {id:"claude-haiku-4-5", label:"Haiku 4.5 — fastest & cheapest ($1 / $5)"},
 ];
 const LANGS = {bn:"Bangla (বাংলা)", hi:"Hindi (हिन्दी)", en:"English"};
 // OAuth Client IDs for browser apps are not secret (Google restricts issuance to the
@@ -2217,6 +2225,7 @@ function renderSettings(container){
   const s = state.settings;
   const notifState = ("Notification" in window) ? Notification.permission : "unsupported";
   container.innerHTML = `
+    <div class="settings-grid">
     <div class="settings-section card">
       <h3>AI &amp; storage</h3>
       ${sharedMode() ? `
@@ -2290,7 +2299,7 @@ function renderSettings(container){
       </div>
     </div>
 
-    <div class="settings-section card">
+    <div class="settings-section card wide">
       <h3>In-app YouTube playback</h3>
       <p class="desc">Lessons whose main resource can't be embedded (Khan Academy, MIT OCW, edX and similar all block iframes) fall back to an <strong>alternative YouTube video</strong> — marked <em>Alt</em> — so you can still watch inside the app, with the original resource one click away. Curated paths ship with alternatives already attached. Add a free YouTube Data API key and Atlas will find one automatically for any lesson still missing it, the moment you press play.</p>
       <div class="field">
@@ -2308,7 +2317,7 @@ function renderSettings(container){
       <p class="desc" style="margin-top:8px; margin-bottom:0;">Free quota is 10,000 units/day and each lookup costs 100, so about 100 lessons a day — plenty for personal use. Atlas only looks a video up the first time you watch it, then remembers it.</p>
     </div>
 
-    <div class="settings-section card">
+    <div class="settings-section card wide">
       <h3>Google Drive — your memory</h3>
       <p class="desc">${sharedMode() ? "<strong>Optional.</strong> Your plans are already saved on the shared server \u2014 connect Drive only if you also want your own personal copy. " : ""}Your own Google Drive is where Atlas remembers everything: every plan and chat auto-saves there as you go, and connected devices pull the latest the moment you open the app — no manual export/import. Nothing goes through any server of ours — this app talks to Google directly from your browser, and only the one file it creates (<code>${DRIVE_FILENAME}</code>) is ever touched.</p>
       ${s.driveConnected ? `
@@ -2337,6 +2346,7 @@ function renderSettings(container){
           6. Copy the Client ID it gives you and paste it above.
         </p>
       `}
+    </div>
     </div>
   `;
 
