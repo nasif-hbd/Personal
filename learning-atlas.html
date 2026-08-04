@@ -476,6 +476,7 @@ label{
   box-shadow:0 0 12px rgba(34,211,238,.8); transition:width .6s linear;
 }
 .watch-pct{color:var(--text-faint); align-self:center;}
+.watch-pct.untracked{color:var(--warn);}
 .facade-progress{
   position:absolute; left:0; right:0; bottom:0; height:4px; z-index:2;
   background:rgba(0,0,0,.55);
@@ -2890,26 +2891,69 @@ function bindInlinePlayers(){
   if(!frames.length) return;
 
   loadYouTubeApi().then(()=>{
-    if(!(window.YT && window.YT.Player)) return;
+    if(!(window.YT && window.YT.Player)){ frames.forEach(f=>markUntracked(f.dataset.ytClass)); return; }
     frames.forEach(f=>{
       const cid = f.dataset.ytClass;
       if(inlinePlayers.has(cid) || !document.contains(f)) return;
-      let player;
-      try{
-        player = new YT.Player(f, {
-          events:{ onStateChange: e=>{ if(e.data === YT.PlayerState.ENDED) handleVideoEnded(cid, player); } }
-        });
-      }catch(e){ return; }
-      const timer = setInterval(()=>{
-        try{
-          const dur = player.getDuration ? player.getDuration() : 0;
-          const cur = player.getCurrentTime ? player.getCurrentTime() : 0;
-          if(dur > 0) recordWatchProgress(cid, cur/dur, player);
-        }catch(e){}
-      }, 1000);
-      inlinePlayers.set(cid, {player, el:f, timer});
+      attachPlayer(cid, f, false);
     });
   });
+}
+
+function attachPlayer(cid, f, isRetry){
+  let player;
+  try{
+    player = new YT.Player(f, {
+      events:{
+        onReady: ()=>{ const r = inlinePlayers.get(cid); if(r) r.ready = true; },
+        onStateChange: e=>{
+          const r = inlinePlayers.get(cid);
+          if(r) r.ready = true;   // any state callback proves the bridge is live
+          if(e.data === YT.PlayerState.ENDED) handleVideoEnded(cid, player);
+        }
+      }
+    });
+  }catch(e){ markUntracked(cid); return; }
+
+  const timer = setInterval(()=>{
+    try{
+      const dur = player.getDuration ? player.getDuration() : 0;
+      const cur = player.getCurrentTime ? player.getCurrentTime() : 0;
+      if(dur > 0){
+        const rec = inlinePlayers.get(cid);
+        if(rec) rec.ready = true;
+        recordWatchProgress(cid, cur/dur, player);
+      }
+    }catch(e){}
+  }, 1000);
+  inlinePlayers.set(cid, {player, el:f, timer, ready:false});
+
+  // The postMessage bridge to the embed sometimes never comes up (blocked
+  // script, extension, slow network). Retry once, then say so plainly rather
+  // than leaving the learner waiting for a tick that will never arrive.
+  setTimeout(()=>{
+    const rec = inlinePlayers.get(cid);
+    if(!rec || rec.ready || rec.el !== document.getElementById("ytf-"+cid)) return;
+    clearInterval(rec.timer);
+    try{ rec.player && rec.player.destroy && rec.player.destroy(); }catch(e){}
+    inlinePlayers.delete(cid);
+    const el = document.getElementById("ytf-"+cid);
+    if(!el) return;
+    if(isRetry) markUntracked(cid);
+    else attachPlayer(cid, el, true);
+  }, isRetry ? 9000 : 6000);
+}
+
+// No progress bridge: hide the meaningless 0% readout and tell the learner to
+// tick the box themselves, so nothing silently pretends to be tracking.
+function markUntracked(cid){
+  const label = document.querySelector(`[data-watchpct="${cid}"]`);
+  if(label){
+    label.textContent = "Tick when finished";
+    label.classList.add("untracked");
+  }
+  const bar = document.querySelector(`[data-watchfill="${cid}"]`);
+  if(bar && bar.parentElement) bar.parentElement.style.display = "none";
 }
 
 // Progress only ever moves forward — scrubbing backwards shouldn't lose credit.
