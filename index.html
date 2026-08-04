@@ -1879,6 +1879,8 @@ function renderClassCard(plan, c){
   const emb = getYtEmbed(c);
   const openExternal = (c.resourceUrl && (!emb || emb.isAlt))
     ? `<a class="btn small" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open ${icon("external","ic-sm")}</a>` : "";
+  const attachBtn = (!media && c.type !== "rest")
+    ? `<button class="btn small" data-action="attach-video" data-plan="${plan.id}" data-class="${c.id}" title="Pick a YouTube video to watch here">${icon("plus","ic-sm")} Video</button>` : "";
   return `
     <div class="class-card ${c.done?'done':''}" data-card="${c.id}">
       ${media}
@@ -1887,6 +1889,7 @@ function renderClassCard(plan, c){
         <div class="cc-meta">${escapeHtml(c.channel||"")} ${c.channel?'· ':''}${c.durationMinutes} min${c.notes ? ' · '+escapeHtml(c.notes) : ''}</div>
       </div>
       <div class="cc-controls">
+        ${attachBtn}
         ${openExternal}
         <input type="time" value="${c.completionTime||''}" data-action="set-completion" data-plan="${plan.id}" data-class="${c.id}" title="Notify me 10 & 5 min before this time">
         <input type="checkbox" class="chk" ${c.done?'checked':''} data-action="toggle-class-done" data-plan="${plan.id}" data-class="${c.id}" title="Mark done">
@@ -2308,25 +2311,39 @@ const ALT_CHEM  = {altVideoUrl:"https://www.youtube.com/playlist?list=PLG61LF8I_
 const ALT_OCHEM = {altVideoUrl:"https://www.youtube.com/playlist?list=PL0o_zxa4K1BWziAvOKdqsMFSB_MyyLAqS", altChannel:"The Organic Chemistry Tutor"};
 const ALT_BIO   = {altVideoUrl:"https://www.youtube.com/playlist?list=PL7A9646BC5110CF64", altChannel:"Khan Academy"};
 const ALT_PY    = {altVideoUrl:"https://www.youtube.com/watch?v=rfscVS0vtbw", altChannel:"freeCodeCamp"};
+// Subjects the directory only had channel pages for (Math, Coding, AI, IELTS)
+// had nothing embeddable at all. These were sourced separately and are the
+// best-known free full courses for each topic.
+const ALT_PREALG  = {altVideoUrl:"https://www.youtube.com/playlist?list=PL4C9296DF81B9EF13", altChannel:"Professor Leonard"};
+const ALT_ALGEBRA = {altVideoUrl:"https://www.youtube.com/playlist?list=PLDesaqWTN6ESsmwELdrzhcGiRhk5DjwLP", altChannel:"Professor Leonard"};
+const ALT_GEOM    = {altVideoUrl:"https://www.youtube.com/playlist?list=PLKi4WTp6PRGVBM1nPhwW1lTuxi32Q0IZ3", altChannel:"High School Geometry"};
+const ALT_STATS   = {altVideoUrl:"https://www.youtube.com/watch?v=xqO9yuYeAMQ", altChannel:"Khan Academy via freeCodeCamp"};
+const ALT_LINALG  = {altVideoUrl:"https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab", altChannel:"3Blue1Brown"};
+const ALT_CS50    = {altVideoUrl:"https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4", altChannel:"Harvard CS50"};
+const ALT_NN      = {altVideoUrl:"https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi", altChannel:"3Blue1Brown"};
+const ALT_NGML    = {altVideoUrl:"https://www.youtube.com/playlist?list=PLkDaE6sCZn6FNC6YRfRQc_FbeQrF8BwGI", altChannel:"Andrew Ng"};
+const ALT_MLFCC   = {altVideoUrl:"https://www.youtube.com/watch?v=i_LwzRVP7bg", altChannel:"freeCodeCamp"};
+const ALT_IELTS   = {altVideoUrl:"https://www.youtube.com/playlist?list=PLfSUFKdFlttn1MWrG5Q0-a9Cbm9y3uulX", altChannel:"IELTS Full Course"};
+const ALT_IELTS_S = {altVideoUrl:"https://www.youtube.com/watch?v=rqmv0LCcPTs", altChannel:"IELTS Speaking Course"};
 const FEATURED_PATHS = [
   {
     id:"math", title:"High School Math Foundations", subject:"Math", level:"High School", dailyMinutes:40,
     blurb:"Algebra, Geometry, Trigonometry, Precalculus and Statistics — a complete two-week refresher on Khan Academy's free curriculum.",
     weekThemes:["Algebra & Geometry", "Trig, Precalc & Data"],
     days:[
-      sd("Pre-Algebra Foundations","https://www.khanacademy.org/math/pre-algebra",{todo:"Complete 2 practice sets on ratios & integers"}),
-      sd("Algebra 1 — Linear Equations","https://www.khanacademy.org/math/algebra",{todo:"Solve 10 linear equation practice problems"}),
-      sd("Algebra 1 — Quadratics & Factoring","https://www.khanacademy.org/math/algebra",{todo:"Practice factoring quadratics"}),
-      sd("Geometry — Shapes & Proofs","https://www.khanacademy.org/math/geometry",{todo:"Complete one geometry proof set"}),
-      sd("Geometry — Circles & Area","https://www.khanacademy.org/math/geometry",{todo:"Practice circle theorems"}),
-      vd("Visual Math Intuition","https://www.youtube.com/@3blue1brown","3Blue1Brown",{todo:"Watch one visual-intuition video and journal what clicked"}),
+      sd("Pre-Algebra Foundations","https://www.khanacademy.org/math/pre-algebra",{...ALT_PREALG, todo:"Complete 2 practice sets on ratios & integers"}),
+      sd("Algebra 1 — Linear Equations","https://www.khanacademy.org/math/algebra",{...ALT_ALGEBRA, todo:"Solve 10 linear equation practice problems"}),
+      sd("Algebra 1 — Quadratics & Factoring","https://www.khanacademy.org/math/algebra",{...ALT_ALGEBRA, todo:"Practice factoring quadratics"}),
+      sd("Geometry — Shapes & Proofs","https://www.khanacademy.org/math/geometry",{...ALT_GEOM, todo:"Complete one geometry proof set"}),
+      sd("Geometry — Circles & Area","https://www.khanacademy.org/math/geometry",{...ALT_GEOM, todo:"Practice circle theorems"}),
+      vd("Visual Math Intuition","https://www.youtube.com/@3blue1brown","3Blue1Brown",{...ALT_LINALG, todo:"Watch one visual-intuition video and journal what clicked"}),
       REST_DAY,
-      sd("Algebra 2 — Functions & Polynomials","https://www.khanacademy.org/math/algebra2",{todo:"Graph 5 polynomial functions"}),
-      sd("Trigonometry — Unit Circle & Identities","https://www.khanacademy.org/math/trigonometry",{todo:"Memorize the unit circle, quiz yourself"}),
-      sd("Precalculus — Sequences & Limits","https://www.khanacademy.org/math/precalculus",{todo:"Practice sequence & series problems"}),
-      sd("Statistics & Probability","https://www.khanacademy.org/math/statistics-probability",{todo:"Complete a probability practice set"}),
-      sd("Number Theory Basics","https://www.khanacademy.org/math",{todo:"Practice prime factorization & modular arithmetic"}),
-      sd("Consumer & Financial Math","https://www.khanacademy.org/math",{todo:"Work through interest & budgeting problems"}),
+      sd("Algebra 2 — Functions & Polynomials","https://www.khanacademy.org/math/algebra2",{...ALT_ALGEBRA, todo:"Graph 5 polynomial functions"}),
+      sd("Trigonometry — Unit Circle & Identities","https://www.khanacademy.org/math/trigonometry",{...ALT_ALGEBRA, todo:"Memorize the unit circle, quiz yourself"}),
+      sd("Precalculus — Sequences & Limits","https://www.khanacademy.org/math/precalculus",{...ALT_ALGEBRA, todo:"Practice sequence & series problems"}),
+      sd("Statistics & Probability","https://www.khanacademy.org/math/statistics-probability",{...ALT_STATS, todo:"Complete a probability practice set"}),
+      sd("Number Theory Basics","https://www.khanacademy.org/math",{...ALT_ALGEBRA, todo:"Practice prime factorization & modular arithmetic"}),
+      sd("Consumer & Financial Math","https://www.khanacademy.org/math",{...ALT_ALGEBRA, todo:"Work through interest & budgeting problems"}),
       REST_DAY,
     ]
   },
@@ -2344,10 +2361,10 @@ const FEATURED_PATHS = [
       REST_DAY,
       sd("Multivariable Calculus — Partial Derivatives","https://www.khanacademy.org/math/multivariable-calculus",{todo:"Practice partial derivatives"}),
       sd("Multivariable Calculus — Multiple Integrals","https://www.khanacademy.org/math/multivariable-calculus",{todo:"Solve a double-integral problem set"}),
-      sd("Linear Algebra — Vectors & Matrices","https://www.khanacademy.org/math/linear-algebra",{todo:"Practice matrix multiplication"}),
-      sd("Linear Algebra — Eigenvalues & Eigenvectors","https://www.khanacademy.org/math/linear-algebra",{todo:"Find eigenvalues for 3 matrices"}),
+      sd("Linear Algebra — Vectors & Matrices","https://www.khanacademy.org/math/linear-algebra",{...ALT_LINALG, todo:"Practice matrix multiplication"}),
+      sd("Linear Algebra — Eigenvalues & Eigenvectors","https://www.khanacademy.org/math/linear-algebra",{...ALT_LINALG, todo:"Find eigenvalues for 3 matrices"}),
       sd("Differential Equations Intro","https://www.khanacademy.org/math/differential-equations",{todo:"Solve 3 first-order ODEs"}),
-      vd("Essence of Linear Algebra","https://www.youtube.com/@3blue1brown","3Blue1Brown",{todo:"Watch and sketch the transformations shown"}),
+      vd("Essence of Linear Algebra","https://www.youtube.com/@3blue1brown","3Blue1Brown",{...ALT_LINALG, todo:"Watch and sketch the transformations shown"}),
       REST_DAY,
     ]
   },
@@ -2440,19 +2457,19 @@ const FEATURED_PATHS = [
     blurb:"Programming logic, web development, data structures, Git, and SQL — freeCodeCamp's free curriculum plus CS50.",
     weekThemes:["Programming Logic & Web Basics", "Data, Tools & Real Projects"],
     days:[
-      sd("Intro to Programming Logic","https://www.freecodecamp.org/learn",{todo:"Complete the first programming-logic module"}),
-      sd("Web Development — HTML & CSS","https://www.freecodecamp.org/learn",{todo:"Build a simple static webpage"}),
-      sd("Web Development — JavaScript Basics","https://www.freecodecamp.org/learn",{todo:"Complete a JS basics challenge set"}),
-      vd("freeCodeCamp Practice Session","https://www.youtube.com/@freecodecamp","freeCodeCamp",{duration:40,todo:"Follow along with one full-length tutorial"}),
-      sd("Git & Version Control","https://www.freecodecamp.org/learn",{todo:"Initialize a repo and make 3 commits"}),
-      sd("SQL & Databases","https://www.freecodecamp.org/learn",{todo:"Write 5 basic SQL queries"}),
+      sd("Intro to Programming Logic","https://www.freecodecamp.org/learn",{...ALT_CS50, todo:"Complete the first programming-logic module"}),
+      sd("Web Development — HTML & CSS","https://www.freecodecamp.org/learn",{...ALT_CS50, todo:"Build a simple static webpage"}),
+      sd("Web Development — JavaScript Basics","https://www.freecodecamp.org/learn",{...ALT_CS50, todo:"Complete a JS basics challenge set"}),
+      vd("freeCodeCamp Practice Session","https://www.youtube.com/@freecodecamp","freeCodeCamp",{...ALT_CS50, duration:40,todo:"Follow along with one full-length tutorial"}),
+      sd("Git & Version Control","https://www.freecodecamp.org/learn",{...ALT_CS50, todo:"Initialize a repo and make 3 commits"}),
+      sd("SQL & Databases","https://www.freecodecamp.org/learn",{...ALT_CS50, todo:"Write 5 basic SQL queries"}),
       REST_DAY,
-      sd("CS50: Intro to Computer Science","https://www.edx.org/learn/computer-science/harvard-university-cs50-s-introduction-to-computer-science",{todo:"Watch the first CS50 lecture and take notes"}),
-      sd("Data Structures & Algorithms","https://www.freecodecamp.org/learn",{todo:"Implement a basic sorting algorithm"}),
-      sd("Mobile App Development Intro","https://www.freecodecamp.org/learn",{todo:"Read the intro module on mobile frameworks"}),
-      sd("Cybersecurity Fundamentals","https://www.freecodecamp.org/learn",{todo:"Complete a basic security-concepts quiz"}),
-      vd("Full-Stack Crash Course","https://www.youtube.com/@TraversyMedia","Traversy Media",{duration:45,todo:"Follow one crash-course project end to end"}),
-      sd("Build a Small Project","https://www.freecodecamp.org/learn",{todo:"Build and deploy one small project using what you learned"}),
+      sd("CS50: Intro to Computer Science","https://www.edx.org/learn/computer-science/harvard-university-cs50-s-introduction-to-computer-science",{...ALT_CS50, todo:"Watch the first CS50 lecture and take notes"}),
+      sd("Data Structures & Algorithms","https://www.freecodecamp.org/learn",{...ALT_CS50, todo:"Implement a basic sorting algorithm"}),
+      sd("Mobile App Development Intro","https://www.freecodecamp.org/learn",{...ALT_CS50, todo:"Read the intro module on mobile frameworks"}),
+      sd("Cybersecurity Fundamentals","https://www.freecodecamp.org/learn",{...ALT_CS50, todo:"Complete a basic security-concepts quiz"}),
+      vd("Full-Stack Crash Course","https://www.youtube.com/@TraversyMedia","Traversy Media",{...ALT_CS50, duration:45,todo:"Follow one crash-course project end to end"}),
+      sd("Build a Small Project","https://www.freecodecamp.org/learn",{...ALT_CS50, todo:"Build and deploy one small project using what you learned"}),
       REST_DAY,
     ]
   },
@@ -2482,19 +2499,19 @@ const FEATURED_PATHS = [
     blurb:"From AI For Everyone to neural networks, NLP, computer vision, and prompt engineering — DeepLearning.AI, Elements of AI & MIT OCW.",
     weekThemes:["AI Foundations & Machine Learning", "Deep Learning, NLP & Generative AI"],
     days:[
-      sd("AI For Everyone","https://www.deeplearning.ai/courses/ai-for-everyone/",{todo:"Watch the first module and summarize key ideas"}),
-      sd("Elements of AI","https://www.elementsofai.com/",{todo:"Complete the first chapter's exercises"}),
-      sd("Machine Learning Foundations","https://www.coursera.org/specializations/machine-learning-introduction",{todo:"Watch the intro lecture on supervised learning"}),
-      vd("Latest AI Research Explained","https://www.youtube.com/@TwoMinutePapers","Two Minute Papers",{duration:10,todo:"Watch 2 videos and note what each paper improved"}),
-      sd("Deep Learning & Neural Networks","https://www.coursera.org/specializations/deep-learning",{todo:"Watch the intro lecture on neural network basics"}),
-      sd("AI Fundamentals & Ethics","https://www.deeplearning.ai/courses/",{todo:"Read about one AI ethics case study"}),
+      sd("AI For Everyone","https://www.deeplearning.ai/courses/ai-for-everyone/",{...ALT_MLFCC, todo:"Watch the first module and summarize key ideas"}),
+      sd("Elements of AI","https://www.elementsofai.com/",{...ALT_MLFCC, todo:"Complete the first chapter's exercises"}),
+      sd("Machine Learning Foundations","https://www.coursera.org/specializations/machine-learning-introduction",{...ALT_NGML, todo:"Watch the intro lecture on supervised learning"}),
+      vd("Latest AI Research Explained","https://www.youtube.com/@TwoMinutePapers","Two Minute Papers",{...ALT_NN, duration:10,todo:"Watch 2 videos and note what each paper improved"}),
+      sd("Deep Learning & Neural Networks","https://www.coursera.org/specializations/deep-learning",{...ALT_NN, todo:"Watch the intro lecture on neural network basics"}),
+      sd("AI Fundamentals & Ethics","https://www.deeplearning.ai/courses/",{...ALT_MLFCC, todo:"Read about one AI ethics case study"}),
       REST_DAY,
-      sd("Natural Language Processing","https://www.deeplearning.ai/courses/",{todo:"Watch the intro NLP lecture"}),
-      sd("Computer Vision","https://www.deeplearning.ai/courses/",{todo:"Watch the intro computer-vision lecture"}),
-      sd("Generative AI & LLMs","https://www.deeplearning.ai/courses/",{todo:"Try 3 prompts with an LLM and note what worked"}),
-      sd("Prompt Engineering","https://www.deeplearning.ai/courses/",{todo:"Practice 3 prompting techniques from the course"}),
-      sd("AI Agents","https://www.deeplearning.ai/courses/",{todo:"Read the intro module on agentic workflows"}),
-      vd("DeepLearning.AI Channel","https://www.youtube.com/@Deeplearningai","DeepLearning.AI",{duration:20,todo:"Watch one channel video on a topic that interests you"}),
+      sd("Natural Language Processing","https://www.deeplearning.ai/courses/",{...ALT_MLFCC, todo:"Watch the intro NLP lecture"}),
+      sd("Computer Vision","https://www.deeplearning.ai/courses/",{...ALT_MLFCC, todo:"Watch the intro computer-vision lecture"}),
+      sd("Generative AI & LLMs","https://www.deeplearning.ai/courses/",{...ALT_MLFCC, todo:"Try 3 prompts with an LLM and note what worked"}),
+      sd("Prompt Engineering","https://www.deeplearning.ai/courses/",{...ALT_MLFCC, todo:"Practice 3 prompting techniques from the course"}),
+      sd("AI Agents","https://www.deeplearning.ai/courses/",{...ALT_MLFCC, todo:"Read the intro module on agentic workflows"}),
+      vd("DeepLearning.AI Channel","https://www.youtube.com/@Deeplearningai","DeepLearning.AI",{...ALT_MLFCC, duration:20,todo:"Watch one channel video on a topic that interests you"}),
       REST_DAY,
     ]
   },
@@ -2503,20 +2520,20 @@ const FEATURED_PATHS = [
     blurb:"Listening, Reading, Writing, and Speaking — British Council's free IELTS Ready and Road to IELTS materials, ending in a full mock test.",
     weekThemes:["Listening, Reading & Writing Basics", "Speaking, Advanced Writing & Mock Test"],
     days:[
-      sd("Listening Skills — IELTS Ready","https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",{todo:"Complete one listening practice module"}),
-      sd("Reading Skills — IELTS Ready","https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",{todo:"Complete one reading passage under timed conditions"}),
-      sd("Writing Task 1 (Academic/General)","https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",{todo:"Write one Task 1 response and self-check the structure"}),
-      sd("Writing Task 2 (Essay)","https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",{todo:"Write one Task 2 essay within 40 minutes"}),
-      vd("IELTS Tips & Preparation Videos","https://www.youtube.com/@britishcouncil","British Council",{duration:20,todo:"Watch one tips video and note 3 takeaways"}),
-      sd("Speaking Skills — Part 1 & 2","https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",{todo:"Record yourself answering 3 Part 1 questions"}),
+      sd("Listening Skills — IELTS Ready","https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",{...ALT_IELTS, todo:"Complete one listening practice module"}),
+      sd("Reading Skills — IELTS Ready","https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",{...ALT_IELTS, todo:"Complete one reading passage under timed conditions"}),
+      sd("Writing Task 1 (Academic/General)","https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",{...ALT_IELTS, todo:"Write one Task 1 response and self-check the structure"}),
+      sd("Writing Task 2 (Essay)","https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",{...ALT_IELTS, todo:"Write one Task 2 essay within 40 minutes"}),
+      vd("IELTS Tips & Preparation Videos","https://www.youtube.com/@britishcouncil","British Council",{...ALT_IELTS, duration:20,todo:"Watch one tips video and note 3 takeaways"}),
+      sd("Speaking Skills — Part 1 & 2","https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",{...ALT_IELTS_S, todo:"Record yourself answering 3 Part 1 questions"}),
       REST_DAY,
-      sd("Listening Skills — Road to IELTS","https://www.roadtoielts.com/",{todo:"Complete one more listening module"}),
-      sd("Reading Skills — Road to IELTS","https://www.roadtoielts.com/",{todo:"Complete one more timed reading passage"}),
-      sd("Writing Task 1 — Road to IELTS","https://www.roadtoielts.com/",{todo:"Write another Task 1 response, compare to a model answer"}),
-      sd("Writing Task 2 — Road to IELTS","https://www.roadtoielts.com/",{todo:"Write another Task 2 essay, self-grade against band descriptors"}),
-      sd("Speaking Skills — Part 3 & Fluency","https://learnenglish.britishcouncil.org/ielts-preparation",{todo:"Practice Part 3 discussion questions aloud"}),
-      sd("LearnEnglish IELTS Preparation","https://learnenglish.britishcouncil.org/ielts-preparation",{todo:"Review your weakest skill area from this week"}),
-      sd("Full Mock Test & Band Score Practice","https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",{todo:"Take one full timed mock test"}),
+      sd("Listening Skills — Road to IELTS","https://www.roadtoielts.com/",{...ALT_IELTS, todo:"Complete one more listening module"}),
+      sd("Reading Skills — Road to IELTS","https://www.roadtoielts.com/",{...ALT_IELTS, todo:"Complete one more timed reading passage"}),
+      sd("Writing Task 1 — Road to IELTS","https://www.roadtoielts.com/",{...ALT_IELTS, todo:"Write another Task 1 response, compare to a model answer"}),
+      sd("Writing Task 2 — Road to IELTS","https://www.roadtoielts.com/",{...ALT_IELTS, todo:"Write another Task 2 essay, self-grade against band descriptors"}),
+      sd("Speaking Skills — Part 3 & Fluency","https://learnenglish.britishcouncil.org/ielts-preparation",{...ALT_IELTS_S, todo:"Practice Part 3 discussion questions aloud"}),
+      sd("LearnEnglish IELTS Preparation","https://learnenglish.britishcouncil.org/ielts-preparation",{...ALT_IELTS, todo:"Review your weakest skill area from this week"}),
+      sd("Full Mock Test & Band Score Practice","https://takeielts.britishcouncil.org/take-ielts/prepare/ielts-ready",{...ALT_IELTS, todo:"Take one full timed mock test"}),
     ]
   },
 ];
@@ -2765,12 +2782,62 @@ document.addEventListener("click", e=>{
   else if(act==="watch-class"){ openWatchModal(action.dataset.plan, action.dataset.class); }
   else if(act==="add-featured-path"){ addFeaturedPlan(action.dataset.path); }
   else if(act==="play-inline"){ playInline(action.dataset.plan, action.dataset.class); }
+  else if(act==="attach-video"){ openAttachVideoModal(action.dataset.plan, action.dataset.class); }
   else if(act==="close-inline"){
     state.inlineOpen.delete(action.dataset.class);
     renderView();
   }
   else if(act==="focus-mode"){ openWatchModal(action.dataset.plan, action.dataset.class); }
 });
+
+// Manual escape hatch: attach any YouTube video/playlist to a lesson that has no
+// embeddable one. Works with no API key — the learner just pastes a link, or
+// jumps to a prefilled YouTube search to go find one.
+function openAttachVideoModal(planId, classId){
+  const plan = getPlan(planId);
+  const c = plan && findClass(plan, classId);
+  if(!c) return;
+  const searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(c.title + " " + (plan.subject||"") + " full course")}`;
+  const root = document.getElementById("modalRoot");
+  root.innerHTML = `
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="avTitle" tabindex="-1">
+        <h2 id="avTitle">Add a video</h2>
+        <p class="desc">Paste any YouTube video or playlist link and it'll play inside this lesson. ${escapeHtml(c.title)}</p>
+        <div class="field">
+          <label>YouTube link</label>
+          <input type="text" id="avUrl" placeholder="https://www.youtube.com/watch?v=… or /playlist?list=…">
+        </div>
+        <p class="desc" style="margin-bottom:18px;">
+          Need one? <a href="${escapeHtml(searchUrl)}" target="_blank" rel="noopener">Search YouTube for this lesson ${icon("external","ic-sm")}</a>, then copy the link.
+        </p>
+        <div class="modal-actions">
+          <button class="btn" id="avCancel">Cancel</button>
+          <button class="btn primary" id="avSave">Add video</button>
+        </div>
+      </div>
+    </div>`;
+  document.getElementById("avCancel").onclick = closeModal;
+  document.getElementById("modalOverlay").addEventListener("click", e=>{ if(e.target.id==="modalOverlay") closeModal(); });
+  const save = ()=>{
+    const url = document.getElementById("avUrl").value.trim();
+    if(!extractYouTubeEmbed(url)){
+      toast("That doesn't look like a YouTube video or playlist link.", "error");
+      return;
+    }
+    c.altVideoUrl = url;
+    c.altChannel = "Added by you";
+    plan.updatedAt = Date.now();
+    persistPlans();
+    state.inlineOpen.add(classId);
+    closeModal();
+    renderView();
+    toast("Video added to this lesson", "success");
+  };
+  document.getElementById("avSave").onclick = save;
+  document.getElementById("avUrl").addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); save(); } });
+  setupModalA11y();
+}
 
 // Expands a lesson's video into a real inline iframe. When the lesson only has a
 // channel/search link, first resolves it to a specific video via the YouTube Data
