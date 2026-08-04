@@ -14,7 +14,11 @@
 <meta name="apple-mobile-web-app-title" content="Atlas">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Loaded non-blocking: on a slow or unreachable network the app still starts
+     immediately and falls back to system fonts, instead of stalling on webfonts. -->
+<link rel="stylesheet" media="print" onload="this.media='all'"
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"></noscript>
 <style>
 /* ===================== Design tokens =====================
    Dark, glassy, neon-lit. Translucent surfaces over an aurora field,
@@ -1251,9 +1255,9 @@ RULES FOR THE JSON
 }
 
 async function sendToClaude(plan, userText, {onStatus, onChunk} = {}){
-  const apiKey = (state.settings.apiKey||"").trim();
-  // With a backend configured the server holds the key, so visitors need none.
-  if(!apiKey && !backendUrl()) throw new Error("missing-api-key");
+  const apiKey = legacyKey();
+  // The server holds the key in shared mode; visitors never supply one.
+  if(!aiAvailable()) throw new Error("AI features aren't switched on for this app yet.");
 
   plan.chat.push({role:"user", content:userText, ts:Date.now()});
   persistPlans();
@@ -1324,7 +1328,9 @@ async function sendToClaude(plan, userText, {onStatus, onChunk} = {}){
     if(!resp.ok){
       let msg = `Request failed (HTTP ${resp.status})`;
       try{ const errBody = await resp.json(); if(errBody && errBody.error && errBody.error.message) msg = errBody.error.message; }catch(e){}
-      if(resp.status===401) msg = "Invalid API key. Check it in Settings.";
+      if(resp.status===401) msg = backendUrl()
+        ? "This app's AI access was rejected by the server."
+        : "AI credentials were rejected.";
       throw new Error(msg);
     }
 
@@ -1647,11 +1653,10 @@ function renderSidebar(){
     b.setAttribute("aria-current", isActive ? "page" : "false");
   });
   const ks = document.getElementById("keyStatus");
-  const shared = !!backendUrl();
-  const hasKey = shared || !!(state.settings.apiKey||"").trim();
-  ks.className = "key-status " + (hasKey ? "ok" : "bad");
-  ks.innerHTML = `<span class="pip"></span> ${shared ? "Shared" : (hasKey ? "Key set" : "No key")}`;
-  ks.title = shared ? "Using the shared Atlas server — no key needed" : "";
+  const ready = aiAvailable();
+  ks.className = "key-status " + (ready ? "ok" : "bad");
+  ks.innerHTML = `<span class="pip"></span> ${ready ? "AI ready" : "AI off"}`;
+  ks.title = ready ? "AI is available in this app" : "AI features aren't switched on for this app";
 }
 
 function setTopbar(title, sub){
@@ -1769,9 +1774,8 @@ function buildInitialMessage(plan){
 async function runChatTurn(userText){
   const plan = activePlan();
   if(!plan) return;
-  if(!(state.settings.apiKey||"").trim() && !backendUrl()){
-    toast("Add your Claude API key in Settings first.", "error");
-    state.view = "settings"; renderView();
+  if(!aiAvailable()){
+    toast("AI features aren't switched on for this app yet.", "error");
     return;
   }
   state.sending = true;
@@ -2091,7 +2095,7 @@ function renderHome(container){
       <div class="home-section-head">
         <h3>03 / Featured 14-day paths</h3>
         <span class="section-rule"></span>
-        <span class="badge gold">No API key needed</span>
+        <span class="badge gold">Ready instantly</span>
       </div>
       <p class="desc" style="color:var(--text-dim); font-size:13.5px; margin:-6px 0 18px; max-width:62ch;">Ten complete, ready-to-go two-week courses built from a curated directory of free learning resources — add one and start today.</p>
       <div class="plans-grid featured-grid">${featuredPaths().map(renderFeaturedCard).join("")}</div>
@@ -2213,56 +2217,27 @@ function renderSettings(container){
   const s = state.settings;
   const notifState = ("Notification" in window) ? Notification.permission : "unsupported";
   container.innerHTML = `
-    ${sharedMode() ? `
     <div class="settings-section card">
       <h3>AI &amp; storage</h3>
-      <p class="desc">Ready to go — Atlas is connected to a shared server that provides the AI and saves your plans. No API key, no Google setup, nothing to configure.</p>
-      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-        <span class="badge">Connected</span>
-        <button class="btn small" id="btnTestBackend">Check status</button>
-      </div>
-      <div class="field" style="margin:16px 0 0;">
-        <label>Access code (only if you were given one)</label>
-        <input type="text" id="accessCodeInput" placeholder="leave empty if not required" value="${escapeHtml(s.accessCode||"")}">
-      </div>
-      <details class="adv">
-        <summary>Advanced — use your own Claude key instead</summary>
-        <p class="desc" style="margin-top:12px;">Only needed if you'd rather bill your own Anthropic account than use the shared server. Stored in this browser only.</p>
-        <div class="pwd-wrap">
-          <input type="password" id="apiKeyInput" placeholder="sk-ant-..." value="${escapeHtml(s.apiKey||"")}">
-          <button class="btn small" id="btnToggleKeyVis">Show</button>
-          <button class="btn primary small" id="btnSaveKey">Save</button>
+      ${sharedMode() ? `
+        <p class="desc">Ready to go. The AI and your saved plans are provided for you — there is nothing to set up and no key to enter.</p>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+          <span class="badge">Connected</span>
+          <button class="btn small" id="btnTestBackend">Check status</button>
         </div>
-        <div class="field" style="margin-top:16px; margin-bottom:0;">
-          <label>Server URL override</label>
-          <input type="text" id="backendUrlInput" placeholder="${escapeHtml(DEFAULT_BACKEND_URL || 'https://atlas-backend.onrender.com')}" value="${escapeHtml(s.backendUrl||"")}">
-        </div>
-      </details>
-    </div>
-    ` : `
-    <div class="settings-section card">
-      <h3>Claude API key</h3>
-      <p class="desc">Stored only in this browser's local storage — never sent anywhere except directly to Anthropic's API.</p>
-      <div class="pwd-wrap">
-        <input type="password" id="apiKeyInput" placeholder="sk-ant-..." value="${escapeHtml(s.apiKey||"")}">
-        <button class="btn small" id="btnToggleKeyVis">Show</button>
-        <button class="btn primary small" id="btnSaveKey">Save</button>
-      </div>
-      <details class="adv">
-        <summary>Advanced — connect a shared Atlas server</summary>
-        <p class="desc" style="margin-top:12px;">A deployed <code>server/</code> supplies the key and storage for everyone, so visitors need no setup. See <code>server/README.md</code>.</p>
-        <div class="field">
-          <label>Server URL</label>
-          <input type="text" id="backendUrlInput" placeholder="https://atlas-backend.onrender.com" value="${escapeHtml(s.backendUrl||"")}">
-        </div>
-        <div class="field" style="margin-bottom:12px;">
-          <label>Access code (if the server requires one)</label>
+        <div class="field" style="margin:16px 0 0;">
+          <label>Access code (only if you were given one)</label>
           <input type="text" id="accessCodeInput" placeholder="leave empty if not required" value="${escapeHtml(s.accessCode||"")}">
         </div>
-        <button class="btn small" id="btnTestBackend">Test connection</button>
-      </details>
+      ` : `
+        <p class="desc">${aiAvailable()
+          ? "AI is running on this browser's stored credentials. Once the shared server is live it takes over automatically."
+          : "AI features aren't switched on for this app yet. Everything else — the featured paths, videos, and progress tracking — works normally."}</p>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+          <span class="badge ${aiAvailable()?'':'gold'}">${aiAvailable() ? "Ready" : "AI unavailable"}</span>
+        </div>
+      `}
     </div>
-    `}
 
     <div class="settings-section card">
       <h3>Model & response depth</h3>
@@ -2365,14 +2340,6 @@ function renderSettings(container){
     </div>
   `;
 
-  document.getElementById("btnToggleKeyVis").onclick = ()=>{
-    const inp = document.getElementById("apiKeyInput");
-    inp.type = inp.type==="password" ? "text" : "password";
-  };
-  document.getElementById("btnSaveKey").onclick = ()=>{
-    state.settings.apiKey = document.getElementById("apiKeyInput").value.trim();
-    persistSettings(); renderSidebar(); toast("API key saved", "success");
-  };
   document.getElementById("modelSelect").onchange = e=>{ state.settings.model = e.target.value; persistSettings(); };
   document.getElementById("effortSelect").onchange = e=>{ state.settings.effort = e.target.value; persistSettings(); };
   document.getElementById("btnCostSaving").onclick = ()=>{
@@ -2388,15 +2355,12 @@ function renderSettings(container){
   document.getElementById("importFile").onchange = importData;
   document.getElementById("btnClearAll").onclick = clearAllData;
   document.getElementById("ytApiKeyInput").onchange = e=>{ state.settings.ytApiKey = e.target.value.trim(); persistSettings(); };
-  document.getElementById("backendUrlInput").onchange = e=>{
-    state.settings.backendUrl = e.target.value.trim();
-    persistSettings(); renderSidebar(); renderView();
-    if(backendUrl()) pullFromBackend();
-  };
-  document.getElementById("accessCodeInput").onchange = e=>{ state.settings.accessCode = e.target.value.trim(); persistSettings(); };
-  document.getElementById("btnTestBackend").onclick = async ()=>{
-    const via = (document.getElementById("backendUrlInput").value||"").trim().replace(/\/+$/,"");
-    if(!via){ toast("Enter a server URL first.", "error"); return; }
+  const accessInput = document.getElementById("accessCodeInput");
+  if(accessInput) accessInput.onchange = e=>{ state.settings.accessCode = e.target.value.trim(); persistSettings(); };
+  const testBtn = document.getElementById("btnTestBackend");
+  if(testBtn) testBtn.onclick = async ()=>{
+    const via = backendUrl();
+    if(!via){ toast("No server is configured for this app.", "error"); return; }
     try{
       const resp = await fetch(via + "/api/health");
       if(!resp.ok) throw new Error(`Server replied ${resp.status}`);
@@ -2838,9 +2802,8 @@ function openNewPlanModal(){
   document.getElementById("npCreate").onclick = ()=>{
     const subject = document.getElementById("npSubject").value.trim();
     if(!subject){ toast("Tell Atlas what you want to learn first.", "error"); return; }
-    if(!(state.settings.apiKey||"").trim() && !backendUrl()){
-      toast("Add your Claude API key in Settings first.", "error");
-      closeModal(); state.view="settings"; renderView();
+    if(!aiAvailable()){
+      toast("AI features aren't switched on for this app yet.", "error");
       return;
     }
     const weeks = Math.max(1, Math.min(MAX_WEEKS, Number(document.getElementById("npWeeks").value)||2));
@@ -3000,9 +2963,14 @@ function backendUrl(){
   const configured = (state.settings.backendUrl||"").trim() || DEFAULT_BACKEND_URL;
   return configured.trim().replace(/\/+$/,"");
 }
-// True when this build ships a server, i.e. visitors shouldn't be bothered
-// with API keys at all — the key UI collapses into an advanced disclosure.
+// True when this build ships a server. Visitors are never asked for an API
+// key — there is no key UI anywhere in the app; the server holds it.
 function sharedMode(){ return !!backendUrl(); }
+// A key previously saved in this browser still works, silently, so an owner
+// who set one up before the server existed doesn't lose AI overnight. It is
+// never displayed, never editable, and the server takes precedence.
+function legacyKey(){ return (state.settings.apiKey||"").trim(); }
+function aiAvailable(){ return !!backendUrl() || !!legacyKey(); }
 function backendHeaders(){
   const h = {};
   const token = store.get("visitorToken", "");
