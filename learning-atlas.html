@@ -25,22 +25,23 @@
    hairline borders that catch light, and cyan/violet edge glow.
 ========================================================== */
 :root{
-  --bg: #07080f;
-  --bg-2: #0b0d17;
-  --surface: rgba(255,255,255,.035);
-  --surface-2: rgba(255,255,255,.06);
-  --surface-solid: #12141f;
-  --line: rgba(255,255,255,.09);
-  --line-2: rgba(255,255,255,.16);
-  --text: #eef1fb;
-  --text-dim: #9ba3bd;
-  --text-faint: #626a85;
-  --accent: #22d3ee;
-  --accent-2: #8b5cf6;
-  --accent-3: #f472b6;
-  --accent-soft: rgba(34,211,238,.14);
-  --glow: 0 0 24px -4px rgba(34,211,238,.5);
-  --glow-2: 0 0 30px -6px rgba(139,92,246,.55);
+  --bg: #08060f;
+  --bg-2: #0d0a1a;
+  --surface: rgba(255,255,255,.04);
+  --surface-2: rgba(255,255,255,.07);
+  --surface-solid: #14101f;
+  --line: rgba(255,255,255,.10);
+  --line-2: rgba(255,255,255,.18);
+  --text: #f4f1fb;
+  --text-dim: #a79fc0;
+  --text-faint: #6d6488;
+  --accent: #7c5cff;
+  --accent-2: #ff5ca8;
+  --accent-3: #ffb457;
+  --accent-rgb: 124,92,255;
+  --accent-soft: rgba(124,92,255,.16);
+  --glow: 0 0 26px -4px rgba(124,92,255,.55);
+  --glow-2: 0 0 32px -6px rgba(255,92,168,.5);
   --gold: #fbbf24;
   --gold-soft: rgba(251,191,36,.15);
   --success: #34d399;
@@ -62,22 +63,23 @@
   --dur-slow: .4s;
 }
 :root[data-theme="light"]{
-  --bg: #eef1f8;
-  --bg-2: #e5e9f4;
-  --surface: rgba(255,255,255,.72);
-  --surface-2: rgba(255,255,255,.92);
+  --bg: #f4f1fb;
+  --bg-2: #ebe6f7;
+  --surface: rgba(255,255,255,.74);
+  --surface-2: rgba(255,255,255,.94);
   --surface-solid: #ffffff;
-  --line: rgba(15,23,42,.10);
-  --line-2: rgba(15,23,42,.18);
-  --text: #0f172a;
-  --text-dim: #51607a;
-  --text-faint: #8792a8;
-  --accent: #0891b2;
-  --accent-2: #7c3aed;
-  --accent-3: #db2777;
-  --accent-soft: rgba(8,145,178,.12);
-  --glow: 0 0 24px -6px rgba(8,145,178,.4);
-  --glow-2: 0 0 30px -8px rgba(124,58,237,.4);
+  --line: rgba(30,20,60,.10);
+  --line-2: rgba(30,20,60,.18);
+  --text: #16102a;
+  --text-dim: #574c72;
+  --text-faint: #8b81a6;
+  --accent: #6d3ff5;
+  --accent-2: #e0338a;
+  --accent-3: #c2760a;
+  --accent-rgb: 109,63,245;
+  --accent-soft: rgba(109,63,245,.12);
+  --glow: 0 0 24px -6px rgba(109,63,245,.4);
+  --glow-2: 0 0 30px -8px rgba(224,51,138,.35);
   --gold: #b45309;
   --gold-soft: rgba(180,83,9,.12);
   --success: #059669;
@@ -87,12 +89,13 @@
 }
 @media (prefers-color-scheme: light){
   :root:not([data-theme="dark"]){
-    --bg:#eef1f8; --bg-2:#e5e9f4;
-    --surface:rgba(255,255,255,.72); --surface-2:rgba(255,255,255,.92); --surface-solid:#ffffff;
-    --line:rgba(15,23,42,.10); --line-2:rgba(15,23,42,.18);
-    --text:#0f172a; --text-dim:#51607a; --text-faint:#8792a8;
-    --accent:#0891b2; --accent-2:#7c3aed; --accent-3:#db2777; --accent-soft:rgba(8,145,178,.12);
-    --glow:0 0 24px -6px rgba(8,145,178,.4); --glow-2:0 0 30px -8px rgba(124,58,237,.4);
+    --bg:#f4f1fb; --bg-2:#ebe6f7;
+    --surface:rgba(255,255,255,.74); --surface-2:rgba(255,255,255,.94); --surface-solid:#ffffff;
+    --line:rgba(30,20,60,.10); --line-2:rgba(30,20,60,.18);
+    --text:#16102a; --text-dim:#574c72; --text-faint:#8b81a6;
+    --accent:#6d3ff5; --accent-2:#e0338a; --accent-3:#c2760a;
+    --accent-rgb:109,63,245; --accent-soft:rgba(109,63,245,.12);
+    --glow:0 0 24px -6px rgba(109,63,245,.4); --glow-2:0 0 30px -8px rgba(224,51,138,.35);
     --gold:#b45309; --gold-soft:rgba(180,83,9,.12); --success:#059669; --danger:#e11d48;
     --shadow:0 14px 40px -18px rgba(15,23,42,.28); --shadow-lg:0 40px 90px -34px rgba(15,23,42,.34);
   }
@@ -104,15 +107,24 @@ body{
   margin:0; background:var(--bg); color:var(--text); font-family:var(--font);
   font-size:14.5px; line-height:1.6; -webkit-font-smoothing:antialiased;
 }
-/* Aurora field + fine grid, fixed behind everything */
+/* Living aurora — three coloured fields that drift slowly against each other,
+   so the background is never quite the same twice. Pauses for reduced motion. */
 body::before{
-  content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+  content:""; position:fixed; inset:-20%; z-index:-2; pointer-events:none;
   background:
-    radial-gradient(900px 620px at 8% -10%, rgba(34,211,238,.20), transparent 62%),
-    radial-gradient(800px 560px at 98% 4%, rgba(139,92,246,.20), transparent 60%),
-    radial-gradient(700px 520px at 55% 108%, rgba(244,114,182,.13), transparent 62%),
-    var(--bg);
+    radial-gradient(760px 560px at 12% 8%,  rgba(124,92,255,.30), transparent 62%),
+    radial-gradient(700px 520px at 88% 12%, rgba(255,92,168,.22), transparent 60%),
+    radial-gradient(680px 520px at 52% 96%, rgba(255,180,87,.14), transparent 62%);
+  animation:auroraDrift 34s ease-in-out infinite alternate;
+  will-change:transform;
 }
+@keyframes auroraDrift{
+  0%   { transform:translate3d(0,0,0) scale(1); }
+  50%  { transform:translate3d(2.5%,-2%,0) scale(1.08); }
+  100% { transform:translate3d(-2%,2.5%,0) scale(1.04); }
+}
+:root[data-theme="light"] body::before,
+:root:not([data-theme="dark"]) body::before{ opacity:.55; }
 body::after{
   content:""; position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:.5;
   background-image:
@@ -144,6 +156,50 @@ button{font-family:inherit;}
 @keyframes glowPulse{0%,100%{opacity:.55;} 50%{opacity:1;}}
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important;}
+}
+
+/* ===================== Signature effects =====================
+   Three things carry the look: a spotlight that follows the pointer across
+   panels, a slowly-rotating gradient edge on hero surfaces, and content that
+   rises into place as it scrolls in. All three are disabled for anyone who
+   asks for reduced motion, and the spotlight is skipped on touch entirely.
+============================================================== */
+.spot{position:relative; isolation:isolate;}
+.spot::after{
+  content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+  z-index:1; opacity:0; transition:opacity .35s var(--ease);
+  background:radial-gradient(340px circle at var(--mx,50%) var(--my,50%),
+             rgba(var(--accent-rgb),.16), transparent 62%);
+}
+@media (hover:hover){ .spot:hover::after{opacity:1;} }
+.spot > *{position:relative; z-index:2;}
+
+/* Rotating conic edge — the border itself is the animation. */
+.edge-lit{position:relative;}
+.edge-lit::before{
+  content:""; position:absolute; inset:-1px; border-radius:inherit; z-index:0; pointer-events:none;
+  background:conic-gradient(from var(--spin,0deg),
+    transparent 0deg, var(--accent) 60deg, var(--accent-2) 130deg,
+    transparent 200deg, transparent 360deg);
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor; mask-composite:exclude;
+  padding:1px; opacity:.85;
+  animation:spin 9s linear infinite;
+}
+@property --spin{ syntax:"<angle>"; inherits:false; initial-value:0deg; }
+@keyframes spin{ to{ --spin:360deg; } }
+
+/* Scroll reveal — set by IntersectionObserver, never leaving content hidden
+   if the observer is unavailable. */
+.reveal{opacity:0; transform:translateY(18px); transition:opacity .55s var(--ease), transform .55s var(--ease);}
+.reveal.in{opacity:1; transform:none;}
+
+@media (prefers-reduced-motion: reduce){
+  body::before{animation:none;}
+  .edge-lit::before{animation:none;}
+  .spot::after{display:none;}
+  .reveal{opacity:1; transform:none; transition:none;}
 }
 
 /* ===================== Shell / top nav ===================== */
@@ -579,6 +635,54 @@ label:not(.btn):not(.watch-done-toggle){
 }
 .section-rule{height:1px; flex:1; min-width:20px; background:linear-gradient(90deg, var(--line-2), transparent);}
 
+/* ===================== Bento home ===================== */
+.bento{
+  display:grid; gap:16px; margin-bottom:40px;
+  grid-template-columns:repeat(4, 1fr);
+  grid-template-areas:
+    "hero hero hero ring"
+    "s1   s2   s3   ring";
+}
+.bento-hero{grid-area:hero; padding:34px 32px; display:flex; flex-direction:column; justify-content:center;}
+.bento-ring{grid-area:ring; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px;}
+.bento-stat:nth-of-type(3){grid-area:s1;}
+.bento-stat:nth-of-type(4){grid-area:s2;}
+.bento-stat:nth-of-type(5){grid-area:s3;}
+.bento-stat{display:flex; flex-direction:column; justify-content:center;}
+.hero-sub{color:var(--text-dim); font-size:14.5px; margin:14px 0 22px; max-width:52ch; line-height:1.6;}
+.hero-actions{display:flex; gap:12px; flex-wrap:wrap;}
+
+/* Progress ring — stroke-dashoffset carries the percentage. */
+.ring{position:relative; width:150px; height:150px;}
+.ring svg{width:100%; height:100%; transform:rotate(-90deg);}
+.ring circle{fill:none; stroke-width:9; stroke-linecap:round;}
+.ring-track{stroke:var(--line);}
+.ring-fill{
+  stroke:url(#ringGrad); stroke-dasharray:327;
+  stroke-dashoffset:calc(327 - (327 * var(--pct,0) / 100));
+  filter:drop-shadow(0 0 8px rgba(var(--accent-rgb),.7));
+  transition:stroke-dashoffset 1s var(--ease);
+}
+.ring-label{
+  position:absolute; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:2px;
+}
+.ring-label b{font-family:var(--font-display); font-size:34px; font-weight:700; letter-spacing:-.03em;}
+.ring-label span{font-family:var(--font-mono); font-size:9.5px; text-transform:uppercase; letter-spacing:.18em; color:var(--text-faint);}
+
+@media (max-width:1000px){
+  .bento{grid-template-columns:repeat(2, 1fr);
+    grid-template-areas:
+      "hero hero"
+      "ring s1"
+      "s2   s3";}
+}
+@media (max-width:640px){
+  .bento{grid-template-columns:1fr;
+    grid-template-areas:"hero" "ring" "s1" "s2" "s3";}
+  .bento-hero{padding:26px 20px;}
+}
+
 /* Featured paths */
 .featured-grid{grid-template-columns:repeat(auto-fill, minmax(300px,1fr));}
 .featured-card{
@@ -797,6 +901,16 @@ label:not(.btn):not(.watch-done-toggle){
   </main>
 
 </div>
+
+<!-- Gradient used by the progress ring stroke; must exist in the document. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="var(--accent)"/>
+      <stop offset="100%" stop-color="var(--accent-2)"/>
+    </linearGradient>
+  </defs>
+</svg>
 
 <div id="toasts" role="status" aria-live="polite"></div>
 <div id="modalRoot"></div>
@@ -1854,12 +1968,13 @@ function renderPlans(container){
     return;
   }
   container.innerHTML = `<div class="plans-grid">${state.plans.slice().sort((a,b)=>b.updatedAt-a.updatedAt).map(renderPlanCard).join("")}</div>`;
+  attachSpotlight(container);
 }
 
 function renderPlanCard(p){
   const pct = planProgress(p);
   return `
-    <div class="card plan-card" data-action="open-plan-detail" data-id="${p.id}" tabindex="0" role="button" aria-label="Open ${escapeHtml(p.title)}">
+    <div class="card plan-card spot" data-action="open-plan-detail" data-id="${p.id}" tabindex="0" role="button" aria-label="Open ${escapeHtml(p.title)}">
       <button class="plan-card-remove" data-action="delete-plan" data-id="${p.id}" title="Remove this plan" aria-label="Remove ${escapeHtml(p.title)}">${icon("x","ic-sm")}</button>
       <span class="badge">${escapeHtml(p.subject||LANGS[p.language]||p.language)}</span>
       <h3>${escapeHtml(p.title)}</h3>
@@ -2051,33 +2166,47 @@ function renderHome(container){
   const completed = completedThisWeek();
   const recentPlans = state.plans.slice().sort((a,b)=>b.updatedAt-a.updatedAt).slice(0,3);
 
-  container.innerHTML = `
-    <div class="home-hero">
-      <div class="home-hero-inner">
-        <div>
-          <div class="home-eyebrow">${fmtDateNice(todayStr)} · ${state.plans.length} plan${state.plans.length===1?'':'s'} online</div>
-          <h2 class="home-title">Learn something <em>on purpose.</em></h2>
-        </div>
-        <button class="btn primary" id="homeNewPlan">${icon("plus","ic-sm")} New learning plan</button>
-      </div>
-    </div>
+  const pct = state.plans.length
+    ? Math.round(state.plans.reduce((a,p)=>a+planProgress(p),0) / state.plans.length) : 0;
 
-    <div class="stat-row">
-      <div class="stat-tile">
-        <div class="stat-value">${String(state.plans.length).padStart(2,"0")}</div>
+  container.innerHTML = `
+    <div class="bento reveal">
+      <div class="bento-hero card spot edge-lit">
+        <div class="home-eyebrow">${fmtDateNice(todayStr)} · ${state.plans.length} plan${state.plans.length===1?'':'s'} online</div>
+        <h2 class="home-title">Learn something <em>on purpose.</em></h2>
+        <p class="hero-sub">Pick a ready-made 14-day path or have one built for you — then watch every lesson without leaving the app.</p>
+        <div class="hero-actions">
+          <button class="btn primary" id="homeNewPlan">${icon("plus","ic-sm")} New learning plan</button>
+          <button class="btn" data-nav="catalog">${icon("book","ic-sm")} Browse catalog</button>
+        </div>
+      </div>
+
+      <div class="bento-ring card spot">
+        <div class="ring" style="--pct:${pct}">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="ring-track" cx="60" cy="60" r="52"></circle>
+            <circle class="ring-fill" cx="60" cy="60" r="52"></circle>
+          </svg>
+          <div class="ring-label"><b data-count="${pct}">0</b><span>% done</span></div>
+        </div>
+        <div class="stat-label" style="text-align:center;">Across all plans</div>
+      </div>
+
+      <div class="bento-stat card spot">
+        <div class="stat-value"><span data-count="${state.plans.length}">0</span></div>
         <div class="stat-label">Active plan${state.plans.length===1?'':'s'}</div>
       </div>
-      <div class="stat-tile">
-        <div class="stat-value">${String(streak).padStart(2,"0")}${streak>0?` ${icon("flame","ic-lg")}`:''}</div>
+      <div class="bento-stat card spot">
+        <div class="stat-value"><span data-count="${streak}">0</span>${streak>0?` ${icon("flame","ic-lg")}`:''}</div>
         <div class="stat-label">Day streak</div>
       </div>
-      <div class="stat-tile">
-        <div class="stat-value">${String(completed).padStart(2,"0")}</div>
+      <div class="bento-stat card spot">
+        <div class="stat-value"><span data-count="${completed}">0</span></div>
         <div class="stat-label">Done this week</div>
       </div>
     </div>
 
-    <div class="home-section">
+    <div class="home-section reveal">
       <div class="home-section-head">
         <h3>01 / Today</h3>
         <span class="section-rule"></span>
@@ -2088,7 +2217,7 @@ function renderHome(container){
       </div>
     </div>
 
-    <div class="home-section">
+    <div class="home-section reveal">
       <div class="home-section-head">
         <h3>02 / Your plans</h3>
         <span class="section-rule"></span>
@@ -2099,7 +2228,7 @@ function renderHome(container){
         : `<div class="card" style="color:var(--text-faint);">No plans yet — create one above and Atlas will build your first routine.</div>`}
     </div>
 
-    <div class="home-section">
+    <div class="home-section reveal">
       <div class="home-section-head">
         <h3>03 / Featured 14-day paths</h3>
         <span class="section-rule"></span>
@@ -2111,11 +2240,14 @@ function renderHome(container){
   `;
   document.getElementById("homeNewPlan").onclick = openNewPlanModal;
   attachTiltEffects(container);
+  attachSpotlight(container);
+  attachReveals(container);
+  animateCounters(container);
 }
 
 function renderFeaturedCard(def, i){
   return `
-    <div class="card featured-card">
+    <div class="card featured-card spot">
       <div class="fc-band"><span>${escapeHtml(def.subject)}</span><span>No. ${String(i+1).padStart(2,"0")}</span></div>
       <div class="fc-body">
         <h3>${escapeHtml(def.title)}</h3>
@@ -2128,11 +2260,17 @@ function renderFeaturedCard(def, i){
     </div>`;
 }
 
-// Subtle pointer-driven 3D tilt on feature cards. Skipped entirely for touch
-// devices (no hover concept) and when the visitor's OS asks for reduced motion.
+function calmMotion(){
+  return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+}
+function pointerDevice(){
+  return !(window.matchMedia && window.matchMedia("(hover: none)").matches);
+}
+
+// Pointer-driven 3D tilt on feature cards. Touch devices have no hover, and a
+// reduced-motion preference opts out of all of it.
 function attachTiltEffects(root){
-  if(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  if(window.matchMedia && window.matchMedia("(hover: none)").matches) return;
+  if(calmMotion() || !pointerDevice()) return;
   root.querySelectorAll(".featured-card").forEach(el=>{
     el.addEventListener("mousemove", e=>{
       const r = el.getBoundingClientRect();
@@ -2141,6 +2279,64 @@ function attachTiltEffects(root){
       el.style.transform = `perspective(1100px) rotateX(${(-py*5).toFixed(2)}deg) rotateY(${(px*5).toFixed(2)}deg) translate(-3px,-3px)`;
     });
     el.addEventListener("mouseleave", ()=>{ el.style.transform = ""; });
+  });
+}
+
+// The spotlight is pure CSS; JS only feeds it the pointer position. One
+// listener on the container rather than per-card, so a hundred cards cost the
+// same as one.
+let spotlightBound = false;
+function attachSpotlight(root){
+  if(calmMotion() || !pointerDevice() || spotlightBound) return;
+  spotlightBound = true;
+  document.addEventListener("pointermove", (e)=>{
+    const card = e.target.closest && e.target.closest(".spot");
+    if(!card) return;
+    const r = card.getBoundingClientRect();
+    card.style.setProperty("--mx", (e.clientX - r.left) + "px");
+    card.style.setProperty("--my", (e.clientY - r.top) + "px");
+  }, {passive:true});
+}
+
+// Reveal on scroll. If IntersectionObserver is missing the class is simply
+// dropped, so content is never left invisible.
+let revealObserver = null;
+function attachReveals(root){
+  const targets = root.querySelectorAll(".reveal");
+  if(!targets.length) return;
+  if(calmMotion() || !("IntersectionObserver" in window)){
+    targets.forEach(el=>el.classList.add("in"));
+    return;
+  }
+  if(!revealObserver){
+    revealObserver = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add("in");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {rootMargin:"0px 0px -8% 0px", threshold:0.05});
+  }
+  targets.forEach(el=>revealObserver.observe(el));
+}
+
+// Counts a stat up to its value — reads the target from data-count so the
+// markup still carries the real number for anyone with motion turned off.
+function animateCounters(root){
+  root.querySelectorAll("[data-count]").forEach(el=>{
+    const target = Number(el.dataset.count) || 0;
+    if(calmMotion() || target === 0){ el.textContent = String(target).padStart(2,"0"); return; }
+    const started = performance.now();
+    const dur = 700;
+    function step(now){
+      const t = Math.min(1, (now - started) / dur);
+      // ease-out so it decelerates into the final number
+      const value = Math.round(target * (1 - Math.pow(1 - t, 3)));
+      el.textContent = String(value).padStart(2,"0");
+      if(t < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
   });
 }
 
