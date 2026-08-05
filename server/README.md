@@ -1,6 +1,6 @@
-# Atlas backend — shared key, shared storage
+# Mindora backend — shared key, shared storage
 
-Lets anyone use Atlas without their own Claude key or Google Drive. The owner's
+Lets anyone use Mindora without their own Claude key or Google Drive. The owner's
 credentials live on this server and are never sent to a browser.
 
 ```
@@ -71,7 +71,7 @@ serve state, because unsigned ids could be edited to read someone else's plans.
 
 ### 3. Point the app at it
 
-Atlas → Settings → **Shared Atlas server** → paste the URL → **Test connection**.
+Mindora → Settings → **Shared Mindora server** → paste the URL → **Test connection**.
 The nav pill switches to **Shared** and the API-key field becomes unnecessary.
 
 ## How storage works

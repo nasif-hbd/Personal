@@ -1,4 +1,4 @@
-"""Atlas backend — shared Claude access and shared storage.
+"""Mindora backend — shared Claude access and shared storage.
 
 Two jobs:
 
@@ -28,7 +28,7 @@ from .storage import StorageError, build_storage
 ANTHROPIC_URL = "https://api.anthropic.com/v1/messages"
 VISITOR_HEADER = "x-atlas-visitor"
 
-app = FastAPI(title="Atlas backend", docs_url=None, redoc_url=None)
+app = FastAPI(title="Mindora backend", docs_url=None, redoc_url=None)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.allowed_origins,

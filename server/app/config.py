@@ -43,7 +43,7 @@ class Settings:
     google_client_id: str = field(default_factory=lambda: os.environ.get("GOOGLE_CLIENT_ID", ""))
     google_client_secret: str = field(default_factory=lambda: os.environ.get("GOOGLE_CLIENT_SECRET", ""))
     google_refresh_token: str = field(default_factory=lambda: os.environ.get("GOOGLE_REFRESH_TOKEN", ""))
-    drive_folder_name: str = field(default_factory=lambda: os.environ.get("DRIVE_FOLDER_NAME", "Atlas App Data"))
+    drive_folder_name: str = field(default_factory=lambda: os.environ.get("DRIVE_FOLDER_NAME", "Mindora App Data"))
     # Where quota counters and the visitor→file index live.
     db_path: str = field(default_factory=lambda: os.environ.get("DB_PATH", "atlas.db"))
     # Signs anonymous visitor ids so they can't be forged to steal someone's data.

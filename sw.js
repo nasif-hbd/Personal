@@ -1,4 +1,4 @@
-/* Atlas service worker — installable, offline-capable app shell.
+/* Mindora service worker — installable, offline-capable app shell.
  *
  * Bump CACHE whenever the shipped files change; old caches are deleted on
  * activate so a stale shell can never linger.
@@ -9,7 +9,7 @@
  *   - Anthropic and YouTube: streaming and media, pointless and harmful to store
  * Everything else is cached so the app opens instantly and works offline.
  */
-const CACHE = "atlas-v3";
+const CACHE = "mindora-v1";
 
 // Precached so a cold, offline start still renders a usable app.
 const SHELL = [

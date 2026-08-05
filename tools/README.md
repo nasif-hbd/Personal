@@ -1,4 +1,4 @@
-# Atlas tooling
+# Mindora tooling
 
 Python that keeps the app's course data honest and up to date. It runs in CI
 and on your machine — **not** in the browser. GitHub Pages serves static files
@@ -75,9 +75,9 @@ That last row matters: a flaky runner or a firewalled network reports
 The link-check issue is reused rather than re-filed each week, so a persistent
 problem doesn't bury you in duplicates.
 
-## Installing Atlas as an app
+## Installing Mindora as an app
 
-Atlas is a PWA — the same build installs on phone, tablet and desktop:
+Mindora is a PWA — the same build installs on phone, tablet and desktop:
 
 * **Android / Chrome / Edge** — "Install app" from the address bar or ⋮ menu
 * **iOS Safari** — Share → Add to Home Screen

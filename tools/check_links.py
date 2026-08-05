@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify every link Atlas ships still works.
+"""Verify every link Mindora ships still works.
 
 Checks three sets of URLs:
   * every YouTube video/playlist used by the curated 14-day paths

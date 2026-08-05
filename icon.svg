@@ -1,11 +1,38 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Mindora">
+  <title>Mindora</title>
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#7c6cf6"/>
-      <stop offset="100%" stop-color="#4f8cff"/>
+    <linearGradient id="mindoraM" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1b2a7a"/>
+      <stop offset="45%" stop-color="#3b3fc4"/>
+      <stop offset="100%" stop-color="#8b2ff0"/>
+    </linearGradient>
+    <linearGradient id="mindoraPageL" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2f6df0"/>
+      <stop offset="100%" stop-color="#6f8cff"/>
+    </linearGradient>
+    <linearGradient id="mindoraPageR" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#a855f7"/>
     </linearGradient>
   </defs>
-  <rect width="512" height="512" rx="112" fill="#12151c"/>
-  <rect width="512" height="512" rx="112" fill="url(#g)" opacity="0.18"/>
-  <text x="256" y="330" font-size="260" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,Arial,sans-serif" font-weight="700" fill="url(#g)">A</text>
+
+  <!-- The M -->
+  <path fill="url(#mindoraM)" d="
+    M64 424 V112 q0-16 16-16 h56 q14 0 21 12 L256 316 355 108 q7-12 21-12 h56 q16 0 16 16 v312 h-72 V214
+    l-74 152 q-6 12-20 12h-12q-14 0-20-12l-74-152v210 z"/>
+
+  <!-- Sparkle -->
+  <path fill="#7c5cff" d="M256 120 l10 26 26 10 -26 10 -10 26 -10-26 -26-10 26-10 z"/>
+
+  <!-- Learner: head and open arms -->
+  <circle cx="256" cy="212" r="26" fill="#141a52"/>
+  <path fill="#141a52" d="
+    M256 250 q-30 0-52-24 -8-9-18-2 -10 8-3 18 30 40 73 40 t73-40 q7-10-3-18 -10-7-18 2 -22 24-52 24 z"/>
+  <path fill="#141a52" d="M243 262 h26 l-6 78 h-14 z"/>
+
+  <!-- Open book -->
+  <path fill="url(#mindoraPageL)" d="M250 358 q-52-40-118-40 -10 0-10 10 v58 q0 10 10 10 62 0 118 34 z"/>
+  <path fill="url(#mindoraPageR)" d="M262 358 q52-40 118-40 10 0 10 10 v58 q0 10-10 10 -62 0-118 34 z"/>
+  <path fill="#ffffff" opacity=".55" d="M250 372 q-48-30-108-32 v14 q58 2 108 30 z"/>
+  <path fill="#ffffff" opacity=".55" d="M262 372 q48-30 108-32 v14 q-58 2-108 30 z"/>
 </svg>

@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Atlas — Your AI Learning Studio</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%2322d3ee'/%3E%3Ccircle cx='12' cy='12' r='7.2' fill='none' stroke='white' stroke-width='1.8'/%3E%3Cpath d='m14.1 9.9-1.4 3.8-3.8 1.4 1.4-3.8z' fill='white'/%3E%3C/svg%3E">
+<title>Mindora — Learn with Dedication</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%231b2a7a'/%3E%3Cstop offset='100%25' stop-color='%238b2ff0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='96' fill='white'/%3E%3Cpath fill='url(%23g)' d='M64 424V112q0-16 16-16h56q14 0 21 12L256 316 355 108q7-12 21-12h56q16 0 16 16v312h-72V214l-74 152q-6 12-20 12h-12q-14 0-20-12l-74-152v210z'/%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-512.png">
-<meta name="theme-color" content="#07080f">
+<meta name="theme-color" content="#08060f">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Atlas">
+<meta name="apple-mobile-web-app-title" content="Mindora">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Loaded non-blocking: on a slow or unreachable network the app still starts
@@ -35,13 +35,13 @@
   --text: #f4f1fb;
   --text-dim: #a79fc0;
   --text-faint: #6d6488;
-  --accent: #7c5cff;
-  --accent-2: #ff5ca8;
-  --accent-3: #ffb457;
-  --accent-rgb: 124,92,255;
-  --accent-soft: rgba(124,92,255,.16);
-  --glow: 0 0 26px -4px rgba(124,92,255,.55);
-  --glow-2: 0 0 32px -6px rgba(255,92,168,.5);
+  --accent: #5b8cff;
+  --accent-2: #a855f7;
+  --accent-3: #c084fc;
+  --accent-rgb: 91,140,255;
+  --accent-soft: rgba(91,140,255,.16);
+  --glow: 0 0 26px -4px rgba(91,140,255,.55);
+  --glow-2: 0 0 32px -6px rgba(168,85,247,.5);
   --gold: #fbbf24;
   --gold-soft: rgba(251,191,36,.15);
   --success: #34d399;
@@ -73,13 +73,13 @@
   --text: #16102a;
   --text-dim: #574c72;
   --text-faint: #8b81a6;
-  --accent: #6d3ff5;
-  --accent-2: #e0338a;
-  --accent-3: #c2760a;
-  --accent-rgb: 109,63,245;
-  --accent-soft: rgba(109,63,245,.12);
-  --glow: 0 0 24px -6px rgba(109,63,245,.4);
-  --glow-2: 0 0 30px -8px rgba(224,51,138,.35);
+  --accent: #2b4acb;
+  --accent-2: #7c3aed;
+  --accent-3: #9333ea;
+  --accent-rgb: 43,74,203;
+  --accent-soft: rgba(43,74,203,.12);
+  --glow: 0 0 24px -6px rgba(43,74,203,.4);
+  --glow-2: 0 0 30px -8px rgba(124,58,237,.35);
   --gold: #b45309;
   --gold-soft: rgba(180,83,9,.12);
   --success: #059669;
@@ -93,9 +93,9 @@
     --surface:rgba(255,255,255,.74); --surface-2:rgba(255,255,255,.94); --surface-solid:#ffffff;
     --line:rgba(30,20,60,.10); --line-2:rgba(30,20,60,.18);
     --text:#16102a; --text-dim:#574c72; --text-faint:#8b81a6;
-    --accent:#6d3ff5; --accent-2:#e0338a; --accent-3:#c2760a;
-    --accent-rgb:109,63,245; --accent-soft:rgba(109,63,245,.12);
-    --glow:0 0 24px -6px rgba(109,63,245,.4); --glow-2:0 0 30px -8px rgba(224,51,138,.35);
+    --accent:#2b4acb; --accent-2:#7c3aed; --accent-3:#9333ea;
+    --accent-rgb:43,74,203; --accent-soft:rgba(43,74,203,.12);
+    --glow:0 0 24px -6px rgba(43,74,203,.4); --glow-2:0 0 30px -8px rgba(124,58,237,.35);
     --gold:#b45309; --gold-soft:rgba(180,83,9,.12); --success:#059669; --danger:#e11d48;
     --shadow:0 14px 40px -18px rgba(15,23,42,.28); --shadow-lg:0 40px 90px -34px rgba(15,23,42,.34);
   }
@@ -112,9 +112,9 @@ body{
 body::before{
   content:""; position:fixed; inset:-20%; z-index:-2; pointer-events:none;
   background:
-    radial-gradient(760px 560px at 12% 8%,  rgba(124,92,255,.30), transparent 62%),
-    radial-gradient(700px 520px at 88% 12%, rgba(255,92,168,.22), transparent 60%),
-    radial-gradient(680px 520px at 52% 96%, rgba(255,180,87,.14), transparent 62%);
+    radial-gradient(760px 560px at 12% 8%,  rgba(59,63,196,.32), transparent 62%),
+    radial-gradient(700px 520px at 88% 12%, rgba(168,85,247,.24), transparent 60%),
+    radial-gradient(680px 520px at 52% 96%, rgba(91,140,255,.16), transparent 62%);
   animation:auroraDrift 34s ease-in-out infinite alternate;
   will-change:transform;
 }
@@ -216,14 +216,11 @@ button{font-family:inherit;}
 }
 .brand{display:flex; align-items:center; gap:11px; text-decoration:none; color:inherit; flex:0 0 auto;}
 .brand .mark{
-  width:36px; height:36px; flex:0 0 auto; display:flex; align-items:center; justify-content:center;
-  border-radius:11px; color:#fff; position:relative;
-  background:linear-gradient(135deg, var(--accent), var(--accent-2));
-  box-shadow:var(--glow);
+  width:38px; height:38px; flex:0 0 auto; border-radius:11px; padding:4px;
+  background:#fff; box-shadow:var(--glow); object-fit:contain;
 }
-.brand .mark .ic{width:20px; height:20px;}
-.brand .name{font-family:var(--font-display); font-weight:700; font-size:17px; letter-spacing:-.02em; line-height:1.1;}
-.brand .tag{font-family:var(--font-mono); font-size:9px; text-transform:uppercase; letter-spacing:.18em; color:var(--text-faint); margin-top:2px;}
+.brand .name{font-family:var(--font-display); font-weight:700; font-size:18px; letter-spacing:-.02em; line-height:1.1;}
+.brand .tag{font-family:var(--font-mono); font-size:8.5px; text-transform:uppercase; letter-spacing:.14em; color:var(--text-faint); margin-top:3px; white-space:nowrap;}
 
 .navrow{display:flex; align-items:center; gap:2px; flex:1; overflow-x:auto; scrollbar-width:none;}
 .navrow::-webkit-scrollbar{display:none;}
@@ -890,8 +887,8 @@ label:not(.btn):not(.watch-done-toggle){
   <header class="topnav">
     <div class="topnav-inner">
       <div class="brand">
-        <div class="mark" data-icon-slot="compass"></div>
-        <div><div class="name">ATLAS</div><div class="tag">Learning Studio</div></div>
+        <img class="mark" src="icon.svg" width="38" height="38" alt="" aria-hidden="true">
+        <div><div class="name">Mindora</div><div class="tag">Learn with Dedication</div></div>
       </div>
 
       <nav class="navrow" aria-label="Main">
@@ -1005,7 +1002,7 @@ const LANGS = {bn:"Bangla (বাংলা)", hi:"Hindi (हिन्दी)", e
 const DEFAULT_DRIVE_CLIENT_ID = "428108795876-nce203od5v5a51gbmtovg3t0u2nj8flu.apps.googleusercontent.com";
 
 // ─────────────────────────────────────────────────────────────────────────
-// SET THIS ONCE, AFTER DEPLOYING server/  — e.g. "https://atlas-backend.onrender.com"
+// SET THIS ONCE, AFTER DEPLOYING server/  — e.g. "https://mindora-backend.onrender.com"
 // With it filled in, every visitor gets AI and storage from the shared server
 // and is never asked for a Claude key. Leaving it empty falls back to each
 // visitor supplying their own key (the key field reappears automatically).
@@ -1020,7 +1017,7 @@ function fmtDateNice(dateStr){
   const d = new Date(dateStr+"T00:00:00");
   return d.toLocaleDateString(undefined, {weekday:"short", month:"short", day:"numeric"});
 }
-// Returns {kind:"video"|"playlist", id} for anything Atlas can actually embed, or
+// Returns {kind:"video"|"playlist", id} for anything Mindora can actually embed, or
 // null when the link is a channel page / search page / non-YouTube URL that can
 // only be opened externally (or resolved on-demand via the YouTube Data API key).
 // Resolution order for what plays inside the app:
@@ -1338,7 +1335,7 @@ function applyPlanData(plan, data){
 ============================================================ */
 function buildSystemPrompt(plan){
   const langLabel = LANGS[plan.language] || "English";
-  return `You are Atlas, an expert personal learning coach and curriculum designer helping one learner build a real, achievable self-study plan.
+  return `You are Mindora, an expert personal learning coach and curriculum designer helping one learner build a real, achievable self-study plan.
 
 LEARNER CONTEXT
 - Subject / goal: ${plan.subject}
@@ -1471,7 +1468,7 @@ async function sendToClaude(plan, userText, {onStatus, onChunk} = {}){
       }
     }catch(networkErr){
       throw new Error(via
-        ? "Couldn't reach the Atlas server. It may be asleep or offline."
+        ? "Couldn't reach the Mindora server. It may be asleep or offline."
         : "Network error reaching the Claude API. Check your connection.");
     }
 
@@ -1684,7 +1681,7 @@ function currentBackupPayload(){
   return JSON.stringify({exportedAt: Date.now(), plans: state.plans}, null, 2);
 }
 
-// Per-plan last-write-wins merge, so opening Atlas on a second device picks up
+// Per-plan last-write-wins merge, so opening Mindora on a second device picks up
 // whatever changed elsewhere instead of silently overwriting it. Plans that exist
 // on only one side are kept; plans on both sides keep whichever copy has the
 // newer updatedAt. (Deleting a plan on one device can still have it reappear if
@@ -1748,7 +1745,7 @@ async function restoreFromDrive(){
       toast("Restored from Google Drive", "success");
       renderView();
     } else {
-      toast("That Drive file doesn't look like an Atlas backup.", "error");
+      toast("That Drive file doesn't look like a Mindora backup.", "error");
     }
   }catch(e){
     toast(e.message || "Could not restore from Drive.", "error");
@@ -1843,7 +1840,7 @@ function renderChat(container){
       <div class="chat-empty">
         <div class="big-ic">${icon("compass","ic-xl")}</div>
         <h2>Design your first learning plan</h2>
-        <p>Tell Atlas what you want to learn, in which language, and how much time you have. It'll search the web for real, free YouTube classes and build you a full routine — up to 3 months.</p>
+        <p>Tell Mindora what you want to learn, in which language, and how much time you have. It'll search the web for real, free YouTube classes and build you a full routine — up to 6 months.</p>
         <button class="btn primary" id="btnEmptyNewPlan">${icon("plus","ic-sm")} Create a learning plan</button>
       </div>`;
     document.getElementById("btnEmptyNewPlan").onclick = openNewPlanModal;
@@ -1873,7 +1870,7 @@ function renderChat(container){
           ${plan.chat.length ? suggestions.map(s=>`<span class="chip" data-action="fill-suggestion" data-text="${escapeHtml(s)}" tabindex="0" role="button">${escapeHtml(s)}</span>`).join("") : ""}
         </div>
         <div class="chat-input-row">
-          <textarea id="chatInput" placeholder="Ask Atlas to adjust your plan, add a topic, change language…" rows="1"></textarea>
+          <textarea id="chatInput" placeholder="Ask Mindora to adjust your plan, add a topic, change language…" rows="1"></textarea>
           <button class="btn primary" id="btnSend">Send</button>
         </div>
         <div class="chat-hint">Enter to send · Shift+Enter for a new line</div>
@@ -1989,7 +1986,7 @@ function renderPlans(container){
       <div class="chat-empty">
         <div class="big-ic">${icon("book","ic-xl")}</div>
         <h2>No plans yet</h2>
-        <p>Create a plan and Atlas will build you a full multi-week routine with real class resources.</p>
+        <p>Create a plan and Mindora will build you a full multi-week routine with real class resources.</p>
         <button class="btn primary" id="btnEmptyNewPlan2">${icon("plus","ic-sm")} Create a learning plan</button>
       </div>`;
     document.getElementById("btnEmptyNewPlan2").onclick = openNewPlanModal;
@@ -2041,7 +2038,7 @@ function renderPlanDetail(container, plan){
         <button class="btn small danger" data-action="delete-plan" data-id="${plan.id}">Delete</button>
       </div>
     </div>
-    <div id="weeksWrap">${(plan.weeks||[]).map(w=>renderWeekBlock(plan, w)).join("") || `<p style="color:var(--text-faint);">No weeks generated yet — chat with Atlas to build this plan.</p>`}</div>
+    <div id="weeksWrap">${(plan.weeks||[]).map(w=>renderWeekBlock(plan, w)).join("") || `<p style="color:var(--text-faint);">No weeks generated yet — chat with Mindora to build this plan.</p>`}</div>
   `;
 }
 
@@ -2265,7 +2262,7 @@ function renderHome(container){
       </div>
       ${recentPlans.length
         ? `<div class="plans-grid">${recentPlans.map(renderPlanCard).join("")}</div>`
-        : `<div class="card" style="color:var(--text-faint);">No plans yet — create one above and Atlas will build your first routine.</div>`}
+        : `<div class="card" style="color:var(--text-faint);">No plans yet — create one above and Mindora will build your first routine.</div>`}
     </div>
 
     <div class="home-section reveal">
@@ -2537,7 +2534,7 @@ function renderSettings(container){
 
     <div class="settings-section card wide">
       <h3>In-app YouTube playback</h3>
-      <p class="desc">Lessons whose main resource can't be embedded (Khan Academy, MIT OCW, edX and similar all block iframes) fall back to an <strong>alternative YouTube video</strong> — marked <em>Alt</em> — so you can still watch inside the app, with the original resource one click away. Curated paths ship with alternatives already attached. Add a free YouTube Data API key and Atlas will find one automatically for any lesson still missing it, the moment you press play.</p>
+      <p class="desc">Lessons whose main resource can't be embedded (Khan Academy, MIT OCW, edX and similar all block iframes) fall back to an <strong>alternative YouTube video</strong> — marked <em>Alt</em> — so you can still watch inside the app, with the original resource one click away. Curated paths ship with alternatives already attached. Add a free YouTube Data API key and Mindora will find one automatically for any lesson still missing it, the moment you press play.</p>
       <div class="field">
         <label>YouTube Data API key</label>
         <input type="text" id="ytApiKeyInput" placeholder="AIzaSy..." value="${escapeHtml(s.ytApiKey||"")}">
@@ -2547,15 +2544,15 @@ function renderSettings(container){
         1. Go to <strong>console.cloud.google.com</strong> → pick your project (or create one).<br>
         2. <strong>APIs &amp; Services → Library</strong> → search "YouTube Data API v3" → Enable.<br>
         3. <strong>APIs &amp; Services → Credentials → Create Credentials → API key</strong>.<br>
-        4. Optional but recommended: click the new key → under "Application restrictions" choose "Websites" and add your Atlas URL, and under "API restrictions" limit it to "YouTube Data API v3".<br>
+        4. Optional but recommended: click the new key → under "Application restrictions" choose "Websites" and add your Mindora URL, and under "API restrictions" limit it to "YouTube Data API v3".<br>
         5. Copy the key and paste it above.
       </p>
-      <p class="desc" style="margin-top:8px; margin-bottom:0;">Free quota is 10,000 units/day and each lookup costs 100, so about 100 lessons a day — plenty for personal use. Atlas only looks a video up the first time you watch it, then remembers it.</p>
+      <p class="desc" style="margin-top:8px; margin-bottom:0;">Free quota is 10,000 units/day and each lookup costs 100, so about 100 lessons a day — plenty for personal use. Mindora only looks a video up the first time you watch it, then remembers it.</p>
     </div>
 
     <div class="settings-section card wide">
       <h3>Google Drive — your memory</h3>
-      <p class="desc">${sharedMode() ? "<strong>Optional.</strong> Your plans are already saved on the shared server \u2014 connect Drive only if you also want your own personal copy. " : ""}Your own Google Drive is where Atlas remembers everything: every plan and chat auto-saves there as you go, and connected devices pull the latest the moment you open the app — no manual export/import. Nothing goes through any server of ours — this app talks to Google directly from your browser, and only the one file it creates (<code>${DRIVE_FILENAME}</code>) is ever touched.</p>
+      <p class="desc">${sharedMode() ? "<strong>Optional.</strong> Your plans are already saved on the shared server \u2014 connect Drive only if you also want your own personal copy. " : ""}Your own Google Drive is where Mindora remembers everything: every plan and chat auto-saves there as you go, and connected devices pull the latest the moment you open the app — no manual export/import. Nothing goes through any server of ours — this app talks to Google directly from your browser, and only the one file it creates (<code>${DRIVE_FILENAME}</code>) is ever touched.</p>
       ${s.driveConnected ? `
         <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:12px;">
           <span class="badge" style="background:rgba(34,197,94,.15); color:var(--success);">Connected</span>
@@ -2652,7 +2649,7 @@ function exportData(){
   const blob = new Blob([JSON.stringify({settings:{...state.settings, apiKey:""}, plans: state.plans}, null, 2)], {type:"application/json"});
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = `atlas-backup-${ymd(new Date())}.json`;
+  a.download = `mindora-backup-${ymd(new Date())}.json`;
   a.click();
 }
 function importData(e){
@@ -2667,7 +2664,7 @@ function importData(e){
         persistPlans();
         toast("Data imported", "success");
         renderView();
-      } else toast("That file doesn't look like an Atlas backup.", "error");
+      } else toast("That file doesn't look like a Mindora backup.", "error");
     }catch(err){ toast("Could not read that file.", "error"); }
   };
   reader.readAsText(file);
@@ -2987,7 +2984,7 @@ function openNewPlanModal(){
     <div class="modal-overlay" id="modalOverlay">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="npModalTitle" tabindex="-1">
         <h2 id="npModalTitle">Create a learning plan</h2>
-        <p class="desc">Atlas will research free YouTube resources and design your full routine.</p>
+        <p class="desc">Mindora will research free YouTube resources and design your full routine.</p>
         <div class="field">
           <label>What do you want to learn?</label>
           <input type="text" id="npSubject" placeholder="e.g. Web development, Guitar, IELTS, Data Structures">
@@ -3047,7 +3044,7 @@ function openNewPlanModal(){
   setupModalA11y();
   document.getElementById("npCreate").onclick = ()=>{
     const subject = document.getElementById("npSubject").value.trim();
-    if(!subject){ toast("Tell Atlas what you want to learn first.", "error"); return; }
+    if(!subject){ toast("Tell Mindora what you want to learn first.", "error"); return; }
     if(!aiAvailable()){
       toast("AI features aren't switched on for this app yet.", "error");
       return;
@@ -3220,7 +3217,7 @@ document.addEventListener("click", e=>{
 
 /* ============================================================
    Shared backend (optional)
-   When a backend URL is set, Atlas stops asking each visitor for their own
+   When a backend URL is set, Mindora stops asking each visitor for their own
    Claude key and Google Drive: the server holds the owner's credentials,
    enforces spend caps, and stores each visitor's plans in the owner's Drive
    under a separate file. With no backend set, everything below is inert and
@@ -3331,7 +3328,7 @@ function renderCatalog(container){
         <div class="big-ic">${icon("book","ic-xl")}</div>
         <h2>Catalog unavailable</h2>
         <p>The course catalog lives in <code>courses.json</code>, built from the spreadsheet by
-        <code>tools/build_catalog.py</code>. It loads when Atlas is served over http(s) — if you opened this
+        <code>tools/build_catalog.py</code>. It loads when Mindora is served over http(s) — if you opened this
         file straight from disk, the browser blocks that read. Your plans and featured paths are unaffected.</p>
       </div>`;
     return;
@@ -3839,7 +3836,7 @@ function renderWatchModal(planId, ctx, yt, resolving){
   } else {
     playerBlock = `<div class="watch-noplayer">
       <p>${c.type==="video" ? "Couldn't find an embeddable video for this lesson." : "This lesson doesn't have an embeddable video."}</p>
-      ${!ytApiKey() && c.type==="video" ? `<p style="font-size:12px;">Add a YouTube API key in Settings so Atlas can always find the exact video.</p>` : ""}
+      ${!ytApiKey() && c.type==="video" ? `<p style="font-size:12px;">Add a YouTube API key in Settings so Mindora can always find the exact video.</p>` : ""}
       ${c.resourceUrl ? `<a class="btn primary" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open resource ${icon("external","ic-sm")}</a>` : ""}
     </div>`;
   }
@@ -3977,7 +3974,7 @@ function showUpdateBar(reg){
   const bar = document.createElement("div");
   bar.id = "updateBar";
   bar.className = "update-bar";
-  bar.innerHTML = `<span>A new version of Atlas is ready.</span>
+  bar.innerHTML = `<span>A new version of Mindora is ready.</span>
     <button class="btn small primary" id="updateNow">Reload</button>
     <button class="btn small" id="updateLater">Later</button>`;
   document.body.appendChild(bar);

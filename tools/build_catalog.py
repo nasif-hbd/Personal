@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build courses.json — the data file the Atlas web app reads at runtime.
+"""Build courses.json — the data file the Mindora web app reads at runtime.
 
 Two inputs, one output:
 
