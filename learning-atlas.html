@@ -559,7 +559,28 @@ label:not(.btn):not(.watch-done-toggle){
 .plan-card-remove:hover{color:var(--danger); border-color:var(--danger);}
 @media (hover: none){ .plan-card-remove{opacity:1;} }
 
-.todo-row{display:flex; align-items:flex-start; gap:10px; font-size:13.5px; padding:6px 2px;}
+.todo-row{display:flex; align-items:center; gap:10px; font-size:13.5px; padding:4px 2px;}
+.todo-input{
+  flex:1; min-width:0; background:transparent; border:1px solid transparent; color:var(--text);
+  padding:5px 8px; border-radius:8px; font-size:13.5px; font-family:inherit;
+  transition:border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+}
+.todo-input:hover{border-color:var(--line);}
+.todo-input:focus{border-color:var(--accent); background:var(--surface); box-shadow:none;}
+.todo-row.done .todo-input{text-decoration:line-through; color:var(--text-faint);}
+.row-del{
+  flex:0 0 auto; width:24px; height:24px; padding:0; display:inline-flex;
+  align-items:center; justify-content:center; cursor:pointer; border-radius:7px;
+  background:transparent; border:1px solid transparent; color:var(--text-faint);
+  opacity:0; transition:opacity var(--dur) var(--ease), color var(--dur-fast) var(--ease);
+}
+.todo-row:hover .row-del, .row-del:focus-visible{opacity:1;}
+.row-del:hover{color:var(--danger); border-color:var(--danger);}
+@media (hover:none){ .row-del{opacity:1;} }
+.day-actions{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; opacity:0; transition:opacity var(--dur) var(--ease);}
+.day-row:hover .day-actions, .day-actions:focus-within{opacity:1;}
+@media (hover:none){ .day-actions{opacity:1;} }
+.icon-btn.sm{width:30px; height:30px; border-radius:9px;}
 .todo-row.done .txt{text-decoration:line-through; color:var(--text-faint);}
 .chk{
   width:17px; height:17px; flex:0 0 auto; accent-color:var(--accent); cursor:pointer;
@@ -970,8 +991,8 @@ function icon(name, cls){
    Constants & tiny utilities
 ============================================================ */
 const LS_PREFIX = "atlas_v1_";
-const MAX_WEEKS = 13;
-const MAX_CONTINUATIONS = 2;
+const MAX_WEEKS = 26;
+const MAX_CONTINUATIONS = 4;
 const MODELS = [
   {id:"claude-opus-5", label:"Opus 5 — most capable ($5 / $25)"},
   {id:"claude-sonnet-5", label:"Sonnet 5 — balanced ($3 / $15)"},
@@ -1258,9 +1279,15 @@ function extractPlanJSON(text){
   }
 }
 function applyPlanData(plan, data){
-  const oldClassIdx = {}, oldTodoIdx = {};
+  // Carry per-lesson progress across a regeneration. Matching on title alone
+  // loses everything the moment a lesson is renamed — by hand or by Claude —
+  // so fall back to the slot it occupied.
+  const oldClassIdx = {}, oldClassSlot = {}, oldTodoIdx = {};
   (plan.weeks||[]).forEach(w=>(w.days||[]).forEach(d=>{
-    (d.classes||[]).forEach(c=>{ oldClassIdx[`${w.weekNumber}|${d.dayNumber}|${c.title}`] = c; });
+    (d.classes||[]).forEach((c,i)=>{
+      oldClassIdx[`${w.weekNumber}|${d.dayNumber}|${c.title}`] = c;
+      oldClassSlot[`${w.weekNumber}|${d.dayNumber}|#${i}`] = c;
+    });
     (d.todos||[]).forEach(t=>{ oldTodoIdx[`${w.weekNumber}|${d.dayNumber}|${t.text}`] = t; });
   }));
 
@@ -1275,8 +1302,9 @@ function applyPlanData(plan, data){
     theme: w.theme || "",
     days: (w.days||[]).slice(0,7).map(d=>({
       dayNumber: Number(d.dayNumber)||1,
-      classes: (d.classes||[]).map(c=>{
-        const old = oldClassIdx[`${w.weekNumber}|${d.dayNumber}|${c.title}`];
+      classes: (d.classes||[]).map((c,i)=>{
+        const old = oldClassIdx[`${w.weekNumber}|${d.dayNumber}|${c.title}`]
+                 || oldClassSlot[`${w.weekNumber}|${d.dayNumber}|#${i}`];
         return {
           id: (old && old.id) || uid(),
           title: c.title || "Untitled class",
@@ -1316,7 +1344,7 @@ LEARNER CONTEXT
 - Subject / goal: ${plan.subject}
 - Content language for resources: ${langLabel}
 - Current level: ${plan.level}
-- Duration: ${plan.durationWeeks} week(s) (hard max ${MAX_WEEKS} weeks, ~3 months)
+- Duration: ${plan.durationWeeks} week(s) (hard max ${MAX_WEEKS} weeks, ~6 months)
 - Daily study time available: ${plan.dailyMinutes} minutes
 - Rest days per week: ${(plan.daysOff&&plan.daysOff.length) ? plan.daysOff.join(", ") : "none specified, use your judgement"}
 - Today's date: ${ymd(new Date())}
@@ -2044,11 +2072,18 @@ function renderDayRow(plan, week, day){
       <div class="day-main">
         <div class="day-head">Day ${day.dayNumber} <span class="date">${fmtDateNice(dateStr)}</span>${isToday?'<span class="today-flag">Today</span>':''}</div>
         ${(day.classes||[]).map(c=>renderClassCard(plan, c)).join("")}
-        ${(day.todos||[]).length ? `<div style="margin-top:6px;">${day.todos.map(t=>`
+        ${(day.todos||[]).length ? `<div style="margin-top:6px;">${day.todos.map(t=>{
+          const ref = `data-plan="${plan.id}" data-week="${week.weekNumber}" data-day="${day.dayNumber}" data-todo="${t.id}"`;
+          return `
           <div class="todo-row ${t.done?'done':''}">
-            <input type="checkbox" class="chk" ${t.done?'checked':''} data-action="toggle-todo" data-plan="${plan.id}" data-week="${week.weekNumber}" data-day="${day.dayNumber}" data-todo="${t.id}">
-            <span class="txt">${escapeHtml(t.text)}</span>
-          </div>`).join("")}</div>` : ""}
+            <input type="checkbox" class="chk" ${t.done?'checked':''} data-action="toggle-todo" ${ref}>
+            <input class="todo-input" value="${escapeHtml(t.text)}" data-action="edit-todo" ${ref} aria-label="Edit to-do">
+            <button class="row-del" data-action="delete-todo" ${ref} title="Remove this to-do" aria-label="Remove to-do">${icon("x","ic-sm")}</button>
+          </div>`;}).join("")}</div>` : ""}
+        <div class="day-actions">
+          <button class="btn small" data-action="add-lesson" data-plan="${plan.id}" data-week="${week.weekNumber}" data-day="${day.dayNumber}">${icon("plus","ic-sm")} Lesson</button>
+          <button class="btn small" data-action="add-todo" data-plan="${plan.id}" data-week="${week.weekNumber}" data-day="${day.dayNumber}">${icon("plus","ic-sm")} To-do</button>
+        </div>
       </div>
     </div>`;
 }
@@ -2120,8 +2155,12 @@ function renderLessonMedia(plan, c, small){
 }
 
 function renderClassCard(plan, c){
+  const editBtn = `<button class="icon-btn sm" data-action="edit-lesson" data-plan="${plan.id}" data-class="${c.id}" title="Edit this lesson" aria-label="Edit ${escapeHtml(c.title)}">${icon("pencil","ic-sm")}</button>`;
   if(c.type === "rest"){
-    return `<div class="class-card rest-card"><div class="cc-main"><div class="cc-title">${icon("moon","ic-sm")} Rest day</div></div></div>`;
+    return `<div class="class-card rest-card" data-card="${c.id}">
+      <div class="cc-main"><div class="cc-title">${icon("moon","ic-sm")} Rest day</div></div>
+      <div class="cc-controls">${editBtn}</div>
+    </div>`;
   }
   const typeIcon = {video:icon("play","ic-sm"), practice:icon("wrench","ic-sm"), reading:icon("bookOpen","ic-sm"), quiz:icon("clipboard","ic-sm")}[c.type] || icon("play","ic-sm");
   const media = renderLessonMedia(plan, c, false);
@@ -2142,6 +2181,7 @@ function renderClassCard(plan, c){
       <div class="cc-controls">
         ${attachBtn}
         ${openExternal}
+        ${editBtn}
         <input type="time" value="${c.completionTime||''}" data-action="set-completion" data-plan="${plan.id}" data-class="${c.id}" title="Notify me 10 & 5 min before this time">
         <input type="checkbox" class="chk" ${c.done?'checked':''} data-action="toggle-class-done" data-plan="${plan.id}" data-class="${c.id}" title="Mark done">
       </div>
@@ -2968,15 +3008,15 @@ function openNewPlanModal(){
             </select>
           </div>
           <div class="field">
-            <label>Duration (weeks, max 13)</label>
-            <input type="number" id="npWeeks" min="1" max="13" value="2">
+            <label>Duration (weeks, max 26)</label>
+            <input type="number" id="npWeeks" min="1" max="26" value="2">
           </div>
         </div>
         <div class="field">
           <label>Daily study time (minutes)</label>
           <input type="number" id="npMinutes" min="10" max="480" value="45">
         </div>
-        <p class="desc" style="margin-top:-6px; display:flex; gap:6px;">${icon("lightbulb","ic-sm")} <span>Tip: start with 2 weeks — it's cheaper to generate and you can ask Atlas to extend it later in chat once you like the direction.</span></p>
+        <p class="desc" style="margin-top:-6px; display:flex; gap:6px;">${icon("lightbulb","ic-sm")} <span>Tip: start with 2–4 weeks. A six-month plan is a lot for one response, so the reliable route is to start short and say “extend this by another month” in chat — each round adds weeks onto what you already have.</span></p>
         <div class="field">
           <label>Rest days (optional)</label>
           <div class="chip-row" id="npDaysOff">
@@ -3149,6 +3189,27 @@ document.addEventListener("click", e=>{
   else if(act==="add-featured-path"){ addFeaturedPlan(action.dataset.path); }
   else if(act==="play-inline"){ playInline(action.dataset.plan, action.dataset.class); }
   else if(act==="attach-video"){ openAttachVideoModal(action.dataset.plan, action.dataset.class); }
+  else if(act==="edit-lesson"){ openEditLessonModal(action.dataset.plan, action.dataset.class); }
+  else if(act==="add-lesson"){ addLessonToDay(action.dataset.plan, action.dataset.week, action.dataset.day); }
+  else if(act==="add-todo"){
+    const d = findDay(action.dataset.plan, action.dataset.week, action.dataset.day);
+    if(d){
+      d.day.todos = d.day.todos || [];
+      d.day.todos.push({id:uid(), text:"", done:false});
+      d.plan.updatedAt = Date.now(); persistPlans(); renderView();
+      // Focus the new empty field so it can be typed into straight away.
+      const inputs = document.querySelectorAll(`[data-action="edit-todo"][data-day="${action.dataset.day}"][data-week="${action.dataset.week}"]`);
+      const last = inputs[inputs.length-1];
+      if(last) last.focus();
+    }
+  }
+  else if(act==="delete-todo"){
+    const d = findDay(action.dataset.plan, action.dataset.week, action.dataset.day);
+    if(d){
+      d.day.todos = (d.day.todos||[]).filter(t=>t.id!==action.dataset.todo);
+      d.plan.updatedAt = Date.now(); persistPlans(); renderView();
+    }
+  }
   else if(act==="catalog-subject"){ catalogSubject = action.dataset.subject || ""; renderView(); }
   else if(act==="close-inline"){
     state.inlineOpen.delete(action.dataset.class);
@@ -3505,6 +3566,126 @@ function syncDoneUI(classId, plan, isDone){
   if(fill) fill.style.width = planProgress(plan) + "%";
 }
 
+/* ============================================================
+   Lesson editor — every field of every lesson is editable by hand, so a plan
+   Claude wrote is a starting point rather than something you're stuck with.
+============================================================ */
+const LESSON_TYPES = [
+  ["video","Video"], ["practice","Practice"], ["reading","Reading"],
+  ["quiz","Quiz"], ["rest","Rest day"],
+];
+
+function openEditLessonModal(planId, classId){
+  const plan = getPlan(planId);
+  const ctx = plan && findClassContext(plan, classId);
+  if(!ctx) return;
+  const c = ctx.classes[ctx.idx];
+  const root = document.getElementById("modalRoot");
+  root.innerHTML = `
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="elTitle" tabindex="-1">
+        <div class="watch-eyebrow">Week ${ctx.week.weekNumber}, Day ${ctx.day.dayNumber}</div>
+        <h2 id="elTitle">Edit lesson</h2>
+        <div class="field">
+          <label>Title</label>
+          <input type="text" id="elName" value="${escapeHtml(c.title||"")}" placeholder="What is this lesson?">
+        </div>
+        <div class="row">
+          <div class="field">
+            <label>Type</label>
+            <select id="elType">${LESSON_TYPES.map(([v,l])=>`<option value="${v}" ${c.type===v?'selected':''}>${l}</option>`).join("")}</select>
+          </div>
+          <div class="field">
+            <label>Minutes</label>
+            <input type="number" id="elMins" min="0" max="600" value="${Number(c.durationMinutes)||0}">
+          </div>
+        </div>
+        <div class="field">
+          <label>Source / channel</label>
+          <input type="text" id="elChannel" value="${escapeHtml(c.channel||"")}" placeholder="e.g. Khan Academy">
+        </div>
+        <div class="field">
+          <label>Main resource link</label>
+          <input type="text" id="elUrl" value="${escapeHtml(c.resourceUrl||"")}" placeholder="https://…">
+        </div>
+        <div class="field">
+          <label>Video to play in-app</label>
+          <input type="text" id="elAlt" value="${escapeHtml(c.altVideoUrl||"")}" placeholder="https://www.youtube.com/watch?v=… or /playlist?list=…">
+          <p class="desc" style="margin:8px 0 0; font-size:12px;">Leave empty when the main link is already a YouTube video or playlist. Anything else needs one here to play inside the app.</p>
+        </div>
+        <div class="field">
+          <label>Notes</label>
+          <textarea id="elNotes" rows="3" placeholder="What to focus on">${escapeHtml(c.notes||"")}</textarea>
+        </div>
+        <div class="modal-actions" style="justify-content:space-between;">
+          <button class="btn small danger" id="elDelete">${icon("x","ic-sm")} Delete lesson</button>
+          <span style="display:flex; gap:12px;">
+            <button class="btn" id="elCancel">Cancel</button>
+            <button class="btn primary" id="elSave">Save</button>
+          </span>
+        </div>
+      </div>
+    </div>`;
+
+  document.getElementById("elCancel").onclick = closeModal;
+  document.getElementById("modalOverlay").addEventListener("click", e=>{ if(e.target.id==="modalOverlay") closeModal(); });
+
+  document.getElementById("elDelete").onclick = ()=>{
+    if(!confirm(`Delete "${c.title}" from this day?`)) return;
+    ctx.classes.splice(ctx.idx, 1);
+    state.inlineOpen.delete(c.id);
+    plan.updatedAt = Date.now();
+    persistPlans(); closeModal(); renderView();
+    toast("Lesson deleted", "success");
+  };
+
+  document.getElementById("elSave").onclick = ()=>{
+    const title = document.getElementById("elName").value.trim();
+    if(!title){ toast("Give the lesson a title.", "error"); return; }
+    const altUrl = document.getElementById("elAlt").value.trim();
+    if(altUrl && !extractYouTubeEmbed(altUrl)){
+      toast("The in-app video must be a YouTube video or playlist link.", "error");
+      return;
+    }
+    const prevUrls = (c.resourceUrl||"") + "|" + (c.altVideoUrl||"");
+    c.title = title;
+    c.type = document.getElementById("elType").value;
+    c.durationMinutes = Math.max(0, Number(document.getElementById("elMins").value) || 0);
+    c.channel = document.getElementById("elChannel").value.trim();
+    c.resourceUrl = document.getElementById("elUrl").value.trim();
+    c.altVideoUrl = altUrl;
+    c.notes = document.getElementById("elNotes").value.trim();
+    // A cached lookup belongs to the old link — drop it so the player doesn't
+    // keep showing a video the lesson no longer points at.
+    if(prevUrls !== (c.resourceUrl||"") + "|" + (c.altVideoUrl||"")){
+      c.resolvedYtId = null;
+      c.resolvedIsAlt = false;
+      state.inlineOpen.delete(c.id);
+    }
+    plan.updatedAt = Date.now();
+    persistPlans(); closeModal(); renderView();
+    toast("Lesson updated", "success");
+  };
+  setupModalA11y();
+}
+
+function addLessonToDay(planId, weekNumber, dayNumber){
+  const plan = getPlan(planId);
+  const week = plan && (plan.weeks||[]).find(w=>String(w.weekNumber)===String(weekNumber));
+  const day = week && (week.days||[]).find(d=>String(d.dayNumber)===String(dayNumber));
+  if(!day) return;
+  const fresh = {
+    id: uid(), title: "New lesson", type: "video", resourceUrl: "", channel: "",
+    altVideoUrl: "", altChannel: "", durationMinutes: plan.dailyMinutes || 30,
+    notes: "", done: false, completionTime: null, resolvedYtId: null, resolvedIsAlt: false,
+  };
+  day.classes = day.classes || [];
+  day.classes.push(fresh);
+  plan.updatedAt = Date.now();
+  persistPlans(); renderView();
+  openEditLessonModal(planId, fresh.id);   // straight into editing, it's empty
+}
+
 // Manual escape hatch: attach any YouTube video/playlist to a lesson that has no
 // embeddable one. Works with no API key — the learner just pastes a link, or
 // jumps to a prefilled YouTube search to go find one.
@@ -3600,6 +3781,10 @@ document.addEventListener("change", e=>{
       store.set("firedNotifs", fired);
       if(state.view==="today") renderView();
     }
+  } else if(act==="edit-todo"){
+    const d = findDay(action.dataset.plan, action.dataset.week, action.dataset.day);
+    const t = d && (d.day.todos||[]).find(x=>x.id===action.dataset.todo);
+    if(t){ t.text = action.value; d.plan.updatedAt = Date.now(); persistPlans(); }
   } else if(act==="set-start-date"){
     const plan = getPlan(action.dataset.id);
     if(plan){ plan.startDate = action.value; plan.updatedAt=Date.now(); persistPlans(); renderView(); }
@@ -3613,6 +3798,12 @@ function findClass(plan, classId){
     if(c) return c;
   }
   return null;
+}
+function findDay(planId, weekNumber, dayNumber){
+  const plan = getPlan(planId);
+  const week = plan && (plan.weeks||[]).find(w=>String(w.weekNumber)===String(weekNumber));
+  const day = week && (week.days||[]).find(d=>String(d.dayNumber)===String(dayNumber));
+  return day ? {plan, week, day} : null;
 }
 function findClassContext(plan, classId){
   if(!plan) return null;
