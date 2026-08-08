@@ -1,0 +1,11 @@
+# Copied from the repo root by sync-web.mjs.
+app/
+
+node_modules/
+dist/
+
+# Signing material — never commit these.
+*.p12
+*.cer
+*.provisionprofile
+.env

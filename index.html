@@ -2563,6 +2563,8 @@ function renderSettings(container){
           <button class="btn small" id="btnDriveRestore">${icon("download","ic-sm")} Restore latest from Drive</button>
           <button class="btn small danger" id="btnDriveDisconnect">Disconnect</button>
         </div>
+      ` : nativeShell() ? `
+        <p class="desc" style="margin-bottom:0;"><strong>Not available in the installed app.</strong> Google blocks its sign-in from running inside an app's built-in browser, so Drive can only be connected from Mindora on the web. ${sharedMode() ? "Your plans still sync everywhere through the shared server, so nothing is lost here." : "Use Export data below to move plans between devices."}</p>
       ` : `
         <div class="field">
           <label>Google OAuth Client ID</label>
@@ -3235,6 +3237,13 @@ function sharedMode(){ return !!backendUrl(); }
 // never displayed, never editable, and the server takes precedence.
 function legacyKey(){ return (state.settings.apiKey||"").trim(); }
 function aiAvailable(){ return !!backendUrl() || !!legacyKey(); }
+// True inside the packaged Android/iOS shell. Google refuses OAuth started
+// from an embedded WebView (error: disallowed_useragent), so the browser-side
+// Drive sign-in cannot work there and we say so instead of offering a button
+// that is guaranteed to fail. The shared server keeps native plans in sync.
+function nativeShell(){
+  return !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+}
 function backendHeaders(){
   const h = {};
   const token = store.get("visitorToken", "");

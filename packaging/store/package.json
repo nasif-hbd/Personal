@@ -1,0 +1,15 @@
+{
+  "name": "mindora-store-assets",
+  "version": "1.0.0",
+  "description": "Generates the screenshots and feature graphic required by the app stores.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "postinstall": "playwright install chromium",
+    "serve": "python3 -m http.server 8899 --directory ../..",
+    "shots": "node make-screenshots.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.58.1"
+  }
+}

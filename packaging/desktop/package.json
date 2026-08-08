@@ -1,0 +1,89 @@
+{
+  "name": "mindora",
+  "productName": "Mindora",
+  "version": "1.0.0",
+  "description": "Mindora — Learn with Dedication. Build a study plan with AI, watch real courses inside the app, and track what you've finished.",
+  "author": {
+    "name": "Mindora",
+    "email": "mdmukul666343@gmail.com"
+  },
+  "homepage": "https://nasif-hbd.github.io/Personal/",
+  "license": "MIT",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "sync": "node ../sync-web.mjs",
+    "start": "npm run sync && electron .",
+    "pack": "npm run sync && electron-builder --dir",
+    "dist:win": "npm run sync && electron-builder --win --x64 --arm64",
+    "dist:mac": "npm run sync && electron-builder --mac --x64 --arm64",
+    "dist:mas": "npm run sync && electron-builder --mac mas",
+    "dist:linux": "npm run sync && electron-builder --linux",
+    "dist": "npm run sync && electron-builder -mwl"
+  },
+  "devDependencies": {
+    "electron": "43.3.0",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "com.mindora.learn",
+    "productName": "Mindora",
+    "copyright": "Copyright © 2026 Mindora",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "app/**/*"
+    ],
+    "win": {
+      "target": [
+        { "target": "nsis", "arch": ["x64", "arm64"] },
+        { "target": "portable", "arch": ["x64"] }
+      ],
+      "artifactName": "${productName}-${version}-${arch}-setup.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Mindora"
+    },
+    "mac": {
+      "category": "public.app-category.education",
+      "target": [
+        { "target": "dmg", "arch": ["x64", "arm64"] },
+        { "target": "zip", "arch": ["x64", "arm64"] }
+      ],
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
+    },
+    "mas": {
+      "category": "public.app-category.education",
+      "entitlements": "build/entitlements.mas.plist",
+      "entitlementsInherit": "build/entitlements.mas.inherit.plist",
+      "hardenedRuntime": false,
+      "artifactName": "${productName}-${version}-mas.${ext}"
+    },
+    "dmg": {
+      "title": "Mindora ${version}",
+      "contents": [
+        { "x": 140, "y": 200, "type": "file" },
+        { "x": 400, "y": 200, "type": "link", "path": "/Applications" }
+      ]
+    },
+    "linux": {
+      "category": "Education",
+      "target": ["AppImage", "deb"],
+      "maintainer": "mdmukul666343@gmail.com",
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
+    },
+    "publish": null
+  }
+}

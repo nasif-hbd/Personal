@@ -15,6 +15,7 @@ const CACHE = "mindora-v1";
 const SHELL = [
   "./",
   "./index.html",
+  "./privacy.html",
   "./manifest.json",
   "./courses.json",
   "./icon.svg",
