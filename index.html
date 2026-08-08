@@ -102,6 +102,10 @@
 }
 
 *{box-sizing:border-box;}
+/* Any rule that sets `display` on an element outranks the `hidden` attribute,
+   which is how a "hidden" full-screen overlay ends up silently swallowing
+   every click in the app. This makes hidden mean hidden, everywhere. */
+[hidden]{display:none !important;}
 html,body{height:100%;}
 body{
   margin:0; background:var(--bg); color:var(--text); font-family:var(--font);
@@ -253,6 +257,209 @@ button{font-family:inherit;}
 .key-status .pip{width:6px; height:6px; border-radius:50%; flex:0 0 auto; animation:glowPulse 2.4s ease-in-out infinite;}
 .key-status.ok .pip{background:var(--success); box-shadow:0 0 10px var(--success);}
 .key-status.bad .pip{background:var(--danger); box-shadow:0 0 10px var(--danger);}
+
+/* --- command palette --- */
+.palette-overlay{
+  position:fixed; inset:0; z-index:200; display:flex; justify-content:center;
+  align-items:flex-start; padding:12vh 16px 16px;
+  background:rgba(4,3,10,.62); backdrop-filter:blur(7px);
+  opacity:0; transition:opacity .16s ease;
+}
+.palette-overlay.open{opacity:1;}
+.palette-box{
+  width:min(660px,100%); max-height:70vh; display:flex; flex-direction:column;
+  background:var(--panel); border:1px solid var(--line); border-radius:16px; overflow:hidden;
+  box-shadow:0 28px 80px rgba(0,0,0,.5);
+  transform:translateY(-8px) scale(.99); transition:transform .16s ease;
+}
+.palette-overlay.open .palette-box{transform:none;}
+.palette-search{display:flex; align-items:center; gap:11px; padding:15px 17px; border-bottom:1px solid var(--line);}
+.palette-search-ic{display:flex; color:var(--text-faint);}
+.palette-search input{
+  flex:1; border:0; background:transparent; color:var(--text); font-size:16px; padding:0; outline:none;
+}
+.palette-list{overflow-y:auto; padding:7px; flex:1; min-height:60px;}
+.palette-item{
+  width:100%; display:flex; align-items:center; gap:11px; padding:10px 12px;
+  border:0; background:transparent; color:var(--text); border-radius:10px;
+  cursor:pointer; text-align:left; font:inherit;
+}
+.palette-item.active{background:rgba(var(--accent-rgb),.14);}
+.palette-ic{display:flex; color:var(--text-faint); flex:0 0 auto;}
+.palette-item.active .palette-ic{color:var(--accent);}
+.palette-label{flex:0 1 auto; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.palette-hint{
+  flex:1 1 auto; font-size:12px; color:var(--text-faint);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.palette-kind{
+  flex:0 0 auto; font-family:var(--font-mono); font-size:9px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--text-faint);
+  border:1px solid var(--line); border-radius:99px; padding:2px 8px;
+}
+.palette-empty{padding:26px; text-align:center; color:var(--text-faint); font-size:14px;}
+.palette-foot{
+  display:flex; gap:16px; padding:9px 16px; border-top:1px solid var(--line);
+  font-size:11px; color:var(--text-faint); background:var(--surface);
+}
+kbd{
+  font-family:var(--font-mono); font-size:10px; padding:2px 6px; border-radius:5px;
+  border:1px solid var(--line); background:var(--surface); color:var(--text-dim);
+}
+.shortcut-list{display:flex; flex-direction:column; gap:2px; margin-top:12px;}
+.shortcut-row{
+  display:flex; justify-content:space-between; align-items:center; gap:14px;
+  padding:9px 2px; border-bottom:1px solid var(--line); font-size:14px;
+}
+.shortcut-row:last-child{border-bottom:0;}
+.shortcut-row em{font-style:normal; color:var(--text-faint); font-size:11px;}
+
+/* --- review --- */
+.due-dot{
+  display:inline-grid; place-items:center; min-width:17px; height:17px; padding:0 5px;
+  margin-left:6px; border-radius:99px; font-size:10px; font-weight:700;
+  background:var(--accent); color:#fff;
+}
+.review-wrap{max-width:660px; margin:0 auto; display:flex; flex-direction:column; gap:16px;}
+.review-progress{height:3px; border-radius:99px; background:var(--surface); overflow:hidden;}
+.review-progress div{height:100%; background:linear-gradient(90deg,var(--accent),var(--accent-2)); transition:width .3s ease;}
+.review-meta{
+  display:flex; justify-content:space-between; font-family:var(--font-mono);
+  font-size:10px; letter-spacing:.13em; text-transform:uppercase; color:var(--text-faint);
+}
+.review-card{
+  background:var(--panel); border:1px solid var(--line); border-radius:18px;
+  padding:34px 28px; min-height:230px; display:flex; flex-direction:column;
+  justify-content:center; gap:20px; text-align:center;
+}
+.review-card.revealed{text-align:left;}
+.review-face p{font-size:20px; line-height:1.45; margin:0; white-space:pre-wrap;}
+.review-face.back{border-top:1px solid var(--line); padding-top:20px;}
+.review-face.back p{font-size:17px; color:var(--text-dim);}
+.review-label{
+  display:block; font-family:var(--font-mono); font-size:9.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--text-faint); margin-bottom:10px;
+}
+.review-hint{display:block; margin-top:9px; font-size:12px; color:var(--text-faint);}
+.grade-row{display:grid; grid-template-columns:repeat(4,1fr); gap:9px;}
+.grade{
+  display:flex; flex-direction:column; align-items:center; gap:3px; padding:13px 6px;
+  border-radius:12px; border:1px solid var(--line); background:var(--panel);
+  color:var(--text); cursor:pointer; font:inherit;
+  transition:transform .15s ease, border-color .15s ease;
+}
+.grade:hover{transform:translateY(-2px);}
+.grade strong{font-size:14px;}
+.grade span{font-size:11px; color:var(--text-faint);}
+.grade kbd{margin-top:3px;}
+.grade.again:hover{border-color:var(--danger);} .grade.again strong{color:var(--danger);}
+.grade.hard:hover{border-color:var(--gold);}   .grade.hard strong{color:var(--gold);}
+.grade.good:hover{border-color:var(--accent);} .grade.good strong{color:var(--accent);}
+.grade.easy:hover{border-color:var(--success);}.grade.easy strong{color:var(--success);}
+@media (max-width:560px){ .grade-row{grid-template-columns:repeat(2,1fr);} }
+
+.card-list{display:flex; flex-direction:column; gap:8px; margin-top:12px;}
+.mini-card{
+  display:flex; justify-content:space-between; align-items:flex-start; gap:12px;
+  padding:12px 14px; border:1px solid var(--line); border-radius:11px; background:var(--surface);
+}
+.mini-card strong{font-size:14px;}
+.mini-card .desc{margin:3px 0 0; font-size:13px;}
+.card-meta{font-family:var(--font-mono); font-size:10px; color:var(--text-faint);}
+
+/* --- insights --- */
+.insights-wrap{display:flex; flex-direction:column; gap:16px;}
+.stat-row{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px;}
+.stat-tile{
+  background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:18px;
+  display:flex; flex-direction:column; gap:3px; position:relative; overflow:hidden;
+}
+.stat-tile b{font-size:34px; font-weight:800; letter-spacing:-1.5px; line-height:1.05;}
+.stat-tile span:last-child{
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--text-faint);
+}
+.stat-ic{
+  position:absolute; top:14px; right:14px; color:var(--accent); opacity:.5;
+}
+.heat-scroll{overflow-x:auto; padding-bottom:6px; margin-top:12px;}
+.heatmap{display:flex; gap:3px; min-width:max-content;}
+.heat-week{display:flex; flex-direction:column; gap:3px;}
+.heat-day{width:11px; height:11px; border-radius:3px; background:var(--surface); display:block;}
+.heat-day.l1{background:rgba(var(--accent-rgb),.30);}
+.heat-day.l2{background:rgba(var(--accent-rgb),.52);}
+.heat-day.l3{background:rgba(var(--accent-rgb),.76);}
+.heat-day.l4{background:var(--accent);}
+.heat-key{
+  display:flex; align-items:center; gap:4px; margin-top:11px;
+  font-size:11px; color:var(--text-faint);
+}
+.heat-key span:first-child{margin-right:3px;} .heat-key span:last-child{margin-left:3px;}
+.bars{display:flex; align-items:flex-end; gap:7px; height:130px; margin-top:14px;}
+.bar-col{flex:1; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; gap:6px; height:100%;}
+.bar{
+  width:100%; border-radius:5px 5px 2px 2px;
+  background:linear-gradient(180deg,var(--accent),var(--accent-2)); min-height:3px;
+  transition:height .4s cubic-bezier(.2,.7,.3,1);
+}
+.bar-col span{font-family:var(--font-mono); font-size:9px; color:var(--text-faint);}
+.insight-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px;}
+.subject-row{margin-top:13px;}
+.subject-top{display:flex; justify-content:space-between; font-size:13px; margin-bottom:5px;}
+.subject-bar{height:6px; border-radius:99px; background:var(--surface); overflow:hidden;}
+.subject-bar div{height:100%; border-radius:99px; background:linear-gradient(90deg,var(--accent),var(--accent-2));}
+.total-list{margin-top:12px;}
+.total-row{
+  display:flex; justify-content:space-between; gap:12px; padding:9px 0;
+  border-bottom:1px solid var(--line); font-size:14px;
+}
+.total-row:last-child{border-bottom:0;}
+.total-row span{color:var(--text-muted);}
+
+/* --- lesson notes --- */
+.notes-panel{
+  /* .class-card is a wrapping flex row, so a full basis is what forces this
+     onto its own line beneath the controls rather than squeezing in beside
+     them. grid-column would be ignored here. */
+  flex:1 0 100%; margin-top:11px; padding-top:12px; border-top:1px solid var(--line);
+}
+.notes-list{display:flex; flex-direction:column; gap:5px; margin-bottom:10px;}
+.note{display:flex; align-items:flex-start; gap:9px; font-size:13.5px; line-height:1.5;}
+.note-at{
+  flex:0 0 auto; font-family:var(--font-mono); font-size:11px; font-weight:600;
+  color:var(--accent); background:rgba(var(--accent-rgb),.12);
+  border:1px solid rgba(var(--accent-rgb),.28); border-radius:6px;
+  padding:1px 7px; cursor:pointer; min-width:46px; text-align:center;
+}
+.note-at:hover{background:rgba(var(--accent-rgb),.22);}
+.note-at.plain{
+  color:var(--text-faint); background:transparent; border-color:var(--line); cursor:default;
+}
+.note-text{flex:1; word-break:break-word;}
+.note-empty{margin:0 0 10px; font-size:12.5px;}
+.note-compose{display:flex; gap:8px;}
+.note-input{
+  flex:1; padding:8px 11px; border-radius:9px; border:1px solid var(--line);
+  background:var(--surface); color:var(--text); font:inherit; font-size:13.5px;
+}
+.icon-btn.xs{width:22px; height:22px; flex:0 0 auto; opacity:.5;}
+.icon-btn.xs:hover{opacity:1; color:var(--danger);}
+.icon-btn.has-notes{color:var(--accent); border-color:rgba(var(--accent-rgb),.4);}
+.note-count{
+  position:absolute; top:-4px; right:-4px; min-width:14px; height:14px; padding:0 3px;
+  border-radius:99px; background:var(--accent); color:#fff;
+  font-size:9px; font-weight:700; display:grid; place-items:center;
+}
+.icon-btn{position:relative;}
+
+/* --- catch up --- */
+.catchup{
+  display:flex; align-items:center; gap:13px; flex-wrap:wrap; margin-bottom:18px;
+  padding:14px 16px; border-radius:13px; font-size:13.5px;
+  border:1px solid rgba(251,191,36,.35); background:rgba(251,191,36,.08);
+}
+.catchup>div{flex:1 1 260px;}
+.catchup .ic-sm{color:var(--gold); flex:0 0 auto;}
 
 /* --- subscription surfaces --- */
 .plan-pill{
@@ -999,6 +1206,8 @@ label:not(.btn):not(.watch-done-toggle){
         <button class="navbtn" data-nav="plans">Plans</button>
         <button class="navbtn" data-nav="catalog">Catalog</button>
         <button class="navbtn" data-nav="today">Today</button>
+        <button class="navbtn" data-nav="review">Review<span class="due-dot" id="dueDot" hidden></span></button>
+        <button class="navbtn" data-nav="insights">Insights</button>
         <button class="navbtn" data-nav="settings">Settings</button>
       </nav>
 
@@ -1006,6 +1215,9 @@ label:not(.btn):not(.watch-done-toggle){
         <button class="plan-pill" id="planPill" data-nav="upgrade" hidden></button>
         <span class="key-status" id="keyStatus"></span>
         <button class="icon-btn" id="btnThemeToggle" title="Toggle theme"></button>
+        <button class="icon-btn" data-action="open-palette" title="Search everything (Ctrl K)" aria-label="Search everything">
+          <span data-icon="search"></span>
+        </button>
         <button class="btn primary small" id="btnNewPlan">New plan</button>
       </div>
     </div>
@@ -1034,6 +1246,24 @@ label:not(.btn):not(.watch-done-toggle){
 </svg>
 
 <div id="toasts" role="status" aria-live="polite"></div>
+
+<div id="palette" class="palette-overlay" hidden role="dialog" aria-modal="true" aria-label="Search and commands">
+  <div class="palette-box">
+    <div class="palette-search">
+      <span class="palette-search-ic" data-icon="search"></span>
+      <input id="paletteInput" type="text" placeholder="Search plans, lessons, courses — or type a command"
+        autocomplete="off" spellcheck="false" role="combobox" aria-expanded="true"
+        aria-controls="paletteList" aria-autocomplete="list">
+      <kbd>Esc</kbd>
+    </div>
+    <div id="paletteList" class="palette-list" role="listbox" aria-label="Results"></div>
+    <div class="palette-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> move</span>
+      <span><kbd>↵</kbd> open</span>
+      <span><kbd>?</kbd> shortcuts</span>
+    </div>
+  </div>
+</div>
 <div id="modalRoot"></div>
 
 <script>
@@ -1221,6 +1451,9 @@ let state = {
   // Class IDs whose video is currently expanded into a real inline <iframe>.
   // Held in state (not just the DOM) so a re-render keeps players open.
   inlineOpen: new Set(),
+  // Lesson IDs whose notes panel is expanded. Held in state so a re-render
+  // doesn't collapse a panel someone is mid-way through typing into.
+  notesOpen: new Set(),
   // Expanded week accordions, keyed "<planId>|<weekNumber>". Also state rather
   // than a DOM class, so re-rendering (e.g. starting a video) doesn't collapse them.
   openWeeks: new Set(),
@@ -1369,6 +1602,303 @@ function completedThisWeek(){
   }
   return count;
 }
+/* ============================================================
+   Study system — notes, recall cards, scheduling
+
+   All of it lives inside the plan object rather than a parallel collection,
+   so the existing per-plan last-write-wins merge carries it to other devices
+   for free. A second store key would have needed its own merge strategy, and
+   two merge strategies is how data goes missing.
+
+   Every accessor tolerates a missing field: plans saved before this existed
+   are still loaded verbatim from localStorage and Drive.
+============================================================ */
+
+// --- timestamped notes ---------------------------------------------------
+// A note can carry the video position it was written at. Clicking it seeks the
+// player back to that second — the whole point of taking notes while watching.
+function classNotes(c){ return (c && Array.isArray(c.userNotes)) ? c.userNotes : []; }
+
+function addClassNote(planId, classId, text, atSeconds){
+  const found = findClassAnywhere(classId);
+  if(!found || !text.trim()) return null;
+  const c = found.c;
+  if(!Array.isArray(c.userNotes)) c.userNotes = [];
+  const note = {
+    id: uid(),
+    text: text.trim(),
+    // null rather than 0: "no timestamp" and "the very start" are different,
+    // and 0 would render a misleading 0:00 jump link on a typed note.
+    at: (typeof atSeconds === "number" && isFinite(atSeconds) && atSeconds > 0) ? Math.floor(atSeconds) : null,
+    createdAt: Date.now(),
+  };
+  c.userNotes.push(note);
+  const plan = found.plan || getPlan(planId);
+  if(plan) plan.updatedAt = Date.now();
+  persistPlans();
+  return note;
+}
+
+function deleteClassNote(classId, noteId){
+  const found = findClassAnywhere(classId);
+  if(!found) return;
+  found.c.userNotes = classNotes(found.c).filter(n=>n.id !== noteId);
+  if(found.plan) found.plan.updatedAt = Date.now();
+  persistPlans();
+}
+
+function fmtClock(seconds){
+  const s = Math.max(0, Math.floor(seconds||0));
+  const h = Math.floor(s/3600), m = Math.floor((s%3600)/60), sec = s%60;
+  const pad = (n)=>String(n).padStart(2,"0");
+  return h ? `${h}:${pad(m)}:${pad(sec)}` : `${m}:${pad(sec)}`;
+}
+
+// Current position of a lesson's player, when one is open and reporting.
+function playerSeconds(classId){
+  const entry = inlinePlayers.get(classId);
+  try{
+    if(entry && entry.player && typeof entry.player.getCurrentTime === "function"){
+      return entry.player.getCurrentTime() || 0;
+    }
+  }catch(e){}
+  return 0;
+}
+
+function seekPlayer(classId, seconds){
+  const entry = inlinePlayers.get(classId);
+  try{
+    if(entry && entry.player && typeof entry.player.seekTo === "function"){
+      entry.player.seekTo(seconds, true);
+      if(typeof entry.player.playVideo === "function") entry.player.playVideo();
+      return true;
+    }
+  }catch(e){}
+  return false;
+}
+
+// --- recall cards (SM-2) -------------------------------------------------
+// A trimmed SuperMemo-2: the scheduling that made spaced repetition work, with
+// the four-button grading people actually understand.
+const CARD_START_EASE = 2.5;
+const CARD_MIN_EASE = 1.3;
+
+function planCards(plan){ return (plan && Array.isArray(plan.cards)) ? plan.cards : []; }
+function allCards(){
+  return state.plans.flatMap(p => planCards(p).map(card => ({card, plan:p})));
+}
+function cardsDue(now){
+  const at = now || Date.now();
+  return allCards().filter(({card}) => (card.due||0) <= at);
+}
+
+function addCard(planId, {front, back, classId}){
+  const plan = getPlan(planId);
+  if(!plan || !front.trim() || !back.trim()) return null;
+  if(!Array.isArray(plan.cards)) plan.cards = [];
+  const card = {
+    id: uid(), classId: classId||null,
+    front: front.trim(), back: back.trim(),
+    // Due immediately: a card you just made is one you have not yet recalled.
+    due: Date.now(), interval: 0, ease: CARD_START_EASE,
+    reps: 0, lapses: 0, createdAt: Date.now(), lastReviewed: null,
+  };
+  plan.cards.push(card);
+  plan.updatedAt = Date.now();
+  persistPlans();
+  return card;
+}
+
+function deleteCard(planId, cardId){
+  const plan = getPlan(planId);
+  if(!plan) return;
+  plan.cards = planCards(plan).filter(c=>c.id !== cardId);
+  plan.updatedAt = Date.now();
+  persistPlans();
+}
+
+/**
+ * Grade a card. quality: 0 again, 1 hard, 2 good, 3 easy.
+ *
+ * SM-2 proper takes 0–5; this maps the four buttons people can actually judge
+ * onto that curve. "Again" resets the interval but only dents the ease factor,
+ * so one bad day doesn't permanently bury a card you know.
+ */
+function gradeCard(planId, cardId, quality){
+  const plan = getPlan(planId);
+  if(!plan) return null;
+  const card = planCards(plan).find(c=>c.id === cardId);
+  if(!card) return null;
+
+  const DAY = 86400000;
+  if(quality === 0){
+    card.lapses = (card.lapses||0) + 1;
+    card.reps = 0;
+    card.interval = 0;
+    card.ease = Math.max(CARD_MIN_EASE, (card.ease||CARD_START_EASE) - 0.2);
+    card.due = Date.now() + 60000;          // back in a minute, same session
+  }else{
+    const adjust = {1:-0.15, 2:0, 3:0.15}[quality] || 0;
+    card.ease = Math.max(CARD_MIN_EASE, (card.ease||CARD_START_EASE) + adjust);
+    card.reps = (card.reps||0) + 1;
+    if(card.reps === 1)      card.interval = quality === 1 ? 1 : quality === 3 ? 4 : 1;
+    else if(card.reps === 2) card.interval = quality === 1 ? 3 : quality === 3 ? 8 : 6;
+    else                     card.interval = Math.round((card.interval||1) * card.ease * (quality===1 ? 0.6 : quality===3 ? 1.3 : 1));
+    card.interval = Math.max(1, Math.min(365, card.interval));
+    card.due = Date.now() + card.interval * DAY;
+  }
+  card.lastReviewed = Date.now();
+  plan.updatedAt = Date.now();
+  persistPlans();
+  return card;
+}
+
+// --- catch-up rescheduling ----------------------------------------------
+/**
+ * Count days whose lessons are unfinished and already in the past.
+ * Falling behind is the normal reason people abandon a plan, so the app needs
+ * to name it rather than silently accumulate a wall of red.
+ */
+function overdueDays(plan){
+  const today = ymd(new Date());
+  const out = [];
+  (plan.weeks||[]).forEach(w=>(w.days||[]).forEach(d=>{
+    const date = computeDateForDay(plan, w.weekNumber, d.dayNumber);
+    if(date >= today) return;
+    const real = (d.classes||[]).filter(c=>c.type !== "rest");
+    if(real.length && !real.every(c=>c.done)) out.push({week:w.weekNumber, day:d.dayNumber, date});
+  }));
+  return out;
+}
+
+/**
+ * Shift the plan's start date forward so the first unfinished day lands today.
+ * Nothing is deleted and no progress is lost — every date is derived from
+ * startDate, so moving it moves the whole remaining schedule together.
+ */
+function catchUpPlan(planId){
+  const plan = getPlan(planId);
+  if(!plan) return 0;
+  const behind = overdueDays(plan);
+  if(!behind.length) return 0;
+  const first = behind[0];
+  const offset = (plan.weeks.findIndex(w=>w.weekNumber===first.week)) * 7 + (first.day - 1);
+  const newStart = ymd(addDays(ymd(new Date()), -offset));
+  const shifted = Math.round((new Date(newStart) - new Date(plan.startDate)) / 86400000);
+  plan.startDate = newStart;
+  plan.updatedAt = Date.now();
+  persistPlans();
+  return shifted;
+}
+
+// --- calendar export -----------------------------------------------------
+/**
+ * A plan as an .ics file, so lessons land in whatever calendar someone already
+ * lives in. All-day events keep it timezone-proof: a fixed clock time would be
+ * wrong for anyone who travels, and the plan has no time-of-day anyway.
+ */
+function planToICS(plan){
+  const stamp = new Date().toISOString().replace(/[-:]/g,"").split(".")[0] + "Z";
+  const esc = (s)=>String(s||"").replace(/\\/g,"\\\\").replace(/[,;]/g,m=>"\\"+m).replace(/\r?\n/g,"\\n");
+  // RFC 5545 caps lines at 75 octets; longer ones continue with a leading space.
+  const fold = (line)=>line.match(/.{1,73}/g).join("\r\n ");
+
+  const events = [];
+  (plan.weeks||[]).forEach(w=>(w.days||[]).forEach(d=>{
+    const real = (d.classes||[]).filter(c=>c.type !== "rest");
+    if(!real.length) return;
+    const date = computeDateForDay(plan, w.weekNumber, d.dayNumber).replace(/-/g,"");
+    const end = ymd(addDays(computeDateForDay(plan, w.weekNumber, d.dayNumber), 1)).replace(/-/g,"");
+    const titles = real.map(c=>c.title).join(" · ");
+    const body = real.map(c=>`${c.title}${c.durationMinutes?` (${c.durationMinutes} min)`:""}${c.resourceUrl?`\n${c.resourceUrl}`:""}`).join("\n\n");
+    events.push([
+      "BEGIN:VEVENT",
+      `UID:${plan.id}-${w.weekNumber}-${d.dayNumber}@mindora`,
+      `DTSTAMP:${stamp}`,
+      `DTSTART;VALUE=DATE:${date}`,
+      `DTEND;VALUE=DATE:${end}`,
+      fold(`SUMMARY:${esc(plan.title)} — Day ${(w.weekNumber-1)*7 + d.dayNumber}`),
+      fold(`DESCRIPTION:${esc(body)}`),
+      fold(`X-MINDORA-LESSONS:${esc(titles)}`),
+      "END:VEVENT",
+    ].join("\r\n"));
+  }));
+
+  return [
+    "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Mindora//Learning Plan//EN",
+    "CALSCALE:GREGORIAN","METHOD:PUBLISH",
+    fold(`X-WR-CALNAME:${esc(plan.title)}`),
+    ...events, "END:VCALENDAR",
+  ].join("\r\n");
+}
+
+function downloadICS(planId){
+  const plan = getPlan(planId);
+  if(!plan) return;
+  const blob = new Blob([planToICS(plan)], {type:"text/calendar;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${plan.title.replace(/[^\w\s-]/g,"").trim().replace(/\s+/g,"-").toLowerCase()||"mindora-plan"}.ics`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast("Calendar file downloaded — open it to add the plan.", "success");
+}
+
+// --- statistics ----------------------------------------------------------
+/** Completions per day for the last `days` days, oldest first. */
+function activityHistory(days){
+  const counts = new Map();
+  state.plans.forEach(plan=>(plan.weeks||[]).forEach(w=>(w.days||[]).forEach(d=>{
+    (d.classes||[]).forEach(c=>{
+      if(!c.done) return;
+      // doneAt is when it was actually ticked. Plans finished before that field
+      // existed fall back to the day the lesson was scheduled for, so the chart
+      // still says something true rather than nothing.
+      const when = c.doneAt
+        ? ymd(new Date(c.doneAt))
+        : computeDateForDay(plan, w.weekNumber, d.dayNumber);
+      counts.set(when, (counts.get(when)||0) + 1);
+    });
+  })));
+  const today = ymd(new Date());
+  return Array.from({length: days}, (_, i) => {
+    const date = ymd(addDays(today, -(days - 1 - i)));
+    return {date, count: counts.get(date) || 0};
+  });
+}
+
+function studyStats(){
+  let done = 0, total = 0, minutes = 0, watchedMinutes = 0;
+  state.plans.forEach(plan=>(plan.weeks||[]).forEach(w=>(w.days||[]).forEach(d=>{
+    (d.classes||[]).forEach(c=>{
+      if(c.type === "rest") return;
+      total++;
+      if(c.done){ done++; minutes += c.durationMinutes||0; }
+      watchedMinutes += (c.durationMinutes||0) * watchPct(c);
+    });
+  })));
+  const bySubject = new Map();
+  state.plans.forEach(plan=>{
+    const key = plan.subject || plan.title || "Other";
+    const p = planProgress(plan);
+    const entry = bySubject.get(key) || {subject:key, done:0, total:0};
+    entry.done += p.done; entry.total += p.total;
+    bySubject.set(key, entry);
+  });
+  return {
+    done, total, minutes,
+    watchedMinutes: Math.round(watchedMinutes),
+    streak: computeStreak(),
+    thisWeek: completedThisWeek(),
+    cards: allCards().length,
+    dueCards: cardsDue().length,
+    notes: state.plans.reduce((n,plan)=>n + (plan.weeks||[]).reduce((m,w)=>m + (w.days||[]).reduce((k,d)=>
+      k + (d.classes||[]).reduce((j,c)=>j + classNotes(c).length, 0), 0), 0), 0),
+    bySubject: Array.from(bySubject.values()).sort((a,b)=>b.total-a.total),
+  };
+}
+
 function extractPlanJSON(text){
   const re = /```cadence-plan\s*([\s\S]*?)```/g;
   let m, last=null;
@@ -1921,6 +2451,13 @@ function renderSidebar(){
   ks.innerHTML = `<span class="pip"></span> ${ready ? "AI ready" : "AI off"}`;
   ks.title = ready ? "AI is available in this app" : "AI features aren't switched on for this app";
 
+  const dot = document.getElementById("dueDot");
+  if(dot){
+    const due = cardsDue().length;
+    dot.hidden = due === 0;
+    dot.textContent = due > 99 ? "99+" : String(due);
+  }
+
   const pill = document.getElementById("planPill");
   if(pill){
     if(!billingAvailable()){
@@ -1955,9 +2492,417 @@ function renderView(){
   else if(state.view === "today") renderToday(v);
   else if(state.view === "settings") renderSettings(v);
   else if(state.view === "upgrade") renderUpgrade(v);
+  else if(state.view === "review") renderReview(v);
+  else if(state.view === "insights") renderInsights(v);
   // Any iframe rebuilt by that render is a brand-new element, so re-attach the
   // YouTube player objects that report watch progress back to us.
   bindInlinePlayers();
+}
+
+/* ============================================================
+   Review — spaced repetition
+============================================================ */
+// Session state lives outside `state` because it is transient: a half-finished
+// review should not survive a reload as a partially-graded queue.
+let reviewQueue = [], reviewIndex = 0, reviewRevealed = false, reviewDone = 0;
+
+function startReview(){
+  reviewQueue = cardsDue().sort((a,b)=>(a.card.due||0)-(b.card.due||0));
+  reviewIndex = 0; reviewRevealed = false; reviewDone = 0;
+}
+
+function renderReview(container){
+  const stats = studyStats();
+  setTopbar("Review", stats.dueCards ? `${stats.dueCards} due` : "");
+
+  if(!stats.cards){
+    container.innerHTML = `
+      <div class="chat-empty">
+        <div class="big-ic">${icon("lightbulb","ic-xl")}</div>
+        <h2>Recall beats rewatching</h2>
+        <p>Add a card from any lesson — the question on one side, the answer on the other.
+        Mindora then shows it again just before you'd forget it, which is what actually moves
+        something into long-term memory.</p>
+        <button class="btn primary" data-nav="plans">${icon("arrowRight","ic-sm")} Open a plan to add cards</button>
+      </div>`;
+    return;
+  }
+
+  if(!reviewQueue.length || reviewIndex >= reviewQueue.length){
+    const next = allCards().map(({card})=>card.due||0).filter(d=>d>Date.now()).sort((a,b)=>a-b)[0];
+    container.innerHTML = `
+      <div class="review-wrap">
+        <div class="chat-empty">
+          <div class="big-ic">${icon("checkCircle","ic-xl")}</div>
+          <h2>${reviewDone ? `${reviewDone} card${reviewDone===1?"":"s"} reviewed` : "Nothing due right now"}</h2>
+          <p>${next
+            ? `Next card is due ${fmtDateNice(ymd(new Date(next)))}. Spacing them out is the point — reviewing early doesn't help.`
+            : "You're all caught up."}</p>
+          ${stats.dueCards ? `<button class="btn primary" id="btnStartReview">Start reviewing ${stats.dueCards}</button>` : ""}
+        </div>
+        ${renderCardLibrary()}
+      </div>`;
+    const start = document.getElementById("btnStartReview");
+    if(start) start.onclick = ()=>{ startReview(); renderView(); };
+    return;
+  }
+
+  const {card, plan} = reviewQueue[reviewIndex];
+  const progress = Math.round((reviewIndex / reviewQueue.length) * 100);
+
+  container.innerHTML = `
+    <div class="review-wrap">
+      <div class="review-progress"><div style="width:${progress}%"></div></div>
+      <div class="review-meta">
+        <span>${reviewIndex + 1} of ${reviewQueue.length}</span>
+        <span>${escapeHtml(plan.title)}</span>
+      </div>
+
+      <div class="review-card${reviewRevealed?" revealed":""}" id="reviewCard">
+        <div class="review-face front">
+          <span class="review-label">Question</span>
+          <p>${escapeHtml(card.front)}</p>
+          ${!reviewRevealed ? `<button class="btn primary" id="btnReveal">Show answer</button>
+            <span class="review-hint">or press Space</span>` : ""}
+        </div>
+        ${reviewRevealed ? `
+          <div class="review-face back">
+            <span class="review-label">Answer</span>
+            <p>${escapeHtml(card.back)}</p>
+          </div>` : ""}
+      </div>
+
+      ${reviewRevealed ? `
+        <div class="grade-row">
+          ${[[0,"Again","again","1"],[1,"Hard","hard","2"],[2,"Good","good","3"],[3,"Easy","easy","4"]]
+            .map(([q,label,cls,key])=>`
+              <button class="grade ${cls}" data-action="grade-card" data-q="${q}">
+                <strong>${label}</strong><span>${gradePreview(card, q)}</span><kbd>${key}</kbd>
+              </button>`).join("")}
+        </div>` : ""}
+    </div>`;
+
+  const reveal = document.getElementById("btnReveal");
+  if(reveal) reveal.onclick = ()=>{ reviewRevealed = true; renderView(); };
+}
+
+/** What the next interval would be, shown on the button before committing. */
+function gradePreview(card, quality){
+  if(quality === 0) return "< 1 min";
+  const reps = (card.reps||0) + 1;
+  const ease = Math.max(CARD_MIN_EASE, (card.ease||CARD_START_EASE) + ({1:-0.15,2:0,3:0.15}[quality]||0));
+  let interval;
+  if(reps === 1)      interval = quality === 1 ? 1 : quality === 3 ? 4 : 1;
+  else if(reps === 2) interval = quality === 1 ? 3 : quality === 3 ? 8 : 6;
+  else                interval = Math.round((card.interval||1) * ease * (quality===1?0.6:quality===3?1.3:1));
+  interval = Math.max(1, Math.min(365, interval));
+  return interval === 1 ? "1 day" : interval < 30 ? `${interval} days`
+       : interval < 365 ? `${Math.round(interval/30)} mo` : "1 year";
+}
+
+function submitGrade(quality){
+  const entry = reviewQueue[reviewIndex];
+  if(!entry || !reviewRevealed) return;
+  gradeCard(entry.plan.id, entry.card.id, quality);
+  reviewDone++;
+  if(quality === 0){
+    // "Again" goes to the back of this session's queue, not away — the whole
+    // point is to see it once more before you stop.
+    reviewQueue.push(entry);
+  }
+  reviewIndex++;
+  reviewRevealed = false;
+  renderView();
+}
+
+function renderCardLibrary(){
+  const cards = allCards();
+  if(!cards.length) return "";
+  return `
+    <div class="card wide">
+      <h3>Your cards <span class="badge">${cards.length}</span></h3>
+      <div class="card-list">
+        ${cards.slice(0, 60).map(({card, plan})=>`
+          <div class="mini-card">
+            <div>
+              <strong>${escapeHtml(card.front)}</strong>
+              <p class="desc">${escapeHtml(card.back)}</p>
+              <span class="card-meta">${escapeHtml(plan.title)} · ${
+                card.reps ? `seen ${card.reps}×, next ${fmtDateNice(ymd(new Date(card.due)))}` : "new"
+              }</span>
+            </div>
+            <button class="icon-btn danger" data-action="delete-card" data-plan="${plan.id}" data-card="${card.id}"
+              title="Delete card" aria-label="Delete card">${icon("x","ic-sm")}</button>
+          </div>`).join("")}
+      </div>
+      ${cards.length > 60 ? `<p class="desc">Showing 60 of ${cards.length}.</p>` : ""}
+    </div>`;
+}
+
+/* ============================================================
+   Insights
+============================================================ */
+function renderInsights(container){
+  setTopbar("Insights", "");
+  const s = studyStats();
+
+  if(!s.total){
+    container.innerHTML = `
+      <div class="chat-empty">
+        <div class="big-ic">${icon("flame","ic-xl")}</div>
+        <h2>Nothing to measure yet</h2>
+        <p>Start a plan and your progress, streaks and watch time show up here.</p>
+        <button class="btn primary" data-nav="home">${icon("arrowRight","ic-sm")} Find a path</button>
+      </div>`;
+    return;
+  }
+
+  const history = activityHistory(182);      // ~26 weeks, like a contribution graph
+  const peak = Math.max(1, ...history.map(d=>d.count));
+  const weeks = [];
+  for(let i=0;i<history.length;i+=7) weeks.push(history.slice(i, i+7));
+
+  const last12 = [];
+  for(let w=11; w>=0; w--){
+    const slice = history.slice(Math.max(0, history.length - (w+1)*7), history.length - w*7);
+    last12.push(slice.reduce((n,d)=>n+d.count, 0));
+  }
+  const barPeak = Math.max(1, ...last12);
+
+  container.innerHTML = `
+    <div class="insights-wrap">
+
+      <div class="stat-row reveal">
+        ${[
+          [s.done, "lessons done", "checkCircle"],
+          [s.streak, s.streak === 1 ? "day streak" : "day streak", "flame"],
+          [Math.round(s.minutes/60), "hours studied", "hourglass"],
+          [s.dueCards, "cards due", "lightbulb"],
+        ].map(([n,label,ic])=>`
+          <div class="stat-tile">
+            <span class="stat-ic">${icon(ic,"ic-sm")}</span>
+            <b data-count="${n}">${n}</b>
+            <span>${label}</span>
+          </div>`).join("")}
+      </div>
+
+      <div class="card wide reveal">
+        <h3>Activity</h3>
+        <p class="desc">Every lesson you've finished, over the last six months.</p>
+        <div class="heat-scroll">
+          <div class="heatmap" role="img" aria-label="Activity over the last six months">
+            ${weeks.map(week=>`<div class="heat-week">${week.map(d=>{
+              const level = d.count === 0 ? 0 : Math.min(4, Math.ceil((d.count/peak)*4));
+              return `<span class="heat-day l${level}" title="${d.date}: ${d.count} lesson${d.count===1?"":"s"}"></span>`;
+            }).join("")}</div>`).join("")}
+          </div>
+        </div>
+        <div class="heat-key">
+          <span>Less</span>
+          ${[0,1,2,3,4].map(l=>`<span class="heat-day l${l}"></span>`).join("")}
+          <span>More</span>
+        </div>
+      </div>
+
+      <div class="card wide reveal">
+        <h3>Last 12 weeks</h3>
+        <div class="bars" role="img" aria-label="Lessons completed per week over the last twelve weeks">
+          ${last12.map((n,i)=>`
+            <div class="bar-col" title="${n} lesson${n===1?"":"s"}">
+              <div class="bar" style="height:${Math.max(3, Math.round((n/barPeak)*100))}%"></div>
+              <span>${i === 11 ? "now" : (12-i) + "w"}</span>
+            </div>`).join("")}
+        </div>
+      </div>
+
+      <div class="insight-grid">
+        <div class="card reveal">
+          <h3>By subject</h3>
+          ${s.bySubject.length ? s.bySubject.map(sub=>{
+            const pct = sub.total ? Math.round((sub.done/sub.total)*100) : 0;
+            return `
+              <div class="subject-row">
+                <div class="subject-top"><span>${escapeHtml(sub.subject)}</span><span>${pct}%</span></div>
+                <div class="subject-bar"><div style="width:${pct}%"></div></div>
+              </div>`;
+          }).join("") : `<p class="desc">No subjects yet.</p>`}
+        </div>
+
+        <div class="card reveal">
+          <h3>Totals</h3>
+          <div class="total-list">
+            ${[
+              ["Lessons completed", `${s.done} of ${s.total}`],
+              ["Video actually watched", `${Math.round(s.watchedMinutes/60)} h ${s.watchedMinutes%60} min`],
+              ["Finished this week", `${s.thisWeek}`],
+              ["Notes written", `${s.notes}`],
+              ["Recall cards", `${s.cards}`],
+              ["Active plans", `${state.plans.length}`],
+            ].map(([k,v])=>`<div class="total-row"><span>${k}</span><strong>${v}</strong></div>`).join("")}
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  attachReveals(container);
+  animateCounters(container);
+}
+
+/* ============================================================
+   Command palette
+============================================================ */
+let paletteOpen = false, paletteResults = [], paletteIndex = 0;
+
+/**
+ * Subsequence match: "clc" finds "Calculus". Returns a score so exact prefixes
+ * beat scattered letters, or -1 when it doesn't match at all.
+ */
+function fuzzyScore(needle, haystack){
+  const n = needle.toLowerCase(), h = haystack.toLowerCase();
+  if(!n) return 0;
+  if(h.startsWith(n)) return 1000 - h.length;
+  const direct = h.indexOf(n);
+  if(direct >= 0) return 600 - direct - h.length * 0.1;
+  let i = 0, score = 0, streak = 0;
+  for(let j = 0; j < h.length && i < n.length; j++){
+    if(h[j] === n[i]){
+      streak++; score += 10 + streak * 2;
+      if(j === 0 || h[j-1] === " ") score += 15;   // word starts count for more
+      i++;
+    }else streak = 0;
+  }
+  return i === n.length ? score - h.length * 0.05 : -1;
+}
+
+function paletteCommands(){
+  const items = [
+    {kind:"Go", label:"Home", icon:"home", run:()=>go("home")},
+    {kind:"Go", label:"Chat", icon:"chat", run:()=>go("chat")},
+    {kind:"Go", label:"Plans", icon:"clipboard", run:()=>go("plans")},
+    {kind:"Go", label:"Catalog", icon:"book", run:()=>go("catalog")},
+    {kind:"Go", label:"Today", icon:"calendar", run:()=>go("today")},
+    {kind:"Go", label:"Review", icon:"lightbulb", run:()=>go("review")},
+    {kind:"Go", label:"Insights", icon:"flame", run:()=>go("insights")},
+    {kind:"Go", label:"Settings", icon:"settings", run:()=>go("settings")},
+    {kind:"Do", label:"New learning plan", icon:"plus", run:openNewPlanModal},
+    {kind:"Do", label:"Toggle theme", icon:"moon", run:toggleTheme},
+    {kind:"Do", label:"Export all data", icon:"download", run:exportData},
+    {kind:"Do", label:"Keyboard shortcuts", icon:"wrench", run:openShortcutsModal},
+  ];
+  if(billingAvailable()) items.push({kind:"Do", label:"Subscription", icon:"sparkle", run:()=>go("upgrade")});
+
+  state.plans.forEach(plan=>{
+    items.push({
+      kind:"Plan", label: plan.title, icon:"clipboard",
+      hint: `${planProgress(plan).pct}% · ${plan.subject||""}`,
+      run: ()=>{ state.planDetailId = plan.id; go("plans"); },
+    });
+    items.push({
+      kind:"Do", label:`Add to calendar — ${plan.title}`, icon:"calendar",
+      run: ()=>downloadICS(plan.id),
+    });
+    (plan.weeks||[]).forEach(w=>(w.days||[]).forEach(d=>(d.classes||[]).forEach(c=>{
+      if(c.type === "rest") return;
+      items.push({
+        kind:"Lesson", label: c.title, icon: c.done ? "checkCircle" : "play",
+        hint: `${plan.title} · week ${w.weekNumber}`,
+        run: ()=>{ state.planDetailId = plan.id; state.openWeeks.add(weekKey(plan.id, w.weekNumber)); go("plans"); },
+      });
+    })));
+  });
+
+  if(courseData && Array.isArray(courseData.catalog)){
+    courseData.catalog.slice(0, 400).forEach(course=>{
+      items.push({
+        kind:"Course", label: course.title, icon:"book",
+        hint: course.subject || course.provider || "",
+        run: ()=>{ catalogQuery = course.title; go("catalog"); },
+      });
+    });
+  }
+  return items;
+}
+
+function go(view){
+  closePalette();
+  state.view = view;
+  if(view !== "plans") state.planDetailId = null;
+  location.hash = HASH_VIEWS.includes(view) ? "#" + view : "";
+  renderView();
+}
+
+function openPalette(){
+  if(paletteOpen) return;
+  paletteOpen = true;
+  const el = document.getElementById("palette");
+  el.hidden = false;
+  requestAnimationFrame(()=>el.classList.add("open"));
+  const input = document.getElementById("paletteInput");
+  input.value = "";
+  updatePalette("");
+  input.focus();
+}
+
+function closePalette(){
+  if(!paletteOpen) return;
+  paletteOpen = false;
+  const el = document.getElementById("palette");
+  el.classList.remove("open");
+  // Focus must leave the search field, or every keyboard shortcut afterwards
+  // sees an <input> as the target and bails out as "the user is typing".
+  const input = document.getElementById("paletteInput");
+  if(input && document.activeElement === input) input.blur();
+  setTimeout(()=>{ if(!paletteOpen) el.hidden = true; }, 160);
+}
+
+function updatePalette(query){
+  const all = paletteCommands();
+  paletteResults = (query
+    ? all.map(item=>({item, score: Math.max(
+        fuzzyScore(query, item.label),
+        item.hint ? fuzzyScore(query, item.hint) - 200 : -1,
+      )}))
+      .filter(r=>r.score >= 0)
+      .sort((a,b)=>b.score - a.score)
+      .map(r=>r.item)
+    : all.filter(i=>i.kind === "Go" || i.kind === "Do")
+  ).slice(0, 40);
+
+  paletteIndex = 0;
+  paintPalette();
+}
+
+function paintPalette(){
+  const list = document.getElementById("paletteList");
+  if(!paletteResults.length){
+    list.innerHTML = `<div class="palette-empty">Nothing matches that.</div>`;
+    return;
+  }
+  list.innerHTML = paletteResults.map((item, i)=>`
+    <button class="palette-item${i === paletteIndex ? " active" : ""}" data-i="${i}" role="option"
+      aria-selected="${i === paletteIndex}">
+      <span class="palette-ic">${icon(item.icon || "arrowRight","ic-sm")}</span>
+      <span class="palette-label">${escapeHtml(item.label)}</span>
+      ${item.hint ? `<span class="palette-hint">${escapeHtml(item.hint)}</span>` : ""}
+      <span class="palette-kind">${item.kind}</span>
+    </button>`).join("");
+  const active = list.querySelector(".palette-item.active");
+  if(active) active.scrollIntoView({block:"nearest"});
+}
+
+function movePalette(delta){
+  if(!paletteResults.length) return;
+  paletteIndex = (paletteIndex + delta + paletteResults.length) % paletteResults.length;
+  paintPalette();
+}
+
+function runPalette(index){
+  const item = paletteResults[index];
+  if(!item) return;
+  closePalette();
+  // Let the palette finish closing before a handler opens a modal, or focus
+  // lands back in the palette input as it disappears.
+  setTimeout(()=>item.run(), 60);
 }
 
 /* ============================================================
@@ -2393,6 +3338,7 @@ function renderPlanDetail(container, plan){
     const current = plan.weeks.find(w=>(w.days||[]).some(d=>computeDateForDay(plan, w.weekNumber, d.dayNumber) === todayStr));
     state.openWeeks.add(weekKey(plan.id, (current || plan.weeks[0]).weekNumber));
   }
+  const behind = overdueDays(plan);
   container.innerHTML = `
     <button class="btn small" data-action="back-to-plans" style="margin-bottom:16px;">${icon("arrowLeft","ic-sm")} Back to plans</button>
     <div class="detail-head">
@@ -2407,10 +3353,21 @@ function renderPlanDetail(container, plan){
           <input type="date" value="${plan.startDate}" data-action="set-start-date" data-id="${plan.id}" style="width:150px;">
         </div>
         <button class="btn small" data-action="open-plan-chat" data-id="${plan.id}">${icon("chat","ic-sm")} Chat about this plan</button>
+        <button class="btn small" data-action="export-ics" data-plan="${plan.id}" title="Add this plan to your calendar">${icon("calendar","ic-sm")} Calendar</button>
         <button class="btn small" data-action="print-plan">${icon("printer","ic-sm")} Print</button>
         <button class="btn small danger" data-action="delete-plan" data-id="${plan.id}">Delete</button>
       </div>
     </div>
+    ${behind.length ? `
+      <div class="catchup">
+        ${icon("hourglass","ic-sm")}
+        <div>
+          <strong>${behind.length} day${behind.length===1?"":"s"} behind.</strong>
+          Falling behind is the usual reason a plan gets abandoned — shift the remaining
+          schedule so the next unfinished day is today. Nothing is deleted and no progress is lost.
+        </div>
+        <button class="btn small primary" data-action="catch-up" data-plan="${plan.id}">Catch me up</button>
+      </div>` : ""}
     <div id="weeksWrap">${(plan.weeks||[]).map(w=>renderWeekBlock(plan, w)).join("") || `<p style="color:var(--text-faint);">No weeks generated yet — chat with Mindora to build this plan.</p>`}</div>
   `;
 }
@@ -2541,6 +3498,7 @@ function renderClassCard(plan, c){
     ? `<a class="btn small" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open ${icon("external","ic-sm")}</a>` : "";
   const attachBtn = (!media && c.type !== "rest")
     ? `<button class="btn small" data-action="attach-video" data-plan="${plan.id}" data-class="${c.id}" title="Pick a YouTube video to watch here">${icon("plus","ic-sm")} Video</button>` : "";
+  const noteCount = classNotes(c).length;
   return `
     <div class="class-card ${c.done?'done':''}" data-card="${c.id}">
       ${media}
@@ -2551,11 +3509,137 @@ function renderClassCard(plan, c){
       <div class="cc-controls">
         ${attachBtn}
         ${openExternal}
+        <button class="icon-btn sm${noteCount?" has-notes":""}" data-action="toggle-notes" data-class="${c.id}"
+          title="Notes" aria-label="Notes for ${escapeHtml(c.title)}">
+          ${icon("pencil","ic-sm")}${noteCount?`<span class="note-count">${noteCount}</span>`:""}
+        </button>
+        <button class="icon-btn sm" data-action="add-card" data-plan="${plan.id}" data-class="${c.id}"
+          title="Make a recall card" aria-label="Make a recall card from ${escapeHtml(c.title)}">${icon("lightbulb","ic-sm")}</button>
         ${editBtn}
         <input type="time" value="${c.completionTime||''}" data-action="set-completion" data-plan="${plan.id}" data-class="${c.id}" title="Notify me 10 & 5 min before this time">
         <input type="checkbox" class="chk" ${c.done?'checked':''} data-action="toggle-class-done" data-plan="${plan.id}" data-class="${c.id}" title="Mark done">
       </div>
+      <div class="notes-panel" data-notes-for="${c.id}" ${state.notesOpen.has(c.id)?"":"hidden"}>
+        ${renderNotesPanel(plan, c)}
+      </div>
     </div>`;
+}
+
+/**
+ * Notes for one lesson. When its video is open and playing, the composer
+ * stamps the current position, and each stamped note becomes a link that
+ * seeks the player back to that exact second.
+ */
+function renderNotesPanel(plan, c){
+  const notes = classNotes(c).slice().sort((a,b)=>{
+    // Timestamped notes read best in video order; typed ones follow, newest last.
+    if(a.at !== null && b.at !== null) return a.at - b.at;
+    if(a.at !== null) return -1;
+    if(b.at !== null) return 1;
+    return a.createdAt - b.createdAt;
+  });
+  return `
+    <div class="notes-list">
+      ${notes.length ? notes.map(n=>`
+        <div class="note">
+          ${n.at !== null ? `<button class="note-at" data-action="seek-note" data-class="${c.id}" data-at="${n.at}"
+            title="Jump to ${fmtClock(n.at)}">${fmtClock(n.at)}</button>` : `<span class="note-at plain">—</span>`}
+          <span class="note-text">${escapeHtml(n.text)}</span>
+          <button class="icon-btn xs" data-action="delete-note" data-class="${c.id}" data-note="${n.id}"
+            title="Delete note" aria-label="Delete note">${icon("x","ic-sm")}</button>
+        </div>`).join("") : `<p class="desc note-empty">No notes yet. While a video plays, anything you write here is stamped with the moment you wrote it.</p>`}
+    </div>
+    <div class="note-compose">
+      <input type="text" class="note-input" data-note-input="${c.id}"
+        placeholder="Write a note${inlinePlayers.has(c.id)?" — timestamped automatically":""}…" autocomplete="off">
+      <button class="btn small primary" data-action="save-note" data-plan="${plan.id}" data-class="${c.id}">Add</button>
+    </div>`;
+}
+
+function toggleNotes(classId){
+  if(state.notesOpen.has(classId)) state.notesOpen.delete(classId);
+  else state.notesOpen.add(classId);
+  const panel = document.querySelector(`[data-notes-for="${classId}"]`);
+  if(panel){
+    // Toggled in place rather than via renderView, so an open video keeps playing.
+    panel.hidden = !state.notesOpen.has(classId);
+    if(!panel.hidden){
+      const input = panel.querySelector(".note-input");
+      if(input) input.focus();
+    }
+  }else{
+    renderView();
+  }
+}
+
+function saveNoteFromField(planId, classId){
+  const input = document.querySelector(`[data-note-input="${classId}"]`);
+  if(!input || !input.value.trim()) return;
+  const at = playerSeconds(classId);
+  const note = addClassNote(planId, classId, input.value, at);
+  input.value = "";
+  paintNotes(classId);
+  if(note && note.at !== null) toast(`Note saved at ${fmtClock(note.at)}`, "success");
+}
+
+/** Repaint one lesson's notes without a full re-render, so video keeps playing. */
+function paintNotes(classId){
+  const found = findClassAnywhere(classId);
+  const panel = document.querySelector(`[data-notes-for="${classId}"]`);
+  if(!found || !panel) return;
+  panel.innerHTML = renderNotesPanel(found.plan, found.c);
+  const input = panel.querySelector(".note-input");
+  if(input) input.focus();
+  // The count badge lives outside the panel, so update it separately.
+  const badge = document.querySelector(`[data-action="toggle-notes"][data-class="${classId}"]`);
+  if(badge){
+    const n = classNotes(found.c).length;
+    badge.classList.toggle("has-notes", n > 0);
+    const chip = badge.querySelector(".note-count");
+    if(n && chip) chip.textContent = n;
+    else if(n && !chip) badge.insertAdjacentHTML("beforeend", `<span class="note-count">${n}</span>`);
+    else if(!n && chip) chip.remove();
+  }
+}
+
+function openAddCardModal(planId, classId){
+  const found = classId ? findClassAnywhere(classId) : null;
+  const suggested = found ? found.c.title : "";
+  document.getElementById("modalRoot").innerHTML = `
+    <div class="modal-backdrop" data-action="close-modal">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cardTitle" tabindex="-1"
+        onclick="event.stopPropagation()">
+        <h2 id="cardTitle">New recall card</h2>
+        <p class="desc">Ask yourself something you'd want to still know in a month. Mindora
+        schedules it to come back just before you'd forget.</p>
+        <div class="field">
+          <label for="cardFront">Question</label>
+          <textarea id="cardFront" rows="2" placeholder="What does ${escapeHtml(suggested||"this concept")} actually mean?"></textarea>
+        </div>
+        <div class="field">
+          <label for="cardBack">Answer</label>
+          <textarea id="cardBack" rows="3" placeholder="In your own words — that's what makes it stick."></textarea>
+        </div>
+        <div class="modal-actions">
+          <button class="btn" data-action="close-modal">Cancel</button>
+          <button class="btn primary" id="btnSaveCard">Add card</button>
+        </div>
+      </div>
+    </div>`;
+  setupModalA11y();
+  const front = document.getElementById("cardFront");
+  front.focus();
+  document.getElementById("btnSaveCard").onclick = ()=>{
+    const back = document.getElementById("cardBack");
+    if(!front.value.trim() || !back.value.trim()){
+      toast("A card needs both a question and an answer.", "error");
+      return;
+    }
+    addCard(planId, {front: front.value, back: back.value, classId});
+    closeModal();
+    toast("Card added — it's due for review now.", "success");
+    renderSidebar();
+  };
 }
 
 /* ============================================================
@@ -3479,6 +4563,102 @@ function closeModal(){
   lastFocusedBeforeModal = null;
 }
 
+function openShortcutsModal(){
+  const rows = [
+    ["⌘K / Ctrl K", "Search everything"],
+    ["G then H", "Home"],
+    ["G then T", "Today"],
+    ["G then P", "Plans"],
+    ["G then C", "Catalog"],
+    ["G then R", "Review"],
+    ["G then I", "Insights"],
+    ["N", "New learning plan"],
+    ["Space", "Reveal answer while reviewing"],
+    ["1 – 4", "Grade a card: again, hard, good, easy"],
+    ["?", "This list"],
+    ["Esc", "Close anything open"],
+  ];
+  document.getElementById("modalRoot").innerHTML = `
+    <div class="modal-backdrop" data-action="close-modal">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="scTitle" tabindex="-1"
+        onclick="event.stopPropagation()">
+        <h2 id="scTitle">Keyboard shortcuts</h2>
+        <div class="shortcut-list">
+          ${rows.map(([keys,what])=>`
+            <div class="shortcut-row">
+              <span>${what}</span>
+              <span>${keys.split(" ").map(k=>
+                ["then","/","–"].includes(k) ? `<em>${k}</em>` : `<kbd>${escapeHtml(k)}</kbd>`
+              ).join(" ")}</span>
+            </div>`).join("")}
+        </div>
+        <div class="modal-actions"><button class="btn primary" data-action="close-modal">Got it</button></div>
+      </div>
+    </div>`;
+  setupModalA11y();
+}
+
+/* ============================================================
+   Keyboard shortcuts
+
+   Anything typed into a field belongs to that field, so every handler bails
+   out on an editable target first. Without that, typing "n" in a note would
+   open the new-plan modal.
+============================================================ */
+let chordPending = false, chordTimer = null;
+
+function isTyping(target){
+  const el = target || document.activeElement;
+  if(!el) return false;
+  return el.isContentEditable || ["INPUT","TEXTAREA","SELECT"].includes(el.tagName);
+}
+
+document.addEventListener("keydown", e=>{
+  // The palette is modal: it owns the keyboard while open.
+  if(paletteOpen){
+    if(e.key === "Escape"){ e.preventDefault(); closePalette(); }
+    else if(e.key === "ArrowDown"){ e.preventDefault(); movePalette(1); }
+    else if(e.key === "ArrowUp"){ e.preventDefault(); movePalette(-1); }
+    else if(e.key === "Enter"){ e.preventDefault(); runPalette(paletteIndex); }
+    return;
+  }
+
+  if((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k"){
+    e.preventDefault();
+    openPalette();
+    return;
+  }
+
+  if(e.metaKey || e.ctrlKey || e.altKey || isTyping(e.target)) return;
+
+  // Two-key chords: G then a destination, the way Gmail and GitHub do it.
+  if(chordPending){
+    const dest = {h:"home", t:"today", p:"plans", c:"catalog", r:"review", i:"insights", s:"settings"}[e.key.toLowerCase()];
+    clearTimeout(chordTimer);
+    chordPending = false;
+    if(dest){ e.preventDefault(); go(dest); }
+    return;
+  }
+
+  if(e.key.toLowerCase() === "g"){
+    chordPending = true;
+    chordTimer = setTimeout(()=>{ chordPending = false; }, 1200);
+    return;
+  }
+
+  if(e.key === "?"){ e.preventDefault(); openShortcutsModal(); return; }
+  if(e.key.toLowerCase() === "n" && !document.querySelector(".modal")){ e.preventDefault(); openNewPlanModal(); return; }
+
+  if(state.view === "review"){
+    if(e.key === " " && !reviewRevealed && reviewQueue[reviewIndex]){
+      e.preventDefault(); reviewRevealed = true; renderView(); return;
+    }
+    if(reviewRevealed && ["1","2","3","4"].includes(e.key)){
+      e.preventDefault(); submitGrade(Number(e.key) - 1); return;
+    }
+  }
+});
+
 /* ============================================================
    Global event delegation
 ============================================================ */
@@ -3541,7 +4721,12 @@ document.addEventListener("click", e=>{
     const plan = getPlan(action.dataset.plan);
     const cls = findClass(plan, action.dataset.class);
     if(cls){
-      cls.done = !cls.done; plan.updatedAt=Date.now(); persistPlans();
+      cls.done = !cls.done;
+      // When it was actually ticked. Distinct from completionTime, which is a
+      // clock time like "14:30" used for reminders — reading that as a date
+      // would put every completion on the same wrong day in the charts.
+      cls.doneAt = cls.done ? Date.now() : null;
+      plan.updatedAt=Date.now(); persistPlans();
       // A full re-render would rebuild any open <iframe> and restart the video,
       // so while one is playing, patch just the affected bits of the DOM instead.
       if(state.inlineOpen.size) patchDoneInPlace(action, cls, plan);
@@ -3558,6 +4743,25 @@ document.addEventListener("click", e=>{
   else if(act==="set-theme"){ state.settings.theme = action.dataset.theme; persistSettings(); applyTheme(); renderView(); }
   else if(act==="enable-notifs"){ requestNotifPermission(); }
   else if(act==="watch-class"){ openWatchModal(action.dataset.plan, action.dataset.class); }
+  else if(act==="grade-card"){ submitGrade(Number(action.dataset.q)); }
+  else if(act==="delete-card"){ deleteCard(action.dataset.plan, action.dataset.card); renderView(); }
+  else if(act==="add-card"){ openAddCardModal(action.dataset.plan, action.dataset.class); }
+  else if(act==="toggle-notes"){ toggleNotes(action.dataset.class); }
+  else if(act==="save-note"){ saveNoteFromField(action.dataset.plan, action.dataset.class); }
+  else if(act==="delete-note"){ deleteClassNote(action.dataset.class, action.dataset.note); paintNotes(action.dataset.class); }
+  else if(act==="seek-note"){
+    const at = Number(action.dataset.at);
+    if(!seekPlayer(action.dataset.class, at)){
+      toast("Open the video first, then the timestamp will jump straight there.", "info");
+    }
+  }
+  else if(act==="export-ics"){ downloadICS(action.dataset.plan); }
+  else if(act==="catch-up"){
+    const moved = catchUpPlan(action.dataset.plan);
+    if(moved) toast(`Schedule shifted ${moved} day${Math.abs(moved)===1?"":"s"} — you're back on track.`, "success");
+    renderView();
+  }
+  else if(act==="open-palette"){ openPalette(); }
   else if(act==="pick-plan"){ pickPlan(action.dataset.plan); }
   else if(act==="pick-method"){ pickMethod(action.dataset.method); }
   else if(act==="copy-account"){
@@ -4018,6 +5222,7 @@ function maybeAutoComplete(classId, player){
   }catch(e){}
   const {plan, c} = found;
   c.done = true;
+  c.doneAt = Date.now();
   c.watchPct = 1;
   plan.updatedAt = Date.now();
   persistPlans();
@@ -4393,7 +5598,7 @@ function closeMobileSidebar(){}
 
 /* Deep links: the installed-app shortcuts in manifest.json point at
    #today / #plans / #catalog, and sharing a URL should land where expected. */
-const HASH_VIEWS = ["home","chat","plans","catalog","today","settings","upgrade"];
+const HASH_VIEWS = ["home","chat","plans","catalog","today","settings","upgrade","review","insights"];
 function viewFromHash(){
   const wanted = (location.hash||"").replace(/^#/,"").toLowerCase();
   return HASH_VIEWS.includes(wanted) ? wanted : null;
@@ -4407,6 +5612,28 @@ function applyHashRoute(){
   }
 }
 window.addEventListener("hashchange", applyHashRoute);
+
+// --- palette wiring ---
+(function wirePalette(){
+  const overlay = document.getElementById("palette");
+  const input = document.getElementById("paletteInput");
+  const list = document.getElementById("paletteList");
+
+  input.addEventListener("input", ()=>updatePalette(input.value.trim()));
+  // Clicking the backdrop dismisses; clicking inside the box must not.
+  overlay.addEventListener("click", e=>{ if(e.target === overlay) closePalette(); });
+  list.addEventListener("click", e=>{
+    const item = e.target.closest(".palette-item");
+    if(item) runPalette(Number(item.dataset.i));
+  });
+  list.addEventListener("mousemove", e=>{
+    const item = e.target.closest(".palette-item");
+    if(item && Number(item.dataset.i) !== paletteIndex){
+      paletteIndex = Number(item.dataset.i);
+      paintPalette();
+    }
+  });
+})();
 
 fillIconSlots();
 applyTheme();
