@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mindora — Payments</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#08060f">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<style>
+  :root{
+    --bg:#f7f7fb; --panel:#fff; --surface:#f1f1f7; --text:#12121a; --muted:#565673;
+    --line:rgba(18,18,26,.12); --accent:#2b4acb; --success:#059669; --danger:#dc2626; --gold:#b45309;
+    --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#08060f; --panel:#100d1c; --surface:#171327; --text:#eceaf5; --muted:#a09cba;
+      --line:rgba(255,255,255,.11); --accent:#5b8cff; --success:#34d399; --danger:#fb7185; --gold:#fbbf24;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--bg); color:var(--text);
+    font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);}
+  .wrap{max-width:1080px; margin:0 auto; padding:32px 20px 80px}
+  header{display:flex; align-items:center; gap:13px; margin-bottom:26px; flex-wrap:wrap}
+  header img{width:40px; height:40px; background:#fff; border-radius:11px; padding:5px}
+  h1{font-size:21px; margin:0; letter-spacing:-.3px}
+  .sub{font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:var(--muted)}
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:18px; margin-bottom:16px}
+  label{display:block; font-size:12px; color:var(--muted); margin-bottom:6px}
+  input{width:100%; padding:11px 13px; border-radius:10px; border:1px solid var(--line);
+    background:var(--surface); color:var(--text); font:inherit}
+  input:focus{outline:2px solid var(--accent); outline-offset:1px}
+  .row{display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end}
+  .row>div{flex:1 1 240px}
+  button{font:inherit; font-weight:600; cursor:pointer; border-radius:10px; padding:11px 16px;
+    border:1px solid var(--line); background:var(--surface); color:var(--text)}
+  button.primary{background:var(--accent); border-color:transparent; color:#fff}
+  button.ok{background:var(--success); border-color:transparent; color:#fff}
+  button.no{background:transparent; border-color:var(--danger); color:var(--danger)}
+  button:disabled{opacity:.55; cursor:not-allowed}
+  .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px}
+  .stat{background:var(--surface); border-radius:11px; padding:14px}
+  .stat b{display:block; font-size:26px; letter-spacing:-1px}
+  .stat span{font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+  .pay{border:1px solid var(--line); border-radius:12px; padding:15px; margin-bottom:11px; background:var(--surface)}
+  .pay-top{display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:baseline}
+  .ref{font-family:var(--mono); font-size:15px; font-weight:700}
+  .meta{font-size:13px; color:var(--muted); margin:6px 0 12px}
+  .meta code{font-family:var(--mono); background:var(--panel); padding:1px 6px; border-radius:5px}
+  .tag{font-size:10px; letter-spacing:.12em; text-transform:uppercase; padding:3px 9px; border-radius:99px;
+    border:1px solid currentColor}
+  .tag.pending{color:var(--gold)} .tag.approved{color:var(--success)} .tag.rejected{color:var(--danger)}
+  .tabs{display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap}
+  .tabs button.on{background:var(--accent); border-color:transparent; color:#fff}
+  .msg{font-size:14px; margin-top:12px}
+  .empty{color:var(--muted); text-align:center; padding:34px 0}
+  .warn{border-left:3px solid var(--gold); padding-left:12px; font-size:13px; color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <img src="icon.svg" width="40" height="40" alt="">
+    <div><h1>Payments</h1><div class="sub">Mindora owner console</div></div>
+  </header>
+
+  <div class="card">
+    <div class="row">
+      <div>
+        <label for="server">Server URL</label>
+        <input id="server" placeholder="https://your-app.onrender.com" autocomplete="off">
+      </div>
+      <div>
+        <label for="token">Admin token</label>
+        <input id="token" type="password" placeholder="ADMIN_TOKEN" autocomplete="off">
+      </div>
+      <button class="primary" id="connect">Connect</button>
+    </div>
+    <p class="warn" style="margin:14px 0 0;">
+      Kept in this browser's local storage only, never sent anywhere but your own server.
+      Use a private browser profile on a shared computer.
+    </p>
+    <div class="msg" id="msg"></div>
+  </div>
+
+  <div class="card" id="statsCard" hidden>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <div id="listCard" hidden>
+    <div class="tabs">
+      <button data-filter="pending" class="on">Pending</button>
+      <button data-filter="approved">Approved</button>
+      <button data-filter="rejected">Rejected</button>
+      <button data-filter="">All</button>
+      <button id="refresh">Refresh</button>
+    </div>
+    <div id="list"></div>
+  </div>
+
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const LS = "mindora_admin";
+let filter = "pending";
+
+const saved = JSON.parse(localStorage.getItem(LS) || "{}");
+$("server").value = saved.server || "";
+$("token").value = saved.token || "";
+
+const base = () => $("server").value.trim().replace(/\/+$/, "");
+const headers = () => ({ "x-atlas-admin": $("token").value.trim(), "content-type": "application/json" });
+
+function say(text, bad) {
+  $("msg").textContent = text;
+  $("msg").style.color = bad ? "var(--danger)" : "var(--success)";
+}
+
+const escapeHtml = (s) =>
+  String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+const money = (minor, ccy) =>
+  (ccy === "BDT" ? "৳" : ccy === "USD" ? "$" : "") + (minor / 100).toFixed(2) + (ccy === "BDT" || ccy === "USD" ? "" : " " + ccy);
+
+const when = (ts) => (ts ? new Date(ts * 1000).toLocaleString() : "—");
+
+async function api(path, options) {
+  const r = await fetch(base() + path, { ...options, headers: headers() });
+  if (r.status === 401) throw new Error("Wrong admin token.");
+  if (r.status === 503) throw new Error("ADMIN_TOKEN isn't set on the server.");
+  if (!r.ok) throw new Error("Server replied " + r.status);
+  return r.json();
+}
+
+async function load() {
+  try {
+    localStorage.setItem(LS, JSON.stringify({ server: base(), token: $("token").value.trim() }));
+
+    const summary = await api("/api/admin/summary");
+    const b = summary.billing;
+    $("stats").innerHTML = `
+      <div class="stat"><b>${b.pendingPayments}</b><span>Pending</span></div>
+      <div class="stat"><b>${b.activeSubscribers}</b><span>Subscribers</span></div>
+      <div class="stat"><b>${b.approvedPayments}</b><span>Payments</span></div>
+      <div class="stat"><b>${money(b.revenueMinor, "BDT")}</b><span>Revenue</span></div>
+      <div class="stat"><b>${summary.quota.used}/${summary.quota.cap}</b><span>Chat today</span></div>`;
+    $("statsCard").hidden = false;
+
+    const { payments } = await api("/api/admin/payments" + (filter ? "?status=" + filter : ""));
+    $("list").innerHTML = payments.length
+      ? payments.map(render).join("")
+      : `<div class="card empty">Nothing ${filter ? "with status “" + filter + "”" : "yet"}.</div>`;
+    $("listCard").hidden = false;
+    say(`Loaded ${payments.length} payment${payments.length === 1 ? "" : "s"}.`);
+  } catch (e) {
+    say(e.message, true);
+  }
+}
+
+function render(p) {
+  return `
+    <div class="pay">
+      <div class="pay-top">
+        <span class="ref">${escapeHtml(p.reference)}</span>
+        <span class="tag ${p.status}">${p.status}</span>
+      </div>
+      <div class="meta">
+        ${money(p.amount_minor, p.currency)} · ${escapeHtml(p.plan)} · via <strong>${escapeHtml(p.method)}</strong><br>
+        ${p.sender ? "From <code>" + escapeHtml(p.sender) + "</code> · " : ""}submitted ${when(p.created_at)}
+        ${p.reviewed_at ? " · reviewed " + when(p.reviewed_at) : ""}
+        ${p.note ? "<br>Note: " + escapeHtml(p.note) : ""}
+      </div>
+      ${p.status === "pending" ? `
+        <div class="row">
+          <button class="ok" data-approve="${p.id}">Approve</button>
+          <button class="no" data-reject="${p.id}">Reject</button>
+        </div>` : ""}
+    </div>`;
+}
+
+async function review(id, action) {
+  // Approving moves real money's worth of access, and there is no undo in the
+  // API — so make the operator say yes on purpose.
+  const note = action === "reject" ? prompt("Reason for rejecting (optional):") ?? "" : "";
+  if (action === "approve" && !confirm("Confirm this transaction arrived in your account?")) return;
+  try {
+    await api("/api/admin/payments/" + id, { method: "POST", body: JSON.stringify({ action, note }) });
+    say(action === "approve" ? "Approved — subscription is live." : "Rejected.");
+    load();
+  } catch (e) {
+    say(e.message, true);
+  }
+}
+
+$("connect").onclick = load;
+$("refresh").onclick = load;
+$("token").addEventListener("keydown", (e) => { if (e.key === "Enter") load(); });
+
+document.querySelectorAll("[data-filter]").forEach((b) => {
+  b.onclick = () => {
+    filter = b.dataset.filter;
+    document.querySelectorAll("[data-filter]").forEach((x) => x.classList.toggle("on", x === b));
+    load();
+  };
+});
+
+$("list").addEventListener("click", (e) => {
+  const approve = e.target.closest("[data-approve]");
+  const reject = e.target.closest("[data-reject]");
+  if (approve) review(approve.dataset.approve, "approve");
+  if (reject) review(reject.dataset.reject, "reject");
+});
+
+if (saved.server && saved.token) load();
+</script>
+</body>
+</html>

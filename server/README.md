@@ -16,6 +16,86 @@ their own key and their own Drive. This is purely additive.
 > Anthropic account. The caps below exist because a public URL will eventually
 > be found and scripted against. Read them before deploying.
 
+## Subscriptions
+
+Chat is the paid feature. Plans, the catalog, progress tracking and offline
+access stay free — the paywall exists because every chat message bills to your
+Anthropic account.
+
+**The paywall is enforced here, not in the browser.** The client hides the chat
+box when someone isn't subscribed, but that is only cosmetic — anyone can edit
+the page they are holding. `/api/chat` returns `402` unless the server itself
+sees an entitlement, which is the check that actually protects your credit.
+
+| Env var | Default | What it does |
+|---|---|---|
+| `FREE_ACCESS_CODE` | `Nafia is my Sister` | Unlocks Pro permanently, free. Matching ignores case and extra spaces |
+| `FREE_TRIAL_MESSAGES` | `0` | Messages allowed before paying. `0` is a strict paywall |
+| `PRICE_MONTHLY` | `499` | Price in whole currency units |
+| `PRICE_YEARLY` | `4499` | Price in whole currency units |
+| `CURRENCY` | `BDT` | Shown at checkout |
+| `ADMIN_TOKEN` | *(empty)* | **Required** to approve payments. Empty = admin API returns 503 |
+
+The access code is a **shared secret with no per-person revocation**: once you
+give it to someone, they can give it to anyone. Treat it as "free for people I
+tell", not as a licence key. Rotate it by changing `FREE_ACCESS_CODE` — that
+instantly stops new redemptions, though it does not revoke access already
+granted (use the admin API for that). Guessing is capped at 8 attempts per
+visitor per hour.
+
+### Payment rails
+
+Set only the ones you actually accept; the rest are hidden at checkout.
+
+| Env var | Example |
+|---|---|
+| `PAY_BKASH` | `01712345678` |
+| `PAY_NAGAD` | `01812345678` |
+| `PAY_ROCKET` | `01912345678` |
+| `PAY_BANK` | `City Bank · 1234567890` |
+| `PAY_GPAY` | `you@okaxis` |
+
+**These are manual, not automated.** bKash, Nagad and Rocket only issue
+merchant API credentials to registered businesses (trade licence, TIN, company
+bank account), which is a slow process and out of reach on day one. So:
+
+1. The buyer sends you money and gets a TrxID from their confirmation SMS.
+2. They submit that TrxID in the app. Their status becomes **pending** — this
+   grants nothing, because a claim is not a payment.
+3. You check it against your own bKash/bank statement.
+4. You approve it in the admin console, which activates their subscription.
+
+A TrxID can only be submitted once, so one real payment can't be recycled into
+several subscriptions by people sharing a reference. Rejected references are
+freed for resubmission, so an honest typo isn't fatal.
+
+When you do get merchant API access, the automated version replaces step 3 —
+call `billing.review(payment_id, approve=True, ...)` from a gateway webhook
+instead of from the console. Nothing else changes.
+
+### Approving payments
+
+Open `admin.html` from the repo, enter your server URL and `ADMIN_TOKEN`. It
+shows pending payments, revenue and active subscriber counts, and approves or
+rejects with one click. The token is kept in that browser's local storage and
+sent only to your own server — use a private profile on a shared machine.
+
+> **Verify before approving.** The server cannot tell whether money actually
+> arrived; it only records what the buyer typed. Approving without checking
+> your statement is how you give away subscriptions.
+
+### Selling inside the mobile apps
+
+You cannot, not this way. Apple's Guideline 3.1.1 and Google Play's Billing
+policy both require digital subscriptions consumed in the app to go through
+**their** in-app purchase systems, which take 15–30%. A bKash flow inside the
+iOS app is a guaranteed rejection.
+
+The app already handles this: the upgrade screen is hidden in the packaged
+mobile shell, and the web build sells normally. Subscriptions bought on the web
+still work everywhere, because entitlement follows the visitor token. To sell
+on mobile you would need to add StoreKit and Play Billing as separate rails.
+
 ## Spend controls
 
 | Env var | Default | What it does |

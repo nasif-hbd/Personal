@@ -12,6 +12,7 @@ refresh token are read from the environment and are never sent to a browser.
 """
 from __future__ import annotations
 
+import hmac
 import json
 
 import requests
@@ -20,6 +21,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel, Field
 
+from .billing import METHODS, Billing
 from .config import settings
 from .identity import new_visitor_id, sign, storage_key, verify
 from .limits import Quota
@@ -27,6 +29,7 @@ from .storage import StorageError, build_storage
 
 ANTHROPIC_URL = "https://api.anthropic.com/v1/messages"
 VISITOR_HEADER = "x-atlas-visitor"
+ADMIN_HEADER = "x-atlas-admin"
 
 app = FastAPI(title="Mindora backend", docs_url=None, redoc_url=None)
 app.add_middleware(
@@ -34,7 +37,7 @@ app.add_middleware(
     allow_origins=settings.allowed_origins,
     allow_credentials=False,
     allow_methods=["GET", "PUT", "POST", "OPTIONS"],
-    allow_headers=["content-type", VISITOR_HEADER, "x-atlas-code"],
+    allow_headers=["content-type", VISITOR_HEADER, "x-atlas-code", ADMIN_HEADER],
     expose_headers=[VISITOR_HEADER],
 )
 
@@ -45,6 +48,7 @@ quota = Quota(
     per_minute_cap=settings.per_minute_cap,
 )
 store = build_storage(settings)
+billing = Billing(settings.db_path, access_code=settings.free_access_code)
 
 
 def _secret() -> str:
@@ -69,6 +73,35 @@ def check_access_code(provided: str | None) -> None:
         raise HTTPException(401, "This app needs an access code.")
 
 
+def require_admin(token: str | None) -> None:
+    """Owner-only endpoints. Without a configured token they stay shut.
+
+    Defaulting to closed matters: an admin API that is open when unconfigured
+    would let anyone approve their own payment the moment the server deploys.
+    """
+    if not settings.admin_token:
+        raise HTTPException(503, "Admin API is disabled — set ADMIN_TOKEN to enable it.")
+    if not hmac.compare_digest(token or "", settings.admin_token):
+        raise HTTPException(401, "Not authorised.")
+
+
+def subscription_gate(visitor: str) -> bool:
+    """Refuse chat unless this visitor has paid, redeemed a code, or has trial
+    messages left. This is the paywall — the client-side one is only cosmetic.
+
+    Returns True when the request is being served from the free trial, so the
+    caller knows to burn one.
+    """
+    if billing.entitlement(visitor).active:
+        return False
+    if settings.free_trial_messages and billing.trial_used(visitor) < settings.free_trial_messages:
+        return True
+    raise HTTPException(
+        402,
+        "The Mindora assistant is part of a subscription. Subscribe, or enter your free-access code.",
+    )
+
+
 class ChatRequest(BaseModel):
     messages: list[dict] = Field(default_factory=list)
     system: str | list | None = None
@@ -85,6 +118,11 @@ def health():
         "storage": store.backend,
         "quota": quota.stats(),
         "accessCode": bool(settings.access_code),
+        "billing": {
+            "enabled": bool(settings.pay_accounts),
+            "currency": settings.currency,
+            "trialMessages": settings.free_trial_messages,
+        },
     }
 
 
@@ -99,6 +137,7 @@ def chat(
         raise HTTPException(503, "Chat is not configured on this server.")
     check_access_code(x_atlas_code)
     visitor, token = resolve_visitor(x_atlas_visitor)
+    on_trial = subscription_gate(visitor)
 
     verdict = quota.check(visitor)
     if not verdict.allowed:
@@ -130,6 +169,8 @@ def chat(
         ]
 
     quota.consume(visitor)
+    if on_trial:
+        billing.consume_trial(visitor)
 
     def stream():
         try:
@@ -156,6 +197,128 @@ def chat(
         media_type="text/event-stream",
         headers={VISITOR_HEADER: token, "Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
     )
+
+
+# --- billing -------------------------------------------------------------
+
+
+@app.get("/api/billing/config")
+def billing_config():
+    """Everything the checkout screen needs. Deliberately contains no secrets:
+    the receiving account numbers are meant to be shown to buyers."""
+    accounts = settings.pay_accounts
+    return {
+        "currency": settings.currency,
+        "plans": list(settings.plans.values()),
+        "methods": [
+            {"id": key, **METHODS[key], "account": accounts[key]}
+            for key in METHODS if key in accounts
+        ],
+        "trialMessages": settings.free_trial_messages,
+        "codeEnabled": bool(settings.free_access_code),
+    }
+
+
+@app.get("/api/billing/entitlement")
+def get_entitlement(response: Response, x_atlas_visitor: str | None = Header(default=None)):
+    visitor, token = resolve_visitor(x_atlas_visitor)
+    response.headers[VISITOR_HEADER] = token
+    data = billing.entitlement(visitor).as_dict()
+    data["trialRemaining"] = max(0, settings.free_trial_messages - billing.trial_used(visitor))
+    return data
+
+
+class RedeemBody(BaseModel):
+    code: str = ""
+
+
+@app.post("/api/billing/redeem")
+def redeem(body: RedeemBody, response: Response, x_atlas_visitor: str | None = Header(default=None)):
+    visitor, token = resolve_visitor(x_atlas_visitor)
+    response.headers[VISITOR_HEADER] = token
+    ok, message = billing.redeem(visitor, body.code)
+    if not ok:
+        return JSONResponse(
+            {"ok": False, "message": message}, status_code=400, headers={VISITOR_HEADER: token}
+        )
+    return {"ok": True, "message": message, "entitlement": billing.entitlement(visitor).as_dict()}
+
+
+class ClaimBody(BaseModel):
+    plan: str
+    method: str
+    reference: str
+    sender: str = ""
+
+
+@app.post("/api/billing/claim")
+def claim(body: ClaimBody, response: Response, x_atlas_visitor: str | None = Header(default=None)):
+    visitor, token = resolve_visitor(x_atlas_visitor)
+    response.headers[VISITOR_HEADER] = token
+
+    plan = settings.plans.get(body.plan)
+    if not plan:
+        raise HTTPException(400, "Unknown plan.")
+    if body.method not in METHODS or body.method not in settings.pay_accounts:
+        raise HTTPException(400, "That payment method isn't available.")
+
+    # The amount comes from the server's price list, never from the client —
+    # otherwise a buyer could claim to have paid one taka for a year.
+    ok, payment_id, message = billing.claim(
+        visitor,
+        plan=body.plan,
+        method=body.method,
+        amount_minor=plan["price"] * 100,
+        currency=plan["currency"],
+        reference=body.reference,
+        sender=body.sender,
+    )
+    if not ok:
+        return JSONResponse(
+            {"ok": False, "message": message}, status_code=400, headers={VISITOR_HEADER: token}
+        )
+    return {"ok": True, "id": payment_id, "message": message,
+            "entitlement": billing.entitlement(visitor).as_dict()}
+
+
+# --- owner-only ----------------------------------------------------------
+
+
+@app.get("/api/admin/summary")
+def admin_summary(x_atlas_admin: str | None = Header(default=None)):
+    require_admin(x_atlas_admin)
+    return {"billing": billing.summary(), "quota": quota.stats()}
+
+
+@app.get("/api/admin/payments")
+def admin_payments(status: str = "", x_atlas_admin: str | None = Header(default=None)):
+    require_admin(x_atlas_admin)
+    return {"payments": billing.payments(status=status)}
+
+
+class ReviewBody(BaseModel):
+    action: str          # "approve" | "reject"
+    note: str = ""
+
+
+@app.post("/api/admin/payments/{payment_id}")
+def admin_review(payment_id: str, body: ReviewBody, x_atlas_admin: str | None = Header(default=None)):
+    require_admin(x_atlas_admin)
+    if body.action not in ("approve", "reject"):
+        raise HTTPException(400, "action must be approve or reject.")
+
+    records = [p for p in billing.payments(limit=1000) if p["id"] == payment_id]
+    if not records:
+        raise HTTPException(404, "No such payment.")
+    plan = settings.plans.get(records[0]["plan"])
+    days = plan["days"] if plan else 30
+
+    ok, message = billing.review(
+        payment_id, approve=body.action == "approve", days=days, note=body.note
+    )
+    if not ok:
+        raise HTTPException(409, message)
+    return {"ok": True, "message": message}
 
 
 @app.get("/api/state")

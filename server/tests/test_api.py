@@ -22,6 +22,10 @@ def client(tmp_path, monkeypatch):
     monkeypatch.setenv("PER_VISITOR_DAILY_CAP", "2")
     monkeypatch.setenv("PER_MINUTE_CAP", "99")
     monkeypatch.setenv("ALLOWED_MODELS", "claude-sonnet-5")
+    # These tests are about the proxy, not the paywall, so give them trial
+    # credit rather than threading a subscription through every case. The
+    # paywall itself is covered by test_paywall_* below and test_billing.py.
+    monkeypatch.setenv("FREE_TRIAL_MESSAGES", "50")
     monkeypatch.chdir(tmp_path)          # LocalStorage writes here
 
     from app import config, main
@@ -146,6 +150,7 @@ def test_access_code_gate(tmp_path, monkeypatch):
     monkeypatch.setenv("SECRET_KEY", "s")
     monkeypatch.setenv("DB_PATH", str(tmp_path / "c.db"))
     monkeypatch.setenv("ACCESS_CODE", "letmein")
+    monkeypatch.setenv("FREE_TRIAL_MESSAGES", "5")   # isolate the code gate from the paywall
     monkeypatch.chdir(tmp_path)
     from app import config, main
     importlib.reload(config)
@@ -158,3 +163,126 @@ def test_access_code_gate(tmp_path, monkeypatch):
                     json={"messages": [{"role": "user", "content": "x"}]},
                     headers={"x-atlas-code": "letmein"})
     assert ok.status_code == 200
+
+
+# --- paywall -------------------------------------------------------------
+
+
+@pytest.fixture()
+def paid_client(tmp_path, monkeypatch):
+    """A server with a strict paywall: no trial, code and payments enabled."""
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-test-not-real")
+    monkeypatch.setenv("SECRET_KEY", "paywall-secret")
+    monkeypatch.setenv("DB_PATH", str(tmp_path / "p.db"))
+    monkeypatch.setenv("FREE_TRIAL_MESSAGES", "0")
+    monkeypatch.setenv("FREE_ACCESS_CODE", "Nafia is my Sister")
+    monkeypatch.setenv("ADMIN_TOKEN", "owner-token")
+    monkeypatch.setenv("PAY_BKASH", "01700000000")
+    monkeypatch.setenv("PRICE_MONTHLY", "499")
+    monkeypatch.chdir(tmp_path)
+    from app import config, main
+    importlib.reload(config)
+    importlib.reload(main)
+    return TestClient(main.app)
+
+
+def _chat(client, token=None):
+    headers = {"x-atlas-visitor": token} if token else {}
+    with mock.patch("app.main.requests.post", lambda *a, **k: FakeUpstream()):
+        return client.post(
+            "/api/chat", json={"messages": [{"role": "user", "content": "hi"}]}, headers=headers
+        )
+
+
+def test_paywall_blocks_chat_without_a_subscription(paid_client):
+    r = _chat(paid_client)
+    assert r.status_code == 402
+
+
+def test_paywall_free_code_unlocks_chat(paid_client):
+    r = paid_client.post("/api/billing/redeem", json={"code": "nafia is my sister"})
+    assert r.status_code == 200 and r.json()["entitlement"]["active"]
+    token = r.headers["x-atlas-visitor"]
+    assert _chat(paid_client, token).status_code == 200
+
+
+def test_paywall_wrong_code_still_blocked(paid_client):
+    r = paid_client.post("/api/billing/redeem", json={"code": "let me in"})
+    assert r.status_code == 400
+    assert _chat(paid_client, r.headers["x-atlas-visitor"]).status_code == 402
+
+
+def test_submitting_a_payment_does_not_unlock_chat(paid_client):
+    """The dangerous case: claiming to have paid must not grant access before
+    the owner has verified the transaction actually arrived."""
+    r = paid_client.post("/api/billing/claim", json={
+        "plan": "monthly", "method": "bkash", "reference": "TRX12345", "sender": "01711111111",
+    })
+    assert r.status_code == 200
+    token = r.headers["x-atlas-visitor"]
+    assert r.json()["entitlement"]["status"] == "pending"
+    assert _chat(paid_client, token).status_code == 402
+
+
+def test_owner_approval_unlocks_chat(paid_client):
+    r = paid_client.post("/api/billing/claim", json={
+        "plan": "monthly", "method": "bkash", "reference": "TRX12345",
+    })
+    token = r.headers["x-atlas-visitor"]
+    payment_id = r.json()["id"]
+
+    approve = paid_client.post(
+        f"/api/admin/payments/{payment_id}",
+        json={"action": "approve"}, headers={"x-atlas-admin": "owner-token"},
+    )
+    assert approve.status_code == 200
+    assert _chat(paid_client, token).status_code == 200
+
+
+def test_admin_api_rejects_a_wrong_token(paid_client):
+    assert paid_client.get("/api/admin/payments").status_code == 401
+    assert paid_client.get(
+        "/api/admin/payments", headers={"x-atlas-admin": "guess"}
+    ).status_code == 401
+
+
+def test_admin_api_is_closed_when_no_token_is_configured(tmp_path, monkeypatch):
+    """An admin API that opens up when unconfigured would let anyone approve
+    their own payment the moment the server deploys."""
+    monkeypatch.setenv("SECRET_KEY", "s")
+    monkeypatch.setenv("DB_PATH", str(tmp_path / "n.db"))
+    monkeypatch.delenv("ADMIN_TOKEN", raising=False)
+    monkeypatch.chdir(tmp_path)
+    from app import config, main
+    importlib.reload(config)
+    importlib.reload(main)
+    c = TestClient(main.app)
+    assert c.get("/api/admin/payments").status_code == 503
+
+
+def test_claim_price_comes_from_the_server_not_the_client(paid_client):
+    """A buyer must not be able to talk their way into a cheaper year."""
+    r = paid_client.post("/api/billing/claim", json={
+        "plan": "monthly", "method": "bkash", "reference": "TRX-PRICE", "amount": 1,
+    })
+    payment_id = r.json()["id"]
+    payments = paid_client.get(
+        "/api/admin/payments", headers={"x-atlas-admin": "owner-token"}
+    ).json()["payments"]
+    record = next(p for p in payments if p["id"] == payment_id)
+    assert record["amount_minor"] == 49900
+
+
+def test_unavailable_payment_method_is_refused(paid_client):
+    # Only bKash is configured in this fixture.
+    r = paid_client.post("/api/billing/claim", json={
+        "plan": "monthly", "method": "nagad", "reference": "TRX-NAGAD",
+    })
+    assert r.status_code == 400
+
+
+def test_billing_config_exposes_only_configured_rails(paid_client):
+    body = paid_client.get("/api/billing/config").json()
+    assert [m["id"] for m in body["methods"]] == ["bkash"]
+    assert body["methods"][0]["account"] == "01700000000"
+    assert body["codeEnabled"] is True

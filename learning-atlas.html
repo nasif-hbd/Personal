@@ -254,6 +254,108 @@ button{font-family:inherit;}
 .key-status.ok .pip{background:var(--success); box-shadow:0 0 10px var(--success);}
 .key-status.bad .pip{background:var(--danger); box-shadow:0 0 10px var(--danger);}
 
+/* --- subscription surfaces --- */
+.plan-pill{
+  font-family:var(--font-mono); font-size:9.5px; text-transform:uppercase; letter-spacing:.14em;
+  padding:6px 13px; border-radius:99px; border:1px solid var(--line);
+  background:var(--surface); color:var(--text-faint); cursor:pointer;
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.plan-pill:hover{transform:translateY(-1px); border-color:var(--accent);}
+.plan-pill.pro{
+  border-color:transparent; color:#fff;
+  background:linear-gradient(120deg,var(--accent),var(--accent-2));
+  box-shadow:0 4px 16px rgba(var(--accent-rgb),.35);
+}
+.plan-pill.pending{border-color:var(--gold); color:var(--gold);}
+.plan-pill.free{border-color:rgba(var(--accent-rgb),.45); color:var(--accent);}
+
+.upgrade-wrap{display:flex; flex-direction:column; gap:20px; max-width:940px; margin:0 auto;}
+.upgrade-hero{padding:8px 2px 0;}
+.upgrade-hero h1{font-size:clamp(30px,4.6vw,46px); line-height:1.08; letter-spacing:-1.6px; margin:12px 0 12px;}
+.upgrade-hero .grad{
+  background:linear-gradient(100deg,var(--accent),var(--accent-3));
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.upgrade-hero p{color:var(--text-muted); max-width:56ch; margin:0;}
+.eyebrow{
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--accent); display:inline-flex; align-items:center; gap:7px;
+}
+.notice{
+  display:flex; gap:11px; align-items:flex-start; margin-top:18px; padding:13px 15px;
+  border:1px solid rgba(var(--accent-rgb),.35); border-radius:12px;
+  background:rgba(var(--accent-rgb),.07); font-size:14px;
+}
+.notice.pending{border-color:rgba(245,158,11,.4); background:rgba(245,158,11,.08);}
+.notice p{margin:0;}
+
+.plan-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px;}
+.plan-card{
+  position:relative; text-align:left; padding:22px; border-radius:16px; cursor:pointer;
+  border:1px solid var(--line); background:var(--panel); color:var(--text);
+  display:flex; flex-direction:column; gap:4px;
+  transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.plan-card:hover{transform:translateY(-3px); border-color:rgba(var(--accent-rgb),.55);}
+.plan-card.featured{border-color:rgba(var(--accent-rgb),.4);}
+.plan-card.selected{
+  border-color:var(--accent);
+  box-shadow:0 0 0 1px var(--accent), 0 12px 34px rgba(var(--accent-rgb),.22);
+}
+.plan-card .badge{position:absolute; top:14px; right:14px;}
+.plan-name{font-family:var(--font-mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--text-faint);}
+.plan-price{font-size:38px; font-weight:800; letter-spacing:-1.6px; line-height:1.1;}
+.plan-period{font-size:13px; color:var(--text-muted);}
+.plan-cta{
+  margin-top:14px; display:inline-flex; align-items:center; gap:6px;
+  font-size:13px; font-weight:600; color:var(--accent);
+}
+
+.method-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin:14px 0;}
+.method-card{
+  display:flex; flex-direction:column; gap:3px; padding:14px; border-radius:12px; cursor:pointer;
+  border:1px solid var(--line); background:var(--surface); color:var(--text); text-align:left;
+  transition:border-color .18s ease, transform .18s ease;
+}
+.method-card:hover{transform:translateY(-2px); border-color:rgba(var(--accent-rgb),.5);}
+.method-card.selected{border-color:var(--accent); box-shadow:0 0 0 1px var(--accent);}
+.method-name{font-weight:650; font-size:14px;}
+.method-account{font-family:var(--font-mono); font-size:11px; color:var(--text-faint);}
+
+.pay-steps{display:flex; flex-direction:column; gap:14px; margin:16px 0 18px;}
+.pay-step{display:flex; gap:12px; align-items:flex-start; font-size:14px;}
+.pay-step .desc{display:block; margin-top:3px;}
+.step-n{
+  flex:0 0 auto; width:24px; height:24px; border-radius:50%;
+  display:grid; place-items:center; font-size:12px; font-weight:700;
+  background:rgba(var(--accent-rgb),.14); color:var(--accent);
+}
+.copyable{
+  font-family:var(--font-mono); font-size:14px; font-weight:600; cursor:pointer;
+  background:rgba(var(--accent-rgb),.1); color:var(--accent);
+  border:1px solid rgba(var(--accent-rgb),.3); border-radius:7px; padding:2px 9px;
+  display:inline-flex; align-items:center; gap:6px;
+}
+.copyable:hover{background:rgba(var(--accent-rgb),.18);}
+
+.code-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;}
+.code-row input{flex:1 1 220px;}
+
+.feature-list{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:16px; margin-top:14px;}
+.feature{display:flex; gap:11px; align-items:flex-start;}
+.feature strong{display:block; font-size:14px; margin-bottom:2px;}
+.feature .desc{margin:0; font-size:13px;}
+.feature-ic{
+  flex:0 0 auto; width:30px; height:30px; border-radius:9px; display:grid; place-items:center;
+  background:rgba(var(--accent-rgb),.12); color:var(--accent);
+}
+.pro-active{
+  border-color:rgba(var(--accent-rgb),.4);
+  background:linear-gradient(140deg, rgba(var(--accent-rgb),.10), transparent 62%), var(--panel);
+}
+.chat-empty.locked .big-ic{color:var(--accent);}
+
 .pagehead{border-bottom:1px solid var(--line);}
 .pagehead-inner{
   max-width:1240px; margin:0 auto; padding:11px 24px;
@@ -901,6 +1003,7 @@ label:not(.btn):not(.watch-done-toggle){
       </nav>
 
       <div class="topnav-right">
+        <button class="plan-pill" id="planPill" data-nav="upgrade" hidden></button>
         <span class="key-status" id="keyStatus"></span>
         <button class="icon-btn" id="btnThemeToggle" title="Toggle theme"></button>
         <button class="btn primary small" id="btnNewPlan">New plan</button>
@@ -1112,6 +1215,9 @@ let state = {
   view: "home",
   planDetailId: null,
   sending: false,
+  // Subscription status, as reported by the server. Never trusted for access
+  // control — the server re-checks on every chat call — only for what to show.
+  entitlement: null,
   // Class IDs whose video is currently expanded into a real inline <iframe>.
   // Held in state (not just the DOM) so a re-render keeps players open.
   inlineOpen: new Set(),
@@ -1478,6 +1584,16 @@ async function sendToClaude(plan, userText, {onStatus, onChunk} = {}){
       if(resp.status===401) msg = backendUrl()
         ? "This app's AI access was rejected by the server."
         : "AI credentials were rejected.";
+      if(resp.status===402){
+        // The subscription lapsed or ran out mid-session. Re-read the real
+        // status from the server rather than guessing, then show the paywall.
+        await refreshEntitlement();
+        state.sending = false;
+        state.view = "upgrade";
+        renderView();
+        toast(msg, "error");
+        return;
+      }
       throw new Error(msg);
     }
 
@@ -1804,6 +1920,21 @@ function renderSidebar(){
   ks.className = "key-status " + (ready ? "ok" : "bad");
   ks.innerHTML = `<span class="pip"></span> ${ready ? "AI ready" : "AI off"}`;
   ks.title = ready ? "AI is available in this app" : "AI features aren't switched on for this app";
+
+  const pill = document.getElementById("planPill");
+  if(pill){
+    if(!billingAvailable()){
+      pill.hidden = true;
+    }else{
+      pill.hidden = false;
+      const pro = isPro(), pending = planPending();
+      pill.className = "plan-pill " + (pro ? "pro" : pending ? "pending" : "free");
+      pill.textContent = pro ? "Pro" : pending ? "Pending" : "Upgrade";
+      pill.title = pro
+        ? "Your subscription is active"
+        : pending ? "Payment submitted — waiting for verification" : "Unlock the Mindora assistant";
+    }
+  }
 }
 
 function setTopbar(title, sub){
@@ -1823,9 +1954,233 @@ function renderView(){
   else if(state.view === "catalog") renderCatalog(v);
   else if(state.view === "today") renderToday(v);
   else if(state.view === "settings") renderSettings(v);
+  else if(state.view === "upgrade") renderUpgrade(v);
   // Any iframe rebuilt by that render is a brand-new element, so re-attach the
   // YouTube player objects that report watch progress back to us.
   bindInlinePlayers();
+}
+
+/* ============================================================
+   Upgrade / checkout
+============================================================ */
+function renderUpgrade(container){
+  setTopbar("Mindora Pro", isPro() ? "Active" : "");
+
+  if(!billingAvailable()){
+    container.innerHTML = `
+      <div class="chat-empty">
+        <div class="big-ic">${icon("sparkle","ic-xl")}</div>
+        <h2>Subscriptions aren't set up here</h2>
+        <p>${nativeShell()
+          ? "Manage your subscription at mindora on the web — app store rules don't allow us to sell it inside the installed app."
+          : "This copy of Mindora isn't connected to a billing server yet."}</p>
+      </div>`;
+    return;
+  }
+
+  const cfg = billingConfig;
+  const ent = state.entitlement || {};
+
+  if(isPro()){
+    const until = ent.expiresAt
+      ? new Date(ent.expiresAt * 1000).toLocaleDateString(undefined,{day:"numeric",month:"long",year:"numeric"})
+      : null;
+    container.innerHTML = `
+      <div class="upgrade-wrap">
+        <div class="card wide pro-active reveal">
+          <span class="badge gold">${icon("sparkle","ic-sm")} Pro</span>
+          <h2 style="margin:14px 0 6px;">You're all set</h2>
+          <p class="desc" style="margin:0;">
+            ${ent.source === "code"
+              ? "Your free access never expires."
+              : until ? `Your subscription runs until <strong>${until}</strong>.`
+                      : "Your subscription is active."}
+          </p>
+        </div>
+        <div class="card wide reveal">
+          <h3>What's included</h3>
+          ${proFeatureList()}
+        </div>
+      </div>`;
+    attachReveals(container);
+    return;
+  }
+
+  const plans = cfg.plans || [];
+  const methods = cfg.methods || [];
+
+  container.innerHTML = `
+    <div class="upgrade-wrap">
+
+      <div class="upgrade-hero reveal">
+        <span class="eyebrow">${icon("sparkle","ic-sm")} Mindora Pro</span>
+        <h1>Your own study coach,<br><span class="grad">always on.</span></h1>
+        <p>Plans, the catalog and progress tracking stay free forever. Pro unlocks the
+        assistant that builds and rewrites your plans for you.</p>
+        ${planPending() ? `
+          <div class="notice pending">
+            ${icon("hourglass","ic-sm")}
+            <div><strong>Payment received — verifying.</strong>
+            We check transactions by hand, usually within a few hours. You'll get access as soon as it clears.</div>
+          </div>` : ""}
+        ${trialLeft() > 0 ? `
+          <div class="notice">
+            ${icon("sparkle","ic-sm")}
+            <div><strong>${trialLeft()} free message${trialLeft()===1?"":"s"} left.</strong> Try the assistant before you pay.</div>
+          </div>` : ""}
+      </div>
+
+      <div class="card wide reveal">
+        <h3>What's included</h3>
+        ${proFeatureList()}
+      </div>
+
+      <div class="plan-grid reveal">
+        ${plans.map((p,i)=>`
+          <button class="plan-card${i===plans.length-1?" featured":""}" data-action="pick-plan" data-plan="${p.id}">
+            ${p.note ? `<span class="badge gold">${escapeHtml(p.note)}</span>` : ""}
+            <div class="plan-name">${escapeHtml(p.label)}</div>
+            <div class="plan-price">${money(p.price, p.currency)}</div>
+            <div class="plan-period">every ${p.days === 365 ? "year" : p.days + " days"}</div>
+            <span class="plan-cta">Choose ${escapeHtml(p.label)} ${icon("arrowRight","ic-sm")}</span>
+          </button>`).join("")}
+      </div>
+
+      <div class="card wide reveal" id="payBox" hidden>
+        <h3>Pay with</h3>
+        <p class="desc">Send the exact amount, then paste the transaction ID below. We verify by hand
+        and unlock your account — usually within a few hours.</p>
+        <div class="method-grid">
+          ${methods.map(m=>`
+            <button class="method-card" data-action="pick-method" data-method="${m.id}">
+              <span class="method-name">${escapeHtml(m.label)}</span>
+              <span class="method-account">${escapeHtml(m.account)}</span>
+            </button>`).join("")}
+        </div>
+        <div id="payForm"></div>
+      </div>
+
+      ${cfg.codeEnabled ? `
+        <div class="card wide reveal">
+          <h3>Have a free-access code?</h3>
+          <p class="desc">If someone gave you a code, enter it here to unlock Pro at no cost.</p>
+          <div class="code-row">
+            <input type="text" id="codeInput" placeholder="Enter your access code" autocomplete="off">
+            <button class="btn primary" id="btnRedeem">Unlock</button>
+          </div>
+          <p class="desc" id="codeMsg" style="margin:10px 0 0;"></p>
+        </div>` : ""}
+    </div>`;
+
+  attachReveals(container);
+
+  const redeem = document.getElementById("btnRedeem");
+  if(redeem){
+    const input = document.getElementById("codeInput");
+    const msg = document.getElementById("codeMsg");
+    const go = async ()=>{
+      const code = input.value.trim();
+      if(!code) return;
+      redeem.disabled = true; redeem.textContent = "Checking…";
+      const res = await redeemCode(code);
+      redeem.disabled = false; redeem.textContent = "Unlock";
+      msg.textContent = res.message;
+      msg.style.color = res.ok ? "var(--success)" : "var(--danger)";
+      if(res.ok){ toast(res.message, "success"); renderView(); }
+    };
+    redeem.onclick = go;
+    input.addEventListener("keydown", e=>{ if(e.key === "Enter") go(); });
+  }
+}
+
+function proFeatureList(){
+  const items = [
+    ["sparkle", "Plans built for you", "Describe what you want to learn; get a full day-by-day routine, up to six months."],
+    ["refresh", "Rewrite anything, any time", "Ask for a lighter week, a different language, more practice — the plan adapts."],
+    ["search", "Real courses, found for you", "The assistant searches the web for free classes that actually exist and embed."],
+    ["book", "Everything else stays free", "Catalog, tracking, offline access and your saved plans never need a subscription."],
+  ];
+  return `<div class="feature-list">${items.map(([ic,title,body])=>`
+    <div class="feature">
+      <span class="feature-ic">${icon(ic,"ic-sm")}</span>
+      <div><strong>${title}</strong><p class="desc">${body}</p></div>
+    </div>`).join("")}</div>`;
+}
+
+// Chosen plan for the checkout form. Held outside state because it's transient
+// UI, not something worth persisting across reloads.
+let checkoutPlan = null, checkoutMethod = null;
+
+function pickPlan(planId){
+  checkoutPlan = planId;
+  checkoutMethod = null;
+  document.querySelectorAll('[data-action="pick-plan"]').forEach(el=>{
+    el.classList.toggle("selected", el.dataset.plan === planId);
+  });
+  const box = document.getElementById("payBox");
+  if(box){
+    box.hidden = false;
+    document.getElementById("payForm").innerHTML = "";
+    box.scrollIntoView({behavior: calmMotion() ? "auto" : "smooth", block:"nearest"});
+  }
+}
+
+function pickMethod(methodId){
+  checkoutMethod = methodId;
+  document.querySelectorAll('[data-action="pick-method"]').forEach(el=>{
+    el.classList.toggle("selected", el.dataset.method === methodId);
+  });
+
+  const method = (billingConfig.methods||[]).find(m=>m.id === methodId);
+  const plan = (billingConfig.plans||[]).find(p=>p.id === checkoutPlan);
+  if(!method || !plan) return;
+
+  const form = document.getElementById("payForm");
+  form.innerHTML = `
+    <div class="pay-steps">
+      <div class="pay-step">
+        <span class="step-n">1</span>
+        <div>Send <strong>${money(plan.price, plan.currency)}</strong> to
+          <button class="copyable" data-action="copy-account" data-value="${escapeHtml(method.account)}"
+            title="Tap to copy">${escapeHtml(method.account)} ${icon("clipboard","ic-sm")}</button>
+          <span class="desc">${escapeHtml(method.hint)}</span></div>
+      </div>
+      <div class="pay-step">
+        <span class="step-n">2</span>
+        <div>Paste your ${escapeHtml(method.reference)} below and submit.</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>${escapeHtml(method.reference)}</label>
+      <input type="text" id="refInput" placeholder="e.g. 9F3KX2M1QP" autocomplete="off">
+    </div>
+    <div class="field">
+      <label>Your ${method.id === "bank" ? "account name" : "number"} <span class="desc">(optional, helps us match it)</span></label>
+      <input type="text" id="senderInput" placeholder="${method.id === "bank" ? "Name on the account" : "01XXXXXXXXX"}" autocomplete="off">
+    </div>
+    <button class="btn primary" id="btnSubmitPay">Submit for verification</button>
+    <p class="desc" id="payMsg" style="margin:10px 0 0;"></p>
+  `;
+
+  const btn = document.getElementById("btnSubmitPay");
+  btn.onclick = async ()=>{
+    const reference = document.getElementById("refInput").value.trim();
+    const msg = document.getElementById("payMsg");
+    if(reference.length < 4){
+      msg.textContent = "Enter the transaction ID from your payment confirmation.";
+      msg.style.color = "var(--danger)";
+      return;
+    }
+    btn.disabled = true; btn.textContent = "Submitting…";
+    const res = await submitPayment({
+      plan: checkoutPlan, method: checkoutMethod, reference,
+      sender: document.getElementById("senderInput").value.trim(),
+    });
+    btn.disabled = false; btn.textContent = "Submit for verification";
+    msg.textContent = res.message;
+    msg.style.color = res.ok ? "var(--success)" : "var(--danger)";
+    if(res.ok){ toast(res.message, "success"); renderView(); }
+  };
 }
 
 /* ============================================================
@@ -1834,6 +2189,24 @@ function renderView(){
 function renderChat(container){
   const plan = activePlan();
   setTopbar("Chat", plan ? plan.title : "");
+
+  // Checked before the no-plan state on purpose: creating a plan immediately
+  // calls the assistant, so someone who can't use it should find that out
+  // before doing the work, not after.
+  if(billingAvailable() && !chatUnlocked()){
+    container.innerHTML = `
+      <div class="chat-empty locked">
+        <div class="big-ic">${icon("sparkle","ic-xl")}</div>
+        <h2>${planPending() ? "Verifying your payment" : "Unlock the Mindora assistant"}</h2>
+        <p>${planPending()
+          ? "We check transactions by hand, usually within a few hours. Your plans and progress are safe in the meantime."
+          : "Chat is part of Mindora Pro. Everything else — ready-made paths, the catalog, progress tracking — stays free."}</p>
+        <button class="btn primary" data-nav="upgrade">
+          ${planPending() ? "See status" : "See plans"} ${icon("arrowRight","ic-sm")}
+        </button>
+      </div>`;
+    return;
+  }
 
   if(!plan){
     container.innerHTML = `
@@ -3185,6 +3558,15 @@ document.addEventListener("click", e=>{
   else if(act==="set-theme"){ state.settings.theme = action.dataset.theme; persistSettings(); applyTheme(); renderView(); }
   else if(act==="enable-notifs"){ requestNotifPermission(); }
   else if(act==="watch-class"){ openWatchModal(action.dataset.plan, action.dataset.class); }
+  else if(act==="pick-plan"){ pickPlan(action.dataset.plan); }
+  else if(act==="pick-method"){ pickMethod(action.dataset.method); }
+  else if(act==="copy-account"){
+    const value = action.dataset.value;
+    navigator.clipboard?.writeText(value).then(
+      ()=> toast(`Copied ${value}`, "success"),
+      ()=> toast("Couldn't copy — select it by hand.", "error"),
+    );
+  }
   else if(act==="add-featured-path"){ addFeaturedPlan(action.dataset.path); }
   else if(act==="play-inline"){ playInline(action.dataset.plan, action.dataset.class); }
   else if(act==="attach-video"){ openAttachVideoModal(action.dataset.plan, action.dataset.class); }
@@ -3243,6 +3625,89 @@ function aiAvailable(){ return !!backendUrl() || !!legacyKey(); }
 // that is guaranteed to fail. The shared server keeps native plans in sync.
 function nativeShell(){
   return !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+}
+
+/* ============================================================
+   Subscriptions
+
+   Everything below is presentation. The real paywall lives on the server,
+   which refuses /api/chat without an entitlement — a browser can be edited by
+   whoever is holding it, so a gate enforced here would be a suggestion. This
+   code exists to explain the state, not to enforce it.
+
+   Selling inside the packaged mobile apps breaks App Store rule 3.1.1 and
+   Play's Billing policy (both require their own in-app purchase for digital
+   goods), so the whole upgrade surface is hidden in the native shell.
+============================================================ */
+let billingConfig = null;
+
+function billingAvailable(){ return !!backendUrl() && !!billingConfig && !nativeShell(); }
+function isPro(){ return !!(state.entitlement && state.entitlement.active); }
+function planPending(){ return !!(state.entitlement && state.entitlement.status === "pending"); }
+function trialLeft(){ return (state.entitlement && state.entitlement.trialRemaining) || 0; }
+// Chat is usable when the subscription is live, or trial messages remain.
+function chatUnlocked(){ return !backendUrl() || isPro() || trialLeft() > 0; }
+
+function money(amount, currency){
+  const symbol = currency === "BDT" ? "৳" : (currency === "USD" ? "$" : "");
+  return symbol ? `${symbol}${amount}` : `${amount} ${currency}`;
+}
+
+async function loadBilling(){
+  if(!backendUrl()) return;
+  try{
+    const [cfg, ent] = await Promise.all([
+      fetch(backendUrl()+"/api/billing/config").then(r=>r.ok?r.json():null),
+      fetch(backendUrl()+"/api/billing/entitlement", {headers:backendHeaders()})
+        .then(r=>{ rememberVisitorToken(r); return r.ok?r.json():null; }),
+    ]);
+    if(cfg) billingConfig = cfg;
+    if(ent) state.entitlement = ent;
+  }catch(e){
+    // Offline or the server is down. The app stays usable; chat will report
+    // the real reason when it's actually attempted.
+    console.info("billing unavailable", e && e.message);
+  }
+  renderSidebar();
+  if(state.view === "upgrade" || state.view === "chat") renderView();
+}
+
+async function refreshEntitlement(){
+  if(!backendUrl()) return;
+  try{
+    const r = await fetch(backendUrl()+"/api/billing/entitlement", {headers:backendHeaders()});
+    rememberVisitorToken(r);
+    if(r.ok) state.entitlement = await r.json();
+  }catch(e){}
+  renderSidebar();
+}
+
+async function redeemCode(code){
+  const r = await fetch(backendUrl()+"/api/billing/redeem", {
+    method:"POST", headers:{...backendHeaders(), "content-type":"application/json"},
+    body: JSON.stringify({code}),
+  });
+  rememberVisitorToken(r);
+  const body = await r.json().catch(()=>({}));
+  if(r.ok && body.entitlement){
+    state.entitlement = {...body.entitlement, trialRemaining: trialLeft()};
+    return {ok:true, message: body.message || "Free access unlocked."};
+  }
+  return {ok:false, message: body.message || "That code isn't valid."};
+}
+
+async function submitPayment(payload){
+  const r = await fetch(backendUrl()+"/api/billing/claim", {
+    method:"POST", headers:{...backendHeaders(), "content-type":"application/json"},
+    body: JSON.stringify(payload),
+  });
+  rememberVisitorToken(r);
+  const body = await r.json().catch(()=>({}));
+  if(r.ok){
+    if(body.entitlement) state.entitlement = {...body.entitlement, trialRemaining: trialLeft()};
+    return {ok:true, message: body.message || "Submitted for verification."};
+  }
+  return {ok:false, message: body.message || "That didn't go through."};
 }
 function backendHeaders(){
   const h = {};
@@ -3928,7 +4393,7 @@ function closeMobileSidebar(){}
 
 /* Deep links: the installed-app shortcuts in manifest.json point at
    #today / #plans / #catalog, and sharing a URL should land where expected. */
-const HASH_VIEWS = ["home","chat","plans","catalog","today","settings"];
+const HASH_VIEWS = ["home","chat","plans","catalog","today","settings","upgrade"];
 function viewFromHash(){
   const wanted = (location.hash||"").replace(/^#/,"").toLowerCase();
   return HASH_VIEWS.includes(wanted) ? wanted : null;
@@ -3949,6 +4414,7 @@ state.view = viewFromHash() || state.view;
 renderView();
 loadCourseData();
 pullFromBackend();
+loadBilling();
 checkReminders();
 autoSyncFromDrive();
 

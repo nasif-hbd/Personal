@@ -36,8 +36,50 @@ class Settings:
     daily_request_cap: int = field(default_factory=lambda: _int("DAILY_REQUEST_CAP", 300))
     per_visitor_daily_cap: int = field(default_factory=lambda: _int("PER_VISITOR_DAILY_CAP", 25))
     per_minute_cap: int = field(default_factory=lambda: _int("PER_MINUTE_CAP", 4))
-    # Optional shared passcode. Empty = open to anyone who finds the URL.
+    # Optional shared passcode gating the whole server. Separate from the
+    # free-access code below: this one blocks the app entirely, that one
+    # unlocks a paid subscription.
     access_code: str = field(default_factory=lambda: os.environ.get("ACCESS_CODE", ""))
+
+    # --- Subscriptions ---------------------------------------------------
+    # Chat is the only paid feature; plans, catalog and tracking stay free.
+    # Set to 0 for a strict paywall, or a small number to let people try the
+    # assistant before paying — conversion is usually better with a taste.
+    free_trial_messages: int = field(default_factory=lambda: _int("FREE_TRIAL_MESSAGES", 0))
+    # The words that unlock free access. Checked server-side only; matching
+    # ignores case and extra spaces. Rotate by changing this env var.
+    free_access_code: str = field(default_factory=lambda: os.environ.get("FREE_ACCESS_CODE", "Nafia is my Sister"))
+    currency: str = field(default_factory=lambda: os.environ.get("CURRENCY", "BDT"))
+    price_monthly: int = field(default_factory=lambda: _int("PRICE_MONTHLY", 499))
+    price_yearly: int = field(default_factory=lambda: _int("PRICE_YEARLY", 4499))
+    # Protects the owner-only payment review endpoints. No token, no admin API.
+    admin_token: str = field(default_factory=lambda: os.environ.get("ADMIN_TOKEN", ""))
+
+    # --- Where visitors send money ---------------------------------------
+    # Displayed at checkout. Any left empty is hidden, so you only advertise
+    # the rails you actually accept.
+    pay_bkash: str = field(default_factory=lambda: os.environ.get("PAY_BKASH", ""))
+    pay_nagad: str = field(default_factory=lambda: os.environ.get("PAY_NAGAD", ""))
+    pay_rocket: str = field(default_factory=lambda: os.environ.get("PAY_ROCKET", ""))
+    pay_bank: str = field(default_factory=lambda: os.environ.get("PAY_BANK", ""))
+    pay_gpay: str = field(default_factory=lambda: os.environ.get("PAY_GPAY", ""))
+
+    @property
+    def plans(self) -> dict:
+        return {
+            "monthly": {"id": "monthly", "label": "Monthly", "price": self.price_monthly,
+                        "currency": self.currency, "days": 30},
+            "yearly": {"id": "yearly", "label": "Yearly", "price": self.price_yearly,
+                       "currency": self.currency, "days": 365,
+                       "note": f"Save {max(0, 100 - round(self.price_yearly * 100 / max(1, self.price_monthly * 12)))}%"},
+        }
+
+    @property
+    def pay_accounts(self) -> dict:
+        return {k: v for k, v in {
+            "bkash": self.pay_bkash, "nagad": self.pay_nagad, "rocket": self.pay_rocket,
+            "bank": self.pay_bank, "gpay": self.pay_gpay,
+        }.items() if v}
 
     # --- Storage --------------------------------------------------------
     google_client_id: str = field(default_factory=lambda: os.environ.get("GOOGLE_CLIENT_ID", ""))
