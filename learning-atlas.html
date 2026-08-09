@@ -1152,6 +1152,10 @@ label:not(.btn):not(.watch-done-toggle){
 }
 
 /* ===================== Responsive ===================== */
+/* --- phone navigation --------------------------------------------------- */
+.tabbar{display:none;}
+.sheet-overlay{display:none;}
+
 @media (max-width:900px){
   .topnav-inner{flex-wrap:wrap; gap:10px; min-height:56px;
     padding-left:max(14px, env(safe-area-inset-left)); padding-right:max(14px, env(safe-area-inset-right));}
@@ -1162,11 +1166,10 @@ label:not(.btn):not(.watch-done-toggle){
   .brand .mark{width:32px; height:32px;}
   .navrow{
     order:3; flex:1 0 100%; border-top:1px solid var(--line); padding:7px 0; gap:2px;
-    /* Six tabs won't fit 390px, so it scrolls — fade the edge to show that. */
     -webkit-mask-image:linear-gradient(90deg, #000 88%, transparent);
     mask-image:linear-gradient(90deg, #000 88%, transparent);
   }
-  .navbtn{padding:7px 11px; font-size:12.5px;}
+  .navbtn{padding:9px 12px; font-size:12.5px;}
   .topnav-right{gap:7px;}
   .key-status{padding:5px 9px; font-size:9px;}
   .update-bar, .offline-pill{left:12px; right:12px; transform:none; justify-content:center;}
@@ -1181,6 +1184,127 @@ label:not(.btn):not(.watch-done-toggle){
   .lesson-media{width:118px;}
   .featured-card{transform:none !important;}
   body::after{background-size:44px 44px;}
+}
+
+@media (max-width:720px){
+  /* One compact header row. The scrolling tab strip is replaced entirely by
+     the bottom bar, so nothing is hidden behind a sideways swipe. */
+  .navrow{display:none;}
+  .topnav-inner{flex-wrap:nowrap; min-height:54px; gap:8px;}
+  .brand{padding:8px 0; min-width:0;}
+  .brand .name{font-size:15.5px; white-space:nowrap;}
+  .brand .mark{width:29px; height:29px;}
+  .topnav-right{gap:6px; flex:0 0 auto;}
+  /* "AI OFF" is a developer's concern, not a learner's — the state still
+     shows in Settings, and it was eating a third of the header. */
+  .key-status{display:none;}
+  .plan-pill{padding:6px 10px;}
+  /* Collapse to a square icon button. The label is hidden rather than removed
+     so the accessible name survives; the sweep pseudo-element on .btn.primary
+     is left alone. */
+  #btnNewPlan{width:38px; height:38px; padding:0; justify-content:center; gap:0;}
+  #btnNewPlan .btn-label{
+    position:absolute; width:1px; height:1px; overflow:hidden;
+    clip-path:inset(50%); white-space:nowrap;
+  }
+  #btnNewPlan .btn-ic svg{width:19px; height:19px;}
+  .icon-btn{width:38px; height:38px;}
+
+  .tabbar{
+    display:grid; grid-template-columns:repeat(5,1fr);
+    position:fixed; left:0; right:0; bottom:0; z-index:120;
+    /* Near-opaque: --panel is translucent, so content was legible straight
+       through the bar. The blur only softens what shows at the edges. */
+    background:color-mix(in srgb, var(--surface-solid) 94%, transparent);
+    backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+    border-top:1px solid var(--line);
+    padding-bottom:env(safe-area-inset-bottom, 0px);
+  }
+  .tabbtn{
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+    /* 54px clears the 44px minimum tap target with room for the label. */
+    min-height:54px; padding:7px 2px 6px; border:0; background:transparent;
+    color:var(--text-faint); font:inherit; cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .tabbtn .tab-label{font-size:10px; letter-spacing:.02em;}
+  .tabbtn svg{width:21px; height:21px;}
+  .tabbtn.active{color:var(--accent);}
+  .tabbtn:active{background:rgba(var(--accent-rgb),.10);}
+  .tab-ic-wrap{position:relative; display:flex;}
+  .tab-dot{
+    position:absolute; top:-3px; right:-6px; min-width:15px; height:15px; padding:0 4px;
+    border-radius:99px; background:var(--accent); color:#fff;
+    font-size:9px; font-weight:700; display:grid; place-items:center;
+  }
+
+  .sheet-overlay{
+    display:flex; align-items:flex-end; position:fixed; inset:0; z-index:150;
+    background:rgba(4,3,10,.55); backdrop-filter:blur(4px);
+    opacity:0; transition:opacity .2s ease;
+  }
+  .sheet-overlay.open{opacity:1;}
+  .sheet{
+    /* Opaque, not var(--panel): the panel token is translucent, and the page
+       behind was reading straight through the sheet and its tiles. */
+    width:100%; background:var(--surface-solid); border-top:1px solid var(--line);
+    border-radius:20px 20px 0 0; padding:10px 16px calc(20px + env(safe-area-inset-bottom, 0px));
+    transform:translateY(100%); transition:transform .24s cubic-bezier(.2,.8,.3,1);
+  }
+  .sheet-overlay.open .sheet{transform:none;}
+  .sheet-grab{width:38px; height:4px; border-radius:99px; background:var(--line-2); margin:0 auto 16px;}
+  .sheet-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:9px;}
+  .sheet-item{
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
+    min-height:80px; border-radius:14px; border:1px solid var(--line);
+    background:color-mix(in srgb, var(--text) 6%, var(--surface-solid));
+    color:var(--text); font:inherit; font-size:12.5px; cursor:pointer;
+  }
+  .sheet-item svg{width:21px; height:21px; color:var(--accent);}
+  .sheet-item:active{border-color:var(--accent);}
+
+  /* Content must clear the fixed bar, not sit under it. */
+  .view{padding-bottom:calc(78px + env(safe-area-inset-bottom, 0px));}
+  .chat-input-bar{bottom:calc(60px + env(safe-area-inset-bottom, 0px));}
+
+  /* --- density: desktop spacing reads as clumsy at 390px --- */
+  .home-title{font-size:28px; letter-spacing:-1px;}
+  .home-hero{padding:22px 17px;}
+  .card, .settings-section{padding:15px;}
+  .view{padding-top:18px;}
+  h2{font-size:21px;}
+  h3{font-size:15px;}
+  .stat-tile{padding:15px;}
+  .stat-tile b{font-size:27px;}
+  .upgrade-hero h1{font-size:27px;}
+  .plan-price{font-size:31px;}
+  /* The toast sat above the tab bar at desktop width and read as a banner.
+     Pin it to the content width and keep it clear of the bar. */
+  #toasts{left:12px; right:12px; bottom:calc(72px + env(safe-area-inset-bottom, 0px)); align-items:stretch;}
+  .toast{font-size:12.5px; padding:10px 13px; max-width:none; border-radius:11px;}
+
+  /* A long plan title shouldn't become a three-line pill beside a to-do. */
+  .todo-row .badge, .badge{
+    max-width:42vw; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  /* Lesson controls wrapped into a cramped second row; give them their own
+     line with real tap targets instead. */
+  .cc-controls{width:100%; justify-content:flex-start; flex-wrap:wrap; gap:7px;}
+  .cc-controls .icon-btn.sm{width:36px; height:36px;}
+  .cc-controls input[type="time"]{min-height:36px;}
+  .cc-controls .chk{width:26px; height:26px;}
+  .lesson-media{width:104px;}
+  .detail-actions{width:100%;}
+  .detail-actions .btn{flex:1 1 auto;}
+  .grade-row{grid-template-columns:repeat(2,1fr);}
+  .review-card{padding:24px 18px;}
+  .review-face p{font-size:18px;}
+}
+
+@media (max-width:400px){
+  /* Five labels stop fitting around here; the icons still carry the meaning. */
+  .tabbtn .tab-label{font-size:9.5px;}
+  .brand .name{font-size:14.5px;}
 }
 @media print{
   .topnav, .pagehead, .chat-input-bar, .lesson-media{display:none !important;}
@@ -1216,9 +1340,11 @@ label:not(.btn):not(.watch-done-toggle){
         <span class="key-status" id="keyStatus"></span>
         <button class="icon-btn" id="btnThemeToggle" title="Toggle theme"></button>
         <button class="icon-btn" data-action="open-palette" title="Search everything (Ctrl K)" aria-label="Search everything">
-          <span data-icon="search"></span>
+          <span data-icon-slot="search"></span>
         </button>
-        <button class="btn primary small" id="btnNewPlan">New plan</button>
+        <button class="btn primary small" id="btnNewPlan">
+          <span class="btn-ic" data-icon-slot="plus"></span><span class="btn-label">New plan</span>
+        </button>
       </div>
     </div>
   </header>
@@ -1245,12 +1371,41 @@ label:not(.btn):not(.watch-done-toggle){
   </defs>
 </svg>
 
+<!-- Phone navigation. Eight tabs never fit a 390px header, and a horizontally
+     scrolling strip hides half of them behind a gesture nobody discovers. The
+     five most-used destinations get a thumb-reachable bar; the rest live one
+     tap away in More. Hidden entirely above 720px. -->
+<nav class="tabbar" id="tabbar" aria-label="Primary">
+  <button class="tabbtn" data-nav="home"><span data-icon-slot="home"></span><span class="tab-label">Home</span></button>
+  <button class="tabbtn" data-nav="today"><span data-icon-slot="calendar"></span><span class="tab-label">Today</span></button>
+  <button class="tabbtn" data-nav="plans"><span data-icon-slot="clipboard"></span><span class="tab-label">Plans</span></button>
+  <button class="tabbtn" data-nav="review">
+    <span class="tab-ic-wrap"><span data-icon-slot="lightbulb"></span><span class="tab-dot" id="tabDueDot" hidden></span></span>
+    <span class="tab-label">Review</span>
+  </button>
+  <button class="tabbtn" id="btnMore"><span data-icon-slot="menu"></span><span class="tab-label">More</span></button>
+</nav>
+
+<div class="sheet-overlay" id="moreSheet" hidden role="dialog" aria-modal="true" aria-label="More">
+  <div class="sheet">
+    <div class="sheet-grab" aria-hidden="true"></div>
+    <div class="sheet-grid">
+      <button class="sheet-item" data-nav="chat"><span data-icon-slot="chat"></span>Chat</button>
+      <button class="sheet-item" data-nav="catalog"><span data-icon-slot="book"></span>Catalog</button>
+      <button class="sheet-item" data-nav="insights"><span data-icon-slot="flame"></span>Insights</button>
+      <button class="sheet-item" data-nav="settings"><span data-icon-slot="settings"></span>Settings</button>
+      <button class="sheet-item" data-action="open-palette"><span data-icon-slot="search"></span>Search</button>
+      <button class="sheet-item" id="sheetUpgrade" data-nav="upgrade" hidden><span data-icon-slot="sparkle"></span>Pro</button>
+    </div>
+  </div>
+</div>
+
 <div id="toasts" role="status" aria-live="polite"></div>
 
 <div id="palette" class="palette-overlay" hidden role="dialog" aria-modal="true" aria-label="Search and commands">
   <div class="palette-box">
     <div class="palette-search">
-      <span class="palette-search-ic" data-icon="search"></span>
+      <span class="palette-search-ic" data-icon-slot="search"></span>
       <input id="paletteInput" type="text" placeholder="Search plans, lessons, courses — or type a command"
         autocomplete="off" spellcheck="false" role="combobox" aria-expanded="true"
         aria-controls="paletteList" aria-autocomplete="list">
@@ -2440,23 +2595,32 @@ function disconnectDrive(){
    Rendering — shell / nav
 ============================================================ */
 function renderSidebar(){
-  document.querySelectorAll(".navbtn").forEach(b=>{
+  document.querySelectorAll(".navbtn, .tabbtn").forEach(b=>{
     const isActive = b.dataset.nav === state.view;
     b.classList.toggle("active", isActive);
     b.setAttribute("aria-current", isActive ? "page" : "false");
   });
+  // "More" lights up when the current view lives behind it, so the bar never
+  // shows nothing selected.
+  const more = document.getElementById("btnMore");
+  if(more){
+    const inSheet = ["chat","catalog","insights","settings","upgrade"].includes(state.view);
+    more.classList.toggle("active", inSheet);
+  }
+  const sheetPro = document.getElementById("sheetUpgrade");
+  if(sheetPro) sheetPro.hidden = !billingAvailable();
   const ks = document.getElementById("keyStatus");
   const ready = aiAvailable();
   ks.className = "key-status " + (ready ? "ok" : "bad");
   ks.innerHTML = `<span class="pip"></span> ${ready ? "AI ready" : "AI off"}`;
   ks.title = ready ? "AI is available in this app" : "AI features aren't switched on for this app";
 
-  const dot = document.getElementById("dueDot");
-  if(dot){
-    const due = cardsDue().length;
+  const due = cardsDue().length;
+  [document.getElementById("dueDot"), document.getElementById("tabDueDot")].forEach(dot=>{
+    if(!dot) return;
     dot.hidden = due === 0;
     dot.textContent = due > 99 ? "99+" : String(due);
-  }
+  });
 
   const pill = document.getElementById("planPill");
   if(pill){
@@ -5612,6 +5776,34 @@ function applyHashRoute(){
   }
 }
 window.addEventListener("hashchange", applyHashRoute);
+
+// --- phone "More" sheet ---
+(function wireSheet(){
+  const overlay = document.getElementById("moreSheet");
+  const button = document.getElementById("btnMore");
+  if(!overlay || !button) return;
+
+  const open = ()=>{
+    overlay.hidden = false;
+    requestAnimationFrame(()=>overlay.classList.add("open"));
+  };
+  const close = ()=>{
+    overlay.classList.remove("open");
+    // Wait for the slide-out before hiding, or it vanishes mid-animation.
+    setTimeout(()=>{ if(!overlay.classList.contains("open")) overlay.hidden = true; }, 240);
+  };
+
+  button.addEventListener("click", ()=>{
+    overlay.classList.contains("open") ? close() : open();
+  });
+  overlay.addEventListener("click", e=>{ if(e.target === overlay) close(); });
+  // Any destination inside closes the sheet; the delegated nav handler does
+  // the actual navigating.
+  overlay.querySelectorAll(".sheet-item").forEach(item=>item.addEventListener("click", close));
+  document.addEventListener("keydown", e=>{
+    if(e.key === "Escape" && overlay.classList.contains("open")) close();
+  });
+})();
 
 // --- palette wiring ---
 (function wirePalette(){
