@@ -30,3 +30,34 @@ services:
         value: "25"
       - key: DB_PATH
         value: /data/atlas.db
+
+      # --- subscriptions -------------------------------------------------
+      # Without ADMIN_TOKEN the payment-review API stays shut (503), so no
+      # payment can ever be approved and nobody can subscribe.
+      - key: ADMIN_TOKEN
+        generateValue: true
+      - key: FREE_ACCESS_CODE   # secret — set in dashboard
+        sync: false
+      # 0 = strict paywall. Raise it to let people try the assistant first.
+      - key: FREE_TRIAL_MESSAGES
+        value: "0"
+      - key: CURRENCY
+        value: BDT
+      - key: PRICE_MONTHLY
+        value: "499"
+      - key: PRICE_YEARLY
+        value: "4499"
+
+      # --- where buyers send money ---------------------------------------
+      # Any left blank is hidden at checkout, so you only advertise the rails
+      # you actually accept. Set these in the dashboard, not here.
+      - key: PAY_BKASH
+        sync: false
+      - key: PAY_NAGAD
+        sync: false
+      - key: PAY_ROCKET
+        sync: false
+      - key: PAY_BANK
+        sync: false
+      - key: PAY_GPAY
+        sync: false
