@@ -4100,6 +4100,15 @@ function renderSettings(container){
           <span class="badge ${aiAvailable()?'':'gold'}">${aiAvailable() ? "Ready" : "AI unavailable"}</span>
         </div>
       `}
+      <div class="field" style="margin:16px 0 0;">
+        <label>Server address ${sharedMode() ? "" : "<span class=\"desc\">— paste the link your server gave you</span>"}</label>
+        <input type="text" id="backendUrlInput" placeholder="https://your-server.onrender.com"
+          value="${escapeHtml(s.backendUrl||"")}" autocomplete="off" spellcheck="false">
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+        <button class="btn small primary" id="btnSaveBackend">Save &amp; test</button>
+        <span id="backendMsg" class="desc" style="margin:0;"></span>
+      </div>
     </div>
 
     <div class="settings-section card">
@@ -4223,6 +4232,55 @@ function renderSettings(container){
   document.getElementById("ytApiKeyInput").onchange = e=>{ state.settings.ytApiKey = e.target.value.trim(); persistSettings(); };
   const accessInput = document.getElementById("accessCodeInput");
   if(accessInput) accessInput.onchange = e=>{ state.settings.accessCode = e.target.value.trim(); persistSettings(); };
+  // Saving the server address in the app means nobody has to edit and
+  // redeploy index.html just to point at their own backend.
+  const saveBackend = document.getElementById("btnSaveBackend");
+  if(saveBackend) saveBackend.onclick = async ()=>{
+    const input = document.getElementById("backendUrlInput");
+    const msg = document.getElementById("backendMsg");
+    // People paste with a trailing slash, a trailing /api, or no scheme at all.
+    let url = input.value.trim().replace(/\/+$/,"").replace(/\/api$/,"");
+    if(url && !/^https?:\/\//i.test(url)){
+      // Real hosts are https; a machine on your own network won't have a
+      // certificate, so forcing https there would fail every time.
+      const local = /^(localhost|127\.0\.0\.1|0\.0\.0\.0|\d+\.\d+\.\d+\.\d+)(:\d+)?$/i.test(url);
+      url = (local ? "http://" : "https://") + url;
+    }
+    input.value = url;
+
+    state.settings.backendUrl = url;
+    persistSettings();
+
+    if(!url){
+      msg.textContent = "Cleared — the app will run without a server.";
+      msg.style.color = "var(--text-faint)";
+      billingConfig = null; state.entitlement = null;
+      renderView();
+      return;
+    }
+    saveBackend.disabled = true;
+    msg.textContent = "Checking…"; msg.style.color = "var(--text-faint)";
+    try{
+      const resp = await fetch(url + "/api/health");
+      if(!resp.ok) throw new Error(`the server answered with error ${resp.status}`);
+      const h = await resp.json();
+      const summary = h.chat
+        ? "Connected. AI is on" + (h.billing && h.billing.enabled ? " and payments are set up." : ", but no payment methods are set up yet.")
+        : "Connected, but the server has no Claude key yet.";
+      await loadBilling();
+      // A toast, not the inline message: refreshing the view to pick up the
+      // new server rebuilds this whole panel and would wipe anything written
+      // into it, leaving the save looking like it did nothing.
+      toast(summary, h.chat ? "success" : "info");
+      renderView();
+    }catch(e){
+      msg.textContent = `Couldn't reach it — ${e.message}. Check the address and that the server is awake.`;
+      msg.style.color = "var(--danger)";
+    }finally{
+      saveBackend.disabled = false;
+    }
+  };
+
   const testBtn = document.getElementById("btnTestBackend");
   if(testBtn) testBtn.onclick = async ()=>{
     const via = backendUrl();
