@@ -4,6 +4,9 @@ services:
   - type: web
     name: mindora-backend
     runtime: docker
+    # Without this Render picks a paid instance and asks for a card at the
+    # blueprint step. Change to `starter` when you want the disk below.
+    plan: free
     dockerfilePath: ./server/Dockerfile
     dockerContext: ./server
     healthCheckPath: /api/health
