@@ -2,13 +2,13 @@
 # dashboard. Never put real keys in this file; it is committed.
 services:
   - type: web
-    name: atlas-backend
+    name: mindora-backend
     runtime: docker
     dockerfilePath: ./server/Dockerfile
     dockerContext: ./server
     healthCheckPath: /api/health
     disk:
-      name: atlas-data
+      name: mindora-data
       mountPath: /data
       sizeGB: 1
     envVars:

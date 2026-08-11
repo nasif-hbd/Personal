@@ -132,7 +132,7 @@ your Drive.
 
 ### 2. Deploy
 
-`render.yaml` is included; on Render, "New → Blueprint" and point it at the repo.
+`render.yaml` sits at the repo root (Render only looks there); on Render, "New → Blueprint" and point it at the repo.
 Anything that runs a Docker image works equally well.
 
 Set these as **secrets** in the host's dashboard — never in the repo:
@@ -151,8 +151,12 @@ serve state, because unsigned ids could be edited to read someone else's plans.
 
 ### 3. Point the app at it
 
-Mindora → Settings → **Shared Mindora server** → paste the URL → **Test connection**.
-The nav pill switches to **Shared** and the API-key field becomes unnecessary.
+Mindora → Settings → **Server address** → paste the URL → **Save &amp; test**. It
+accepts a trailing slash or a missing `https://`. On success the header shows
+**AI ready** and, once a `PAY_*` rail is set, an **Upgrade** button appears.
+
+To make it the default for everyone instead of per-browser, set
+`DEFAULT_BACKEND_URL` in `index.html` and run `node packaging/sync-web.mjs`.
 
 ## How storage works
 
