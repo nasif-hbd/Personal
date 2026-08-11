@@ -305,6 +305,63 @@ class Billing:
             return True, "Approved — subscription active."
         return True, "Rejected."
 
+    # --- snapshot / restore ---------------------------------------------
+    # Free hosting has no persistent disk: the filesystem resets whenever the
+    # instance sleeps or redeploys, which would erase every subscription
+    # someone paid for. These two methods let the app mirror the billing
+    # tables into whatever durable storage it already has (Google Drive), so
+    # a wiped disk costs nothing. The data is small — a few KB per hundred
+    # customers — so a full snapshot is simpler and safer than a diff.
+
+    TABLES = ("entitlements", "payments", "trial_usage")
+
+    def export_state(self) -> dict:
+        with self._connect() as conn:
+            return {
+                "version": 1,
+                "savedAt": time.time(),
+                **{name: [dict(r) for r in conn.execute(f"SELECT * FROM {name}").fetchall()]
+                   for name in self.TABLES},
+            }
+
+    def import_state(self, data: dict) -> int:
+        """Load a snapshot in. Returns the number of rows restored.
+
+        Existing rows win: this runs at startup to refill an empty database,
+        and must never roll a live one backwards to an older snapshot.
+        """
+        if not isinstance(data, dict):
+            return 0
+        restored = 0
+        with _lock, self._connect() as conn:
+            for name in self.TABLES:
+                rows = data.get(name)
+                if not isinstance(rows, list):
+                    continue
+                for row in rows:
+                    if not isinstance(row, dict) or not row:
+                        continue
+                    columns = ",".join(row.keys())
+                    marks = ",".join("?" * len(row))
+                    try:
+                        cur = conn.execute(
+                            f"INSERT OR IGNORE INTO {name} ({columns}) VALUES ({marks})",
+                            tuple(row.values()),
+                        )
+                        restored += cur.rowcount
+                    except sqlite3.Error:
+                        # One malformed row must not abandon the rest of the
+                        # restore — a partial recovery beats none.
+                        continue
+        return restored
+
+    def is_empty(self) -> bool:
+        with self._connect() as conn:
+            for name in self.TABLES:
+                if conn.execute(f"SELECT 1 FROM {name} LIMIT 1").fetchone():
+                    return False
+        return True
+
     def summary(self, now: float | None = None) -> dict:
         """Owner-facing numbers. Revenue counts approved payments only."""
         now = time.time() if now is None else now

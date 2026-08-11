@@ -182,3 +182,67 @@ def test_trial_counter_persists_and_increments(billing):
     billing.consume_trial("v")
     billing.consume_trial("v")
     assert billing.trial_used("v") == 2
+
+
+# --- surviving a wiped disk ---------------------------------------------
+# Free hosting has no persistent disk. These cover the case that would
+# otherwise silently delete every subscription someone paid for.
+
+
+def test_snapshot_restores_subscriptions_onto_a_blank_disk(tmp_path):
+    live = Billing(str(tmp_path / "a.db"), access_code=CODE)
+    live.grant("payer", "yearly", days=365, source="payment")
+    live.redeem("friend", CODE)
+    _, pid, _ = live.claim("waiting", plan="monthly", method="bkash",
+                           amount_minor=49900, currency="BDT", reference="TRX-KEEP")
+    snapshot = live.export_state()
+
+    # The instance restarts with nothing.
+    fresh = Billing(str(tmp_path / "wiped.db"), access_code=CODE)
+    assert fresh.is_empty()
+    assert not fresh.entitlement("payer").active, "sanity: blank disk has no one"
+
+    fresh.import_state(snapshot)
+    assert fresh.entitlement("payer").active
+    assert fresh.entitlement("friend").active
+    assert fresh.entitlement("waiting").status == "pending"
+    assert any(p["id"] == pid for p in fresh.payments()), "pending payment must survive too"
+
+
+def test_restore_does_not_roll_back_newer_data(tmp_path):
+    b = Billing(str(tmp_path / "b.db"), access_code=CODE)
+    b.grant("v", "monthly", days=30, source="payment")
+    old = b.export_state()
+
+    b.grant("v", "yearly", days=365, source="payment")
+    after = b.entitlement("v").expires_at
+
+    # A stale snapshot must not downgrade someone who has since renewed.
+    b.import_state(old)
+    assert b.entitlement("v").expires_at == after
+
+
+def test_is_empty_is_true_only_on_a_blank_database(tmp_path):
+    b = Billing(str(tmp_path / "c.db"), access_code=CODE)
+    assert b.is_empty()
+    b.consume_trial("v")
+    assert not b.is_empty(), "trial usage counts as state worth keeping"
+
+
+def test_import_survives_a_corrupt_row(tmp_path):
+    b = Billing(str(tmp_path / "d.db"), access_code=CODE)
+    good = Billing(str(tmp_path / "e.db"), access_code=CODE)
+    good.grant("ok", "monthly", days=30, source="payment")
+    snapshot = good.export_state()
+    snapshot["entitlements"].insert(0, {"nonsense_column": 1})
+    snapshot["payments"] = "not a list"
+
+    b.import_state(snapshot)
+    assert b.entitlement("ok").active, "one bad row must not abandon the rest"
+
+
+def test_import_ignores_junk(tmp_path):
+    b = Billing(str(tmp_path / "f.db"), access_code=CODE)
+    assert b.import_state(None) == 0
+    assert b.import_state({}) == 0
+    assert b.is_empty()

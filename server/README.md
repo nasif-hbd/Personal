@@ -96,6 +96,37 @@ mobile shell, and the web build sells normally. Subscriptions bought on the web
 still work everywhere, because entitlement follows the visitor token. To sell
 on mobile you would need to add StoreKit and Play Billing as separate rails.
 
+### Running on a free plan
+
+Free hosting gives you no persistent disk: the filesystem is wiped whenever the
+instance sleeps or redeploys. Left alone that would delete every subscription
+people paid for, which is why the blueprint ships with the disk commented out
+and a snapshot mechanism instead.
+
+After every payment, approval and code redemption, the billing tables are
+mirrored to durable storage under the key `billing-backup`. On startup, if the
+database is empty, that snapshot is loaded back. A wiped disk then costs
+nothing — verified end to end: a paid customer keeps chatting after the
+database file is deleted underneath a running server.
+
+> **This only works if Google Drive is configured.** Without
+> `GOOGLE_REFRESH_TOKEN`, storage falls back to local files, which the free
+> plan wipes along with everything else — so the backup dies with the thing it
+> was backing up. Do the Drive setup below *before* taking real money on a free
+> plan, or pay for a disk instead.
+
+Restore never overwrites newer data: existing rows win, so a stale snapshot
+cannot roll a live database backwards. A failed backup is logged and ignored
+rather than failing the purchase that triggered it — the customer has already
+sent the money and the local database is still correct.
+
+Two other things about free plans, neither of which the snapshot fixes: the
+instance sleeps after inactivity, so the first visit of the day waits up to a
+minute; and there is no uptime guarantee. To move to a paid disk later,
+uncomment the `disk:` block in `render.yaml` and set `DB_PATH` back to
+`/data/mindora.db`. The snapshot keeps working; it just stops being the only
+thing standing between you and losing your subscribers.
+
 ## Spend controls
 
 | Env var | Default | What it does |

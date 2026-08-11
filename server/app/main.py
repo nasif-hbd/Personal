@@ -50,6 +50,45 @@ quota = Quota(
 store = build_storage(settings)
 billing = Billing(settings.db_path, access_code=settings.free_access_code)
 
+# --- surviving a disk-less host -----------------------------------------
+# Free tiers give no persistent disk, so the SQLite file vanishes whenever the
+# instance sleeps or redeploys. Mirroring the billing tables into the durable
+# storage the app already has (Google Drive) means a wiped disk costs nothing —
+# without it, everyone who paid would silently lose their subscription.
+BILLING_BACKUP_KEY = "billing-backup"
+
+
+def snapshot_billing() -> None:
+    """Mirror billing state to durable storage. Never raises.
+
+    A failed backup must not fail the purchase that triggered it: the customer
+    has already sent money, and the local database is still correct.
+    """
+    try:
+        store.save(BILLING_BACKUP_KEY, billing.export_state())
+    except Exception as exc:                                  # noqa: BLE001
+        print(f"[billing] backup failed: {exc}", flush=True)
+
+
+def restore_billing() -> None:
+    """Refill an empty database from the last snapshot, once, at startup."""
+    try:
+        if not billing.is_empty():
+            return
+        data = store.load(BILLING_BACKUP_KEY)
+        if not data:
+            return
+        rows = billing.import_state(data)
+        if rows:
+            print(f"[billing] restored {rows} rows after a disk reset", flush=True)
+    except Exception as exc:                                  # noqa: BLE001
+        print(f"[billing] restore failed: {exc}", flush=True)
+
+
+@app.on_event("startup")
+def _restore_on_boot() -> None:
+    restore_billing()
+
 
 def _secret() -> str:
     if not settings.secret_key:
@@ -237,6 +276,8 @@ def redeem(body: RedeemBody, response: Response, x_atlas_visitor: str | None = H
     visitor, token = resolve_visitor(x_atlas_visitor)
     response.headers[VISITOR_HEADER] = token
     ok, message = billing.redeem(visitor, body.code)
+    if ok:
+        snapshot_billing()
     if not ok:
         return JSONResponse(
             {"ok": False, "message": message}, status_code=400, headers={VISITOR_HEADER: token}
@@ -277,6 +318,7 @@ def claim(body: ClaimBody, response: Response, x_atlas_visitor: str | None = Hea
         return JSONResponse(
             {"ok": False, "message": message}, status_code=400, headers={VISITOR_HEADER: token}
         )
+    snapshot_billing()
     return {"ok": True, "id": payment_id, "message": message,
             "entitlement": billing.entitlement(visitor).as_dict()}
 
@@ -318,6 +360,7 @@ def admin_review(payment_id: str, body: ReviewBody, x_atlas_admin: str | None = 
     )
     if not ok:
         raise HTTPException(409, message)
+    snapshot_billing()
     return {"ok": True, "message": message}
 
 

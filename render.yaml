@@ -7,10 +7,17 @@ services:
     dockerfilePath: ./server/Dockerfile
     dockerContext: ./server
     healthCheckPath: /api/health
-    disk:
-      name: mindora-data
-      mountPath: /data
-      sizeGB: 1
+    # Free plan: no persistent disk. The database is rebuilt from a Google
+    # Drive snapshot every time the instance wakes, so paid subscriptions
+    # survive the reset — see "Running on a free plan" in server/README.md.
+    #
+    # To move to a paid plan, add `plan: starter` and uncomment the disk. The
+    # snapshot keeps working either way; it just stops being load-bearing.
+    #
+    # disk:
+    #   name: mindora-data
+    #   mountPath: /data
+    #   sizeGB: 1
     envVars:
       - key: ANTHROPIC_API_KEY     # secret — set in dashboard
         sync: false
@@ -29,7 +36,7 @@ services:
       - key: PER_VISITOR_DAILY_CAP
         value: "25"
       - key: DB_PATH
-        value: /data/atlas.db
+        value: /tmp/mindora.db
 
       # --- subscriptions -------------------------------------------------
       # Without ADMIN_TOKEN the payment-review API stays shut (503), so no
