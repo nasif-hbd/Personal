@@ -18,6 +18,7 @@ pennies, and losing pennies in a payments table is how disputes start.
 from __future__ import annotations
 
 import hmac
+import os
 import secrets
 import sqlite3
 import threading
@@ -90,6 +91,9 @@ class Billing:
         return conn
 
     def _init_db(self) -> None:
+        parent = os.path.dirname(os.path.abspath(self.db_path))
+        if parent:
+            os.makedirs(parent, exist_ok=True)
         with self._connect() as conn:
             conn.execute("""
                 CREATE TABLE IF NOT EXISTS entitlements (

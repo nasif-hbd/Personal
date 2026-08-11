@@ -12,12 +12,25 @@ reset every deploy and quietly hand out a fresh budget.
 """
 from __future__ import annotations
 
+import os
 import sqlite3
 import threading
 import time
 from dataclasses import dataclass
 
 _lock = threading.Lock()
+
+
+def ensure_parent_dir(db_path: str) -> None:
+    """Create the database's folder if it is missing.
+
+    A host without a mounted disk has no /data, and SQLite refusing to open
+    its file raises at import time — taking the whole app down before it can
+    serve a single request.
+    """
+    parent = os.path.dirname(os.path.abspath(db_path))
+    if parent:
+        os.makedirs(parent, exist_ok=True)
 
 
 @dataclass(frozen=True)
@@ -41,6 +54,7 @@ class Quota:
         return conn
 
     def _init_db(self) -> None:
+        ensure_parent_dir(self.db_path)
         with self._connect() as conn:
             conn.execute("""
                 CREATE TABLE IF NOT EXISTS usage (
