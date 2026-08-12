@@ -42,6 +42,11 @@ services:
         value: /tmp/mindora.db
 
       # --- subscriptions -------------------------------------------------
+      # Everything open to everyone: chat works with no payment and no code.
+      # The payment system stays wired up — set this to false to start
+      # charging again, with nothing to rebuild.
+      - key: FREE_FOR_ALL
+        value: "true"
       # Without ADMIN_TOKEN the payment-review API stays shut (503), so no
       # payment can ever be approved and nobody can subscribe.
       - key: ADMIN_TOKEN

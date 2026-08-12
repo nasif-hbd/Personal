@@ -131,6 +131,11 @@ def subscription_gate(visitor: str) -> bool:
     Returns True when the request is being served from the free trial, so the
     caller knows to burn one.
     """
+    # Open to everyone. Checked first so no trial is consumed and no
+    # entitlement lookup is needed — the spend caps still apply, so the
+    # owner's account stays protected.
+    if settings.free_for_all:
+        return False
     if billing.entitlement(visitor).active:
         return False
     if settings.free_trial_messages and billing.trial_used(visitor) < settings.free_trial_messages:
@@ -158,7 +163,11 @@ def health():
         "quota": quota.stats(),
         "accessCode": bool(settings.access_code),
         "billing": {
-            "enabled": bool(settings.pay_accounts),
+            # freeForAll being true means nothing is for sale right now, so the
+            # client hides the whole upgrade surface rather than advertising a
+            # subscription that buys nothing.
+            "freeForAll": settings.free_for_all,
+            "enabled": bool(settings.pay_accounts) and not settings.free_for_all,
             "currency": settings.currency,
             "trialMessages": settings.free_trial_messages,
         },
@@ -255,6 +264,7 @@ def billing_config():
         ],
         "trialMessages": settings.free_trial_messages,
         "codeEnabled": bool(settings.free_access_code),
+        "freeForAll": settings.free_for_all,
     }
 
 
@@ -264,6 +274,7 @@ def get_entitlement(response: Response, x_atlas_visitor: str | None = Header(def
     response.headers[VISITOR_HEADER] = token
     data = billing.entitlement(visitor).as_dict()
     data["trialRemaining"] = max(0, settings.free_trial_messages - billing.trial_used(visitor))
+    data["freeForAll"] = settings.free_for_all
     return data
 
 

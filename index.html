@@ -3078,11 +3078,14 @@ function renderUpgrade(container){
   if(!billingAvailable()){
     container.innerHTML = `
       <div class="chat-empty">
-        <div class="big-ic">${icon("sparkle","ic-xl")}</div>
-        <h2>Subscriptions aren't set up here</h2>
-        <p>${nativeShell()
-          ? "Manage your subscription at mindora on the web — app store rules don't allow us to sell it inside the installed app."
-          : "This copy of Mindora isn't connected to a billing server yet."}</p>
+        <div class="big-ic">${icon(freeForAll() ? "checkCircle" : "sparkle","ic-xl")}</div>
+        <h2>${freeForAll() ? "Everything is free" : "Subscriptions aren't set up here"}</h2>
+        <p>${freeForAll()
+          ? "Every part of Mindora is open to everyone right now — the assistant, the catalog, video, tracking, all of it. Nothing to buy and nothing to enter."
+          : nativeShell()
+            ? "Manage your subscription at mindora on the web — app store rules don't allow us to sell it inside the installed app."
+            : "This copy of Mindora isn't connected to a billing server yet."}</p>
+        <button class="btn primary" data-nav="home">${icon("arrowRight","ic-sm")} Start learning</button>
       </div>`;
     return;
   }
@@ -5067,12 +5070,18 @@ function nativeShell(){
 ============================================================ */
 let billingConfig = null;
 
-function billingAvailable(){ return !!backendUrl() && !!billingConfig && !nativeShell(); }
+// When the server is running open to everyone there is nothing to sell, so the
+// whole upgrade surface stays hidden rather than advertising a subscription
+// that would buy nothing.
+function freeForAll(){ return !!(billingConfig && billingConfig.freeForAll); }
+function billingAvailable(){
+  return !!backendUrl() && !!billingConfig && !freeForAll() && !nativeShell();
+}
 function isPro(){ return !!(state.entitlement && state.entitlement.active); }
 function planPending(){ return !!(state.entitlement && state.entitlement.status === "pending"); }
 function trialLeft(){ return (state.entitlement && state.entitlement.trialRemaining) || 0; }
 // Chat is usable when the subscription is live, or trial messages remain.
-function chatUnlocked(){ return !backendUrl() || isPro() || trialLeft() > 0; }
+function chatUnlocked(){ return !backendUrl() || freeForAll() || isPro() || trialLeft() > 0; }
 
 function money(amount, currency){
   const symbol = currency === "BDT" ? "৳" : (currency === "USD" ? "$" : "");

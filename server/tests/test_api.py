@@ -286,3 +286,77 @@ def test_billing_config_exposes_only_configured_rails(paid_client):
     assert [m["id"] for m in body["methods"]] == ["bkash"]
     assert body["methods"][0]["account"] == "01700000000"
     assert body["codeEnabled"] is True
+
+
+# --- free for all --------------------------------------------------------
+# One switch opens everything. The payment code stays in place so charging
+# can be turned back on without rebuilding it.
+
+
+@pytest.fixture()
+def open_client(tmp_path, monkeypatch):
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-test-not-real")
+    monkeypatch.setenv("SECRET_KEY", "open-secret")
+    monkeypatch.setenv("DB_PATH", str(tmp_path / "o.db"))
+    monkeypatch.setenv("FREE_FOR_ALL", "true")
+    monkeypatch.setenv("FREE_TRIAL_MESSAGES", "0")
+    monkeypatch.setenv("PAY_BKASH", "01700000000")
+    monkeypatch.chdir(tmp_path)
+    from app import config, main
+    importlib.reload(config)
+    importlib.reload(main)
+    return TestClient(main.app)
+
+
+def test_anyone_can_chat_with_no_subscription(open_client):
+    assert _chat(open_client).status_code == 200
+
+
+def test_free_access_burns_no_trial(open_client):
+    """Trials must not tick down while the app is open — otherwise switching
+    charging back on would find everyone's trial already spent."""
+    for _ in range(3):
+        _chat(open_client)
+    body = open_client.get("/api/billing/entitlement").json()
+    assert body["freeForAll"] is True
+    assert body["trialRemaining"] == 0        # trials are off, not consumed
+
+
+def test_upgrade_surface_is_hidden(open_client):
+    health = open_client.get("/api/health").json()
+    assert health["billing"]["freeForAll"] is True
+    # enabled stays false even though a PAY_ rail is configured: there is
+    # nothing to sell, so the client must not advertise a subscription.
+    assert health["billing"]["enabled"] is False
+    assert open_client.get("/api/billing/config").json()["freeForAll"] is True
+
+
+def test_spend_caps_still_apply_when_open(tmp_path, monkeypatch):
+    """Free for users must not mean unlimited for the owner's wallet."""
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-test")
+    monkeypatch.setenv("SECRET_KEY", "s")
+    monkeypatch.setenv("DB_PATH", str(tmp_path / "cap.db"))
+    monkeypatch.setenv("FREE_FOR_ALL", "true")
+    monkeypatch.setenv("PER_VISITOR_DAILY_CAP", "2")
+    monkeypatch.chdir(tmp_path)
+    from app import config, main
+    importlib.reload(config)
+    importlib.reload(main)
+    c = TestClient(main.app)
+    first = _chat(c)
+    token = first.headers["x-atlas-visitor"]
+    _chat(c, token)
+    assert _chat(c, token).status_code == 429
+
+
+def test_switching_charging_back_on_restores_the_paywall(tmp_path, monkeypatch):
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-test")
+    monkeypatch.setenv("SECRET_KEY", "s")
+    monkeypatch.setenv("DB_PATH", str(tmp_path / "back.db"))
+    monkeypatch.setenv("FREE_FOR_ALL", "false")
+    monkeypatch.setenv("FREE_TRIAL_MESSAGES", "0")
+    monkeypatch.chdir(tmp_path)
+    from app import config, main
+    importlib.reload(config)
+    importlib.reload(main)
+    assert _chat(TestClient(main.app)).status_code == 402

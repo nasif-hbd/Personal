@@ -45,6 +45,12 @@ class Settings:
     # Chat is the only paid feature; plans, catalog and tracking stay free.
     # Set to 0 for a strict paywall, or a small number to let people try the
     # assistant before paying — conversion is usually better with a taste.
+    # Open the whole app to everyone: chat works with no subscription and no
+    # code. The payment machinery stays in place and switches back on the
+    # moment this is false, so turning it off costs nothing to reverse.
+    free_for_all: bool = field(
+        default_factory=lambda: os.environ.get("FREE_FOR_ALL", "").strip().lower()
+        in ("1", "true", "yes", "on"))
     free_trial_messages: int = field(default_factory=lambda: _int("FREE_TRIAL_MESSAGES", 0))
     # The words that unlock free access. Checked server-side only; matching
     # ignores case and extra spaces. Rotate by changing this env var.
