@@ -163,11 +163,11 @@ def health():
         "quota": quota.stats(),
         "accessCode": bool(settings.access_code),
         "billing": {
-            # freeForAll being true means nothing is for sale right now, so the
-            # client hides the whole upgrade surface rather than advertising a
-            # subscription that buys nothing.
+            # freeForAll means nothing is *required*. The rails stay enabled so
+            # the client can still offer a voluntary way to pay; what it must
+            # not do is gate anything or ask.
             "freeForAll": settings.free_for_all,
-            "enabled": bool(settings.pay_accounts) and not settings.free_for_all,
+            "enabled": bool(settings.pay_accounts),
             "currency": settings.currency,
             "trialMessages": settings.free_trial_messages,
         },

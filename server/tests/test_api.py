@@ -300,6 +300,7 @@ def open_client(tmp_path, monkeypatch):
     monkeypatch.setenv("DB_PATH", str(tmp_path / "o.db"))
     monkeypatch.setenv("FREE_FOR_ALL", "true")
     monkeypatch.setenv("FREE_TRIAL_MESSAGES", "0")
+    monkeypatch.setenv("FREE_ACCESS_CODE", "Nafia is my Sister")
     monkeypatch.setenv("PAY_BKASH", "01700000000")
     monkeypatch.chdir(tmp_path)
     from app import config, main
@@ -322,13 +323,29 @@ def test_free_access_burns_no_trial(open_client):
     assert body["trialRemaining"] == 0        # trials are off, not consumed
 
 
-def test_upgrade_surface_is_hidden(open_client):
+def test_rails_stay_available_while_nothing_is_required(open_client):
+    """Paying stays possible, being asked does not. The client uses freeForAll
+    to drop every gate and prompt while still offering a way to contribute."""
     health = open_client.get("/api/health").json()
     assert health["billing"]["freeForAll"] is True
-    # enabled stays false even though a PAY_ rail is configured: there is
-    # nothing to sell, so the client must not advertise a subscription.
-    assert health["billing"]["enabled"] is False
-    assert open_client.get("/api/billing/config").json()["freeForAll"] is True
+    assert health["billing"]["enabled"] is True          # rails still offered
+    cfg = open_client.get("/api/billing/config").json()
+    assert cfg["freeForAll"] is True
+    assert [m["id"] for m in cfg["methods"]] == ["bkash"]
+
+
+def test_voluntary_payment_still_works_when_open(open_client):
+    """Someone who wants to pay anyway must not be turned away."""
+    r = open_client.post("/api/billing/claim", json={
+        "plan": "monthly", "method": "bkash", "reference": "TRX-GIFT-1",
+    })
+    assert r.status_code == 200
+    assert r.json()["entitlement"]["status"] == "pending"
+
+
+def test_code_still_redeemable_when_open(open_client):
+    r = open_client.post("/api/billing/redeem", json={"code": "Nafia is my Sister"})
+    assert r.status_code == 200 and r.json()["entitlement"]["active"]
 
 
 def test_spend_caps_still_apply_when_open(tmp_path, monkeypatch):

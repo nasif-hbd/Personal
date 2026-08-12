@@ -2624,7 +2624,9 @@ function renderSidebar(){
 
   const pill = document.getElementById("planPill");
   if(pill){
-    if(!billingAvailable()){
+    // The pill is a nudge, not a status. While nothing is required it is a
+    // request, so it goes away entirely.
+    if(!paymentRequired()){
       pill.hidden = true;
     }else{
       pill.hidden = false;
@@ -2953,7 +2955,10 @@ function paletteCommands(){
     {kind:"Do", label:"Export all data", icon:"download", run:exportData},
     {kind:"Do", label:"Keyboard shortcuts", icon:"wrench", run:openShortcutsModal},
   ];
-  if(billingAvailable()) items.push({kind:"Do", label:"Subscription", icon:"sparkle", run:()=>go("upgrade")});
+  if(billingAvailable()) items.push({
+    kind:"Do", label: freeForAll() ? "Support Mindora" : "Subscription",
+    icon:"sparkle", run:()=>go("upgrade"),
+  });
 
   state.plans.forEach(plan=>{
     items.push({
@@ -3073,18 +3078,17 @@ function runPalette(index){
    Upgrade / checkout
 ============================================================ */
 function renderUpgrade(container){
-  setTopbar("Mindora Pro", isPro() ? "Active" : "");
+  const gift = freeForAll();
+  setTopbar(gift ? "Support Mindora" : "Mindora Pro", isPro() ? "Active" : "");
 
   if(!billingAvailable()){
     container.innerHTML = `
       <div class="chat-empty">
-        <div class="big-ic">${icon(freeForAll() ? "checkCircle" : "sparkle","ic-xl")}</div>
-        <h2>${freeForAll() ? "Everything is free" : "Subscriptions aren't set up here"}</h2>
-        <p>${freeForAll()
-          ? "Every part of Mindora is open to everyone right now — the assistant, the catalog, video, tracking, all of it. Nothing to buy and nothing to enter."
-          : nativeShell()
-            ? "Manage your subscription at mindora on the web — app store rules don't allow us to sell it inside the installed app."
-            : "This copy of Mindora isn't connected to a billing server yet."}</p>
+        <div class="big-ic">${icon("sparkle","ic-xl")}</div>
+        <h2>Nothing to set up</h2>
+        <p>${nativeShell()
+          ? "Payments live on the Mindora website — app store rules don't allow selling inside the installed app."
+          : "This copy of Mindora isn't connected to a server yet."}</p>
         <button class="btn primary" data-nav="home">${icon("arrowRight","ic-sm")} Start learning</button>
       </div>`;
     return;
@@ -3125,17 +3129,22 @@ function renderUpgrade(container){
     <div class="upgrade-wrap">
 
       <div class="upgrade-hero reveal">
-        <span class="eyebrow">${icon("sparkle","ic-sm")} Mindora Pro</span>
-        <h1>Your own study coach,<br><span class="grad">always on.</span></h1>
-        <p>Plans, the catalog and progress tracking stay free forever. Pro unlocks the
-        assistant that builds and rewrites your plans for you.</p>
+        <span class="eyebrow">${icon("sparkle","ic-sm")} ${gift ? "Support Mindora" : "Mindora Pro"}</span>
+        <h1>${gift
+          ? `Mindora is free.<br><span class="grad">Keep it that way.</span>`
+          : `Your own study coach,<br><span class="grad">always on.</span>`}</h1>
+        <p>${gift
+          ? "Every part of Mindora is open to everyone — the assistant, the catalog, video, tracking. Nothing is locked and you will never be asked. If it has been useful and you would like to help cover the running costs, there is a way below."
+          : "Plans, the catalog and progress tracking stay free forever. Pro unlocks the assistant that builds and rewrites your plans for you."}</p>
         ${planPending() ? `
           <div class="notice pending">
             ${icon("hourglass","ic-sm")}
-            <div><strong>Payment received — verifying.</strong>
-            We check transactions by hand, usually within a few hours. You'll get access as soon as it clears.</div>
+            <div><strong>${gift ? "Thank you — checking it through." : "Payment received — verifying."}</strong>
+            ${gift
+              ? "We verify transactions by hand. Nothing changes for you either way; you already have everything."
+              : "We check transactions by hand, usually within a few hours. You'll get access as soon as it clears."}</div>
           </div>` : ""}
-        ${trialLeft() > 0 ? `
+        ${(!gift && trialLeft() > 0) ? `
           <div class="notice">
             ${icon("sparkle","ic-sm")}
             <div><strong>${trialLeft()} free message${trialLeft()===1?"":"s"} left.</strong> Try the assistant before you pay.</div>
@@ -3143,7 +3152,7 @@ function renderUpgrade(container){
       </div>
 
       <div class="card wide reveal">
-        <h3>What's included</h3>
+        <h3>${gift ? "What you already have" : "What's included"}</h3>
         ${proFeatureList()}
       </div>
 
@@ -3153,8 +3162,8 @@ function renderUpgrade(container){
             ${p.note ? `<span class="badge gold">${escapeHtml(p.note)}</span>` : ""}
             <div class="plan-name">${escapeHtml(p.label)}</div>
             <div class="plan-price">${money(p.price, p.currency)}</div>
-            <div class="plan-period">every ${p.days === 365 ? "year" : p.days + " days"}</div>
-            <span class="plan-cta">Choose ${escapeHtml(p.label)} ${icon("arrowRight","ic-sm")}</span>
+            <div class="plan-period">${gift ? "one-off, if you want to" : `every ${p.days === 365 ? "year" : p.days + " days"}`}</div>
+            <span class="plan-cta">${gift ? "Contribute" : "Choose " + escapeHtml(p.label)} ${icon("arrowRight","ic-sm")}</span>
           </button>`).join("")}
       </div>
 
@@ -3174,8 +3183,10 @@ function renderUpgrade(container){
 
       ${cfg.codeEnabled ? `
         <div class="card wide reveal">
-          <h3>Have a free-access code?</h3>
-          <p class="desc">If someone gave you a code, enter it here to unlock Pro at no cost.</p>
+          <h3>Have an access code?</h3>
+          <p class="desc">${gift
+            ? "Everything is already free, so you do not need one — but a code still works and stays valid if charging is ever switched on."
+            : "If someone gave you a code, enter it here to unlock Pro at no cost."}</p>
           <div class="code-row">
             <input type="text" id="codeInput" placeholder="Enter your access code" autocomplete="off">
             <button class="btn primary" id="btnRedeem">Unlock</button>
@@ -3305,7 +3316,7 @@ function renderChat(container){
   // Checked before the no-plan state on purpose: creating a plan immediately
   // calls the assistant, so someone who can't use it should find that out
   // before doing the work, not after.
-  if(billingAvailable() && !chatUnlocked()){
+  if(paymentRequired() && !chatUnlocked()){
     container.innerHTML = `
       <div class="chat-empty locked">
         <div class="big-ic">${icon("sparkle","ic-xl")}</div>
@@ -5070,13 +5081,16 @@ function nativeShell(){
 ============================================================ */
 let billingConfig = null;
 
-// When the server is running open to everyone there is nothing to sell, so the
-// whole upgrade surface stays hidden rather than advertising a subscription
-// that would buy nothing.
+// Two separate questions, deliberately not one flag:
+//   billingAvailable — can the checkout screen be shown at all?
+//   paymentRequired  — is anything actually gated, or asked for?
+// When the server runs open to everyone, paying stays possible for anyone who
+// wants to, but nothing is locked and nothing is requested.
 function freeForAll(){ return !!(billingConfig && billingConfig.freeForAll); }
 function billingAvailable(){
-  return !!backendUrl() && !!billingConfig && !freeForAll() && !nativeShell();
+  return !!backendUrl() && !!billingConfig && !nativeShell();
 }
+function paymentRequired(){ return billingAvailable() && !freeForAll(); }
 function isPro(){ return !!(state.entitlement && state.entitlement.active); }
 function planPending(){ return !!(state.entitlement && state.entitlement.status === "pending"); }
 function trialLeft(){ return (state.entitlement && state.entitlement.trialRemaining) || 0; }
