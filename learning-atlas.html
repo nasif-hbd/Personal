@@ -258,6 +258,60 @@ button{font-family:inherit;}
 .key-status.ok .pip{background:var(--success); box-shadow:0 0 10px var(--success);}
 .key-status.bad .pip{background:var(--danger); box-shadow:0 0 10px var(--danger);}
 
+/* --- quiz -------------------------------------------------------------- */
+.quiz-btn{padding:5px 11px; font-size:12px; gap:5px;}
+.quiz-btn.passed{color:var(--success); border-color:rgba(52,211,153,.4);}
+.quiz-modal{max-width:620px;}
+.quiz-head h2{margin:0 0 4px;}
+.quiz-body{
+  /* Long quizzes must scroll inside the dialog, not push its buttons off. */
+  max-height:min(52vh, 460px); overflow-y:auto; margin:18px 0 4px; padding-right:4px;
+}
+.quiz-q{border:0; padding:0; margin:0 0 22px;}
+.quiz-q legend{
+  display:flex; gap:10px; align-items:flex-start; padding:0; margin-bottom:11px;
+  font-size:15px; font-weight:600; line-height:1.45;
+}
+.quiz-n{
+  flex:0 0 auto; width:23px; height:23px; border-radius:50%; display:grid; place-items:center;
+  background:rgba(var(--accent-rgb),.14); color:var(--accent);
+  font-family:var(--font-mono); font-size:11px; font-weight:700;
+}
+.quiz-opt{
+  display:flex; align-items:flex-start; gap:11px; padding:10px 13px; margin-bottom:7px;
+  border:1px solid var(--line); border-radius:11px; cursor:pointer; font-size:14px;
+  transition:border-color .15s var(--ease), background .15s var(--ease);
+}
+.quiz-opt:hover{border-color:rgba(var(--accent-rgb),.45);}
+.quiz-opt:has(input:checked){
+  border-color:var(--accent); background:rgba(var(--accent-rgb),.09);
+}
+.quiz-opt input{margin-top:2px; flex:0 0 auto; accent-color:var(--accent);}
+.quiz-opt:focus-within{outline:2px solid var(--accent); outline-offset:2px;}
+
+.quiz-result{text-align:center; padding:10px 0 4px;}
+.quiz-score{
+  font-size:54px; font-weight:800; letter-spacing:-2px; line-height:1;
+}
+.quiz-score span{font-size:24px; opacity:.55; margin-left:2px;}
+.quiz-result.pass .quiz-score{color:var(--success);}
+.quiz-result.fail .quiz-score{color:var(--gold);}
+.quiz-result h2{margin:12px 0 6px;}
+.quiz-result p{margin:0 auto; color:var(--text-muted); max-width:44ch; font-size:14.5px;}
+.quiz-review{margin-top:22px; padding-top:16px; border-top:1px solid var(--line);}
+.quiz-review h3{font-size:13px; margin:0 0 10px; color:var(--text-faint);}
+.quiz-missed{
+  font-size:13.5px; padding:9px 12px; margin-bottom:7px; border-radius:9px;
+  background:var(--surface); border-left:3px solid var(--gold); color:var(--text-dim);
+}
+.quiz-list{display:flex; flex-direction:column; gap:8px; margin:14px 0 18px;}
+.quiz-item{
+  display:flex; justify-content:space-between; align-items:flex-start; gap:12px;
+  padding:11px 13px; border:1px solid var(--line); border-radius:11px; background:var(--surface);
+}
+.quiz-item strong{font-size:14px; font-weight:600;}
+.quiz-item .desc{margin:3px 0 0; font-size:12.5px;}
+
 /* --- desktop sidebar --------------------------------------------------- */
 /* Above 900px the header becomes a fixed left rail. No markup moves: the same
    brand / nav / actions row simply stacks vertically, so the phone layout and
@@ -794,7 +848,7 @@ input[type=text], input[type=number], input[type=password], input[type=time], in
 input:focus, select:focus, textarea:focus{border-color:var(--accent); box-shadow:var(--glow); background:var(--surface-2);}
 /* Scoped away from labels that are styled as something else (the file-picker
    is a <label class="btn">, and would otherwise render uppercase mono). */
-label:not(.btn):not(.watch-done-toggle){
+label:not(.btn):not(.watch-done-toggle):not(.quiz-opt){
   font-family:var(--font-mono); font-size:10px; color:var(--text-faint); font-weight:500;
   display:block; margin-bottom:7px; text-transform:uppercase; letter-spacing:.14em;
 }
@@ -2016,6 +2070,96 @@ function seekPlayer(classId, seconds){
   return false;
 }
 
+// --- end-of-video quiz ---------------------------------------------------
+// A lesson is not finished because the video reached the end — it is finished
+// when the learner can answer questions about it. Below the pass mark the
+// watch progress is wiped and the lesson has to be done again.
+const QUIZ_PASS = 0.75;
+
+/** Accept whatever the model produced and keep only well-formed questions. */
+function normalizeQuiz(raw){
+  if(!Array.isArray(raw)) return [];
+  return raw.map(q=>{
+    if(!q || typeof q !== "object") return null;
+    const question = String(q.q || q.question || "").trim();
+    const options = Array.isArray(q.options) ? q.options.map(o=>String(o).trim()).filter(Boolean) : [];
+    const answer = Number(q.answer);
+    // A question with no correct option among its choices is unanswerable, and
+    // shipping one would lock a learner out of their own lesson forever.
+    if(!question || options.length < 2 || !Number.isInteger(answer)) return null;
+    if(answer < 0 || answer >= options.length) return null;
+    return {id: q.id || uid(), q: question, options, answer};
+  }).filter(Boolean);
+}
+
+function classQuiz(c){ return (c && Array.isArray(c.quiz)) ? c.quiz : []; }
+function quizAttempts(c){ return (c && Array.isArray(c.quizAttempts)) ? c.quizAttempts : []; }
+function bestQuizScore(c){
+  return quizAttempts(c).reduce((best, a)=>Math.max(best, Number(a.score)||0), 0);
+}
+function quizPassed(c){ return classQuiz(c).length > 0 && bestQuizScore(c) >= QUIZ_PASS; }
+/** True when this lesson still owes a passing quiz before it can be done. */
+function quizPending(c){ return classQuiz(c).length > 0 && !quizPassed(c); }
+
+/**
+ * Grade a set of answers. Returns {score, correct, total, passed, wrong[]}.
+ * Passing completes the lesson; failing clears watch progress, because
+ * "do the task again" has to mean something the app can actually enforce.
+ */
+function submitQuiz(planId, classId, answers){
+  const found = findClassAnywhere(classId);
+  if(!found) return null;
+  const {plan, c} = found;
+  const questions = classQuiz(c);
+  if(!questions.length) return null;
+
+  const wrong = [];
+  let correct = 0;
+  questions.forEach((q, i)=>{
+    if(answers[i] === q.answer) correct++;
+    else wrong.push(i);
+  });
+  const score = correct / questions.length;
+  const passed = score >= QUIZ_PASS;
+
+  if(!Array.isArray(c.quizAttempts)) c.quizAttempts = [];
+  c.quizAttempts.push({at: Date.now(), score, correct, total: questions.length, passed});
+
+  if(passed){
+    c.done = true;
+    c.doneAt = Date.now();
+    c.watchPct = 1;
+  }else{
+    c.done = false;
+    c.doneAt = null;
+    // Back to the start: the lesson has to be watched again, not just retried.
+    c.watchPct = 0;
+  }
+  plan.updatedAt = Date.now();
+  persistPlans();
+  return {score, correct, total: questions.length, passed, wrong};
+}
+
+function addQuizQuestion(planId, classId, question){
+  const found = findClassAnywhere(classId);
+  if(!found) return false;
+  const clean = normalizeQuiz([question]);
+  if(!clean.length) return false;
+  if(!Array.isArray(found.c.quiz)) found.c.quiz = [];
+  found.c.quiz.push(clean[0]);
+  found.plan.updatedAt = Date.now();
+  persistPlans();
+  return true;
+}
+
+function deleteQuizQuestion(classId, questionId){
+  const found = findClassAnywhere(classId);
+  if(!found) return;
+  found.c.quiz = classQuiz(found.c).filter(q=>q.id !== questionId);
+  found.plan.updatedAt = Date.now();
+  persistPlans();
+}
+
 // --- recall cards (SM-2) -------------------------------------------------
 // A trimmed SuperMemo-2: the scheduling that made spaced repetition work, with
 // the four-button grading people actually understand.
@@ -2293,6 +2437,13 @@ function applyPlanData(plan, data){
           // spend YouTube quota re-finding the same clip.
           resolvedYtId: (old && old.resolvedYtId) || null,
           resolvedIsAlt: (old && old.resolvedIsAlt) || false,
+          // Keep the questions the model just wrote, but never discard a
+          // learner's own edits or their attempt history by regenerating.
+          quiz: normalizeQuiz(c.quiz) .length ? normalizeQuiz(c.quiz) : ((old && old.quiz) || []),
+          quizAttempts: (old && old.quizAttempts) || [],
+          userNotes: (old && old.userNotes) || [],
+          watchPct: (old && old.watchPct) || 0,
+          doneAt: (old && old.doneAt) || null,
         };
       }),
       todos: (d.todos||[]).map(t=>{
@@ -2353,7 +2504,14 @@ Once you have enough information (ask brief clarifying questions first if someth
               "altVideoUrl": "https://www.youtube.com/watch?v=... (a YouTube stand-in when resourceUrl can't be embedded)",
               "altChannel": "channel name for altVideoUrl",
               "durationMinutes": 30,
-              "notes": "what to do / focus on"
+              "notes": "what to do / focus on",
+              "quiz": [
+                {
+                  "q": "a question answerable only by someone who actually watched",
+                  "options": ["option A", "option B", "option C", "option D"],
+                  "answer": 0
+                }
+              ]
             }
           ],
           "todos": [ { "text": "short actionable todo for the day" } ]
@@ -2368,6 +2526,7 @@ RULES FOR THE JSON
 - Every week object must contain exactly 7 entries in "days" (dayNumber 1-7), even rest days — use "type":"rest" with an empty or near-empty classes array and a light todo like "Review this week's notes".
 - classes[].type is one of: "video", "practice", "reading", "quiz", "rest".
 - EVERY non-rest class must be watchable inside the app. Whenever resourceUrl is NOT an embeddable YouTube link — i.e. it points at Khan Academy, MIT OCW, edX, Coursera, freeCodeCamp, British Council, a YouTube channel page, or a search page, none of which allow iframing — also set "altVideoUrl" to a real, specific YouTube video or playlist covering the same topic (plus "altChannel"). Same sourcing rule as resourceUrl: it must come from an actual search result, never invented. Omit altVideoUrl only when resourceUrl is already an embeddable YouTube video/playlist.
+- Give every non-rest class a "quiz" of 4 multiple-choice questions, each with 4 options and "answer" as the 0-based index of the correct one. Write them so only someone who actually watched can answer — test what was explained, not what could be guessed from the title. Keep the wrong options plausible rather than silly. The learner must score ${Math.round(QUIZ_PASS*100)}% to complete the lesson, so pitch the difficulty at genuine understanding, not trivia or exact wording.
 - Total class duration for a day should roughly match the learner's daily study time.
 - durationWeeks must never exceed ${MAX_WEEKS}.
 - Always output the WHOLE plan (every week decided so far), never a partial diff — even when the learner only asked to tweak one part.
@@ -3861,6 +4020,7 @@ function renderClassCard(plan, c){
   const attachBtn = (!media && c.type !== "rest")
     ? `<button class="btn small" data-action="attach-video" data-plan="${plan.id}" data-class="${c.id}" title="Pick a YouTube video to watch here">${icon("plus","ic-sm")} Video</button>` : "";
   const noteCount = classNotes(c).length;
+  const quizCount = classQuiz(c).length;
   return `
     <div class="class-card ${c.done?'done':''}" data-card="${c.id}">
       ${media}
@@ -3877,6 +4037,15 @@ function renderClassCard(plan, c){
         </button>
         <button class="icon-btn sm" data-action="add-card" data-plan="${plan.id}" data-class="${c.id}"
           title="Make a recall card" aria-label="Make a recall card from ${escapeHtml(c.title)}">${icon("lightbulb","ic-sm")}</button>
+        ${quizCount ? `
+          <button class="btn small quiz-btn${quizPassed(c)?" passed":""}" data-action="take-quiz"
+            data-plan="${plan.id}" data-class="${c.id}"
+            title="${quizPassed(c) ? `Passed with ${Math.round(bestQuizScore(c)*100)}%` : `${quizCount} questions · ${Math.round(QUIZ_PASS*100)}% to pass`}">
+            ${icon(quizPassed(c) ? "checkCircle" : "clipboard","ic-sm")}
+            ${quizPassed(c) ? `${Math.round(bestQuizScore(c)*100)}%` : "Quiz"}
+          </button>` : `
+          <button class="icon-btn sm" data-action="edit-quiz" data-plan="${plan.id}" data-class="${c.id}"
+            title="Add a quiz" aria-label="Add a quiz to ${escapeHtml(c.title)}">${icon("clipboard","ic-sm")}</button>`}
         ${editBtn}
         <input type="time" value="${c.completionTime||''}" data-action="set-completion" data-plan="${plan.id}" data-class="${c.id}" title="Notify me 10 & 5 min before this time">
         <input type="checkbox" class="chk" ${c.done?'checked':''} data-action="toggle-class-done" data-plan="${plan.id}" data-class="${c.id}" title="Mark done">
@@ -3964,11 +4133,169 @@ function paintNotes(classId){
   }
 }
 
+/* ============================================================
+   Quiz
+============================================================ */
+
+// Answers for the open attempt. Transient by design: a half-finished quiz
+// should not survive a reload as a partially-filled paper.
+let quizAnswers = [];
+
+function openQuizModal(planId, classId){
+  const found = findClassAnywhere(classId);
+  if(!found) return;
+  const questions = classQuiz(found.c);
+  if(!questions.length){
+    toast("This lesson has no quiz yet — add questions from the lesson's quiz button.", "info");
+    return;
+  }
+  quizAnswers = new Array(questions.length).fill(null);
+  paintQuiz(planId, classId, null);
+}
+
+function paintQuiz(planId, classId, result){
+  const found = findClassAnywhere(classId);
+  if(!found) return;
+  const {c} = found;
+  const questions = classQuiz(c);
+  const pass = Math.round(QUIZ_PASS * 100);
+  const attempts = quizAttempts(c).length;
+
+  document.getElementById("modalRoot").innerHTML = `
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal quiz-modal" role="dialog" aria-modal="true" aria-labelledby="quizTitle" tabindex="-1">
+        ${result ? `
+          <div class="quiz-result ${result.passed ? "pass" : "fail"}">
+            <div class="quiz-score">${Math.round(result.score * 100)}<span>%</span></div>
+            <h2 id="quizTitle">${result.passed ? "Passed" : "Not quite"}</h2>
+            <p>${result.correct} of ${result.total} correct. ${result.passed
+              ? "Lesson marked complete."
+              : `You need ${pass}% to complete this lesson. Your watch progress has been reset — watch it again, then retake the quiz.`}</p>
+          </div>
+          ${result.passed ? "" : `
+            <div class="quiz-review">
+              <h3>Worth rewatching</h3>
+              ${result.wrong.map(i=>`<div class="quiz-missed">${escapeHtml(questions[i].q)}</div>`).join("")}
+            </div>`}
+          <div class="modal-actions">
+            <button class="btn" data-action="close-modal">Close</button>
+            ${result.passed ? "" : `
+              <button class="btn primary" data-action="retake-quiz" data-plan="${planId}" data-class="${classId}">
+                ${icon("refresh","ic-sm")} Try again
+              </button>`}
+          </div>
+        ` : `
+          <div class="quiz-head">
+            <h2 id="quizTitle">Quick check</h2>
+            <p class="desc">${escapeHtml(c.title)} · ${questions.length} question${questions.length===1?"":"s"} ·
+            ${pass}% to pass${attempts ? ` · attempt ${attempts + 1}` : ""}</p>
+          </div>
+          <div class="quiz-body">
+            ${questions.map((q, qi)=>`
+              <fieldset class="quiz-q">
+                <legend><span class="quiz-n">${qi + 1}</span>${escapeHtml(q.q)}</legend>
+                ${q.options.map((opt, oi)=>`
+                  <label class="quiz-opt">
+                    <input type="radio" name="q${qi}" value="${oi}" data-action="quiz-pick" data-q="${qi}">
+                    <span>${escapeHtml(opt)}</span>
+                  </label>`).join("")}
+              </fieldset>`).join("")}
+          </div>
+          <div class="modal-actions">
+            <button class="btn" data-action="close-modal">Later</button>
+            <button class="btn primary" id="btnSubmitQuiz" data-plan="${planId}" data-class="${classId}" disabled>
+              Submit answers
+            </button>
+          </div>
+        `}
+      </div>
+    </div>`;
+  setupModalA11y();
+  document.getElementById("modalOverlay").addEventListener("click", e=>{ if(e.target.id==="modalOverlay") closeModal(); });
+
+  const submit = document.getElementById("btnSubmitQuiz");
+  if(submit){
+    submit.onclick = ()=>{
+      const res = submitQuiz(planId, classId, quizAnswers);
+      if(!res) return;
+      paintQuiz(planId, classId, res);
+      toast(res.passed
+        ? `Passed with ${Math.round(res.score*100)}% — lesson complete.`
+        : `${Math.round(res.score*100)}% — ${Math.round(QUIZ_PASS*100)}% needed. Watch it again.`,
+        res.passed ? "success" : "error");
+      renderView();
+    };
+  }
+}
+
+/** Enable Submit only once every question has an answer. */
+function pickQuizAnswer(qIndex, value){
+  quizAnswers[qIndex] = value;
+  const submit = document.getElementById("btnSubmitQuiz");
+  if(submit) submit.disabled = quizAnswers.some(a=>a === null);
+}
+
+function openEditQuizModal(planId, classId){
+  const found = findClassAnywhere(classId);
+  if(!found) return;
+  const questions = classQuiz(found.c);
+  document.getElementById("modalRoot").innerHTML = `
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="eqTitle" tabindex="-1">
+        <h2 id="eqTitle">Quiz — ${escapeHtml(found.c.title)}</h2>
+        <p class="desc">${questions.length
+          ? `${questions.length} question${questions.length===1?"":"s"}. ${Math.round(QUIZ_PASS*100)}% is needed to complete the lesson.`
+          : "No questions yet. Add one below, or ask the assistant to write a quiz for this plan."}</p>
+        <div class="quiz-list">
+          ${questions.map(q=>`
+            <div class="quiz-item">
+              <div>
+                <strong>${escapeHtml(q.q)}</strong>
+                <p class="desc">Answer: ${escapeHtml(q.options[q.answer])}</p>
+              </div>
+              <button class="icon-btn danger" data-action="delete-question" data-class="${classId}" data-question="${q.id}"
+                title="Delete question" aria-label="Delete question">${icon("x","ic-sm")}</button>
+            </div>`).join("")}
+        </div>
+        <div class="field"><label for="nqQ">Question</label>
+          <input type="text" id="nqQ" placeholder="What does the video say about…?"></div>
+        <div class="field"><label for="nqA">Correct answer</label>
+          <input type="text" id="nqA" placeholder="The right one"></div>
+        <div class="field"><label for="nqW">Wrong answers <span class="desc">(one per line)</span></label>
+          <textarea id="nqW" rows="3" placeholder="Plausible but wrong&#10;Another one&#10;A third"></textarea></div>
+        <div class="modal-actions">
+          <button class="btn" data-action="close-modal">Done</button>
+          <button class="btn primary" id="btnAddQuestion">Add question</button>
+        </div>
+      </div>
+    </div>`;
+  setupModalA11y();
+  document.getElementById("modalOverlay").addEventListener("click", e=>{ if(e.target.id==="modalOverlay") closeModal(); });
+  document.getElementById("btnAddQuestion").onclick = ()=>{
+    const q = document.getElementById("nqQ").value.trim();
+    const right = document.getElementById("nqA").value.trim();
+    const wrongs = document.getElementById("nqW").value.split("\n").map(w=>w.trim()).filter(Boolean);
+    if(!q || !right || !wrongs.length){
+      toast("A question needs the question, the right answer, and at least one wrong one.", "error");
+      return;
+    }
+    // The correct option is inserted at a random position so the answer is
+    // never simply "the first one" every time.
+    const options = wrongs.slice(0, 5);
+    const at = Math.floor(Math.random() * (options.length + 1));
+    options.splice(at, 0, right);
+    if(addQuizQuestion(planId, classId, {q, options, answer: at})){
+      openEditQuizModal(planId, classId);
+      renderView();
+    }
+  };
+}
+
 function openAddCardModal(planId, classId){
   const found = classId ? findClassAnywhere(classId) : null;
   const suggested = found ? found.c.title : "";
   document.getElementById("modalRoot").innerHTML = `
-    <div class="modal-backdrop" data-action="close-modal">
+    <div class="modal-overlay" id="modalOverlay">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cardTitle" tabindex="-1"
         onclick="event.stopPropagation()">
         <h2 id="cardTitle">New recall card</h2>
@@ -5003,7 +5330,7 @@ function openShortcutsModal(){
     ["Esc", "Close anything open"],
   ];
   document.getElementById("modalRoot").innerHTML = `
-    <div class="modal-backdrop" data-action="close-modal">
+    <div class="modal-overlay" id="modalOverlay">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="scTitle" tabindex="-1"
         onclick="event.stopPropagation()">
         <h2 id="scTitle">Keyboard shortcuts</h2>
@@ -5144,6 +5471,13 @@ document.addEventListener("click", e=>{
   else if(act==="toggle-class-done"){
     const plan = getPlan(action.dataset.plan);
     const cls = findClass(plan, action.dataset.class);
+    if(cls && !cls.done && quizPending(cls)){
+      // Ticking the box is a claim to have learned it; the quiz is what
+      // checks. Re-render first so the checkbox springs back visibly.
+      renderView();
+      openQuizModal(plan.id, cls.id);
+      return;
+    }
     if(cls){
       cls.done = !cls.done;
       // When it was actually ticked. Distinct from completionTime, which is a
@@ -5170,6 +5504,16 @@ document.addEventListener("click", e=>{
   else if(act==="grade-card"){ submitGrade(Number(action.dataset.q)); }
   else if(act==="delete-card"){ deleteCard(action.dataset.plan, action.dataset.card); renderView(); }
   else if(act==="add-card"){ openAddCardModal(action.dataset.plan, action.dataset.class); }
+  else if(act==="take-quiz"){ openQuizModal(action.dataset.plan, action.dataset.class); }
+  else if(act==="edit-quiz"){ openEditQuizModal(action.dataset.plan, action.dataset.class); }
+  else if(act==="retake-quiz"){ openQuizModal(action.dataset.plan, action.dataset.class); }
+  else if(act==="quiz-pick"){ pickQuizAnswer(Number(action.dataset.q), Number(action.value)); }
+  else if(act==="delete-question"){
+    deleteQuizQuestion(action.dataset.class, action.dataset.question);
+    const ctx = findClassAnywhere(action.dataset.class);
+    if(ctx) openEditQuizModal(ctx.plan.id, action.dataset.class);
+    renderView();
+  }
   else if(act==="toggle-notes"){ toggleNotes(action.dataset.class); }
   else if(act==="save-note"){ saveNoteFromField(action.dataset.plan, action.dataset.class); }
   else if(act==="delete-note"){ deleteClassNote(action.dataset.class, action.dataset.note); paintNotes(action.dataset.class); }
@@ -5678,6 +6022,15 @@ function maybeAutoComplete(classId, player){
     }
   }catch(e){}
   const {plan, c} = found;
+  if(quizPending(c)){
+    // Reaching the end of the video is not the same as having learned it.
+    c.watchPct = 1;
+    plan.updatedAt = Date.now();
+    persistPlans();
+    paintWatchProgress(classId, 1);
+    openQuizModal(plan.id, c.id);
+    return;
+  }
   c.done = true;
   c.doneAt = Date.now();
   c.watchPct = 1;
