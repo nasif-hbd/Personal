@@ -178,21 +178,20 @@ button{font-family:inherit;}
 @media (hover:hover){ .spot:hover::after{opacity:1;} }
 .spot > *{position:relative; z-index:2;}
 
-/* Rotating conic edge — the border itself is the animation. */
+/* A still gradient edge. This was a conic border rotating on a 9s loop —
+   perpetual motion in the corner of the eye on the busiest screen in the app,
+   and it fought the content for attention rather than framing it. */
 .edge-lit{position:relative;}
 .edge-lit::before{
   content:""; position:absolute; inset:-1px; border-radius:inherit; z-index:0; pointer-events:none;
-  background:conic-gradient(from var(--spin,0deg),
-    transparent 0deg, var(--accent) 60deg, var(--accent-2) 130deg,
-    transparent 200deg, transparent 360deg);
+  background:linear-gradient(135deg,
+    rgba(var(--accent-rgb),.55) 0%, rgba(var(--accent-rgb),.10) 42%,
+    transparent 62%, rgba(168,85,247,.32) 100%);
   -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite:xor; mask-composite:exclude;
-  padding:1px; opacity:.85;
-  animation:spin 9s linear infinite;
+  padding:1px;
 }
-@property --spin{ syntax:"<angle>"; inherits:false; initial-value:0deg; }
-@keyframes spin{ to{ --spin:360deg; } }
 
 /* Scroll reveal — set by IntersectionObserver, never leaving content hidden
    if the observer is unavailable. */
@@ -201,7 +200,6 @@ button{font-family:inherit;}
 
 @media (prefers-reduced-motion: reduce){
   body::before{animation:none;}
-  .edge-lit::before{animation:none;}
   .spot::after{display:none;}
   .reveal{opacity:1; transform:none; transition:none;}
 }
@@ -257,6 +255,22 @@ button{font-family:inherit;}
 .key-status .pip{width:6px; height:6px; border-radius:50%; flex:0 0 auto; animation:glowPulse 2.4s ease-in-out infinite;}
 .key-status.ok .pip{background:var(--success); box-shadow:0 0 10px var(--success);}
 .key-status.bad .pip{background:var(--danger); box-shadow:0 0 10px var(--danger);}
+
+/* --- empty states ------------------------------------------------------ */
+/* A bordered grey box with muted text tells you nothing is there and nothing
+   to do about it. These say what the state means and offer the next step. */
+.empty-note{
+  display:flex; align-items:center; gap:15px; flex-wrap:wrap;
+  padding:18px 20px; border-radius:14px;
+  border:1px dashed var(--line-2); background:var(--surface);
+}
+.empty-note > div{flex:1 1 260px; min-width:0;}
+.empty-note strong{display:block; font-size:14.5px; font-weight:650;}
+.empty-note p{margin:3px 0 0; font-size:13.5px; color:var(--text-muted);}
+.empty-ic{
+  flex:0 0 auto; width:36px; height:36px; border-radius:11px; display:grid; place-items:center;
+  background:rgba(var(--accent-rgb),.12); color:var(--accent);
+}
 
 /* --- quiz -------------------------------------------------------------- */
 .quiz-btn{padding:5px 11px; font-size:12px; gap:5px;}
@@ -4568,7 +4582,13 @@ function renderHome(container){
         <button class="btn small" data-nav="today">See all ${icon("arrowRight","ic-sm")}</button>
       </div>
       <div class="today-list">
-        ${todayItems.length ? todayItems.slice(0,4).map(renderTodayClass).join("") : `<div class="card" style="color:var(--text-faint);">Nothing scheduled today. Enjoy the rest, or start a new plan above.</div>`}
+        ${todayItems.length ? todayItems.slice(0,4).map(renderTodayClass).join("") : `
+          <div class="empty-note">
+            <span class="empty-ic">${icon("moon","ic-sm")}</span>
+            <div><strong>Nothing scheduled today.</strong>
+            <p>A rest day is part of the plan. Or start something new.</p></div>
+            <button class="btn small" data-nav="catalog">${icon("book","ic-sm")} Browse catalog</button>
+          </div>`}
       </div>
     </div>
 
@@ -4580,7 +4600,13 @@ function renderHome(container){
       </div>
       ${recentPlans.length
         ? `<div class="plans-grid">${recentPlans.map(renderPlanCard).join("")}</div>`
-        : `<div class="card" style="color:var(--text-faint);">No plans yet — create one above and Mindora will build your first routine.</div>`}
+        : `
+          <div class="empty-note">
+            <span class="empty-ic">${icon("compass","ic-sm")}</span>
+            <div><strong>No plans yet.</strong>
+            <p>Pick a ready-made path below, or describe what you want to learn.</p></div>
+            <button class="btn small primary" id="btnEmptyPlans">${icon("plus","ic-sm")} New plan</button>
+          </div>`}
     </div>
 
     <div class="home-section reveal">
@@ -4598,6 +4624,8 @@ function renderHome(container){
   attachSpotlight(container);
   attachReveals(container);
   animateCounters(container);
+  const emptyPlans = document.getElementById("btnEmptyPlans");
+  if(emptyPlans) emptyPlans.onclick = openNewPlanModal;
 }
 
 function renderFeaturedCard(def, i){
@@ -4681,14 +4709,14 @@ function attachReveals(root){
 function animateCounters(root){
   root.querySelectorAll("[data-count]").forEach(el=>{
     const target = Number(el.dataset.count) || 0;
-    if(calmMotion() || target === 0){ el.textContent = String(target).padStart(2,"0"); return; }
+    if(calmMotion() || target === 0){ el.textContent = String(target); return; }
     const started = performance.now();
     const dur = 700;
     function step(now){
       const t = Math.min(1, (now - started) / dur);
       // ease-out so it decelerates into the final number
       const value = Math.round(target * (1 - Math.pow(1 - t, 3)));
-      el.textContent = String(value).padStart(2,"0");
+      el.textContent = String(value);
       if(t < 1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
@@ -4722,7 +4750,13 @@ function renderToday(container){
     ${notifBanner}
     <h3 style="margin:0 0 10px;">Classes today</h3>
     <div class="today-list" style="margin-bottom:26px;">
-      ${items.length ? items.map(it=>renderTodayClass(it)).join("") : `<div class="card" style="color:var(--text-faint);">Nothing scheduled today. Enjoy the rest, or open a plan to add more.</div>`}
+      ${items.length ? items.map(it=>renderTodayClass(it)).join("") : `
+        <div class="empty-note">
+          <span class="empty-ic">${icon("moon","ic-sm")}</span>
+          <div><strong>Nothing scheduled today.</strong>
+          <p>Enjoy the rest, or open a plan to add something.</p></div>
+          <button class="btn small" data-nav="plans">${icon("clipboard","ic-sm")} Open plans</button>
+        </div>`}
     </div>
     <h3 style="margin:0 0 10px;">To-dos today</h3>
     <div class="today-list">
