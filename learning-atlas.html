@@ -256,6 +256,32 @@ button{font-family:inherit;}
 .key-status.ok .pip{background:var(--success); box-shadow:0 0 10px var(--success);}
 .key-status.bad .pip{background:var(--danger); box-shadow:0 0 10px var(--danger);}
 
+/* --- depth ------------------------------------------------------------- */
+/* Every 3D effect here answers a pointer. Nothing loops on its own — motion
+   in the corner of the eye is a distraction; motion that follows your hand
+   reads as the surface responding to you. */
+.tilt-3d{transform-style:preserve-3d; will-change:transform;}
+.tilt-3d > *{transform:translateZ(18px);}
+
+/* Buttons take a real press: they sink instead of shrinking. */
+.btn, .grade, .method-card, .plan-card, .tabbtn, .navbtn, .sheet-item{
+  transform:perspective(700px) translateZ(0);
+}
+.btn:active, .method-card:active, .plan-card:active, .sheet-item:active{
+  transform:perspective(700px) translateZ(-7px);
+  transition-duration:.08s;
+}
+.grade:active{transform:perspective(700px) translateZ(-9px) translateY(1px);}
+
+/* Course cards lean toward the pointer. */
+.course-card{transform-style:preserve-3d;}
+
+@media (prefers-reduced-motion:reduce){
+  .tilt-3d, .course-card{transform:none !important;}
+  .btn:active, .grade:active, .method-card:active,
+  .plan-card:active, .sheet-item:active{transform:none;}
+}
+
 /* --- empty states ------------------------------------------------------ */
 /* A bordered grey box with muted text tells you nothing is there and nothing
    to do about it. These say what the state means and offer the next step. */
@@ -588,15 +614,33 @@ kbd{
   display:flex; justify-content:space-between; font-family:var(--font-mono);
   font-size:10px; letter-spacing:.13em; text-transform:uppercase; color:var(--text-faint);
 }
+/* The flashcard turns over, because that is what a flashcard does. Both
+   faces sit in the same 3D space; the parent supplies the perspective so the
+   card rotates about its own centre rather than sliding. */
+.flip-stage{perspective:1400px;}
 .review-card{
-  background:var(--panel); border:1px solid var(--line); border-radius:18px;
-  padding:34px 28px; min-height:230px; display:flex; flex-direction:column;
-  justify-content:center; gap:20px; text-align:center;
+  position:relative; min-height:230px;
+  transform-style:preserve-3d;
+  transition:transform .55s cubic-bezier(.2,.75,.25,1);
 }
-.review-card.revealed{text-align:left;}
+.review-card.flipped{transform:rotateY(180deg);}
+.review-face{
+  background:var(--panel); border:1px solid var(--line); border-radius:18px;
+  padding:34px 28px; min-height:230px;
+  display:flex; flex-direction:column; justify-content:center; gap:20px; text-align:center;
+  -webkit-backface-visibility:hidden; backface-visibility:hidden;
+}
+.review-face.back{
+  position:absolute; inset:0; transform:rotateY(180deg);
+  border-color:rgba(var(--accent-rgb),.35);
+  background:linear-gradient(150deg, rgba(var(--accent-rgb),.08), transparent 55%), var(--panel);
+}
+@media (prefers-reduced-motion:reduce){
+  /* No turn — swap the faces instantly rather than animating. */
+  .review-card{transition:none;}
+}
 .review-face p{font-size:20px; line-height:1.45; margin:0; white-space:pre-wrap;}
-.review-face.back{border-top:1px solid var(--line); padding-top:20px;}
-.review-face.back p{font-size:17px; color:var(--text-dim);}
+.review-face.back p{font-size:18px;}
 .review-label{
   display:block; font-family:var(--font-mono); font-size:9.5px; letter-spacing:.16em;
   text-transform:uppercase; color:var(--text-faint); margin-bottom:10px;
@@ -3215,18 +3259,22 @@ function renderReview(container){
         <span>${escapeHtml(plan.title)}</span>
       </div>
 
-      <div class="review-card${reviewRevealed?" revealed":""}" id="reviewCard">
-        <div class="review-face front">
-          <span class="review-label">Question</span>
-          <p>${escapeHtml(card.front)}</p>
-          ${!reviewRevealed ? `<button class="btn primary" id="btnReveal">Show answer</button>
-            <span class="review-hint">or press Space</span>` : ""}
-        </div>
-        ${reviewRevealed ? `
-          <div class="review-face back">
+      <!-- Both faces are always in the DOM so the reveal can actually turn the
+           card over. Rendering the answer in afterwards would swap the element
+           and there would be nothing to animate. -->
+      <div class="flip-stage">
+        <div class="review-card${reviewRevealed?" flipped":""}" id="reviewCard">
+          <div class="review-face front">
+            <span class="review-label">Question</span>
+            <p>${escapeHtml(card.front)}</p>
+            <button class="btn primary" id="btnReveal">Show answer</button>
+            <span class="review-hint">or press Space</span>
+          </div>
+          <div class="review-face back" aria-hidden="${reviewRevealed?"false":"true"}">
             <span class="review-label">Answer</span>
             <p>${escapeHtml(card.back)}</p>
-          </div>` : ""}
+          </div>
+        </div>
       </div>
 
       ${reviewRevealed ? `
@@ -3240,7 +3288,23 @@ function renderReview(container){
     </div>`;
 
   const reveal = document.getElementById("btnReveal");
-  if(reveal) reveal.onclick = ()=>{ reviewRevealed = true; renderView(); };
+  if(reveal) reveal.onclick = revealAnswer;
+}
+
+/**
+ * Turn the card over. The class flips the existing element rather than
+ * re-rendering, because a fresh element would arrive already flipped with
+ * nothing to animate; the grade row appears once the turn is done.
+ */
+function revealAnswer(){
+  if(reviewRevealed) return;
+  reviewRevealed = true;
+  const el = document.getElementById("reviewCard");
+  if(!el){ renderView(); return; }
+  el.classList.add("flipped");
+  el.querySelector(".review-face.back").setAttribute("aria-hidden", "false");
+  const delay = calmMotion() ? 0 : 460;
+  setTimeout(()=>{ if(state.view === "review") renderView(); }, delay);
 }
 
 /** What the next interval would be, shown on the button before committing. */
@@ -4652,16 +4716,42 @@ function pointerDevice(){
 
 // Pointer-driven 3D tilt on feature cards. Touch devices have no hover, and a
 // reduced-motion preference opts out of all of it.
+/**
+ * Lean a card toward the pointer.
+ *
+ * Delegated from one listener per view rather than two per card, and written
+ * through requestAnimationFrame so a fast mouse over a grid of 80 course
+ * cards still costs one style write per frame instead of one per event.
+ */
 function attachTiltEffects(root){
   if(calmMotion() || !pointerDevice()) return;
-  root.querySelectorAll(".featured-card").forEach(el=>{
-    el.addEventListener("mousemove", e=>{
-      const r = el.getBoundingClientRect();
-      const px = (e.clientX - r.left) / r.width - 0.5;
-      const py = (e.clientY - r.top) / r.height - 0.5;
-      el.style.transform = `perspective(1100px) rotateX(${(-py*5).toFixed(2)}deg) rotateY(${(px*5).toFixed(2)}deg) translate(-3px,-3px)`;
-    });
-    el.addEventListener("mouseleave", ()=>{ el.style.transform = ""; });
+  const SELECTOR = ".featured-card, .course-card, .plan-card";
+  let pending = null, frame = 0, active = null;
+
+  const apply = ()=>{
+    frame = 0;
+    if(!pending) return;
+    const {el, px, py} = pending;
+    el.style.transform =
+      `perspective(1100px) rotateX(${(-py*6).toFixed(2)}deg) rotateY(${(px*6).toFixed(2)}deg) translateZ(10px)`;
+  };
+
+  root.addEventListener("pointermove", e=>{
+    if(e.pointerType !== "mouse") return;
+    const el = e.target.closest(SELECTOR);
+    if(!el){
+      if(active){ active.style.transform = ""; active = null; }
+      return;
+    }
+    if(active && active !== el) active.style.transform = "";
+    active = el;
+    const r = el.getBoundingClientRect();
+    pending = {el, px:(e.clientX - r.left)/r.width - 0.5, py:(e.clientY - r.top)/r.height - 0.5};
+    if(!frame) frame = requestAnimationFrame(apply);
+  });
+
+  root.addEventListener("pointerleave", ()=>{
+    if(active){ active.style.transform = ""; active = null; }
   });
 }
 
@@ -5608,7 +5698,7 @@ document.addEventListener("keydown", e=>{
 
   if(state.view === "review"){
     if(e.key === " " && !reviewRevealed && reviewQueue[reviewIndex]){
-      e.preventDefault(); reviewRevealed = true; renderView(); return;
+      e.preventDefault(); revealAnswer(); return;
     }
     if(reviewRevealed && ["1","2","3","4"].includes(e.key)){
       e.preventDefault(); submitGrade(Number(e.key) - 1); return;
@@ -6055,6 +6145,8 @@ function renderCatalog(container){
         <button class="btn small" data-action="catalog-more">Show ${Math.min(80, rows.length - shown.length)} more</button>
       </div>` : ""}
   `;
+
+  attachTiltEffects(container);
 
   const box = document.getElementById("catalogSearch");
   box.oninput = e=>{
