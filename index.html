@@ -2209,7 +2209,12 @@ function classQuiz(c){ return (c && Array.isArray(c.quiz)) ? c.quiz : []; }
 function needsQuizGate(c){
   if(!c || c.type === "rest" || c.done) return false;
   if(quizPending(c)) return true;
-  return c.type === "video" && !classQuiz(c).length && aiAvailable();
+  // Gate on whether a video actually plays, not on c.type. "type" describes
+  // the original resource — a Coursera or Khan page is "reading" — while the
+  // lesson still plays a video through altVideoUrl. 94 of the 121 lessons in
+  // the shipped paths are typed "reading" and nearly all of them play video,
+  // so keying off the type skipped almost every quiz.
+  return !!getYtEmbed(c) && !classQuiz(c).length && aiAvailable();
 }
 
 /**

@@ -9,7 +9,10 @@
  *   - Anthropic and YouTube: streaming and media, pointless and harmful to store
  * Everything else is cached so the app opens instantly and works offline.
  */
-const CACHE = "mindora-v1";
+// Bumped whenever the shipped app changes. It had sat at v1 through the
+// subscription, quiz, sidebar and layout work, so an installed copy could
+// keep serving a shell from before any of it.
+const CACHE = "mindora-v2";
 
 // Precached so a cold, offline start still renders a usable app.
 const SHELL = [
