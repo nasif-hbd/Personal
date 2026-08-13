@@ -304,6 +304,19 @@ button{font-family:inherit;}
   font-size:13.5px; padding:9px 12px; margin-bottom:7px; border-radius:9px;
   background:var(--surface); border-left:3px solid var(--gold); color:var(--text-dim);
 }
+.quiz-preparing{text-align:center; padding:22px 0 10px;}
+.quiz-preparing h2{margin:20px 0 6px;}
+.quiz-preparing .desc{margin:0 auto; max-width:38ch;}
+.quiz-spinner{
+  width:38px; height:38px; margin:0 auto; border-radius:50%;
+  border:3px solid var(--line); border-top-color:var(--accent);
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+@media (prefers-reduced-motion:reduce){
+  .quiz-spinner{animation-duration:2.4s;}
+}
+
 .quiz-list{display:flex; flex-direction:column; gap:8px; margin:14px 0 18px;}
 .quiz-item{
   display:flex; justify-content:space-between; align-items:flex-start; gap:12px;
@@ -2092,7 +2105,123 @@ function normalizeQuiz(raw){
   }).filter(Boolean);
 }
 
+/**
+ * Write a quiz about one specific lesson, on demand.
+ *
+ * Plans built before quizzes existed have none, and a lesson with no
+ * questions would simply complete itself — so the check gets generated the
+ * moment the video ends, from that lesson's own title, channel and notes.
+ * Deliberately a bare request rather than going through sendToClaude: this
+ * must not appear in the learner's chat history.
+ */
+async function generateQuizFor(plan, c){
+  const via = backendUrl();
+  if(!via && !legacyKey()) throw new Error("AI isn't available in this app.");
+
+  const brief = [
+    `Lesson: ${c.title}`,
+    c.channel ? `Source: ${c.channel}` : "",
+    c.notes ? `Focus: ${c.notes}` : "",
+    c.resourceUrl ? `URL: ${c.resourceUrl}` : "",
+    `Subject: ${plan.subject || plan.title}`,
+  ].filter(Boolean).join("\n");
+
+  const system = `You write short comprehension checks for a learner who has just watched one video lesson.
+
+Reply with NOTHING but a JSON array of exactly 4 questions:
+[{"q":"...","options":["...","...","...","..."],"answer":0}]
+
+- "answer" is the 0-based index of the correct option.
+- Ask about the substance of the topic, not the video's packaging: never about its length, title wording, channel, or thumbnail.
+- Wrong options must be plausible to someone who half-watched, never absurd.
+- Keep each question answerable in one line and unambiguous — exactly one option is defensibly correct.`;
+
+  const messages = [{role:"user", content:`Write the quiz for this lesson.\n\n${brief}`}];
+  let text = "";
+
+  if(via){
+    const resp = await fetch(via + "/api/chat", {
+      method:"POST",
+      headers: Object.assign({"content-type":"application/json"}, backendHeaders()),
+      // tools off: this is a closed-book writing task, and a web search would
+      // add seconds to something the learner is waiting on.
+      body: JSON.stringify({messages, system, model: state.settings.model, tools: false}),
+    });
+    rememberVisitorToken(resp);
+    if(!resp.ok) throw new Error(`Server replied ${resp.status}`);
+    text = await readSseText(resp);
+  }else{
+    const resp = await fetch("https://api.anthropic.com/v1/messages", {
+      method:"POST",
+      headers:{
+        "content-type":"application/json", "x-api-key": legacyKey(),
+        "anthropic-version":"2023-06-01", "anthropic-dangerous-direct-browser-access":"true",
+      },
+      body: JSON.stringify({model: state.settings.model, max_tokens: 1500, system, messages}),
+    });
+    if(!resp.ok) throw new Error(`Anthropic replied ${resp.status}`);
+    const data = await resp.json();
+    text = (data.content||[]).map(b=>b.text||"").join("");
+  }
+
+  const match = text.match(/\[[\s\S]*\]/);
+  if(!match) throw new Error("The model didn't return a quiz.");
+  const quiz = normalizeQuiz(JSON.parse(match[0]));
+  if(quiz.length < 2) throw new Error("The quiz came back unusable.");
+
+  c.quiz = quiz;
+  plan.updatedAt = Date.now();
+  persistPlans();
+  return quiz;
+}
+
+/** Collect the text deltas out of an SSE response body. */
+async function readSseText(resp){
+  const reader = resp.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "", out = "";
+  for(;;){
+    const {done, value} = await reader.read();
+    if(done) break;
+    buffer += decoder.decode(value, {stream:true});
+    const lines = buffer.split("\n");
+    buffer = lines.pop();
+    for(const line of lines){
+      if(!line.startsWith("data:")) continue;
+      try{
+        const evt = JSON.parse(line.slice(5).trim());
+        if(evt.type === "content_block_delta" && evt.delta && evt.delta.text) out += evt.delta.text;
+      }catch(e){}
+    }
+  }
+  return out;
+}
+
 function classQuiz(c){ return (c && Array.isArray(c.quiz)) ? c.quiz : []; }
+
+/**
+ * Should finishing this lesson go through a quiz first?
+ *
+ * Video lessons always do — that is the whole point, and one gets written on
+ * the spot if none exists. Reading and practice lessons are self-evidencing
+ * and complete normally, so ticking one never spends a Claude call.
+ */
+function needsQuizGate(c){
+  if(!c || c.type === "rest" || c.done) return false;
+  if(quizPending(c)) return true;
+  return c.type === "video" && !classQuiz(c).length && aiAvailable();
+}
+
+/**
+ * Route a completion through its quiz. Returns true when it took over, so the
+ * caller knows not to mark the lesson done itself.
+ */
+function gateOnQuiz(plan, c){
+  if(!needsQuizGate(c)) return false;
+  if(classQuiz(c).length) openQuizModal(plan.id, c.id);
+  else startQuizAfterVideo(plan, c);
+  return true;
+}
 function quizAttempts(c){ return (c && Array.isArray(c.quizAttempts)) ? c.quizAttempts : []; }
 function bestQuizScore(c){
   return quizAttempts(c).reduce((best, a)=>Math.max(best, Number(a.score)||0), 0);
@@ -4141,6 +4270,44 @@ function paintNotes(classId){
 // should not survive a reload as a partially-filled paper.
 let quizAnswers = [];
 
+/**
+ * The video just finished and this lesson has no questions yet: write some,
+ * then open them. The learner sees a waiting state rather than a frozen app.
+ *
+ * If generation fails the lesson completes anyway. Someone who watched the
+ * whole thing should never be held hostage by a network error.
+ */
+async function startQuizAfterVideo(plan, c){
+  showQuizPreparing(c);
+  try{
+    await generateQuizFor(plan, c);
+    openQuizModal(plan.id, c.id);
+    renderView();
+  }catch(err){
+    closeModal();
+    c.done = true;
+    c.doneAt = Date.now();
+    plan.updatedAt = Date.now();
+    persistPlans();
+    syncDoneUI(c.id, plan, true);
+    toast(`Couldn't write a quiz (${err.message}) — lesson marked complete.`, "info");
+  }
+}
+
+function showQuizPreparing(c){
+  document.getElementById("modalRoot").innerHTML = `
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal quiz-modal" role="dialog" aria-modal="true" aria-labelledby="qpTitle" tabindex="-1">
+        <div class="quiz-preparing">
+          <div class="quiz-spinner" aria-hidden="true"></div>
+          <h2 id="qpTitle">Writing your quiz</h2>
+          <p class="desc">A few questions on <strong>${escapeHtml(c.title)}</strong>, to check it stuck.</p>
+        </div>
+      </div>
+    </div>`;
+  setupModalA11y();
+}
+
 function openQuizModal(planId, classId){
   const found = findClassAnywhere(classId);
   if(!found) return;
@@ -5471,11 +5638,11 @@ document.addEventListener("click", e=>{
   else if(act==="toggle-class-done"){
     const plan = getPlan(action.dataset.plan);
     const cls = findClass(plan, action.dataset.class);
-    if(cls && !cls.done && quizPending(cls)){
+    if(cls && !cls.done && needsQuizGate(cls)){
       // Ticking the box is a claim to have learned it; the quiz is what
       // checks. Re-render first so the checkbox springs back visibly.
       renderView();
-      openQuizModal(plan.id, cls.id);
+      gateOnQuiz(plan, cls);
       return;
     }
     if(cls){
@@ -6022,15 +6189,13 @@ function maybeAutoComplete(classId, player){
     }
   }catch(e){}
   const {plan, c} = found;
-  if(quizPending(c)){
-    // Reaching the end of the video is not the same as having learned it.
-    c.watchPct = 1;
-    plan.updatedAt = Date.now();
-    persistPlans();
-    paintWatchProgress(classId, 1);
-    openQuizModal(plan.id, c.id);
-    return;
-  }
+  // Reaching the end of the video is not the same as having learned it.
+  c.watchPct = 1;
+  plan.updatedAt = Date.now();
+  persistPlans();
+  paintWatchProgress(classId, 1);
+
+  if(gateOnQuiz(plan, c)) return;
   c.done = true;
   c.doneAt = Date.now();
   c.watchPct = 1;
