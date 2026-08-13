@@ -258,6 +258,111 @@ button{font-family:inherit;}
 .key-status.ok .pip{background:var(--success); box-shadow:0 0 10px var(--success);}
 .key-status.bad .pip{background:var(--danger); box-shadow:0 0 10px var(--danger);}
 
+/* --- catalog ---------------------------------------------------------- */
+/* 348 courses as identical strips was a wall nobody could scan. Cards give
+   each one a shape, and the subject sits top-left so the eye can skim by it. */
+.course-grid{
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+  gap:12px; align-items:stretch;
+}
+.course-card{
+  display:flex; flex-direction:column; gap:6px; padding:16px 17px 14px;
+  border:1px solid var(--line); border-radius:14px; background:var(--surface);
+  color:var(--text); text-decoration:none; position:relative; overflow:hidden;
+  transition:transform .18s var(--ease), border-color .18s var(--ease), box-shadow .18s var(--ease);
+}
+.course-card::before{
+  content:""; position:absolute; left:0; top:0; bottom:0; width:3px;
+  background:linear-gradient(180deg, var(--accent), var(--accent-2));
+  opacity:.65;
+}
+.course-card:hover{
+  transform:translateY(-2px); border-color:rgba(var(--accent-rgb),.5); box-shadow:var(--shadow);
+}
+.course-card:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+.cx-subject{
+  font-family:var(--font-mono); font-size:9.5px; letter-spacing:.15em;
+  text-transform:uppercase; color:var(--accent);
+}
+.cx-title{
+  font-size:14.5px; font-weight:650; line-height:1.35; text-wrap:balance;
+  /* Titles run long and wildly uneven; three lines keeps the grid honest. */
+  display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
+}
+.cx-platform{font-size:12.5px; color:var(--text-muted);}
+.cx-foot{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  margin-top:auto; padding-top:10px;
+}
+.cx-tags{display:flex; gap:5px; flex-wrap:wrap;}
+.cx-tag{
+  font-size:10px; letter-spacing:.03em; padding:2px 7px; border-radius:99px;
+  border:1px solid var(--line); color:var(--text-faint); white-space:nowrap;
+}
+.cx-tag.free{color:var(--success); border-color:rgba(52,211,153,.35);}
+.cx-tag.plays{color:var(--accent); border-color:rgba(var(--accent-rgb),.35);}
+.cx-go{display:flex; color:var(--text-faint); flex:0 0 auto;}
+.course-card:hover .cx-go{color:var(--accent);}
+.more-row{
+  display:flex; align-items:center; justify-content:center; gap:14px;
+  margin-top:20px; font-size:13px; color:var(--text-faint);
+}
+
+/* --- settings --------------------------------------------------------- */
+/* Setup steps are a one-time, owner-only chore. Folded away they stop
+   dominating a screen everyone else has to read past. */
+.setup{
+  margin-top:14px; border-top:1px solid var(--line); padding-top:12px;
+}
+.setup summary{
+  cursor:pointer; font-size:13px; font-weight:600; color:var(--accent);
+  list-style:none; display:flex; align-items:center; gap:7px;
+}
+.setup summary::-webkit-details-marker{display:none;}
+.setup summary::before{
+  content:"›"; display:inline-block; transition:transform .18s var(--ease);
+  font-size:16px; line-height:1;
+}
+.setup[open] summary::before{transform:rotate(90deg);}
+.setup summary:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:4px;}
+.setup-steps{
+  margin:12px 0 0; padding-left:20px; font-size:13.5px; line-height:1.6;
+  color:var(--text-muted);
+}
+.setup-steps li{margin-bottom:6px;}
+.setup .desc{margin:10px 0 0; font-size:12.5px;}
+
+/* --- plan detail ------------------------------------------------------ */
+/* Each day used ~220px for a single lesson. Tightening the rhythm means a
+   week fits on one screen instead of three. */
+.day-row{padding:12px 0 !important;}
+.class-card{padding:10px !important; margin-bottom:8px !important; gap:11px !important;}
+.class-card:hover{transform:none;}
+.cc-title{font-size:14.5px;}
+.cc-meta{font-size:12px;}
+/* Reminder time is a niche control that was as loud as the lesson title. */
+.cc-controls input[type="time"]{
+  width:34px; opacity:.4; transition:width .18s var(--ease), opacity .18s var(--ease);
+}
+.cc-controls input[type="time"]:hover,
+.cc-controls input[type="time"]:focus,
+.class-card:hover .cc-controls input[type="time"]{width:120px; opacity:1;}
+
+/* The add-lesson/add-to-do row was hidden with opacity alone, which still
+   reserves its box — roughly 40px of invisible dead space on every day, so a
+   fortnight's plan carried half a screen of nothing. Collapse the height too. */
+.day-actions{
+  max-height:0; margin-top:0; overflow:hidden;
+  transition:max-height .2s var(--ease), opacity .2s var(--ease), margin-top .2s var(--ease);
+}
+.day-row:hover .day-actions,
+.day-row:focus-within .day-actions{opacity:1; max-height:60px; margin-top:9px;}
+@media (hover:none){
+  /* No hover on touch, so keep them permanently available rather than
+     unreachable. */
+  .day-actions{opacity:1; max-height:60px; margin-top:9px;}
+}
+
 /* --- command palette --- */
 .palette-overlay{
   position:fixed; inset:0; z-index:200; display:flex; justify-content:center;
@@ -1044,13 +1149,17 @@ label:not(.btn):not(.watch-done-toggle){
 .featured-card-foot{display:flex; justify-content:flex-end;}
 
 /* ===================== Settings ===================== */
-.settings-grid{
-  display:grid; grid-template-columns:repeat(auto-fit, minmax(360px, 1fr));
-  gap:18px; align-items:start;
+/* Multi-column rather than grid: these cards differ wildly in height, and a
+   grid aligns rows — which left a short card like Appearance stranded beside
+   a tall one with a column of dead space under it. Columns pack them. */
+.settings-grid{columns:2; column-gap:18px;}
+.settings-section{
+  break-inside:avoid; -webkit-column-break-inside:avoid;
+  margin:0 0 18px; width:100%;
 }
-.settings-section{margin:0;}
 /* Cards that hold long prose read better spanning the full width. */
-.settings-section.wide{grid-column:1 / -1;}
+.settings-section.wide{column-span:all;}
+@media (max-width:900px){ .settings-grid{columns:1;} }
 .settings-section h3{font-size:19px; margin:0 0 8px;}
 .settings-section .desc{font-size:13.5px; color:var(--text-dim); margin:0 0 16px; line-height:1.65;}
 .settings-section code{font-family:var(--font-mono); font-size:12px; background:rgba(0,0,0,.3); padding:2px 6px; border-radius:6px;}
@@ -4115,7 +4224,7 @@ function renderSettings(container){
         </div>
       `}
       <div class="field" style="margin:16px 0 0;">
-        <label>Server address ${sharedMode() ? "" : "<span class=\"desc\">— paste the link your server gave you</span>"}</label>
+        <label>Server address</label>
         <input type="text" id="backendUrlInput" placeholder="https://your-server.onrender.com"
           value="${escapeHtml(s.backendUrl||"")}" autocomplete="off" spellcheck="false">
       </div>
@@ -4183,15 +4292,17 @@ function renderSettings(container){
         <label>YouTube Data API key</label>
         <input type="text" id="ytApiKeyInput" placeholder="AIzaSy..." value="${escapeHtml(s.ytApiKey||"")}">
       </div>
-      <p class="desc" style="margin-top:12px; margin-bottom:0;">
-        <strong>One-time setup (free, ~2 minutes — reuse the same Google Cloud project you made for Drive, if you set that up):</strong><br>
-        1. Go to <strong>console.cloud.google.com</strong> → pick your project (or create one).<br>
-        2. <strong>APIs &amp; Services → Library</strong> → search "YouTube Data API v3" → Enable.<br>
-        3. <strong>APIs &amp; Services → Credentials → Create Credentials → API key</strong>.<br>
-        4. Optional but recommended: click the new key → under "Application restrictions" choose "Websites" and add your Mindora URL, and under "API restrictions" limit it to "YouTube Data API v3".<br>
-        5. Copy the key and paste it above.
-      </p>
-      <p class="desc" style="margin-top:8px; margin-bottom:0;">Free quota is 10,000 units/day and each lookup costs 100, so about 100 lessons a day — plenty for personal use. Mindora only looks a video up the first time you watch it, then remembers it.</p>
+      <details class="setup">
+        <summary>How to get a key — free, about 2 minutes</summary>
+        <ol class="setup-steps">
+          <li>Go to <strong>console.cloud.google.com</strong> and pick your project, or create one.</li>
+          <li><strong>APIs &amp; Services → Library</strong>, search <em>YouTube Data API v3</em>, click Enable.</li>
+          <li><strong>Credentials → Create credentials → API key</strong>.</li>
+          <li>Recommended: open the new key, restrict it to <em>Websites</em> with your Mindora URL, and to the YouTube Data API only.</li>
+          <li>Paste it above.</li>
+        </ol>
+        <p class="desc">Free quota covers about 100 lessons a day. Each video is looked up once and remembered.</p>
+      </details>
     </div>
 
     <div class="settings-section card wide">
@@ -4215,15 +4326,17 @@ function renderSettings(container){
           <input type="text" id="driveClientIdInput" placeholder="xxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com" value="${escapeHtml(s.driveClientId||"")}">
         </div>
         <button class="btn primary small" id="btnDriveConnect">${icon("link","ic-sm")} Connect Google Drive</button>
-        <p class="desc" style="margin-top:12px; margin-bottom:0;">
-          <strong>One-time setup (free, ~5 minutes, only you can do this):</strong><br>
-          1. Go to <strong>console.cloud.google.com</strong> → create a project (any name).<br>
-          2. <strong>APIs &amp; Services → Library</strong> → search "Google Drive API" → Enable.<br>
-          3. <strong>APIs &amp; Services → OAuth consent screen</strong> → External → fill the required fields → add yourself under "Test users".<br>
-          4. <strong>APIs &amp; Services → Credentials → Create Credentials → OAuth client ID</strong> → type "Web application".<br>
-          5. Under <strong>Authorized JavaScript origins</strong>, add the exact URL this app is hosted at (e.g. <code>https://nasif-hbd.github.io</code>) — no trailing slash.<br>
-          6. Copy the Client ID it gives you and paste it above.
-        </p>
+        <details class="setup">
+          <summary>How to set this up — free, about 5 minutes</summary>
+          <ol class="setup-steps">
+            <li><strong>console.cloud.google.com</strong> → create a project, any name.</li>
+            <li><strong>APIs &amp; Services → Library</strong>, search <em>Google Drive API</em>, click Enable.</li>
+            <li><strong>OAuth consent screen</strong> → External, fill the required fields, add yourself under Test users.</li>
+            <li><strong>Credentials → Create credentials → OAuth client ID</strong> → Web application.</li>
+            <li>Under <strong>Authorised JavaScript origins</strong> add <code>https://nasif-hbd.github.io</code> — no trailing slash.</li>
+            <li>Paste the Client ID above.</li>
+          </ol>
+        </details>
       `}
     </div>
     </div>
@@ -5031,7 +5144,12 @@ document.addEventListener("click", e=>{
       d.plan.updatedAt = Date.now(); persistPlans(); renderView();
     }
   }
-  else if(act==="catalog-subject"){ catalogSubject = action.dataset.subject || ""; renderView(); }
+  else if(act==="catalog-subject"){
+    catalogSubject = action.dataset.subject || "";
+    catalogLimit = 80;
+    renderView();
+  }
+  else if(act==="catalog-more"){ catalogLimit += 80; renderView(); }
   else if(act==="close-inline"){
     state.inlineOpen.delete(action.dataset.class);
     renderView();
@@ -5223,6 +5341,9 @@ function pushToBackend(){
 let courseData = null;
 let catalogQuery = "";
 let catalogSubject = "";
+// How many results are on screen. Reset whenever the query or filter changes,
+// so a narrowed search never starts halfway down someone else's scroll.
+let catalogLimit = 80;
 
 function featuredPaths(){
   return (courseData && Array.isArray(courseData.paths) && courseData.paths.length)
@@ -5264,7 +5385,7 @@ function renderCatalog(container){
     if(!q) return true;
     return (c.title+" "+c.platform+" "+c.level+" "+c.subject).toLowerCase().includes(q);
   });
-  const shown = rows.slice(0, 80);
+  const shown = rows.slice(0, catalogLimit);
 
   container.innerHTML = `
     <div class="home-section-head" style="margin-bottom:14px;">
@@ -5279,25 +5400,41 @@ function renderCatalog(container){
       <span class="chip ${catalogSubject===''?'selected':''}" data-action="catalog-subject" data-subject="" tabindex="0" role="button">All</span>
       ${subjects.map(s=>`<span class="chip ${catalogSubject===s?'selected':''}" data-action="catalog-subject" data-subject="${escapeHtml(s)}" tabindex="0" role="button">${escapeHtml(s)}</span>`).join("")}
     </div>
-    <div class="today-list" style="max-width:none;">
+    <div class="course-grid">
       ${shown.length ? shown.map(c=>`
-        <div class="class-card">
-          <div class="cc-main">
-            <div class="cc-title">${escapeHtml(c.title)}</div>
-            <div class="cc-meta">${escapeHtml(c.subject)} · ${escapeHtml(c.level)} · ${escapeHtml(c.platform)} · ${escapeHtml(c.cost)}</div>
-          </div>
-          <div class="cc-controls">
-            ${c.embeddable ? `<span class="badge">Embeddable</span>` : ""}
-            <a class="btn small" href="${escapeHtml(c.url)}" target="_blank" rel="noopener">Open ${icon("external","ic-sm")}</a>
-          </div>
-        </div>`).join("") : `<div class="card" style="color:var(--text-faint);">Nothing matches that search.</div>`}
+        <a class="course-card" href="${escapeHtml(c.url)}" target="_blank" rel="noopener"
+           data-subject="${escapeHtml(c.subject)}">
+          <span class="cx-subject">${escapeHtml(c.subject)}</span>
+          <span class="cx-title">${escapeHtml(c.title)}</span>
+          <span class="cx-platform">${escapeHtml(c.platform)}</span>
+          <span class="cx-foot">
+            <span class="cx-tags">
+              <span class="cx-tag">${escapeHtml(c.level)}</span>
+              ${/free/i.test(c.cost||"") ? `<span class="cx-tag free">Free</span>`
+                                         : `<span class="cx-tag">${escapeHtml(c.cost)}</span>`}
+              ${c.embeddable ? `<span class="cx-tag plays">Plays in app</span>` : ""}
+            </span>
+            <span class="cx-go">${icon("external","ic-sm")}</span>
+          </span>
+        </a>`).join("") : ""}
     </div>
-    ${rows.length > shown.length ? `<p class="desc" style="margin-top:16px; color:var(--text-faint);">Showing the first ${shown.length} of ${rows.length} — narrow the search to see more.</p>` : ""}
+    ${!shown.length ? `
+      <div class="chat-empty">
+        <div class="big-ic">${icon("search","ic-xl")}</div>
+        <h2>Nothing matches that</h2>
+        <p>Try a shorter word, or clear the subject filter.</p>
+      </div>` : ""}
+    ${rows.length > shown.length ? `
+      <div class="more-row">
+        <span>Showing ${shown.length} of ${rows.length}</span>
+        <button class="btn small" data-action="catalog-more">Show ${Math.min(80, rows.length - shown.length)} more</button>
+      </div>` : ""}
   `;
 
   const box = document.getElementById("catalogSearch");
   box.oninput = e=>{
     catalogQuery = e.target.value;
+    catalogLimit = 80;
     const pos = e.target.selectionStart;
     renderView();
     const again = document.getElementById("catalogSearch");
