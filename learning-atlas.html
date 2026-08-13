@@ -258,6 +258,81 @@ button{font-family:inherit;}
 .key-status.ok .pip{background:var(--success); box-shadow:0 0 10px var(--success);}
 .key-status.bad .pip{background:var(--danger); box-shadow:0 0 10px var(--danger);}
 
+/* --- desktop sidebar --------------------------------------------------- */
+/* Above 900px the header becomes a fixed left rail. No markup moves: the same
+   brand / nav / actions row simply stacks vertically, so the phone layout and
+   every existing handler keep working untouched.
+   The icons only appear here — in a horizontal bar they add noise, in a rail
+   they carry the scan. */
+.nav-ic{display:none;}
+
+@media (min-width:901px){
+  #app{
+    display:grid;
+    grid-template-columns:var(--rail) 1fr;
+    --rail:236px;
+    min-height:100vh;
+  }
+  .topnav{
+    /* Sticky rather than fixed so it participates in the grid column and can
+       never overlap content at narrow zoom levels. */
+    position:sticky; top:0; align-self:start;
+    height:100vh; border-bottom:0; border-right:1px solid var(--line);
+    background:color-mix(in srgb, var(--bg) 86%, transparent);
+  }
+  .topnav-inner{
+    flex-direction:column; align-items:stretch; gap:22px;
+    max-width:none; margin:0; padding:20px 14px;
+    height:100%; overflow-y:auto; scrollbar-width:thin;
+  }
+  .brand{padding:0 8px;}
+
+  .navrow{
+    flex-direction:column; align-items:stretch; gap:2px;
+    flex:0 0 auto; overflow:visible;
+    -webkit-mask-image:none; mask-image:none;
+  }
+  .navbtn{
+    display:flex; align-items:center; gap:11px;
+    padding:9px 12px; border-radius:10px; font-size:14px; text-align:left;
+  }
+  .nav-ic{display:flex; flex:0 0 auto; color:var(--text-faint);}
+  .nav-ic svg{width:18px; height:18px;}
+  .navbtn:hover .nav-ic{color:var(--text-dim);}
+  .navbtn.active .nav-ic{color:var(--accent);}
+  .nav-text{display:flex; align-items:center; gap:7px; flex:1; min-width:0;}
+  .navbtn.active{
+    /* A left marker reads as "you are here" better than a pill in a vertical
+       list, where pills all look like separate buttons. */
+    background:rgba(var(--accent-rgb),.10); border-color:transparent;
+    box-shadow:inset 2px 0 0 var(--accent);
+    border-radius:0 10px 10px 0;
+  }
+
+  .topnav-right{
+    /* Two icon buttons side by side, everything else full width — stacking
+       all four made the foot of the rail read as a fifth nav list. */
+    display:grid; grid-template-columns:1fr 1fr; gap:8px; align-items:center;
+    margin-top:auto; padding-top:16px; border-top:1px solid var(--line);
+  }
+  .topnav-right .key-status,
+  .topnav-right .plan-pill,
+  #btnNewPlan{grid-column:1 / -1;}
+  .topnav-right .key-status{justify-content:center;}
+  .topnav-right .icon-btn{width:100%; height:38px;}
+  #btnNewPlan{justify-content:center;}
+  .plan-pill{text-align:center;}
+
+  /* The page heading belongs to the content column, not the whole viewport. */
+  .pagehead-inner, .view{max-width:1120px;}
+}
+
+/* Laptops in the 901–1180px band: narrow the rail so content keeps its room. */
+@media (min-width:901px) and (max-width:1180px){
+  #app{--rail:210px;}
+  .brand .tag{display:none;}
+}
+
 /* --- catalog ---------------------------------------------------------- */
 /* 348 courses as identical strips was a wall nobody could scan. Cards give
    each one a shape, and the subject sits top-left so the eye can skim by it. */
@@ -1434,14 +1509,14 @@ label:not(.btn):not(.watch-done-toggle){
       </div>
 
       <nav class="navrow" aria-label="Main">
-        <button class="navbtn" data-nav="home">Home</button>
-        <button class="navbtn" data-nav="chat">Chat</button>
-        <button class="navbtn" data-nav="plans">Plans</button>
-        <button class="navbtn" data-nav="catalog">Catalog</button>
-        <button class="navbtn" data-nav="today">Today</button>
-        <button class="navbtn" data-nav="review">Review<span class="due-dot" id="dueDot" hidden></span></button>
-        <button class="navbtn" data-nav="insights">Insights</button>
-        <button class="navbtn" data-nav="settings">Settings</button>
+        <button class="navbtn" data-nav="home"><span class="nav-ic" data-icon-slot="home"></span><span class="nav-text">Home</span></button>
+        <button class="navbtn" data-nav="chat"><span class="nav-ic" data-icon-slot="chat"></span><span class="nav-text">Chat</span></button>
+        <button class="navbtn" data-nav="plans"><span class="nav-ic" data-icon-slot="clipboard"></span><span class="nav-text">Plans</span></button>
+        <button class="navbtn" data-nav="catalog"><span class="nav-ic" data-icon-slot="book"></span><span class="nav-text">Catalog</span></button>
+        <button class="navbtn" data-nav="today"><span class="nav-ic" data-icon-slot="calendar"></span><span class="nav-text">Today</span></button>
+        <button class="navbtn" data-nav="review"><span class="nav-ic" data-icon-slot="lightbulb"></span><span class="nav-text">Review<span class="due-dot" id="dueDot" hidden></span></span></button>
+        <button class="navbtn" data-nav="insights"><span class="nav-ic" data-icon-slot="flame"></span><span class="nav-text">Insights</span></button>
+        <button class="navbtn" data-nav="settings"><span class="nav-ic" data-icon-slot="settings"></span><span class="nav-text">Settings</span></button>
       </nav>
 
       <div class="topnav-right">
