@@ -104,6 +104,19 @@ A six-month activity heatmap, a twelve-week bar chart, per-subject progress
 bars, and totals: lessons done, hours studied, video actually watched, notes
 written, cards, active plans.
 
+### Awards
+A certificate for every plan where every non-rest lesson is done. Each sheet
+carries the learner's name (asked for once, stored on the device and nowhere
+else), the course, the date range, and four figures read straight off the
+recorded work: lessons, hours, quiz average, notes. A short reference —
+`MD-XXX-XXXX`, derived from the plan id so it never changes once issued — sits
+in the footer. Print or save as PDF strips the app away and prints the sheet
+alone; Share hands the summary to the OS share sheet or the clipboard. Below
+the earned ones, an "On the way" list of partly-finished plans, nearest first.
+
+Nothing here is generated or estimated: a certificate cannot claim more than
+the learner actually did, and one is never issued for an unfinished plan.
+
 ### Upgrade
 Pricing cards (monthly ৳499, yearly ৳4499), a feature list, payment method
 picker (bKash, Nagad, Rocket, Bank transfer, Google Pay) with tap-to-copy
@@ -247,7 +260,7 @@ These are not stylistic preferences. Breaking any of them breaks the app.
 
 ## 7. What exists today
 
-- `index.html` — 5,963 lines: 1,293 CSS, 4,537 JS, 181 functions
+- `index.html` — 7,272 lines: 1,730 CSS, 5,408 JS, 188 functions
 - `courses.json` — 348 courses, 10 ready-made 14-day paths
 - Subjects: Math 55, Coding 40, Advanced Math 39, AI 36, Physics 34, English 31,
   Chemistry 24, Python 23, IELTS 22, Biology 16, Research 15, SAT 13

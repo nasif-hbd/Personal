@@ -12,7 +12,7 @@
 // Bumped whenever the shipped app changes. It had sat at v1 through the
 // subscription, quiz, sidebar and layout work, so an installed copy could
 // keep serving a shell from before any of it.
-const CACHE = "mindora-v2";
+const CACHE = "mindora-v3";
 
 // Precached so a cold, offline start still renders a usable app.
 const SHELL = [

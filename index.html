@@ -256,6 +256,120 @@ button{font-family:inherit;}
 .key-status.ok .pip{background:var(--success); box-shadow:0 0 10px var(--success);}
 .key-status.bad .pip{background:var(--danger); box-shadow:0 0 10px var(--danger);}
 
+/* --- certificates ------------------------------------------------------ */
+.awards-wrap{display:flex; flex-direction:column; gap:20px; max-width:860px;}
+.name-prompt{
+  display:flex; align-items:center; gap:15px; flex-wrap:wrap;
+  padding:18px 20px; border-radius:14px;
+  border:1px dashed var(--line-2); background:var(--surface);
+}
+.name-prompt > div:not(.name-row){flex:1 1 220px;}
+.name-prompt strong{display:block; font-size:14.5px;}
+.name-prompt p{margin:3px 0 0; font-size:13px; color:var(--text-muted);}
+.name-row{display:flex; gap:8px; flex:1 1 280px;}
+.name-row input{flex:1; padding:9px 12px; border-radius:10px; border:1px solid var(--line);
+  background:var(--panel); color:var(--text); font:inherit; font-size:14px;}
+
+.cert{display:flex; flex-direction:column; gap:11px;}
+.cert-sheet{
+  position:relative; overflow:hidden; padding:38px 40px 30px;
+  border-radius:18px; border:1px solid var(--line-2);
+  /* Paper, not another dark card — a certificate should look like a document
+     you would be willing to print. */
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(var(--accent-rgb),.16), transparent 58%),
+    radial-gradient(90% 80% at 0% 100%, rgba(168,85,247,.13), transparent 60%),
+    var(--panel);
+  box-shadow:var(--shadow-lg);
+  text-align:center;
+}
+.cert-rule{
+  position:absolute; inset:0 0 auto; height:5px;
+  background:linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3));
+}
+.cert-head{display:flex; align-items:center; gap:11px; justify-content:center; margin-bottom:26px;}
+.cert-mark{width:44px; height:44px; background:#fff; border-radius:12px; padding:5px;}
+.cert-head > div{text-align:left;}
+.cert-brand{font-family:var(--font-display); font-weight:700; font-size:19px; letter-spacing:-.02em;}
+.cert-tag{font-family:var(--font-mono); font-size:8.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--text-faint); margin-top:2px;}
+.cert-kicker{
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--accent); margin:0 0 14px;
+}
+.cert-name{
+  font-family:var(--font-display); font-size:clamp(27px,4.4vw,38px); font-weight:700;
+  letter-spacing:-.9px; margin:0 0 12px; text-wrap:balance;
+}
+.cert-blank{color:var(--text-faint); font-style:italic; font-weight:400;}
+.cert-body{margin:0 0 10px; font-size:14.5px; color:var(--text-muted);}
+.cert-course{
+  font-size:clamp(19px,2.8vw,24px); font-weight:650; margin:0 0 10px;
+  letter-spacing:-.3px; text-wrap:balance;
+}
+.cert-stats{
+  display:flex; justify-content:center; flex-wrap:wrap; gap:34px;
+  margin:26px 0 24px; padding:20px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+}
+.cert-stats div{display:flex; flex-direction:column; gap:3px;}
+.cert-stats b{font-size:26px; font-weight:750; letter-spacing:-1px; line-height:1;}
+.cert-stats span{
+  font-family:var(--font-mono); font-size:9.5px; letter-spacing:.13em;
+  text-transform:uppercase; color:var(--text-faint);
+}
+.cert-foot{
+  display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap;
+  font-size:12px; color:var(--text-faint);
+}
+.cert-id{font-family:var(--font-mono); letter-spacing:.09em; color:var(--text-dim);}
+.cert-actions{display:flex; gap:9px; flex-wrap:wrap;}
+.pending-row{margin-top:14px;}
+.pending-top{display:flex; justify-content:space-between; font-size:13.5px; margin-bottom:6px;}
+
+/* One certificate per sheet, with the app stripped away. The browser's own
+   "Save as PDF" then produces the document rather than a screenshot of it. */
+@media print{
+  body.printing-cert .tabbar,
+  body.printing-cert #toasts,
+  body.printing-cert .cert-actions,
+  body.printing-cert .name-prompt,
+  body.printing-cert .card.wide{display:none !important;}
+  body.printing-cert .cert:not(.printing){display:none !important;}
+  /* A sheet the reader never scrolled to is still sitting at opacity 0. Print
+     must not depend on where they happened to be looking. */
+  body.printing-cert .reveal{opacity:1 !important; transform:none !important;}
+  /* The pointer tilt writes an inline transform; a printed sheet must be flat. */
+  body.printing-cert .cert-sheet{transform:none !important;}
+  body.printing-cert .cert-sheet{
+    border:1px solid #d8d5e4; border-radius:0; box-shadow:none;
+    background:#fff; color:#15131f; padding:56px 52px;
+  }
+  /* On paper the theme's greys are near-white, so every secondary line would
+     print as a ghost. Restate them against white. */
+  body.printing-cert .cert-sheet .cert-name,
+  body.printing-cert .cert-sheet .cert-course,
+  body.printing-cert .cert-sheet .cert-stats b{color:#15131f;}
+  body.printing-cert .cert-sheet .cert-body{color:#3d3a4d;}
+  body.printing-cert .cert-sheet .cert-tag,
+  body.printing-cert .cert-sheet .cert-stats span,
+  body.printing-cert .cert-sheet .cert-foot,
+  body.printing-cert .cert-sheet .cert-id{color:#6b6880;}
+  body.printing-cert .cert-sheet .cert-kicker{color:#4a3fd4;}
+  body.printing-cert .cert-stats{border-color:#d8d5e4;}
+  body.printing-cert .cert-mark{background:none; padding:0;}
+  body.printing-cert .awards-wrap{max-width:none;}
+  body.printing-cert .cert-rule{
+    /* Printers drop background images by default; a solid rule survives. */
+    background:#4a3fd4; -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  @page{margin:14mm;}
+}
+
+@media (max-width:560px){
+  .cert-sheet{padding:26px 20px 22px;}
+  .cert-stats{gap:22px; margin:20px 0 18px;}
+}
+
 /* --- depth ------------------------------------------------------------- */
 /* Every 3D effect here answers a pointer. Nothing loops on its own — motion
    in the corner of the eye is a distraction; motion that follows your hand
@@ -1627,6 +1741,9 @@ label:not(.btn):not(.watch-done-toggle):not(.quiz-opt){
 }
 @media print{
   .topnav, .pagehead, .chat-input-bar, .lesson-media{display:none !important;}
+  /* The desktop rail is a grid column. Hiding it leaves the column behind, so
+     the page would print into a 236px strip; collapse the grid as well. */
+  #app{display:block !important;}
   body{background:#fff; color:#000;}
   body::before, body::after{display:none;}
   .card, .week-block{box-shadow:none;}
@@ -1651,6 +1768,7 @@ label:not(.btn):not(.watch-done-toggle):not(.quiz-opt){
         <button class="navbtn" data-nav="today"><span class="nav-ic" data-icon-slot="calendar"></span><span class="nav-text">Today</span></button>
         <button class="navbtn" data-nav="review"><span class="nav-ic" data-icon-slot="lightbulb"></span><span class="nav-text">Review<span class="due-dot" id="dueDot" hidden></span></span></button>
         <button class="navbtn" data-nav="insights"><span class="nav-ic" data-icon-slot="flame"></span><span class="nav-text">Insights</span></button>
+        <button class="navbtn" data-nav="awards"><span class="nav-ic" data-icon-slot="checkCircle"></span><span class="nav-text">Awards<span class="due-dot" id="awardDot" hidden></span></span></button>
         <button class="navbtn" data-nav="settings"><span class="nav-ic" data-icon-slot="settings"></span><span class="nav-text">Settings</span></button>
       </nav>
 
@@ -1712,6 +1830,7 @@ label:not(.btn):not(.watch-done-toggle):not(.quiz-opt){
       <button class="sheet-item" data-nav="chat"><span data-icon-slot="chat"></span>Chat</button>
       <button class="sheet-item" data-nav="catalog"><span data-icon-slot="book"></span>Catalog</button>
       <button class="sheet-item" data-nav="insights"><span data-icon-slot="flame"></span>Insights</button>
+      <button class="sheet-item" data-nav="awards"><span data-icon-slot="checkCircle"></span>Awards</button>
       <button class="sheet-item" data-nav="settings"><span data-icon-slot="settings"></span>Settings</button>
       <button class="sheet-item" data-action="open-palette"><span data-icon-slot="search"></span>Search</button>
       <button class="sheet-item" id="sheetUpgrade" data-nav="upgrade" hidden><span data-icon-slot="sparkle"></span>Pro</button>
@@ -3160,6 +3279,13 @@ function renderSidebar(){
   ks.innerHTML = `<span class="pip"></span> ${ready ? "AI ready" : "AI off"}`;
   ks.title = ready ? "AI is available in this app" : "AI features aren't switched on for this app";
 
+  const awards = allCertificates().length;
+  const awardDot = document.getElementById("awardDot");
+  if(awardDot){
+    awardDot.hidden = awards === 0;
+    awardDot.textContent = String(awards);
+  }
+
   const due = cardsDue().length;
   [document.getElementById("dueDot"), document.getElementById("tabDueDot")].forEach(dot=>{
     if(!dot) return;
@@ -3205,9 +3331,86 @@ function renderView(){
   else if(state.view === "upgrade") renderUpgrade(v);
   else if(state.view === "review") renderReview(v);
   else if(state.view === "insights") renderInsights(v);
+  else if(state.view === "awards") renderAwards(v);
   // Any iframe rebuilt by that render is a brand-new element, so re-attach the
   // YouTube player objects that report watch progress back to us.
   bindInlinePlayers();
+}
+
+/* ============================================================
+   Certificates
+
+   The thing that makes people finish a course is having something to show
+   for it. Everything here is computed from work already recorded — lessons
+   ticked, minutes watched, quizzes passed — so a certificate can never say
+   more than the learner actually did.
+============================================================ */
+function learnerName(){ return (state.settings.learnerName||"").trim(); }
+
+/**
+ * A plan's certificate, or null if it isn't finished.
+ *
+ * "Finished" means every non-rest lesson is done. Quizzes are already
+ * required to complete a video lesson, so a full plan implies they were
+ * passed — the average is reported rather than re-checked.
+ */
+function planCertificate(plan){
+  let total = 0, done = 0, minutes = 0, finishedAt = 0;
+  let quizSum = 0, quizCount = 0;
+  (plan.weeks||[]).forEach(w=>(w.days||[]).forEach(d=>{
+    (d.classes||[]).forEach(c=>{
+      if(c.type === "rest") return;
+      total++;
+      if(!c.done) return;
+      done++;
+      minutes += c.durationMinutes || 0;
+      if(c.doneAt) finishedAt = Math.max(finishedAt, c.doneAt);
+      const best = bestQuizScore(c);
+      if(best > 0){ quizSum += best; quizCount++; }
+    });
+  }));
+  if(!total || done < total) return null;
+  return {
+    plan, total, minutes, finishedAt: finishedAt || Date.now(),
+    hours: Math.max(1, Math.round(minutes / 60)),
+    quizAvg: quizCount ? quizSum / quizCount : null,
+    cards: planCards(plan).length,
+    notes: (plan.weeks||[]).reduce((n,w)=>n + (w.days||[]).reduce((m,d)=>
+      m + (d.classes||[]).reduce((k,c)=>k + classNotes(c).length, 0), 0), 0),
+    id: certificateId(plan),
+  };
+}
+
+/**
+ * A short, stable reference for one finished plan.
+ *
+ * Derived from the plan id so it never changes once issued, and printed on
+ * the certificate so a claim can be checked against the holder's own export
+ * rather than taken on trust.
+ */
+function certificateId(plan){
+  let h = 0x811c9dc5;
+  const src = `mindora:${plan.id}:${plan.title}`;
+  for(let i = 0; i < src.length; i++){
+    h ^= src.charCodeAt(i);
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  const raw = h.toString(36).toUpperCase().padStart(7, "0").slice(0, 7);
+  return `MD-${raw.slice(0,3)}-${raw.slice(3)}`;
+}
+
+function allCertificates(){
+  return state.plans.map(planCertificate).filter(Boolean)
+    .sort((a,b)=>b.finishedAt - a.finishedAt);
+}
+
+/** Plans still in progress, nearest to done first — the next one to earn. */
+function certificatesInProgress(){
+  return state.plans
+    .filter(p=>!planCertificate(p))
+    .map(p=>({plan:p, pct: planProgress(p)}))
+    .filter(x=>x.pct > 0)
+    .sort((a,b)=>b.pct - a.pct);
 }
 
 /* ============================================================
@@ -3371,6 +3574,163 @@ function renderCardLibrary(){
 }
 
 /* ============================================================
+   Awards — the certificate view
+============================================================ */
+function renderAwards(container){
+  const earned = allCertificates();
+  const pending = certificatesInProgress();
+  setTopbar("Awards", earned.length ? `${earned.length} earned` : "");
+
+  if(!earned.length && !pending.length){
+    container.innerHTML = `
+      <div class="chat-empty">
+        <div class="big-ic">${icon("checkCircle","ic-xl")}</div>
+        <h2>Finish a plan, earn a certificate</h2>
+        <p>Complete every lesson in any plan and Mindora issues a certificate you can print
+        or share — with your hours, your quiz average, and a reference anyone can check.</p>
+        <button class="btn primary" data-nav="home">${icon("arrowRight","ic-sm")} Find a path</button>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="awards-wrap">
+      ${!learnerName() ? `
+        <div class="name-prompt reveal">
+          <span class="empty-ic">${icon("user","ic-sm")}</span>
+          <div><strong>Whose name goes on these?</strong>
+          <p>Used only on your certificates, and stored on your device.</p></div>
+          <div class="name-row">
+            <input type="text" id="learnerNameInput" placeholder="Your full name" autocomplete="name">
+            <button class="btn small primary" id="btnSaveName">Save</button>
+          </div>
+        </div>` : ""}
+
+      ${earned.length ? earned.map(cert=>renderCertificate(cert)).join("") : ""}
+
+      ${pending.length ? `
+        <div class="card wide reveal">
+          <h3>On the way</h3>
+          <p class="desc">A certificate is issued the moment a plan reaches every lesson.</p>
+          ${pending.slice(0,5).map(({plan, pct})=>`
+            <div class="pending-row">
+              <div class="pending-top">
+                <span>${escapeHtml(plan.title)}</span><span>${pct}%</span>
+              </div>
+              <div class="subject-bar"><div style="width:${pct}%"></div></div>
+            </div>`).join("")}
+        </div>` : ""}
+    </div>`;
+
+  attachReveals(container);
+  // The sheet tilts under the pointer — it should feel like paper you can pick
+  // up. The transform is inline, so the print rules below still win.
+  attachTiltEffects(container);
+  const save = document.getElementById("btnSaveName");
+  if(save){
+    const input = document.getElementById("learnerNameInput");
+    const commit = ()=>{
+      state.settings.learnerName = input.value.trim();
+      persistSettings();
+      renderView();
+    };
+    save.onclick = commit;
+    input.addEventListener("keydown", e=>{ if(e.key === "Enter") commit(); });
+  }
+}
+
+function renderCertificate(cert){
+  const {plan} = cert;
+  // Both ends of the range use one format. fmtDateNice is the app's compact
+  // "Wed, Jul 1" and reads as a different kind of date next to a long one.
+  const long = d => new Date(d).toLocaleDateString(undefined,
+    {day:"numeric", month:"long", year:"numeric"});
+  const issued = long(cert.finishedAt);
+  const started = long(plan.startDate + "T00:00:00");
+  const name = learnerName();
+
+  return `
+    <div class="cert reveal" data-cert="${plan.id}">
+      <div class="cert-sheet">
+        <div class="cert-rule"></div>
+        <div class="cert-head">
+          <img class="cert-mark" src="icon.svg" width="44" height="44" alt="">
+          <div>
+            <div class="cert-brand">Mindora</div>
+            <div class="cert-tag">Learn with Dedication</div>
+          </div>
+        </div>
+
+        <p class="cert-kicker">Certificate of completion</p>
+        <h2 class="cert-name">${name ? escapeHtml(name) : "<span class=\"cert-blank\">Your name here</span>"}</h2>
+        <p class="cert-body">has completed every lesson of</p>
+        <h3 class="cert-course">${escapeHtml(plan.title)}</h3>
+        <p class="cert-body">${escapeHtml(plan.subject || "")}${plan.subject ? " · " : ""}${started} — ${issued}</p>
+
+        <div class="cert-stats">
+          <div><b>${cert.total}</b><span>lessons</span></div>
+          <div><b>${cert.hours}</b><span>hours</span></div>
+          ${cert.quizAvg !== null ? `<div><b>${Math.round(cert.quizAvg*100)}%</b><span>quiz average</span></div>` : ""}
+          ${cert.notes ? `<div><b>${cert.notes}</b><span>notes</span></div>` : ""}
+        </div>
+
+        <div class="cert-foot">
+          <span>Issued ${issued}</span>
+          <span class="cert-id">${cert.id}</span>
+        </div>
+      </div>
+      <div class="cert-actions">
+        <button class="btn small" data-action="print-cert" data-plan="${plan.id}">
+          ${icon("printer","ic-sm")} Print or save as PDF
+        </button>
+        <button class="btn small" data-action="share-cert" data-plan="${plan.id}">
+          ${icon("upload","ic-sm")} Share
+        </button>
+      </div>
+    </div>`;
+}
+
+/**
+ * Print one certificate. The print stylesheet hides everything except the
+ * sheet marked for printing, so the browser's own "Save as PDF" produces a
+ * clean page rather than a screenshot of the app around it.
+ */
+function printCertificate(planId){
+  document.querySelectorAll(".cert").forEach(el=>{
+    el.classList.toggle("printing", el.dataset.cert === planId);
+  });
+  document.body.classList.add("printing-cert");
+  const cleanup = ()=>{
+    document.body.classList.remove("printing-cert");
+    document.querySelectorAll(".cert.printing").forEach(el=>el.classList.remove("printing"));
+    window.removeEventListener("afterprint", cleanup);
+  };
+  window.addEventListener("afterprint", cleanup);
+  window.print();
+  // Safari never fires afterprint reliably; a timer guarantees the app comes
+  // back rather than staying stuck in print layout.
+  setTimeout(cleanup, 1500);
+}
+
+async function shareCertificate(planId){
+  const plan = getPlan(planId);
+  const cert = plan && planCertificate(plan);
+  if(!cert) return;
+  const text = `I finished "${plan.title}" on Mindora — ${cert.total} lessons, ${cert.hours} hours`
+    + (cert.quizAvg !== null ? `, ${Math.round(cert.quizAvg*100)}% quiz average` : "")
+    + `. Certificate ${cert.id}`;
+  try{
+    if(navigator.share){ await navigator.share({title:"Mindora certificate", text}); return; }
+    await navigator.clipboard.writeText(text);
+    toast("Copied — paste it anywhere.", "success");
+  }catch(e){
+    // A cancelled share is not a failure; only say something went wrong when
+    // the clipboard genuinely refused.
+    if(e && e.name !== "AbortError") toast("Couldn't share that automatically.", "error");
+  }
+}
+
+/* ============================================================
    Insights
 ============================================================ */
 function renderInsights(container){
@@ -3514,6 +3874,7 @@ function paletteCommands(){
     {kind:"Go", label:"Today", icon:"calendar", run:()=>go("today")},
     {kind:"Go", label:"Review", icon:"lightbulb", run:()=>go("review")},
     {kind:"Go", label:"Insights", icon:"flame", run:()=>go("insights")},
+    {kind:"Go", label:"Awards", icon:"checkCircle", run:()=>go("awards")},
     {kind:"Go", label:"Settings", icon:"settings", run:()=>go("settings")},
     {kind:"Do", label:"New learning plan", icon:"plus", run:openNewPlanModal},
     {kind:"Do", label:"Toggle theme", icon:"moon", run:toggleTheme},
@@ -4782,7 +5143,7 @@ function pointerDevice(){
  */
 function attachTiltEffects(root){
   if(calmMotion() || !pointerDevice()) return;
-  const SELECTOR = ".featured-card, .course-card, .plan-card";
+  const SELECTOR = ".featured-card, .course-card, .plan-card, .cert-sheet";
   let pending = null, frame = 0, active = null;
 
   const apply = ()=>{
@@ -5737,7 +6098,8 @@ document.addEventListener("keydown", e=>{
 
   // Two-key chords: G then a destination, the way Gmail and GitHub do it.
   if(chordPending){
-    const dest = {h:"home", t:"today", p:"plans", c:"catalog", r:"review", i:"insights", s:"settings"}[e.key.toLowerCase()];
+    const dest = {h:"home", t:"today", p:"plans", c:"catalog", r:"review",
+                  i:"insights", a:"awards", s:"settings"}[e.key.toLowerCase()];
     clearTimeout(chordTimer);
     chordPending = false;
     if(dest){ e.preventDefault(); go(dest); }
@@ -5778,7 +6140,10 @@ document.addEventListener("keydown", e=>{
 });
 document.addEventListener("click", e=>{
   const navBtn = e.target.closest("[data-nav]");
-  if(navBtn){ state.view = navBtn.dataset.nav; state.planDetailId = null; renderView(); closeMobileSidebar(); return; }
+  // go() rather than setting state.view directly: it also writes the hash, so
+  // the address bar keeps up with where you are. Without it, reloading after
+  // clicking around lands you back on whatever view the stale hash named.
+  if(navBtn){ go(navBtn.dataset.nav); closeMobileSidebar(); return; }
 
   const action = e.target.closest("[data-action]");
   if(!action) return;
@@ -5877,6 +6242,8 @@ document.addEventListener("click", e=>{
     }
   }
   else if(act==="export-ics"){ downloadICS(action.dataset.plan); }
+  else if(act==="print-cert"){ printCertificate(action.dataset.plan); }
+  else if(act==="share-cert"){ shareCertificate(action.dataset.plan); }
   else if(act==="catch-up"){
     const moved = catchUpPlan(action.dataset.plan);
     if(moved) toast(`Schedule shifted ${moved} day${Math.abs(moved)===1?"":"s"} — you're back on track.`, "success");
@@ -6761,7 +7128,7 @@ function closeMobileSidebar(){}
 
 /* Deep links: the installed-app shortcuts in manifest.json point at
    #today / #plans / #catalog, and sharing a URL should land where expected. */
-const HASH_VIEWS = ["home","chat","plans","catalog","today","settings","upgrade","review","insights"];
+const HASH_VIEWS = ["home","chat","plans","catalog","today","settings","upgrade","review","insights","awards"];
 function viewFromHash(){
   const wanted = (location.hash||"").replace(/^#/,"").toLowerCase();
   return HASH_VIEWS.includes(wanted) ? wanted : null;
