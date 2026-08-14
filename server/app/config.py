@@ -70,6 +70,16 @@ class Settings:
     pay_bank: str = field(default_factory=lambda: os.environ.get("PAY_BANK", ""))
     pay_gpay: str = field(default_factory=lambda: os.environ.get("PAY_GPAY", ""))
 
+    # Optional one-tap checkout URLs. Set one and that rail becomes a button
+    # that opens a real payment page instead of instructions to copy a number.
+    # This is where a bKash merchant Payment Link, an SSLCommerz or aamarPay
+    # link, a PayPal.me or a Stripe payment link goes once you have one.
+    pay_bkash_link: str = field(default_factory=lambda: os.environ.get("PAY_BKASH_LINK", ""))
+    pay_nagad_link: str = field(default_factory=lambda: os.environ.get("PAY_NAGAD_LINK", ""))
+    pay_rocket_link: str = field(default_factory=lambda: os.environ.get("PAY_ROCKET_LINK", ""))
+    pay_bank_link: str = field(default_factory=lambda: os.environ.get("PAY_BANK_LINK", ""))
+    pay_gpay_link: str = field(default_factory=lambda: os.environ.get("PAY_GPAY_LINK", ""))
+
     @property
     def plans(self) -> dict:
         return {
@@ -86,6 +96,22 @@ class Settings:
             "bkash": self.pay_bkash, "nagad": self.pay_nagad, "rocket": self.pay_rocket,
             "bank": self.pay_bank, "gpay": self.pay_gpay,
         }.items() if v}
+
+    @property
+    def pay_links(self) -> dict:
+        """Only http(s) links are passed to the browser.
+
+        These are rendered as a link the visitor taps, so anything else — a
+        javascript: or data: URL slipped into the environment — would run in
+        their page rather than open a checkout.
+        """
+        raw = {
+            "bkash": self.pay_bkash_link, "nagad": self.pay_nagad_link,
+            "rocket": self.pay_rocket_link, "bank": self.pay_bank_link,
+            "gpay": self.pay_gpay_link,
+        }
+        return {k: v.strip() for k, v in raw.items()
+                if v.strip().lower().startswith(("http://", "https://"))}
 
     # --- Storage --------------------------------------------------------
     google_client_id: str = field(default_factory=lambda: os.environ.get("GOOGLE_CLIENT_ID", ""))

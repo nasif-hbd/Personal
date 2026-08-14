@@ -55,6 +55,25 @@ Set only the ones you actually accept; the rest are hidden at checkout.
 | `PAY_BANK` | `City Bank · 1234567890` |
 | `PAY_GPAY` | `you@okaxis` |
 
+### One-tap checkout
+
+Each rail also takes an optional `PAY_<RAIL>_LINK`. Set one and that method
+becomes a button opening a real payment page instead of instructions to copy a
+number — a bKash merchant Payment Link, SSLCommerz, aamarPay, PayPal.me or a
+Stripe payment link. Only `http(s)` URLs are passed to the browser: these are
+rendered as a link the visitor taps, so a `javascript:` URL slipped into the
+environment would run in their page rather than open a checkout.
+
+Without a link the app still offers the most direct route it can. Google Pay
+gets a `upi://pay` deep link with the amount already filled in. On a phone,
+bKash, Nagad and Rocket open the dialler on their USSD shortcode — that cannot
+carry the amount, because no public scheme does for a personal account, but it
+saves hunting for the app. On desktop those fall back to the manual steps,
+since a dialler link there would do nothing.
+
+Verifying still works the same way whichever route the buyer took: they come
+back with a transaction ID and you approve it.
+
 **These are manual, not automated.** bKash, Nagad and Rocket only issue
 merchant API credentials to registered businesses (trade licence, TIN, company
 bank account), which is a slow process and out of reach on day one. So:

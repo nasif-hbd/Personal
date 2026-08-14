@@ -259,7 +259,8 @@ def billing_config():
         "currency": settings.currency,
         "plans": list(settings.plans.values()),
         "methods": [
-            {"id": key, **METHODS[key], "account": accounts[key]}
+            {"id": key, **METHODS[key], "account": accounts[key],
+             "link": settings.pay_links.get(key, "")}
             for key in METHODS if key in accounts
         ],
         "trialMessages": settings.free_trial_messages,

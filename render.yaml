@@ -76,3 +76,17 @@ services:
         sync: false
       - key: PAY_GPAY
         sync: false
+
+      # Optional one-tap checkout URLs. Set one and that rail becomes a button
+      # opening a real payment page: a bKash merchant Payment Link, SSLCommerz,
+      # aamarPay, PayPal.me or Stripe. Leave blank for the manual flow.
+      - key: PAY_BKASH_LINK
+        sync: false
+      - key: PAY_NAGAD_LINK
+        sync: false
+      - key: PAY_ROCKET_LINK
+        sync: false
+      - key: PAY_BANK_LINK
+        sync: false
+      - key: PAY_GPAY_LINK
+        sync: false

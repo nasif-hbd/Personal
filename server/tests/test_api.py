@@ -377,3 +377,40 @@ def test_switching_charging_back_on_restores_the_paywall(tmp_path, monkeypatch):
     importlib.reload(config)
     importlib.reload(main)
     assert _chat(TestClient(main.app)).status_code == 402
+
+
+# --- direct payment links ------------------------------------------------
+
+
+def test_only_http_links_reach_the_browser(tmp_path, monkeypatch):
+    """These are rendered as a link the visitor taps, so a javascript: URL in
+    the environment would run in their page rather than open a checkout."""
+    monkeypatch.setenv("SECRET_KEY", "s")
+    monkeypatch.setenv("DB_PATH", str(tmp_path / "l.db"))
+    monkeypatch.setenv("PAY_BKASH", "01700000000")
+    monkeypatch.setenv("PAY_NAGAD", "01800000000")
+    monkeypatch.setenv("PAY_ROCKET", "01900000000")
+    monkeypatch.setenv("PAY_BKASH_LINK", "https://shop.bkash.com/x/pay")
+    monkeypatch.setenv("PAY_NAGAD_LINK", "javascript:alert(1)")
+    monkeypatch.setenv("PAY_ROCKET_LINK", "  not a url  ")
+    monkeypatch.chdir(tmp_path)
+    from app import config, main
+    importlib.reload(config)
+    importlib.reload(main)
+    methods = {m["id"]: m for m in TestClient(main.app).get("/api/billing/config").json()["methods"]}
+    assert methods["bkash"]["link"] == "https://shop.bkash.com/x/pay"
+    assert methods["nagad"]["link"] == ""
+    assert methods["rocket"]["link"] == ""
+
+
+def test_a_rail_without_a_link_still_works(tmp_path, monkeypatch):
+    monkeypatch.setenv("SECRET_KEY", "s")
+    monkeypatch.setenv("DB_PATH", str(tmp_path / "n.db"))
+    monkeypatch.setenv("PAY_BKASH", "01700000000")
+    monkeypatch.delenv("PAY_BKASH_LINK", raising=False)
+    monkeypatch.chdir(tmp_path)
+    from app import config, main
+    importlib.reload(config)
+    importlib.reload(main)
+    m = TestClient(main.app).get("/api/billing/config").json()["methods"][0]
+    assert m["account"] == "01700000000" and m["link"] == ""

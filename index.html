@@ -835,7 +835,17 @@ kbd{
 .method-name{font-weight:650; font-size:14px;}
 .method-account{font-family:var(--font-mono); font-size:11px; color:var(--text-faint);}
 
-.pay-steps{display:flex; flex-direction:column; gap:14px; margin:16px 0 18px;}
+/* The direct route leads; the manual steps stay below as the fallback. */
+.pay-now{
+  width:100%; justify-content:center; margin-top:16px; padding:13px 18px;
+  font-size:14.5px; text-decoration:none;
+}
+.pay-now-note{margin:9px 0 0; font-size:12.5px; text-align:center;}
+.pay-steps{
+  display:flex; flex-direction:column; gap:14px; margin:16px 0 18px;
+  padding-top:16px; border-top:1px solid var(--line);
+}
+.pay-steps:first-child{padding-top:0; border-top:0;}
 .pay-step{display:flex; gap:12px; align-items:flex-start; font-size:14px;}
 .pay-step .desc{display:block; margin-top:3px;}
 .step-n{
@@ -3785,6 +3795,46 @@ function proFeatureList(){
     </div>`).join("")}</div>`;
 }
 
+/**
+ * The most direct way to actually pay, given what this server is configured
+ * with and what device this is.
+ *
+ * In order of directness:
+ *   1. A checkout URL the owner configured — a bKash merchant Payment Link,
+ *      SSLCommerz, PayPal.me, Stripe. One tap, real payment page.
+ *   2. Google Pay: a UPI deep link carrying the amount, which every UPI app
+ *      understands and prefills.
+ *   3. Bangladeshi wallets on a phone: the dialler, pre-loaded with the USSD
+ *      shortcode. It cannot carry the amount — no public scheme does for a
+ *      personal account — but it saves hunting for the app and the code.
+ *
+ * Returns null on desktop for the wallet rails, where a dialler link would do
+ * nothing at all.
+ */
+const USSD = {bkash: "*247#", nagad: "*167#", rocket: "*322#"};
+
+function directPayment(method, plan){
+  if(method.link){
+    return {href: method.link, newTab: true, icon: "external",
+            label: `Pay ${money(plan.price, plan.currency)} now`,
+            note: "Opens a secure checkout page. Come back here afterwards with your transaction ID."};
+  }
+  if(method.id === "gpay" && /@/.test(method.account)){
+    const url = `upi://pay?pa=${encodeURIComponent(method.account)}`
+      + `&pn=${encodeURIComponent("Mindora")}&am=${encodeURIComponent(plan.price)}`
+      + `&cu=INR&tn=${encodeURIComponent("Mindora " + plan.label)}`;
+    return {href: url, newTab: false, icon: "external",
+            label: `Open your UPI app for ${money(plan.price, plan.currency)}`,
+            note: "Opens Google Pay, PhonePe or Paytm with the amount already filled in."};
+  }
+  if(USSD[method.id] && !pointerDevice()){
+    return {href: `tel:${encodeURIComponent(USSD[method.id])}`, newTab: false, icon: "arrowRight",
+            label: `Dial ${USSD[method.id]}`,
+            note: `Opens your dialler on ${method.label}'s menu. Choose Send Money, then enter the number and amount above.`};
+  }
+  return null;
+}
+
 // Chosen plan for the checkout form. Held outside state because it's transient
 // UI, not something worth persisting across reloads.
 let checkoutPlan = null, checkoutMethod = null;
@@ -3814,7 +3864,14 @@ function pickMethod(methodId){
   if(!method || !plan) return;
 
   const form = document.getElementById("payForm");
+  const direct = directPayment(method, plan);
   form.innerHTML = `
+    ${direct ? `
+      <a class="btn primary pay-now" href="${escapeHtml(direct.href)}"
+         ${direct.newTab ? 'target="_blank" rel="noopener"' : ""}>
+        ${icon(direct.icon,"ic-sm")} ${escapeHtml(direct.label)}
+      </a>
+      <p class="desc pay-now-note">${escapeHtml(direct.note)}</p>` : ""}
     <div class="pay-steps">
       <div class="pay-step">
         <span class="step-n">1</span>
