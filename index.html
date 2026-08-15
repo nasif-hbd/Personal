@@ -2072,11 +2072,7 @@ label:not(.btn):not(.watch-done-toggle):not(.quiz-opt){
   body:has(.fb-dock.open) #toasts{
     top:calc(12px + env(safe-area-inset-top)); bottom:auto;
   }
-  .fb-fab{padding:12px; }
-  .fb-fab-label{
-    /* Icon only: at 390px a labelled pill covers a third of the tab bar. */
-    position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%);
-  }
+  .fb-fab{padding:11px 16px; font-size:13.5px;}
   .fb-panel{width:calc(100vw - 32px);}
 }
 
@@ -2115,6 +2111,10 @@ label:not(.btn):not(.watch-done-toggle):not(.quiz-opt){
         <button class="navbtn" data-nav="insights"><span class="nav-ic" data-icon-slot="flame"></span><span class="nav-text">Insights</span></button>
         <button class="navbtn" data-nav="awards"><span class="nav-ic" data-icon-slot="checkCircle"></span><span class="nav-text">Awards<span class="due-dot" id="awardDot" hidden></span></span></button>
         <button class="navbtn" data-nav="settings"><span class="nav-ic" data-icon-slot="settings"></span><span class="nav-text">Settings</span></button>
+        <!-- Opens the dock rather than being a destination: the panel is the
+             same one the corner button opens, this is just somewhere to look
+             for it. A floating button alone proved too easy to miss. -->
+        <button class="navbtn" data-action="open-feedback"><span class="nav-ic" data-icon-slot="chat"></span><span class="nav-text">Feedback</span></button>
       </nav>
 
       <div class="topnav-right">
@@ -2178,6 +2178,7 @@ label:not(.btn):not(.watch-done-toggle):not(.quiz-opt){
       <button class="sheet-item" data-nav="awards"><span data-icon-slot="checkCircle"></span>Awards</button>
       <button class="sheet-item" data-nav="settings"><span data-icon-slot="settings"></span>Settings</button>
       <button class="sheet-item" data-action="open-palette"><span data-icon-slot="search"></span>Search</button>
+      <button class="sheet-item" data-action="open-feedback"><span data-icon-slot="chat"></span>Feedback</button>
       <button class="sheet-item" id="sheetUpgrade" data-nav="upgrade" hidden><span data-icon-slot="sparkle"></span>Pro</button>
     </div>
   </div>
@@ -7125,6 +7126,9 @@ document.addEventListener("click", e=>{
     renderView();
   }
   else if(act==="leave-board"){ leaveLeaderboard(); }
+  // The More sheet closes itself — wireSheet() binds close to every
+  // .sheet-item — so this only has to open the panel.
+  else if(act==="open-feedback"){ openFeedback(); }
   else if(act==="print-cert"){ printCertificate(action.dataset.plan); }
   else if(act==="share-cert"){ shareCertificate(action.dataset.plan); }
   else if(act==="catch-up"){
@@ -8040,6 +8044,9 @@ window.addEventListener("hashchange", applyHashRoute);
    it just uses the visitor's own mail client instead of ours.
 ============================================================ */
 const FEEDBACK_MAILTO = "researcher.flame@gmail.com";
+// Assigned by wireFeedback below; a no-op until then so an early click on a
+// nav entry can never throw.
+let openFeedback = ()=>{};
 
 (function wireFeedback(){
   const dock = document.getElementById("fbDock");
@@ -8068,6 +8075,10 @@ const FEEDBACK_MAILTO = "researcher.flame@gmail.com";
   };
 
   fab.onclick = ()=> dock.classList.contains("open") ? close() : open();
+  // The nav entries live outside this closure and need a way in. A named
+  // function on the module scope rather than a global: the whole app is
+  // already inside one IIFE.
+  openFeedback = open;
   document.getElementById("fbClose").onclick = close;
   document.addEventListener("keydown", e=>{
     if(e.key === "Escape" && dock.classList.contains("open")) close();
