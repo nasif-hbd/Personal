@@ -188,6 +188,38 @@ used from the server, and an HTTP-referrer restriction would block it. If you
 ever also hand the key to browsers, restrict it by referrer instead and accept
 that it is then readable by anyone using the app.
 
+## Leaderboard
+
+Opt-in. Joining publishes a display name the person chose, their XP and their
+level — nothing else. Plans, notes, real names and certificates never leave
+their device. `DELETE /api/leaderboard` removes them again.
+
+XP itself is computed in the browser from finished lessons, quiz scores, notes,
+card reviews, completed plans and the current streak. It is derived every time
+rather than accrued, so unticking a lesson takes its points back.
+
+> **This cannot be made cheat-proof, and the screen says so.** Scores arrive
+> from each person's browser, and anyone can edit the page they are holding —
+> the same reason the paywall is enforced here rather than in the client. The
+> server has no record of someone's lessons to check a claim against.
+
+What it does instead is bound the claim:
+
+* **A plausibility ceiling.** A score above `lessons x 250 + 5000` is clamped.
+  Lessons are themselves capped, so a huge lesson count can't unlock any score.
+* **A growth clamp.** Once listed, a score may climb by 2,000 plus 4,000/hour.
+  The burst matters as much as the rate — finishing a plan is +150 on its own
+  and a good session lands a few hundred, so an honest sitting always fits.
+* **Scores may fall freely.** Untick a lesson and the board accepts the drop.
+
+Together these stop casual inflation and make topping the board by fabrication
+take weeks of patient submitting rather than one request. If you ever want a
+board worth competing on, the score has to come from events the server
+witnessed as they happened — a different, much larger feature.
+
+The board is mirrored to durable storage on every change, so a free tier wiping
+the disk doesn't erase everyone. Restores never roll a live score backwards.
+
 ## Spend controls
 
 | Env var | Default | What it does |
@@ -269,6 +301,9 @@ empty identity rather than someone else's data. That's covered by tests.
 |---|---|
 | `GET /api/health` | config + remaining daily quota. Safe to call publicly; exposes no secrets |
 | `GET /api/yt/search?q=` | finds a video for a lesson title using the owner's key. Cached and capped |
+| `GET /api/leaderboard` | top entries plus this visitor's rank |
+| `POST /api/leaderboard` | join or update an entry. Bounded, not trusted |
+| `DELETE /api/leaderboard` | leave the board |
 | `POST /api/chat` | streams from Anthropic using the owner's key |
 | `GET /api/state` | this visitor's saved plans |
 | `PUT /api/state` | save this visitor's plans (2 MB limit) |

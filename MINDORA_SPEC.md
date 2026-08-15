@@ -131,6 +131,25 @@ the bottom edge.
 Nothing here is generated or estimated: a certificate cannot claim more than
 the learner actually did, and one is never issued for an unfinished plan.
 
+### Awards — Leaderboard tab
+A level card sits above both tabs: a ring showing progress to the next level,
+the rank title (Novice → Apprentice → Scholar → Adept → Expert → Master → Sage),
+and a breakdown of where the XP came from.
+
+XP is **derived from `state.plans` on every read, never accrued**. A stored
+counter drifts the moment a code path forgets to increment it, survives an undo
+it shouldn't, and can't be reconciled after an import or a sync from another
+device. Deriving means unticking a lesson takes its points back — the honest
+behaviour. Sources: 10/lesson + 1 per 10 minutes, up to 20 scaled by the best
+quiz score, 2 per note (first 3 per lesson), 3 per card repetition, 150 per
+completed plan, 5 per streak day. Level *n* needs `50(n-1)n` cumulative XP.
+
+The leaderboard is opt-in and needs a server; XP works offline. Joining
+publishes a chosen display name, XP and level — never the real name used on
+certificates, never plans or notes. Scores are client-reported and cannot be
+verified; the server bounds them and the screen says plainly that it can't
+prove them.
+
 ### Upgrade
 Pricing cards (monthly ৳499, yearly ৳4499), a feature list, payment method
 picker (bKash, Nagad, Rocket, Bank transfer, Google Pay) with tap-to-copy
@@ -277,7 +296,7 @@ These are not stylistic preferences. Breaking any of them breaks the app.
 
 ## 7. What exists today
 
-- `index.html` — 7,550 lines: 1,873 CSS, 5,543 JS, 192 functions
+- `index.html` — 8,022 lines: 1,983 CSS, 5,905 JS, 207 functions
 - `courses.json` — 348 courses, 10 ready-made 14-day paths
 - Subjects: Math 55, Coding 40, Advanced Math 39, AI 36, Physics 34, English 31,
   Chemistry 24, Python 23, IELTS 22, Biology 16, Research 15, SAT 13

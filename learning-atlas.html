@@ -468,6 +468,116 @@ button{font-family:inherit;}
 .pending-row{margin-top:14px;}
 .pending-top{display:flex; justify-content:space-between; font-size:13.5px; margin-bottom:6px;}
 
+/* --- level + leaderboard ----------------------------------------------- */
+.hint{font-size:12px; color:var(--text-faint); margin:10px 0 0; line-height:1.5;}
+.hint code{font-family:var(--font-mono); font-size:11px;}
+
+.level-card{display:flex; flex-direction:column; gap:14px;}
+.level-top{display:flex; align-items:center; gap:18px; flex-wrap:wrap;}
+/* The ring is one conic gradient masked into a band — no SVG, and it animates
+   by changing a single custom property. */
+.level-badge{
+  --pct:0;
+  position:relative; flex:0 0 auto; width:74px; height:74px; border-radius:50%;
+  background:conic-gradient(var(--accent) calc(var(--pct) * 1%), var(--line) 0);
+  display:grid; place-items:center;
+}
+.level-badge::after{
+  content:""; position:absolute; inset:6px; border-radius:50%;
+  background:var(--surface-solid);
+}
+.level-n{
+  position:relative; z-index:1; font-family:var(--font-display);
+  font-size:27px; font-weight:750; letter-spacing:-1px; line-height:1;
+}
+.level-meta{flex:1 1 240px; min-width:0;}
+.level-meta h3{margin:0 0 2px;}
+.level-bar{height:7px; border-radius:99px; background:var(--line); overflow:hidden; margin-top:10px;}
+.level-bar div{
+  height:100%; border-radius:99px;
+  background:linear-gradient(90deg, var(--accent), var(--accent-2));
+  transition:width .5s var(--ease);
+}
+.level-scale{
+  display:flex; justify-content:space-between; margin-top:5px;
+  font-family:var(--font-mono); font-size:10px; color:var(--text-faint);
+}
+.xp-detail summary{
+  cursor:pointer; font-size:13px; color:var(--text-dim); padding:6px 0;
+  list-style:none;
+}
+.xp-detail summary::-webkit-details-marker{display:none;}
+.xp-detail summary::before{content:"▸"; display:inline-block; margin-right:7px;}
+.xp-detail[open] summary::before{content:"▾";}
+.xp-list{list-style:none; margin:6px 0 0; padding:0; display:flex; flex-direction:column; gap:2px;}
+.xp-list li{
+  display:grid; grid-template-columns:1fr auto auto; gap:12px; align-items:baseline;
+  padding:7px 0; border-top:1px solid var(--line); font-size:13.5px;
+}
+.xp-list em{font-style:normal; font-size:11.5px; color:var(--text-faint);}
+.xp-list b{font-family:var(--font-mono); font-size:13px; color:var(--accent);}
+
+/* Segmented control for the Awards tabs. */
+.seg{
+  display:inline-flex; gap:4px; padding:4px; border-radius:12px;
+  border:1px solid var(--line); background:var(--surface); align-self:flex-start;
+  max-width:100%; overflow-x:auto;
+}
+.seg-btn{
+  display:inline-flex; align-items:center; gap:7px; white-space:nowrap;
+  padding:8px 15px; border-radius:9px; border:0; background:none;
+  color:var(--text-dim); font:inherit; font-size:13.5px; font-weight:550; cursor:pointer;
+  transition:background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.seg-btn svg{width:15px; height:15px;}
+.seg-btn b{
+  font-family:var(--font-mono); font-size:11px; padding:1px 6px; border-radius:99px;
+  background:var(--accent-soft); color:var(--accent); font-weight:600;
+}
+.seg-btn:hover{color:var(--text);}
+.seg-btn.on{background:var(--surface-2); color:var(--text); box-shadow:var(--shadow);}
+
+.board-me{display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;}
+.board-me h3{margin:2px 0 0;}
+.board-me-right{display:flex; align-items:center; gap:12px; flex-wrap:wrap;}
+.board-list{list-style:none; margin:12px 0 0; padding:0;}
+.board-row{
+  display:grid; grid-template-columns:34px 1fr auto auto; gap:14px; align-items:center;
+  padding:11px 10px; border-radius:10px; border-top:1px solid var(--line);
+}
+.board-row.mine{background:var(--accent-soft); border-top-color:transparent;}
+.board-rank{
+  font-family:var(--font-mono); font-size:13px; color:var(--text-faint); text-align:center;
+}
+/* Top three get a medal tint rather than an emoji — it survives print, every
+   font, and both themes. */
+.board-rank.medal{
+  width:26px; height:26px; border-radius:50%; display:grid; place-items:center;
+  color:#1a1508; font-weight:700;
+}
+.board-rank.r1{background:linear-gradient(150deg,#fde68a,#f59e0b);}
+.board-rank.r2{background:linear-gradient(150deg,#e5e7eb,#9ca3af);}
+.board-rank.r3{background:linear-gradient(150deg,#fdba74,#c2743a);}
+.board-name{
+  font-weight:550; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.board-lv{
+  font-family:var(--font-mono); font-size:11px; padding:2px 8px; border-radius:99px;
+  background:var(--surface-2); color:var(--text-dim);
+}
+.board-xp{font-family:var(--font-mono); font-size:13.5px; white-space:nowrap;}
+.board-xp em{font-style:normal; font-size:10px; color:var(--text-faint); margin-left:4px;}
+
+@media (max-width:560px){
+  .level-top{gap:14px;}
+  .level-badge{width:60px; height:60px;}
+  .level-n{font-size:22px;}
+  .board-row{grid-template-columns:28px 1fr auto; gap:10px; padding:10px 6px;}
+  .board-lv{display:none;}
+  .xp-list li{grid-template-columns:1fr auto; }
+  .xp-list em{display:none;}
+}
+
 @media (max-width:720px){
   /* A landscape sheet at 390px would be a postage stamp. Let it stand up. */
   .cert-sheet{aspect-ratio:auto;}
@@ -2209,7 +2319,7 @@ const store = {
 
 let state = {
   settings: store.get("settings", {theme:"dark", apiKey:"", model:"claude-sonnet-5", effort:"medium", notifEnabled:false,
-    driveClientId:DEFAULT_DRIVE_CLIENT_ID, driveConnected:false, driveFileId:null, driveLastSync:null, ytApiKey:"", backendUrl:"", accessCode:""}),
+    driveClientId:DEFAULT_DRIVE_CLIENT_ID, driveConnected:false, driveFileId:null, driveLastSync:null, ytApiKey:"", backendUrl:"", accessCode:"", boardName:""}),
   plans: store.get("plans", []),
   activePlanId: store.get("activePlanId", null),
   view: "home",
@@ -2233,6 +2343,7 @@ let syncDebounceTimer = null;
 function persistPlans(){
   store.set("plans", state.plans);
   pushToBackend();
+  syncBoardScore();
   if(state.settings.driveConnected){
     clearTimeout(syncDebounceTimer);
     syncDebounceTimer = setTimeout(syncToDrive, 4000);
@@ -3522,6 +3633,84 @@ function renderView(){
    ticked, minutes watched, quizzes passed — so a certificate can never say
    more than the learner actually did.
 ============================================================ */
+/* ============================================================
+   Experience
+
+   XP is recomputed from state.plans every time it is asked for. It is
+   never a stored counter that goes up, and that is deliberate: a counter
+   drifts the moment any code path forgets to increment it, survives an
+   undo it should not have survived, and cannot be reconciled after an
+   import or a sync from another device. Deriving it means the score is
+   always exactly what the recorded work adds up to — untick a lesson and
+   the XP for it goes away, which is the honest behaviour.
+============================================================ */
+const XP = {
+  lessonBase: 10,        // finishing anything at all
+  perTenMinutes: 1,      // longer lessons are worth more, mildly
+  quizMax: 20,           // scaled by the best score on that lesson
+  perNote: 2,
+  maxNotesScored: 3,     // writing 40 notes on one lesson is not 40 lessons
+  perReview: 3,          // one per graded repetition, from the SM-2 counter
+  planBonus: 150,        // finishing the whole thing
+  perStreakDay: 5,       // recomputed daily, so a broken streak really costs
+};
+
+/** Where the score came from, so the UI can show its working. */
+function xpBreakdown(){
+  let lessons = 0, minutes = 0, quiz = 0, notes = 0, reviews = 0, plansDone = 0;
+  state.plans.forEach(plan=>{
+    (plan.weeks||[]).forEach(w=>(w.days||[]).forEach(d=>(d.classes||[]).forEach(c=>{
+      if(c.type === "rest" || !c.done) return;
+      lessons++;
+      minutes += c.durationMinutes || 0;
+      const best = bestQuizScore(c);
+      if(best > 0) quiz += Math.round(best * XP.quizMax);
+      notes += Math.min(XP.maxNotesScored, classNotes(c).length) * XP.perNote;
+    })));
+    planCards(plan).forEach(card=>{ reviews += (card.reps || 0) * XP.perReview; });
+    if(planCertificate(plan)) plansDone++;
+  });
+  const streak = computeStreak();
+  const parts = [
+    {key:"lessons", label:"Lessons finished", detail:`${lessons}`,
+     xp: lessons * XP.lessonBase + Math.floor(minutes / 10) * XP.perTenMinutes},
+    {key:"quiz",    label:"Quiz scores",      detail:"best per lesson", xp: quiz},
+    {key:"notes",   label:"Notes written",    detail:`first ${XP.maxNotesScored} per lesson`, xp: notes},
+    {key:"reviews", label:"Cards reviewed",   detail:"every repetition", xp: reviews},
+    {key:"plans",   label:"Plans completed",  detail:`${plansDone}`, xp: plansDone * XP.planBonus},
+    {key:"streak",  label:"Current streak",   detail:`${streak} day${streak===1?"":"s"}`, xp: streak * XP.perStreakDay},
+  ].filter(p=>p.xp > 0);
+  return {parts, total: parts.reduce((n,p)=>n + p.xp, 0), lessons, streak, plansDone};
+}
+
+function totalXp(){ return xpBreakdown().total; }
+function fmtNum(n){ return Number(n || 0).toLocaleString(); }
+
+/** Cumulative XP needed to reach level n. 0, 100, 300, 600, 1000, … */
+function xpForLevel(n){ return 50 * (n - 1) * n; }
+
+/** The inverse — the largest n whose threshold this XP has passed. */
+function levelFromXp(xp){
+  return Math.max(1, Math.floor((50 + Math.sqrt(2500 + 200 * Math.max(0, xp))) / 100));
+}
+
+const RANKS = [[30,"Sage"],[22,"Master"],[15,"Expert"],[10,"Adept"],[6,"Scholar"],[3,"Apprentice"],[1,"Novice"]];
+function rankFor(level){ return (RANKS.find(([min])=>level >= min) || RANKS[RANKS.length-1])[1]; }
+
+/** Everything the level UI needs: where you are between two thresholds. */
+function levelInfo(xp){
+  const total = xp === undefined ? totalXp() : xp;
+  const level = levelFromXp(total);
+  const floorXp = xpForLevel(level);
+  const nextXp = xpForLevel(level + 1);
+  const span = Math.max(1, nextXp - floorXp);
+  return {
+    xp: total, level, rank: rankFor(level), floorXp, nextXp,
+    into: total - floorXp, span, toNext: Math.max(0, nextXp - total),
+    pct: Math.max(0, Math.min(100, Math.round((total - floorXp) / span * 100))),
+  };
+}
+
 function learnerName(){ return (state.settings.learnerName||"").trim(); }
 
 /**
@@ -3830,10 +4019,75 @@ function renderCardLibrary(){
 function renderAwards(container){
   const earned = allCertificates();
   const pending = certificatesInProgress();
-  setTopbar("Awards", earned.length ? `${earned.length} earned` : "");
+  const lv = levelInfo();
+  const tab = state.awardsTab === "board" ? "board" : "certificates";
+  setTopbar("Awards", `Level ${lv.level} · ${lv.rank}`);
 
+  container.innerHTML = `
+    <div class="awards-wrap">
+      ${renderLevelCard(lv)}
+
+      <div class="seg" role="tablist">
+        <button class="seg-btn${tab==="certificates"?" on":""}" data-action="awards-tab" data-tab="certificates"
+          role="tab" aria-selected="${tab==="certificates"}">
+          ${icon("checkCircle","ic-sm")} Certificates${earned.length?` <b>${earned.length}</b>`:""}
+        </button>
+        <button class="seg-btn${tab==="board"?" on":""}" data-action="awards-tab" data-tab="board"
+          role="tab" aria-selected="${tab==="board"}">
+          ${icon("flame","ic-sm")} Leaderboard
+        </button>
+      </div>
+
+      <div id="awardsPanel">${tab === "board" ? renderBoard() : renderCertificatesTab(earned, pending)}</div>
+    </div>`;
+
+  attachReveals(container);
+  // The sheet tilts under the pointer — it should feel like paper you can pick
+  // up. The transform is inline, so the print rules below still win.
+  attachTiltEffects(container);
+  wireAwards();
+  if(tab === "board") loadLeaderboard();
+}
+
+function renderLevelCard(lv){
+  const b = xpBreakdown();
+  return `
+    <div class="card wide level-card reveal">
+      <div class="level-top">
+        <div class="level-badge" style="--pct:${lv.pct}">
+          <span class="level-n">${lv.level}</span>
+        </div>
+        <div class="level-meta">
+          <h3>${escapeHtml(lv.rank)}</h3>
+          <p class="desc">${fmtNum(lv.xp)} XP total${lv.toNext
+            ? ` · ${fmtNum(lv.toNext)} to level ${lv.level+1}`
+            : ""}</p>
+          <div class="level-bar"><div style="width:${lv.pct}%"></div></div>
+          <div class="level-scale">
+            <span>${fmtNum(lv.floorXp)}</span><span>${fmtNum(lv.nextXp)}</span>
+          </div>
+        </div>
+      </div>
+      ${b.parts.length ? `
+        <details class="xp-detail">
+          <summary>Where this came from</summary>
+          <ul class="xp-list">
+            ${b.parts.map(p=>`
+              <li><span>${escapeHtml(p.label)}</span>
+                  <em>${escapeHtml(p.detail)}</em>
+                  <b>+${fmtNum(p.xp)}</b></li>`).join("")}
+          </ul>
+          <p class="hint">XP is recalculated from your finished work every time this
+          screen opens — it is never a running total, so unticking a lesson takes
+          its points back.</p>
+        </details>` : `
+        <p class="desc">Finish a lesson to score your first XP.</p>`}
+    </div>`;
+}
+
+function renderCertificatesTab(earned, pending){
   if(!earned.length && !pending.length){
-    container.innerHTML = `
+    return `
       <div class="chat-empty">
         <div class="big-ic">${icon("checkCircle","ic-xl")}</div>
         <h2>Finish a plan, earn a certificate</h2>
@@ -3841,11 +4095,8 @@ function renderAwards(container){
         or share — with your hours, your quiz average, and a reference anyone can check.</p>
         <button class="btn primary" data-nav="home">${icon("arrowRight","ic-sm")} Find a path</button>
       </div>`;
-    return;
   }
-
-  container.innerHTML = `
-    <div class="awards-wrap">
+  return `
       ${!learnerName() ? `
         <div class="name-prompt reveal">
           <span class="empty-ic">${icon("user","ic-sm")}</span>
@@ -3870,13 +4121,10 @@ function renderAwards(container){
               </div>
               <div class="subject-bar"><div style="width:${pct}%"></div></div>
             </div>`).join("")}
-        </div>` : ""}
-    </div>`;
+        </div>` : ""}`;
+}
 
-  attachReveals(container);
-  // The sheet tilts under the pointer — it should feel like paper you can pick
-  // up. The transform is inline, so the print rules below still win.
-  attachTiltEffects(container);
+function wireAwards(){
   const save = document.getElementById("btnSaveName");
   if(save){
     const input = document.getElementById("learnerNameInput");
@@ -3886,6 +4134,13 @@ function renderAwards(container){
       renderView();
     };
     save.onclick = commit;
+    input.addEventListener("keydown", e=>{ if(e.key === "Enter") commit(); });
+  }
+  const join = document.getElementById("btnJoinBoard");
+  if(join){
+    const input = document.getElementById("boardNameInput");
+    const commit = ()=>joinLeaderboard(input.value);
+    join.onclick = commit;
     input.addEventListener("keydown", e=>{ if(e.key === "Enter") commit(); });
   }
 }
@@ -4040,6 +4295,168 @@ async function shareCertificate(planId){
     // the clipboard genuinely refused.
     if(e && e.name !== "AbortError") toast("Couldn't share that automatically.", "error");
   }
+}
+
+/* ============================================================
+   Leaderboard
+
+   Opt-in, and honest about what it is. Scores are computed in each
+   person's own browser and posted to the server, which cannot verify
+   them — the same reason the paywall is enforced server-side. The
+   server bounds a claim against what the recorded lessons could
+   possibly be worth and limits how fast a score may climb, which stops
+   casual inflation; it does not make the board tamper-proof, and the
+   screen says so rather than implying a rigour it doesn't have.
+============================================================ */
+let boardData = null, boardBusy = false;
+
+function boardAvailable(){ return !!backendUrl(); }
+
+function renderBoard(){
+  if(!boardAvailable()){
+    return `
+      <div class="chat-empty">
+        <div class="big-ic">${icon("flame","ic-xl")}</div>
+        <h2>The leaderboard needs a server</h2>
+        <p>Your XP and level work offline and are yours alone. Comparing them with
+        anyone else needs somewhere to compare them — connect a server in Settings
+        and a board appears here.</p>
+        <button class="btn primary" data-nav="settings">${icon("settings","ic-sm")} Open Settings</button>
+      </div>`;
+  }
+  if(!boardData) return `<div class="card wide"><p class="desc">Loading the board…</p></div>`;
+
+  const me = boardData.me;
+  const lv = levelInfo();
+  const rows = boardData.top || [];
+
+  return `
+    ${me ? `
+      <div class="card wide board-me reveal">
+        <div>
+          <span class="sig-label">Your place</span>
+          <h3>#${me.rank} of ${fmtNum(boardData.size)}</h3>
+        </div>
+        <div class="board-me-right">
+          <span class="desc">Listed as <b>${escapeHtml(me.name)}</b></span>
+          <button class="btn small" data-action="leave-board">Leave the board</button>
+        </div>
+      </div>` : `
+      <div class="card wide name-prompt reveal">
+        <span class="empty-ic">${icon("flame","ic-sm")}</span>
+        <div><strong>Join the leaderboard</strong>
+        <p>Publishes a name you choose, your level and your XP — nothing else.
+        Your plans, notes and real name stay private. You can leave at any time.</p></div>
+        <div class="name-row">
+          <input type="text" id="boardNameInput" maxlength="24" placeholder="Display name"
+            value="${escapeHtml(state.settings.boardName || "")}" autocomplete="off">
+          <button class="btn small primary" id="btnJoinBoard">Join with ${fmtNum(lv.xp)} XP</button>
+        </div>
+      </div>`}
+
+    ${rows.length ? `
+      <div class="card wide reveal">
+        <h3>Top learners</h3>
+        <ol class="board-list">
+          ${rows.map(r=>`
+            <li class="board-row${me && r.rank === me.rank && r.name === me.name ? " mine" : ""}">
+              <span class="board-rank${r.rank<=3?" medal r"+r.rank:""}">${r.rank}</span>
+              <span class="board-name">${escapeHtml(r.name)}</span>
+              <span class="board-lv" title="Level ${r.level}">Lv ${r.level}</span>
+              <span class="board-xp">${fmtNum(r.xp)}<em>XP</em></span>
+            </li>`).join("")}
+        </ol>
+        <p class="hint">Scores are reported by each person's own app. Mindora checks
+        them against what that much study could plausibly be worth, but it can't
+        prove them — treat this as encouragement, not a ranking.</p>
+      </div>` : `
+      <div class="card wide"><p class="desc">Nobody has joined yet. Be first.</p></div>`}`;
+}
+
+async function loadLeaderboard(force){
+  if(!boardAvailable() || boardBusy) return;
+  if(boardData && !force) return;
+  boardBusy = true;
+  try{
+    const r = await fetch(backendUrl()+"/api/leaderboard", {headers: backendHeaders()});
+    rememberVisitorToken(r);
+    if(r.ok) boardData = await r.json();
+  }catch(e){
+    console.info("leaderboard unavailable", e && e.message);
+  }finally{
+    boardBusy = false;
+  }
+  if(state.view === "awards" && state.awardsTab === "board") repaintBoard();
+}
+
+function repaintBoard(){
+  const panel = document.getElementById("awardsPanel");
+  if(!panel) return;
+  panel.innerHTML = renderBoard();
+  attachReveals(panel);
+  wireAwards();
+}
+
+async function joinLeaderboard(rawName){
+  const name = (rawName || "").trim();
+  if(name.length < 2){ toast("Pick a name with at least 2 characters.", "error"); return; }
+  const lv = levelInfo();
+  const b = xpBreakdown();
+  state.settings.boardName = name;
+  persistSettings();
+  try{
+    const r = await fetch(backendUrl()+"/api/leaderboard", {
+      method:"POST",
+      headers: Object.assign({"content-type":"application/json"}, backendHeaders()),
+      body: JSON.stringify({name, xp: lv.xp, level: lv.level, lessons: b.lessons, streak: b.streak}),
+    });
+    rememberVisitorToken(r);
+    if(!r.ok){
+      let msg = `Couldn't join (HTTP ${r.status}).`;
+      try{ const j = await r.json(); if(j && j.detail) msg = j.detail; }catch(e){}
+      throw new Error(msg);
+    }
+    boardData = await r.json();
+    repaintBoard();
+    toast("You're on the board.", "success");
+  }catch(e){
+    toast(e.message || "Couldn't reach the leaderboard.", "error");
+  }
+}
+
+async function leaveLeaderboard(){
+  try{
+    const r = await fetch(backendUrl()+"/api/leaderboard",
+      {method:"DELETE", headers: backendHeaders()});
+    rememberVisitorToken(r);
+    if(!r.ok) throw new Error(`HTTP ${r.status}`);
+    boardData = null;
+    await loadLeaderboard(true);
+    repaintBoard();
+    toast("Removed from the board.", "success");
+  }catch(e){
+    toast("Couldn't leave the board just now.", "error");
+  }
+}
+
+/**
+ * Push a fresh score if this browser is already listed.
+ *
+ * Called after work is recorded, so a rank doesn't go stale until someone
+ * happens to open the Awards screen. Silent: a failure here is not worth
+ * interrupting anyone over, and the next call will carry the same total.
+ */
+function syncBoardScore(){
+  if(!boardAvailable() || !boardData || !boardData.me) return;
+  const name = state.settings.boardName || boardData.me.name;
+  const lv = levelInfo();
+  const b = xpBreakdown();
+  if(lv.xp === boardData.me.xp) return;
+  fetch(backendUrl()+"/api/leaderboard", {
+    method:"POST",
+    headers: Object.assign({"content-type":"application/json"}, backendHeaders()),
+    body: JSON.stringify({name, xp: lv.xp, level: lv.level, lessons: b.lessons, streak: b.streak}),
+  }).then(r=>r.ok ? r.json() : null).then(d=>{ if(d) boardData = d; }).catch(()=>{});
 }
 
 /* ============================================================
@@ -5921,7 +6338,7 @@ function clearAllData(){
   Object.keys(localStorage).filter(k=>k.startsWith(LS_PREFIX)).forEach(k=>localStorage.removeItem(k));
   state.plans = []; state.activePlanId = null;
   state.settings = {theme:"dark", apiKey:"", model:"claude-sonnet-5", effort:"medium", notifEnabled:false,
-    driveClientId:DEFAULT_DRIVE_CLIENT_ID, driveConnected:false, driveFileId:null, driveLastSync:null, ytApiKey:"", backendUrl:"", accessCode:""};
+    driveClientId:DEFAULT_DRIVE_CLIENT_ID, driveConnected:false, driveFileId:null, driveLastSync:null, ytApiKey:"", backendUrl:"", accessCode:"", boardName:""};
   driveAccessToken = null;
   state.view = "chat";
   applyTheme(); renderView();
@@ -6565,6 +6982,11 @@ document.addEventListener("click", e=>{
     }
   }
   else if(act==="export-ics"){ downloadICS(action.dataset.plan); }
+  else if(act==="awards-tab"){
+    state.awardsTab = action.dataset.tab === "board" ? "board" : "certificates";
+    renderView();
+  }
+  else if(act==="leave-board"){ leaveLeaderboard(); }
   else if(act==="print-cert"){ printCertificate(action.dataset.plan); }
   else if(act==="share-cert"){ shareCertificate(action.dataset.plan); }
   else if(act==="catch-up"){

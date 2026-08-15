@@ -25,6 +25,7 @@ from .billing import METHODS, Billing
 from .config import settings
 from .identity import new_visitor_id, sign, storage_key, verify
 from .limits import Quota
+from .leaderboard import BoardError, Leaderboard
 from .storage import StorageError, build_storage
 from .youtube import YouTubeError, YouTubeSearch
 
@@ -37,7 +38,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.allowed_origins,
     allow_credentials=False,
-    allow_methods=["GET", "PUT", "POST", "OPTIONS"],
+    allow_methods=["GET", "PUT", "POST", "DELETE", "OPTIONS"],
     allow_headers=["content-type", VISITOR_HEADER, "x-atlas-code", ADMIN_HEADER],
     expose_headers=[VISITOR_HEADER],
 )
@@ -50,6 +51,7 @@ quota = Quota(
 )
 store = build_storage(settings)
 billing = Billing(settings.db_path, access_code=settings.free_access_code)
+board = Leaderboard(settings.db_path)
 youtube = YouTubeSearch(
     settings.db_path,
     settings.youtube_key,
@@ -63,6 +65,7 @@ youtube = YouTubeSearch(
 # storage the app already has (Google Drive) means a wiped disk costs nothing —
 # without it, everyone who paid would silently lose their subscription.
 BILLING_BACKUP_KEY = "billing-backup"
+BOARD_BACKUP_KEY = "leaderboard-backup"
 
 
 def snapshot_billing() -> None:
@@ -92,9 +95,30 @@ def restore_billing() -> None:
         print(f"[billing] restore failed: {exc}", flush=True)
 
 
+def snapshot_board() -> None:
+    """Same deal as billing: a free tier wipes the disk, and a leaderboard
+    that forgets everyone on every redeploy is not a leaderboard."""
+    try:
+        store.save(BOARD_BACKUP_KEY, board.export_state())
+    except Exception as exc:                                  # noqa: BLE001
+        print(f"[board] backup failed: {exc}", flush=True)
+
+
+def restore_board() -> None:
+    try:
+        if not board.is_empty():
+            return
+        data = store.load(BOARD_BACKUP_KEY)
+        if data:
+            board.import_state(data)
+    except Exception as exc:                                  # noqa: BLE001
+        print(f"[board] restore failed: {exc}", flush=True)
+
+
 @app.on_event("startup")
 def _restore_on_boot() -> None:
     restore_billing()
+    restore_board()
 
 
 def _secret() -> str:
@@ -385,6 +409,68 @@ def admin_review(payment_id: str, body: ReviewBody, x_atlas_admin: str | None = 
         raise HTTPException(409, message)
     snapshot_billing()
     return {"ok": True, "message": message}
+
+
+class BoardBody(BaseModel):
+    name: str = ""
+    xp: int = 0
+    level: int = 1
+    lessons: int = 0
+    streak: int = 0
+
+
+@app.get("/api/leaderboard")
+def leaderboard(
+    limit: int = 25,
+    response: Response = None,
+    x_atlas_visitor: str | None = Header(default=None),
+    x_atlas_code: str | None = Header(default=None),
+):
+    """The top of the board, plus this visitor's own row if they're on it."""
+    check_access_code(x_atlas_code)
+    visitor, token = resolve_visitor(x_atlas_visitor)
+    if response is not None:
+        response.headers[VISITOR_HEADER] = token
+    return {"top": board.top(limit), "me": board.me(visitor), "size": board.size()}
+
+
+@app.post("/api/leaderboard")
+def leaderboard_join(
+    body: BoardBody,
+    response: Response,
+    x_atlas_visitor: str | None = Header(default=None),
+    x_atlas_code: str | None = Header(default=None),
+):
+    """Join the board, or update an entry already on it.
+
+    The score arrives from the browser and cannot be verified here — see the
+    module docstring. It is bounded, not trusted.
+    """
+    check_access_code(x_atlas_code)
+    visitor, token = resolve_visitor(x_atlas_visitor)
+    response.headers[VISITOR_HEADER] = token
+    try:
+        me = board.submit(visitor, name=body.name, xp=body.xp, level=body.level,
+                          lessons=body.lessons, streak=body.streak)
+    except BoardError as exc:
+        raise HTTPException(400, str(exc))
+    snapshot_board()
+    return {"me": me, "top": board.top(25), "size": board.size()}
+
+
+@app.delete("/api/leaderboard")
+def leaderboard_leave(
+    response: Response,
+    x_atlas_visitor: str | None = Header(default=None),
+    x_atlas_code: str | None = Header(default=None),
+):
+    """Leave the board. Opting in has to be reversible."""
+    check_access_code(x_atlas_code)
+    visitor, token = resolve_visitor(x_atlas_visitor)
+    response.headers[VISITOR_HEADER] = token
+    board.leave(visitor)
+    snapshot_board()
+    return {"ok": True}
 
 
 @app.get("/api/yt/search")
