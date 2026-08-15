@@ -41,6 +41,31 @@ services:
       - key: DB_PATH
         value: /tmp/mindora.db
 
+      # --- Feedback -------------------------------------------------------
+      # Where the in-app feedback widget sends messages. Set it in the
+      # dashboard, not here: this file is public, and a mail address committed
+      # to GitHub gets scraped.
+      #
+      # Feedback is stored either way. Without a transport below it simply
+      # waits in the admin console instead of arriving in an inbox.
+      - key: FEEDBACK_TO         # secret — set in dashboard
+        sync: false
+      # Preferred: ordinary HTTPS, so it survives a host blocking SMTP.
+      - key: RESEND_API_KEY      # secret — set in dashboard
+        sync: false
+      - key: FEEDBACK_FROM
+        value: Mindora <onboarding@resend.dev>
+      # Or plain SMTP. For Gmail this must be an App Password, not the
+      # account password.
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: FEEDBACK_DAILY_CAP
+        value: "5"
+
       # --- YouTube lookup -------------------------------------------------
       # Lets the server find a video for a lesson that has no link, so no
       # visitor needs their own key. Set it in the dashboard: a key in the

@@ -41,6 +41,24 @@ class Settings:
     # unlocks a paid subscription.
     access_code: str = field(default_factory=lambda: os.environ.get("ACCESS_CODE", ""))
 
+    # --- Feedback --------------------------------------------------------
+    # Where feedback is emailed. Deliberately not defaulted to a real address
+    # in this repo: it is public, and a mail address committed to GitHub gets
+    # scraped. Set it in the host's dashboard.
+    #
+    # Feedback is stored either way; without a transport it simply waits in
+    # the admin console instead of arriving in an inbox.
+    feedback_to: str = field(default_factory=lambda: os.environ.get("FEEDBACK_TO", ""))
+    feedback_from: str = field(default_factory=lambda: os.environ.get("FEEDBACK_FROM", ""))
+    feedback_daily_cap: int = field(default_factory=lambda: _int("FEEDBACK_DAILY_CAP", 5))
+    # Ordinary HTTPS, so it survives a host that blocks outbound SMTP.
+    resend_api_key: str = field(default_factory=lambda: os.environ.get("RESEND_API_KEY", ""))
+    # For Gmail this must be an App Password; the account password is refused.
+    smtp_host: str = field(default_factory=lambda: os.environ.get("SMTP_HOST", ""))
+    smtp_port: int = field(default_factory=lambda: _int("SMTP_PORT", 587))
+    smtp_user: str = field(default_factory=lambda: os.environ.get("SMTP_USER", ""))
+    smtp_pass: str = field(default_factory=lambda: os.environ.get("SMTP_PASS", ""))
+
     # --- YouTube (finding a video for a lesson that has no link) ---------
     # Set this and every visitor gets video lookup without holding a key.
     # It must never go in index.html: that file is served publicly, and a

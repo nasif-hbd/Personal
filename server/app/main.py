@@ -16,13 +16,14 @@ import hmac
 import json
 
 import requests
-from fastapi import FastAPI, Header, HTTPException, Request, Response
+from fastapi import BackgroundTasks, FastAPI, Header, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel, Field
 
 from .billing import METHODS, Billing
 from .config import settings
+from .feedback import Feedback, FeedbackError, send_email
 from .identity import new_visitor_id, sign, storage_key, verify
 from .limits import Quota
 from .leaderboard import BoardError, Leaderboard
@@ -52,6 +53,7 @@ quota = Quota(
 store = build_storage(settings)
 billing = Billing(settings.db_path, access_code=settings.free_access_code)
 board = Leaderboard(settings.db_path)
+feedback = Feedback(settings.db_path, daily_cap=settings.feedback_daily_cap)
 youtube = YouTubeSearch(
     settings.db_path,
     settings.youtube_key,
@@ -66,6 +68,7 @@ youtube = YouTubeSearch(
 # without it, everyone who paid would silently lose their subscription.
 BILLING_BACKUP_KEY = "billing-backup"
 BOARD_BACKUP_KEY = "leaderboard-backup"
+FEEDBACK_BACKUP_KEY = "feedback-backup"
 
 
 def snapshot_billing() -> None:
@@ -115,10 +118,31 @@ def restore_board() -> None:
         print(f"[board] restore failed: {exc}", flush=True)
 
 
+def snapshot_feedback() -> None:
+    """Feedback is the system of record for what people told you; losing it to
+    a disk reset would be worse than losing a leaderboard row."""
+    try:
+        store.save(FEEDBACK_BACKUP_KEY, feedback.export_state())
+    except Exception as exc:                                  # noqa: BLE001
+        print(f"[feedback] backup failed: {exc}", flush=True)
+
+
+def restore_feedback() -> None:
+    try:
+        if not feedback.is_empty():
+            return
+        data = store.load(FEEDBACK_BACKUP_KEY)
+        if data:
+            feedback.import_state(data)
+    except Exception as exc:                                  # noqa: BLE001
+        print(f"[feedback] restore failed: {exc}", flush=True)
+
+
 @app.on_event("startup")
 def _restore_on_boot() -> None:
     restore_billing()
     restore_board()
+    restore_feedback()
 
 
 def _secret() -> str:
@@ -196,6 +220,9 @@ def health():
         # decide it needs nothing from the visitor — it is a capability flag,
         # never the key.
         "youtube": youtube.enabled,
+        # Whether this server will accept feedback at all. The client hides
+        # the widget when it won't, rather than dropping messages silently.
+        "feedback": True,
         "accessCode": bool(settings.access_code),
         "billing": {
             # freeForAll means nothing is *required*. The rails stay enabled so
@@ -417,6 +444,76 @@ class BoardBody(BaseModel):
     level: int = 1
     lessons: int = 0
     streak: int = 0
+
+
+class FeedbackBody(BaseModel):
+    message: str = ""
+    kind: str = "other"
+    contact: str = ""
+    meta: dict = Field(default_factory=dict)
+    # Honeypot. A real person never sees this field, so anything in it came
+    # from something filling every input on the page.
+    website: str = ""
+
+
+@app.post("/api/feedback")
+def submit_feedback(
+    body: FeedbackBody,
+    background: BackgroundTasks,
+    response: Response,
+    x_atlas_visitor: str | None = Header(default=None),
+    x_atlas_code: str | None = Header(default=None),
+):
+    """Take a message, store it, then try to email it.
+
+    The store happens first and the send is queued behind the response, so a
+    slow or broken mail transport never makes the person wait and never makes
+    them think their message was lost.
+    """
+    check_access_code(x_atlas_code)
+    visitor, token = resolve_visitor(x_atlas_visitor)
+    response.headers[VISITOR_HEADER] = token
+    if body.website.strip():
+        # Silently accept and discard: telling a bot it was caught only helps
+        # it try again differently.
+        return {"ok": True}
+    meta = {k: str(v)[:120] for k, v in list((body.meta or {}).items())[:8]}
+    try:
+        entry = feedback.record(visitor, kind=body.kind, message=body.message,
+                                contact=body.contact, meta=meta)
+    except FeedbackError as exc:
+        raise HTTPException(400, str(exc))
+
+    def deliver() -> None:
+        # Belt and braces around a send that already catches its own transport
+        # errors: this runs after the response, so anything escaping here is an
+        # unhandled exception in a background task, and the person has already
+        # been told their message arrived — which it did. It is in the store.
+        try:
+            if send_email(settings, entry):
+                feedback.mark_mailed(entry["id"])
+        except Exception as exc:                              # noqa: BLE001
+            print(f"[feedback] delivery failed for {entry['id']}: {exc}", flush=True)
+        try:
+            snapshot_feedback()
+        except Exception:                                     # noqa: BLE001
+            pass
+
+    background.add_task(deliver)
+    return {"ok": True, "id": entry["id"]}
+
+
+@app.get("/api/admin/feedback")
+def admin_feedback(limit: int = 50, x_atlas_admin: str | None = Header(default=None)):
+    """Everything people have sent, whether or not the mail got through."""
+    require_admin(x_atlas_admin)
+    return {
+        "items": feedback.recent(limit),
+        "total": feedback.count(),
+        "mailTo": settings.feedback_to or "",
+        "mailConfigured": bool(settings.feedback_to
+                               and (settings.resend_api_key or settings.smtp_host)),
+    }
 
 
 @app.get("/api/leaderboard")

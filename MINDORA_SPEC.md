@@ -150,6 +150,18 @@ certificates, never plans or notes. Scores are client-reported and cannot be
 verified; the server bounds them and the screen says plainly that it can't
 prove them.
 
+### Feedback dock
+Bottom-right on every screen, above the tab bar on phones. A button opens a
+panel: a kind (Idea / Bug / Course / Other), a message, and an optional reply
+address. It lives outside `#app`, because `renderView()` replaces the whole
+view on navigation and a half-typed message must survive that.
+
+The server **stores every message before trying to email it** — mail is the
+part most likely to break, and a message that only existed inside an SMTP
+conversation is gone when it does. Capped per visitor per day, size-bounded,
+with an off-screen honeypot field that is accepted and discarded rather than
+rejected. With no server configured it falls back to a `mailto:` link.
+
 ### Upgrade
 Pricing cards (monthly ৳499, yearly ৳4499), a feature list, payment method
 picker (bKash, Nagad, Rocket, Bank transfer, Google Pay) with tap-to-copy
@@ -296,7 +308,7 @@ These are not stylistic preferences. Breaking any of them breaks the app.
 
 ## 7. What exists today
 
-- `index.html` — 8,022 lines: 1,983 CSS, 5,905 JS, 207 functions
+- `index.html` — 8,268 lines: 2,075 CSS, 6,013 JS, 207 functions
 - `courses.json` — 348 courses, 10 ready-made 14-day paths
 - Subjects: Math 55, Coding 40, Advanced Math 39, AI 36, Physics 34, English 31,
   Chemistry 24, Python 23, IELTS 22, Biology 16, Research 15, SAT 13

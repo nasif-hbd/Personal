@@ -741,12 +741,15 @@ button{font-family:inherit;}
 .nav-ic{display:none;}
 
 @media (min-width:901px){
+  /* On :root rather than #app so fixed-position siblings — the toasts, which
+     live outside #app — can position themselves clear of the rail too. */
+  :root{--rail:236px;}
   #app{
     display:grid;
     grid-template-columns:var(--rail) 1fr;
-    --rail:236px;
     min-height:100vh;
   }
+  #toasts{left:calc(var(--rail) + 24px);}
   .topnav{
     /* Sticky rather than fixed so it participates in the grid column and can
        never overlap content at narrow zoom levels. */
@@ -803,7 +806,7 @@ button{font-family:inherit;}
 
 /* Laptops in the 901–1180px band: narrow the rail so content keeps its room. */
 @media (min-width:901px) and (max-width:1180px){
-  #app{--rail:210px;}
+  :root{--rail:210px;}
   .brand .tag{display:none;}
 }
 
@@ -1793,7 +1796,10 @@ label:not(.btn):not(.watch-done-toggle):not(.quiz-opt){
 .watch-external:hover{text-decoration:underline;}
 
 /* ===================== Toasts ===================== */
-#toasts{position:fixed; bottom:24px; right:24px; z-index:200; display:flex; flex-direction:column; gap:10px;}
+/* Bottom-left, because the feedback dock owns the right corner and an open
+   panel is tall enough that any right-hand toast lands on top of its Send
+   button. Toasts are read, not clicked, so the side is free to move. */
+#toasts{position:fixed; bottom:24px; left:24px; z-index:200; display:flex; flex-direction:column; gap:10px; max-width:min(380px, calc(100vw - 48px));}
 .toast{
   background:var(--surface-solid); border:1px solid var(--line-2); border-radius:13px; padding:13px 16px;
   box-shadow:var(--shadow-lg); font-size:13.5px; max-width:340px;
@@ -1992,6 +1998,92 @@ label:not(.btn):not(.watch-done-toggle):not(.quiz-opt){
   .tabbtn .tab-label{font-size:9.5px;}
   .brand .name{font-size:14.5px;}
 }
+/* --- feedback ----------------------------------------------------------- */
+.fb-dock{
+  position:fixed; right:24px; bottom:24px; z-index:130;
+  display:flex; flex-direction:column; align-items:flex-end; gap:12px;
+  /* The dock only ever wraps its own controls; without this it would sit as an
+     invisible full-width strip over the page and eat clicks along the bottom. */
+  pointer-events:none;
+}
+.fb-dock > *{pointer-events:auto;}
+
+.fb-fab{
+  display:inline-flex; align-items:center; gap:9px; order:2;
+  padding:13px 19px; border-radius:99px; border:1px solid var(--line-2);
+  background:linear-gradient(140deg, var(--accent), var(--accent-2));
+  color:#fff; font:inherit; font-size:14px; font-weight:600; cursor:pointer;
+  box-shadow:0 14px 34px -12px rgba(var(--accent-rgb),.75);
+  transition:transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.fb-fab svg{width:18px; height:18px;}
+.fb-fab:hover{transform:translateY(-2px); box-shadow:0 20px 42px -12px rgba(var(--accent-rgb),.85);}
+.fb-fab:active{transform:translateY(0);}
+
+.fb-panel{
+  order:1; width:min(370px, calc(100vw - 40px));
+  display:flex; flex-direction:column; gap:11px;
+  padding:18px; border-radius:16px;
+  border:1px solid var(--line-2); background:var(--surface-solid);
+  box-shadow:var(--shadow-lg);
+  transform:translateY(10px) scale(.97); opacity:0;
+  transition:opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.fb-dock.open .fb-panel{transform:none; opacity:1;}
+.fb-head{display:flex; justify-content:space-between; align-items:flex-start; gap:12px;}
+.fb-head strong{display:block; font-size:14.5px;}
+.fb-head p{margin:3px 0 0; font-size:12.5px; color:var(--text-muted); line-height:1.45;}
+
+.fb-kinds{display:flex; gap:6px; flex-wrap:wrap;}
+.fb-kind{
+  padding:6px 13px; border-radius:99px; border:1px solid var(--line);
+  background:none; color:var(--text-dim); font:inherit; font-size:12.5px; cursor:pointer;
+  transition:border-color var(--dur) var(--ease), color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.fb-kind:hover{color:var(--text);}
+.fb-kind.on{border-color:var(--accent); color:var(--accent); background:var(--accent-soft);}
+
+.fb-panel textarea, .fb-panel input[type="email"]{
+  width:100%; padding:10px 12px; border-radius:10px;
+  border:1px solid var(--line); background:var(--panel); color:var(--text);
+  font:inherit; font-size:13.5px; resize:vertical;
+}
+.fb-panel textarea:focus, .fb-panel input:focus{outline:2px solid var(--accent); outline-offset:1px;}
+.fb-label{
+  font-family:var(--font-mono); font-size:9.5px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--text-faint); margin-bottom:-5px;
+}
+.fb-label span{opacity:.7; text-transform:none; letter-spacing:0; font-size:10px;}
+
+/* Off-screen rather than display:none — some bots skip hidden inputs and fill
+   everything else, which is exactly what this is here to catch. */
+.fb-hp{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;}
+
+.fb-actions{display:flex; justify-content:space-between; align-items:center; gap:12px;}
+.fb-note{font-size:12px; color:var(--text-muted); flex:1; min-width:0;}
+
+@media (max-width:900px){
+  /* Above the tab bar, and clear of the home indicator on notched phones. */
+  .fb-dock{right:16px; bottom:calc(68px + env(safe-area-inset-bottom));}
+  #toasts{bottom:calc(130px + env(safe-area-inset-bottom)); right:16px; left:16px; max-width:none;}
+  /* An open panel is nearly the whole screen here, so there is no bottom left
+     to keep clear — send the toast to the top instead. Browsers without :has()
+     just keep the old position, which is a slight overlap, not a break. */
+  body:has(.fb-dock.open) #toasts{
+    top:calc(12px + env(safe-area-inset-top)); bottom:auto;
+  }
+  .fb-fab{padding:12px; }
+  .fb-fab-label{
+    /* Icon only: at 390px a labelled pill covers a third of the tab bar. */
+    position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%);
+  }
+  .fb-panel{width:calc(100vw - 32px);}
+}
+
+@media print{
+  .fb-dock{display:none !important;}
+}
+
 @media print{
   .topnav, .pagehead, .chat-input-bar, .lesson-media{display:none !important;}
   /* The desktop rail is a grid column. Hiding it leaves the column behind, so
@@ -2087,6 +2179,52 @@ label:not(.btn):not(.watch-done-toggle):not(.quiz-opt){
       <button class="sheet-item" data-nav="settings"><span data-icon-slot="settings"></span>Settings</button>
       <button class="sheet-item" data-action="open-palette"><span data-icon-slot="search"></span>Search</button>
       <button class="sheet-item" id="sheetUpgrade" data-nav="upgrade" hidden><span data-icon-slot="sparkle"></span>Pro</button>
+    </div>
+  </div>
+</div>
+
+<!-- Feedback. Outside #app because renderView() replaces the whole view on
+     every navigation, and a panel someone is mid-way through typing into must
+     survive that. -->
+<div class="fb-dock" id="fbDock">
+  <button class="fb-fab" id="fbFab" aria-expanded="false" aria-controls="fbPanel"
+    aria-label="Send feedback" title="Send feedback">
+    <span data-icon-slot="chat"></span><span class="fb-fab-label">Feedback</span>
+  </button>
+
+  <div class="fb-panel" id="fbPanel" hidden role="dialog" aria-modal="false" aria-label="Send feedback">
+    <div class="fb-head">
+      <div>
+        <strong>Tell us what you think</strong>
+        <p>Bugs, ideas, a course that should be here — all of it helps.</p>
+      </div>
+      <button class="icon-btn sm" id="fbClose" aria-label="Close feedback">
+        <span data-icon-slot="x"></span>
+      </button>
+    </div>
+
+    <div class="fb-kinds" role="radiogroup" aria-label="What kind of feedback">
+      <button class="fb-kind on" data-kind="idea" role="radio" aria-checked="true">Idea</button>
+      <button class="fb-kind" data-kind="bug" role="radio" aria-checked="false">Bug</button>
+      <button class="fb-kind" data-kind="course" role="radio" aria-checked="false">Course</button>
+      <button class="fb-kind" data-kind="other" role="radio" aria-checked="false">Other</button>
+    </div>
+
+    <textarea id="fbMessage" rows="5" maxlength="4000"
+      placeholder="What happened, or what would you like to see?"></textarea>
+
+    <label class="fb-label" for="fbContact">Email, if you'd like a reply <span>optional</span></label>
+    <input type="email" id="fbContact" autocomplete="email" placeholder="you@example.com">
+
+    <!-- Honeypot: positioned off-screen rather than hidden, because some bots
+         skip display:none inputs but fill everything else. -->
+    <div class="fb-hp" aria-hidden="true">
+      <label>Website<input type="text" id="fbWebsite" tabindex="-1" autocomplete="off"></label>
+    </div>
+
+    <div class="fb-actions">
+      <span class="fb-note" id="fbNote"></span>
+      <button class="btn primary small" id="fbSend">Send</button>
     </div>
   </div>
 </div>
@@ -7894,6 +8032,114 @@ function applyHashRoute(){
 window.addEventListener("hashchange", applyHashRoute);
 
 // --- phone "More" sheet ---
+/* ============================================================
+   Feedback
+
+   Stored and emailed by the server. With no server configured the
+   widget falls back to a mailto: link — that still reaches the owner,
+   it just uses the visitor's own mail client instead of ours.
+============================================================ */
+const FEEDBACK_MAILTO = "researcher.flame@gmail.com";
+
+(function wireFeedback(){
+  const dock = document.getElementById("fbDock");
+  const fab = document.getElementById("fbFab");
+  const panel = document.getElementById("fbPanel");
+  if(!dock || !fab || !panel) return;
+
+  const message = document.getElementById("fbMessage");
+  const contact = document.getElementById("fbContact");
+  const website = document.getElementById("fbWebsite");
+  const note = document.getElementById("fbNote");
+  const send = document.getElementById("fbSend");
+  let kind = "idea", sending = false;
+
+  const open = ()=>{
+    panel.hidden = false;
+    requestAnimationFrame(()=>dock.classList.add("open"));
+    fab.setAttribute("aria-expanded", "true");
+    message.focus();
+  };
+  const close = ()=>{
+    dock.classList.remove("open");
+    fab.setAttribute("aria-expanded", "false");
+    // Wait for the transition, then hide — hiding immediately kills it.
+    setTimeout(()=>{ if(!dock.classList.contains("open")) panel.hidden = true; }, 200);
+  };
+
+  fab.onclick = ()=> dock.classList.contains("open") ? close() : open();
+  document.getElementById("fbClose").onclick = close;
+  document.addEventListener("keydown", e=>{
+    if(e.key === "Escape" && dock.classList.contains("open")) close();
+  });
+
+  panel.querySelectorAll(".fb-kind").forEach(btn=>{
+    btn.onclick = ()=>{
+      kind = btn.dataset.kind;
+      panel.querySelectorAll(".fb-kind").forEach(b=>{
+        const on = b === btn;
+        b.classList.toggle("on", on);
+        b.setAttribute("aria-checked", String(on));
+      });
+    };
+  });
+
+  /** What screen they were on. Context the owner would otherwise have to ask for. */
+  const context = ()=>({
+    view: state.view || "home",
+    plans: String(state.plans.length),
+    level: String(levelInfo().level),
+    screen: `${window.innerWidth}x${window.innerHeight}`,
+    app: nativeShell() ? "native" : "web",
+  });
+
+  send.onclick = async ()=>{
+    const text = message.value.trim();
+    if(text.length < 4){ note.textContent = "Add a little more detail."; message.focus(); return; }
+    if(sending) return;
+    sending = true;
+    send.disabled = true;
+    note.textContent = "Sending…";
+
+    // No server: hand it to their own mail client rather than dropping it.
+    if(!backendUrl()){
+      const body = encodeURIComponent(`${text}\n\n—\nKind: ${kind}\nReply to: ${contact.value.trim() || "not given"}`);
+      const subject = encodeURIComponent(`[Mindora ${kind}] ${text.split("\n")[0].slice(0,60)}`);
+      window.location.href = `mailto:${FEEDBACK_MAILTO}?subject=${subject}&body=${body}`;
+      note.textContent = "Opening your mail app…";
+      sending = false; send.disabled = false;
+      setTimeout(close, 1200);
+      return;
+    }
+
+    try{
+      const r = await fetch(backendUrl()+"/api/feedback", {
+        method:"POST",
+        headers: Object.assign({"content-type":"application/json"}, backendHeaders()),
+        body: JSON.stringify({
+          message: text, kind, contact: contact.value.trim(),
+          website: website.value, meta: context(),
+        }),
+      });
+      rememberVisitorToken(r);
+      if(!r.ok){
+        let msg = `Couldn't send that (HTTP ${r.status}).`;
+        try{ const j = await r.json(); if(j && j.detail) msg = j.detail; }catch(e){}
+        throw new Error(msg);
+      }
+      message.value = ""; contact.value = "";
+      note.textContent = "";
+      close();
+      toast("Thanks — that reached us.", "success");
+    }catch(e){
+      note.textContent = e.message || "Couldn't send that just now.";
+    }finally{
+      sending = false;
+      send.disabled = false;
+    }
+  };
+})();
+
 (function wireSheet(){
   const overlay = document.getElementById("moreSheet");
   const button = document.getElementById("btnMore");

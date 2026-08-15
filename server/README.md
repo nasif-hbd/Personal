@@ -188,6 +188,44 @@ used from the server, and an HTTP-referrer restriction would block it. If you
 ever also hand the key to browsers, restrict it by referrer instead and accept
 that it is then readable by anyone using the app.
 
+## Feedback
+
+A dock in the bottom-right of every screen. Messages are **stored here first
+and emailed second** — that ordering is the design. Mail is the part most
+likely to break (a rotated app password, a provider outage, a host blocking
+port 587), and a message that only ever existed inside an SMTP conversation is
+gone when it does. Everything lands in SQLite before any send is attempted, so
+you can always read it even if no mail ever arrives.
+
+| Env var | What it does |
+|---|---|
+| `FEEDBACK_TO` | Where mail goes. Empty = collect only |
+| `RESEND_API_KEY` | Preferred transport. Ordinary HTTPS |
+| `FEEDBACK_FROM` | Sender. Defaults to `Mindora <onboarding@resend.dev>` |
+| `SMTP_HOST` / `SMTP_USER` / `SMTP_PASS` | Fallback transport. Port 587 |
+| `FEEDBACK_DAILY_CAP` | Messages per visitor per day. Default 5 |
+
+**Prefer Resend over SMTP.** It is plain HTTPS, so it works anywhere the
+server can already reach the internet; a PaaS that blocks outbound SMTP is
+common and gives no useful error when it does. The free tier sends from
+`onboarding@resend.dev` with no domain to verify.
+
+**If you use Gmail SMTP, you need an App Password** — Google stopped accepting
+account passwords for SMTP in 2022. Turn on 2-Step Verification, then create an
+App Password and use that as `SMTP_PASS`.
+
+A public endpoint that emails you is a spam cannon pointed at your inbox, so:
+submissions are capped per visitor per day, bounded in size, and carry a
+honeypot field that a real person never sees. Anything filling the honeypot is
+accepted and discarded — telling a bot it was caught only helps it try again
+differently.
+
+`GET /api/admin/feedback` (needs `ADMIN_TOKEN`) lists everything, whether or not
+the mail got through, along with `mailConfigured` so you can tell at a glance
+whether delivery is actually set up. With no server configured at all, the
+widget falls back to a `mailto:` link — still reaches you, just via the
+visitor's own mail client.
+
 ## Leaderboard
 
 Opt-in. Joining publishes a display name the person chose, their XP and their
@@ -301,6 +339,7 @@ empty identity rather than someone else's data. That's covered by tests.
 |---|---|
 | `GET /api/health` | config + remaining daily quota. Safe to call publicly; exposes no secrets |
 | `GET /api/yt/search?q=` | finds a video for a lesson title using the owner's key. Cached and capped |
+| `POST /api/feedback` | store a message, then email it in the background |
 | `GET /api/leaderboard` | top entries plus this visitor's rank |
 | `POST /api/leaderboard` | join or update an entry. Bounded, not trusted |
 | `DELETE /api/leaderboard` | leave the board |
