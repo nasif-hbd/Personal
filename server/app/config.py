@@ -41,6 +41,18 @@ class Settings:
     # unlocks a paid subscription.
     access_code: str = field(default_factory=lambda: os.environ.get("ACCESS_CODE", ""))
 
+    # --- YouTube (finding a video for a lesson that has no link) ---------
+    # Set this and every visitor gets video lookup without holding a key.
+    # It must never go in index.html: that file is served publicly, and a
+    # key in it belongs to whoever reads the page source.
+    #
+    # A search costs 100 units of a 10,000/day quota, so the ceiling is 100
+    # searches a day for everyone combined. The cache is what makes that
+    # workable; these caps stop a scripted caller spending it in a minute.
+    youtube_key: str = field(default_factory=lambda: os.environ.get("YOUTUBE_API_KEY", ""))
+    yt_daily_searches: int = field(default_factory=lambda: _int("YT_DAILY_SEARCHES", 80))
+    yt_visitor_daily_searches: int = field(default_factory=lambda: _int("YT_VISITOR_DAILY_SEARCHES", 10))
+
     # --- Subscriptions ---------------------------------------------------
     # Chat is the only paid feature; plans, catalog and tracking stay free.
     # Set to 0 for a strict paywall, or a small number to let people try the

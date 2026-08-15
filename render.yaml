@@ -41,6 +41,21 @@ services:
       - key: DB_PATH
         value: /tmp/mindora.db
 
+      # --- YouTube lookup -------------------------------------------------
+      # Lets the server find a video for a lesson that has no link, so no
+      # visitor needs their own key. Set it in the dashboard: a key in the
+      # repo (or in index.html) is public the moment it is pushed.
+      #
+      # A search costs 100 units of a 10,000/day quota — 100 searches a day
+      # for everyone combined. Results are cached and shared across visitors,
+      # so in practice each lesson is resolved once ever.
+      - key: YOUTUBE_API_KEY     # secret — set in dashboard
+        sync: false
+      - key: YT_DAILY_SEARCHES
+        value: "80"
+      - key: YT_VISITOR_DAILY_SEARCHES
+        value: "10"
+
       # --- subscriptions -------------------------------------------------
       # Everything open to everyone: chat works with no payment and no code.
       # The payment system stays wired up — set this to false to start

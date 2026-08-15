@@ -2106,23 +2106,57 @@ function getYtEmbed(c){
   return null;
 }
 function ytApiKey(){ return (state.settings.ytApiKey||"").trim(); }
+/** True when a lesson without a link can still be resolved to a video. */
+function ytLookupAvailable(){
+  return !!(backendUrl() && serverHealth && serverHealth.youtube) || !!ytApiKey();
+}
+
+/**
+ * Find a video for a lesson that has no link of its own.
+ *
+ * The server is preferred whenever it has a key: a key held there is never
+ * in a browser, and its answers are cached across every visitor — which
+ * matters more than it sounds, because a YouTube search costs 100 of the
+ * 10,000 units a project gets per day. A key saved in this browser still
+ * works as a fallback for anyone running without a server.
+ */
 async function resolveYouTubeVideoId(plan, c){
-  const key = ytApiKey();
-  if(!key) return null;
-  const q = encodeURIComponent(`${c.title} ${c.channel||""}`.trim());
-  const resp = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=1&q=${q}&key=${key}`);
-  if(!resp.ok){
-    if(resp.status === 403) throw new Error("YouTube API key was rejected (check its restrictions or daily quota).");
-    throw new Error(`YouTube search failed (HTTP ${resp.status}).`);
+  const query = `${c.title} ${c.channel||""}`.trim();
+  const viaServer = !!(backendUrl() && serverHealth && serverHealth.youtube);
+  let vid = "", channel = "";
+
+  if(viaServer){
+    const resp = await fetch(`${backendUrl()}/api/yt/search?q=${encodeURIComponent(query)}`,
+      {headers: backendHeaders()});
+    rememberVisitorToken(resp);
+    if(!resp.ok){
+      let msg = `Video lookup failed (HTTP ${resp.status}).`;
+      try{ const j = await resp.json(); if(j && j.detail) msg = j.detail; }catch(e){}
+      throw new Error(msg);
+    }
+    const data = await resp.json();
+    vid = data.videoId || "";
+    channel = data.channel || "";
+  } else {
+    const key = ytApiKey();
+    if(!key) return null;
+    const resp = await fetch("https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=1"
+      + `&q=${encodeURIComponent(query)}&key=${encodeURIComponent(key)}`);
+    if(!resp.ok){
+      if(resp.status === 403) throw new Error("YouTube API key was rejected (check its restrictions or daily quota).");
+      throw new Error(`YouTube search failed (HTTP ${resp.status}).`);
+    }
+    const data = await resp.json();
+    const item = (data.items && data.items[0]) || null;
+    vid = (item && item.id && item.id.videoId) || "";
+    channel = (item && item.snippet && item.snippet.channelTitle) || "";
   }
-  const data = await resp.json();
-  const item = data.items && data.items[0];
-  const vid = item && item.id && item.id.videoId;
+
   if(!vid) return null;
   c.resolvedYtId = vid;
   // Anything we had to go find is an alternative to the lesson's own resource.
   c.resolvedIsAlt = true;
-  if(item.snippet && item.snippet.channelTitle) c.altChannel = item.snippet.channelTitle;
+  if(channel) c.altChannel = channel;
   plan.updatedAt = Date.now();
   persistPlans();
   return vid;
@@ -4858,7 +4892,7 @@ function ytEmbedSrc(yt, autoplay){
 }
 function renderLessonMedia(plan, c, small){
   const yt = getYtEmbed(c);
-  const canResolve = !yt && c.type !== "rest" && !!ytApiKey();
+  const canResolve = !yt && c.type !== "rest" && ytLookupAvailable();
   if(!yt && !canResolve) return "";
   const attrs = `data-plan="${plan.id}" data-class="${c.id}"`;
 
@@ -5682,10 +5716,18 @@ function renderSettings(container){
     <div class="settings-section card wide">
       <h3>In-app YouTube playback</h3>
       <p class="desc">Lessons whose main resource can't be embedded (Khan Academy, MIT OCW, edX and similar all block iframes) fall back to an <strong>alternative YouTube video</strong> — marked <em>Alt</em> — so you can still watch inside the app, with the original resource one click away. Curated paths ship with alternatives already attached. Add a free YouTube Data API key and Mindora will find one automatically for any lesson still missing it, the moment you press play.</p>
+      ${(backendUrl() && serverHealth && serverHealth.youtube) ? `
+      <p class="desc" style="color:var(--success);">
+        Your server is doing this already — it holds the key, and its results are
+        shared with everyone, so you don't need one here.
+      </p>` : `
       <div class="field">
         <label>YouTube Data API key</label>
         <input type="text" id="ytApiKeyInput" placeholder="AIzaSy..." value="${escapeHtml(s.ytApiKey||"")}">
-      </div>
+        <p class="hint">Stays in this browser. To give every visitor lookup instead,
+        set <code>YOUTUBE_API_KEY</code> on your server — never in the app, which is
+        public.</p>
+      </div>`}
       <details class="setup">
         <summary>How to get a key — free, about 2 minutes</summary>
         <ol class="setup-steps">
@@ -5750,7 +5792,9 @@ function renderSettings(container){
   document.getElementById("btnExport").onclick = exportData;
   document.getElementById("importFile").onchange = importData;
   document.getElementById("btnClearAll").onclick = clearAllData;
-  document.getElementById("ytApiKeyInput").onchange = e=>{ state.settings.ytApiKey = e.target.value.trim(); persistSettings(); };
+  // Absent when the server supplies the key, so the field isn't rendered.
+  const ytInput = document.getElementById("ytApiKeyInput");
+  if(ytInput) ytInput.onchange = e=>{ state.settings.ytApiKey = e.target.value.trim(); persistSettings(); };
   const accessInput = document.getElementById("accessCodeInput");
   if(accessInput) accessInput.onchange = e=>{ state.settings.accessCode = e.target.value.trim(); persistSettings(); };
   // Saving the server address in the app means nobody has to edit and
@@ -5814,6 +5858,7 @@ function renderSettings(container){
         h.chat ? "Claude ready" : "no Claude key on server",
         `storage: ${h.storage}`,
         h.quota ? `${h.quota.remaining}/${h.quota.cap} requests left today` : "",
+        h.youtube ? "YouTube lookup ready" : "",
         h.accessCode ? "access code required" : "",
       ].filter(Boolean);
       toast("Connected — " + bits.join(" · "), "success");
@@ -6615,6 +6660,9 @@ function nativeShell(){
    goods), so the whole upgrade surface is hidden in the native shell.
 ============================================================ */
 let billingConfig = null;
+// What the server reports it can do. Only capability flags ever cross the
+// wire — the server's keys stay on the server.
+let serverHealth = null;
 
 // Two separate questions, deliberately not one flag:
 //   billingAvailable — can the checkout screen be shown at all?
@@ -6640,13 +6688,15 @@ function money(amount, currency){
 async function loadBilling(){
   if(!backendUrl()) return;
   try{
-    const [cfg, ent] = await Promise.all([
+    const [cfg, ent, health] = await Promise.all([
       fetch(backendUrl()+"/api/billing/config").then(r=>r.ok?r.json():null),
       fetch(backendUrl()+"/api/billing/entitlement", {headers:backendHeaders()})
         .then(r=>{ rememberVisitorToken(r); return r.ok?r.json():null; }),
+      fetch(backendUrl()+"/api/health").then(r=>r.ok?r.json():null),
     ]);
     if(cfg) billingConfig = cfg;
     if(ent) state.entitlement = ent;
+    if(health) serverHealth = health;
   }catch(e){
     // Offline or the server is down. The app stays usable; chat will report
     // the real reason when it's actually attempted.
@@ -7228,7 +7278,7 @@ async function playInline(planId, classId){
   if(!c) return;
 
   if(!getYtEmbed(c)){
-    if(!ytApiKey()) return;
+    if(!ytLookupAvailable()) return;
     const media = document.querySelector(`[data-media="${classId}"]`);
     if(media) media.classList.add("is-loading");
     try{
@@ -7323,7 +7373,7 @@ function renderWatchModal(planId, ctx, yt, resolving){
   } else {
     playerBlock = `<div class="watch-noplayer">
       <p>${c.type==="video" ? "Couldn't find an embeddable video for this lesson." : "This lesson doesn't have an embeddable video."}</p>
-      ${!ytApiKey() && c.type==="video" ? `<p style="font-size:12px;">Add a YouTube API key in Settings so Mindora can always find the exact video.</p>` : ""}
+      ${!ytLookupAvailable() && c.type==="video" ? `<p style="font-size:12px;">Connect a server (or add a YouTube API key in Settings) so Mindora can always find the exact video.</p>` : ""}
       ${c.resourceUrl ? `<a class="btn primary" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open resource ${icon("external","ic-sm")}</a>` : ""}
     </div>`;
   }
@@ -7376,7 +7426,7 @@ async function openWatchModal(planId, classId){
   const c = ctx.classes[ctx.idx];
   let yt = getYtEmbed(c);
 
-  if(yt || !(c.type === "video" && ytApiKey())){
+  if(yt || !(c.type === "video" && ytLookupAvailable())){
     renderWatchModal(planId, ctx, yt, false);
     return;
   }

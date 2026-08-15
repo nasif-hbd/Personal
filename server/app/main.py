@@ -26,6 +26,7 @@ from .config import settings
 from .identity import new_visitor_id, sign, storage_key, verify
 from .limits import Quota
 from .storage import StorageError, build_storage
+from .youtube import YouTubeError, YouTubeSearch
 
 ANTHROPIC_URL = "https://api.anthropic.com/v1/messages"
 VISITOR_HEADER = "x-atlas-visitor"
@@ -49,6 +50,12 @@ quota = Quota(
 )
 store = build_storage(settings)
 billing = Billing(settings.db_path, access_code=settings.free_access_code)
+youtube = YouTubeSearch(
+    settings.db_path,
+    settings.youtube_key,
+    daily_cap=settings.yt_daily_searches,
+    visitor_daily_cap=settings.yt_visitor_daily_searches,
+)
 
 # --- surviving a disk-less host -----------------------------------------
 # Free tiers give no persistent disk, so the SQLite file vanishes whenever the
@@ -161,6 +168,10 @@ def health():
         "chat": settings.chat_enabled,
         "storage": store.backend,
         "quota": quota.stats(),
+        # Whether the server can find videos itself. The client uses this to
+        # decide it needs nothing from the visitor — it is a capability flag,
+        # never the key.
+        "youtube": youtube.enabled,
         "accessCode": bool(settings.access_code),
         "billing": {
             # freeForAll means nothing is *required*. The rails stay enabled so
@@ -374,6 +385,40 @@ def admin_review(payment_id: str, body: ReviewBody, x_atlas_admin: str | None = 
         raise HTTPException(409, message)
     snapshot_billing()
     return {"ok": True, "message": message}
+
+
+@app.get("/api/yt/search")
+def yt_search(
+    q: str = "",
+    response: Response = None,
+    x_atlas_visitor: str | None = Header(default=None),
+    x_atlas_code: str | None = Header(default=None),
+):
+    """Find a video for a lesson title, using the owner's YouTube key.
+
+    Free — this is not the paid feature and costs nothing on the Anthropic
+    account. It has its own caps because YouTube's quota is far tighter than
+    it looks: a search costs 100 of 10,000 daily units.
+    """
+    check_access_code(x_atlas_code)
+    visitor, token = resolve_visitor(x_atlas_visitor)
+    if response is not None:
+        response.headers[VISITOR_HEADER] = token
+    if not youtube.enabled:
+        raise HTTPException(503, "This server has no YouTube key configured.")
+    try:
+        return youtube.search(q, visitor)
+    except YouTubeError as exc:
+        # 429 rather than 500: the caller did nothing wrong and retrying
+        # tomorrow is the actual remedy.
+        raise HTTPException(429, str(exc))
+
+
+@app.get("/api/yt/stats")
+def yt_stats(x_atlas_admin: str | None = Header(default=None)):
+    """Owner-only: what the cache has saved and what today has cost."""
+    require_admin(x_atlas_admin)
+    return youtube.stats()
 
 
 @app.get("/api/state")

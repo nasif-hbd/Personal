@@ -146,6 +146,48 @@ uncomment the `disk:` block in `render.yaml` and set `DB_PATH` back to
 `/data/mindora.db`. The snapshot keeps working; it just stops being the only
 thing standing between you and losing your subscribers.
 
+## YouTube lookup
+
+Lessons whose main resource can't be embedded fall back to an alternative
+YouTube video. Curated paths ship with one attached; anything still missing one
+is found on demand — and that search needs a YouTube Data API key.
+
+| Env var | Default | What it does |
+|---|---|---|
+| `YOUTUBE_API_KEY` | *(empty)* | Set it and every visitor gets lookup. Empty = visitors use their own key from Settings, or go without |
+| `YT_DAILY_SEARCHES` | `80` | Searches for *everyone combined*, per UTC day |
+| `YT_VISITOR_DAILY_SEARCHES` | `10` | One browser can't eat the day's searches |
+
+> **Never put this key in `index.html`.** That file is served publicly from
+> GitHub Pages, so a key in it belongs to whoever views the page source. Here
+> it stays on the server; the browser only learns *whether* lookup is
+> available, never the key itself.
+
+**The quota is much tighter than it looks.** A `search.list` call costs **100
+units** against a default quota of **10,000 units per day** — one hundred
+searches for the whole app, for everybody, per day. Without a cache, twenty
+people opening the same lesson would spend a fifth of the day on one answer.
+
+So results are cached by normalised query (case and spacing don't split the
+cache), permanently, and shared across every visitor. The catalog is a fixed
+set of lessons, so each is resolved once ever and the quota goes on genuinely
+new titles. A miss costs 100 units; a hit costs nothing. Misses are cached for
+a day too — a title YouTube can't match won't match for the next visitor, and
+retrying it is the most expensive way to learn nothing.
+
+Cache hits don't count against the caps, because they cost nothing.
+
+`GET /api/yt/stats` (needs `ADMIN_TOKEN`) reports what today has spent and how
+many answers the cache is holding.
+
+### Restrict the key
+
+In Google Cloud Console → Credentials, set **API restrictions** to *YouTube
+Data API v3* only. Leave **Application restrictions** as *None* — this key is
+used from the server, and an HTTP-referrer restriction would block it. If you
+ever also hand the key to browsers, restrict it by referrer instead and accept
+that it is then readable by anyone using the app.
+
 ## Spend controls
 
 | Env var | Default | What it does |
@@ -226,6 +268,7 @@ empty identity rather than someone else's data. That's covered by tests.
 | | |
 |---|---|
 | `GET /api/health` | config + remaining daily quota. Safe to call publicly; exposes no secrets |
+| `GET /api/yt/search?q=` | finds a video for a lesson title using the owner's key. Cached and capped |
 | `POST /api/chat` | streams from Anthropic using the owner's key |
 | `GET /api/state` | this visitor's saved plans |
 | `PUT /api/state` | save this visitor's plans (2 MB limit) |

@@ -263,6 +263,9 @@ These are not stylistic preferences. Breaking any of them breaks the app.
 
 10. **Never invent YouTube IDs.** Every video ID must come from the spreadsheet,
     a real search result, or the user. A fabricated ID is a dead lesson.
+    Searching for one costs 100 units of a 10,000/day quota, so the server
+    caches every answer and shares it across visitors; the key lives there and
+    never in `index.html`, which is public.
 
 11. **Accessibility.** Pinch-zoom stays enabled, focus is visible and trapped in
     modals, `prefers-reduced-motion` is respected, everything works by keyboard.
