@@ -114,6 +114,20 @@ in the footer. Print or save as PDF strips the app away and prints the sheet
 alone; Share hands the summary to the OS share sheet or the clipboard. Below
 the earned ones, an "On the way" list of partly-finished plans, nearest first.
 
+It is drawn as an engraved document, not a card: landscape, serif, a double
+rule with cut corner ornaments, a microprinting line carrying the reference,
+a signature line, and a circular seal with the reference set around its rim.
+Behind the text sits a **guilloché rosette generated from the certificate's own
+reference** — the interlacing line-work of a banknote, where the lobe count,
+depth, centre and twist all come from a seeded PRNG fed by the id. Two
+certificates cannot carry the same figure, and the same reference redraws the
+same figure on every device and every reprint.
+
+Sizing is in container query units (`cqw`) throughout, so the sheet holds its
+proportions at 320px, at 980px and on A4. Viewport units are wrong here: the
+sheet is not as wide as the window, so the type keeps growing and walks off
+the bottom edge.
+
 Nothing here is generated or estimated: a certificate cannot claim more than
 the learner actually did, and one is never issued for an unfinished plan.
 
@@ -260,7 +274,7 @@ These are not stylistic preferences. Breaking any of them breaks the app.
 
 ## 7. What exists today
 
-- `index.html` — 7,272 lines: 1,730 CSS, 5,408 JS, 188 functions
+- `index.html` — 7,550 lines: 1,873 CSS, 5,543 JS, 192 functions
 - `courses.json` — 348 courses, 10 ready-made 14-day paths
 - Subjects: Math 55, Coding 40, Advanced Math 39, AI 36, Physics 34, English 31,
   Chemistry 24, Python 23, IELTS 22, Biology 16, Research 15, SAT 13

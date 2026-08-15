@@ -30,6 +30,9 @@
   --surface: rgba(255,255,255,.04);
   --surface-2: rgba(255,255,255,.07);
   --surface-solid: #14101f;
+  /* The card surface. Translucent, so the page gradient shows through and
+     stacked panels read as depth rather than as flat blocks. */
+  --panel: rgba(255,255,255,.045);
   --line: rgba(255,255,255,.10);
   --line-2: rgba(255,255,255,.18);
   --text: #f4f1fb;
@@ -56,6 +59,10 @@
   --font-display: "Sora", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* Certificates only. A diploma set in the same sans as the app reads as a
+     web card; a serif is what makes it read as a document. System faces, so
+     it costs no download and works offline. */
+  --font-serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
   --ease: cubic-bezier(.22,1,.36,1);
   --ease-spring: cubic-bezier(.34,1.56,.64,1);
   --dur-fast: .14s;
@@ -68,6 +75,7 @@
   --surface: rgba(255,255,255,.74);
   --surface-2: rgba(255,255,255,.94);
   --surface-solid: #ffffff;
+  --panel: rgba(255,255,255,.72);
   --line: rgba(30,20,60,.10);
   --line-2: rgba(30,20,60,.18);
   --text: #16102a;
@@ -91,6 +99,7 @@
   :root:not([data-theme="dark"]){
     --bg:#f4f1fb; --bg-2:#ebe6f7;
     --surface:rgba(255,255,255,.74); --surface-2:rgba(255,255,255,.94); --surface-solid:#ffffff;
+    --panel:rgba(255,255,255,.72);
     --line:rgba(30,20,60,.10); --line-2:rgba(30,20,60,.18);
     --text:#16102a; --text-dim:#574c72; --text-faint:#8b81a6;
     --accent:#2b4acb; --accent-2:#7c3aed; --accent-3:#9333ea;
@@ -270,104 +279,238 @@ button{font-family:inherit;}
 .name-row input{flex:1; padding:9px 12px; border-radius:10px; border:1px solid var(--line);
   background:var(--panel); color:var(--text); font:inherit; font-size:14px;}
 
-.cert{display:flex; flex-direction:column; gap:11px;}
+/* One sheet of paper. Every colour on it is a local token, so the print
+   rules below repaint the whole document by changing six values rather
+   than by overriding twenty selectors.
+
+   Every size is in cqw — a share of the sheet's own width, not the window's.
+   A certificate has to hold its proportions at 320px, at 980px and on A4,
+   and viewport units get that wrong the moment the sheet stops being as wide
+   as the screen: the type keeps growing and walks off the bottom edge. */
+.cert{display:flex; flex-direction:column; gap:12px;}
 .cert-sheet{
-  position:relative; overflow:hidden; padding:38px 40px 30px;
-  border-radius:18px; border:1px solid var(--line-2);
-  /* Paper, not another dark card — a certificate should look like a document
-     you would be willing to print. */
+  --ink:var(--text);
+  --ink-soft:var(--text-muted);
+  --ink-faint:var(--text-faint);
+  --engrave:color-mix(in srgb, var(--accent) 40%, transparent);
+  --rose:color-mix(in srgb, var(--accent) 52%, transparent);
+  /* Opaque, unlike the translucent card surface: a certificate is a sheet of
+     paper lying on the page, and the seal's centre disc has to hide the
+     rosette running underneath it. */
+  --paper:var(--surface-solid);
+
+  container-type:inline-size;
+  position:relative; overflow:hidden; color:var(--ink);
+  /* Landscape, like a diploma. As a column flex item its automatic minimum
+     size still wins, so an unusually long title makes the sheet taller
+     instead of being cropped. */
+  aspect-ratio:1.46/1;
+  border-radius:14px; border:1px solid var(--line-2);
   background:
-    radial-gradient(120% 90% at 100% 0%, rgba(var(--accent-rgb),.16), transparent 58%),
-    radial-gradient(90% 80% at 0% 100%, rgba(168,85,247,.13), transparent 60%),
-    var(--panel);
+    radial-gradient(120% 100% at 50% -25%, rgba(var(--accent-rgb),.13), transparent 62%),
+    radial-gradient(90% 80% at 0% 100%, rgba(168,85,247,.10), transparent 62%),
+    var(--paper);
   box-shadow:var(--shadow-lg);
+}
+
+/* The double rule of an engraved document. */
+.cert-sheet::before,
+.cert-sheet::after{
+  content:""; position:absolute; pointer-events:none;
+  border:1px solid var(--engrave); border-radius:5px;
+}
+.cert-sheet::before{inset:clamp(9px,1.5cqw,16px);}
+.cert-sheet::after{inset:clamp(15px,2.5cqw,26px); opacity:.45;}
+
+/* The rosette, large and faint behind the text. It is a watermark: if you
+   notice it before you read the name, it is too strong. Sized off the
+   sheet's height so it stays a medallion rather than a background. */
+.cert-guilloche{
+  position:absolute; left:50%; top:41%; translate:-50% -50%;
+  height:min(59%, 340px); width:auto; aspect-ratio:1; opacity:.26;
+  fill:none; stroke:var(--rose); stroke-width:2; pointer-events:none;
+}
+
+.cert-corner{
+  position:absolute; width:clamp(18px,3.2cqw,34px); aspect-ratio:1;
+  fill:none; stroke:var(--engrave); stroke-width:1.6; pointer-events:none;
+}
+.cert-corner circle{fill:var(--engrave); stroke:none;}
+/* Four corners from one drawing, mirrored into place. They sit inside the
+   inner rule, where an engraver would have cut them. */
+.cert-corner.tl{left:clamp(17px,2.9cqw,29px); top:clamp(17px,2.9cqw,29px);}
+.cert-corner.tr{right:clamp(17px,2.9cqw,29px); top:clamp(17px,2.9cqw,29px); scale:-1 1;}
+.cert-corner.bl{left:clamp(17px,2.9cqw,29px); bottom:clamp(17px,2.9cqw,29px); scale:1 -1;}
+.cert-corner.br{right:clamp(17px,2.9cqw,29px); bottom:clamp(17px,2.9cqw,29px); scale:-1 -1;}
+
+/* Microprinting: the reference set small enough to read as a texture, in the
+   channel between the two rules. Real text, so it stays selectable. */
+.cert-micro{
+  position:absolute; left:0; right:0; pointer-events:none;
+  padding:0 clamp(34px,6cqw,66px);
+  font-family:var(--font-mono); font-size:clamp(3.2px,.58cqw,5.4px);
+  letter-spacing:.3em; color:var(--ink-faint); opacity:.5;
+  white-space:nowrap; overflow:hidden; text-align:center;
+}
+.cert-micro.top{top:clamp(10.5px,1.85cqw,19px);}
+.cert-micro.bot{bottom:clamp(10.5px,1.85cqw,19px);}
+
+.cert-inner{
+  position:relative; height:100%;
+  display:flex; flex-direction:column; align-items:center; justify-content:space-between;
   text-align:center;
+  padding:clamp(22px,4.2cqw,46px) clamp(26px,6.4cqw,70px);
 }
-.cert-rule{
-  position:absolute; inset:0 0 auto; height:5px;
-  background:linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3));
+
+.cert-head{display:flex; align-items:center; gap:clamp(7px,1.2cqw,12px); flex-wrap:wrap; justify-content:center;}
+.cert-mark{width:clamp(22px,3.4cqw,34px); height:auto;}
+.cert-brand{
+  font-family:var(--font-display); font-weight:700;
+  font-size:clamp(12px,1.75cqw,17px); letter-spacing:.2em; text-transform:uppercase;
 }
-.cert-head{display:flex; align-items:center; gap:11px; justify-content:center; margin-bottom:26px;}
-.cert-mark{width:44px; height:44px; background:#fff; border-radius:12px; padding:5px;}
-.cert-head > div{text-align:left;}
-.cert-brand{font-family:var(--font-display); font-weight:700; font-size:19px; letter-spacing:-.02em;}
-.cert-tag{font-family:var(--font-mono); font-size:8.5px; letter-spacing:.16em;
-  text-transform:uppercase; color:var(--text-faint); margin-top:2px;}
+.cert-dot{width:3px; height:3px; border-radius:50%; background:var(--engrave);}
+.cert-tag{
+  font-family:var(--font-mono); font-size:clamp(6.5px,.92cqw,9.5px);
+  letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint);
+}
+
+.cert-body{display:flex; flex-direction:column; align-items:center; width:100%;}
 .cert-kicker{
-  font-family:var(--font-mono); font-size:10px; letter-spacing:.22em; text-transform:uppercase;
-  color:var(--accent); margin:0 0 14px;
+  font-family:var(--font-mono); font-size:clamp(8px,1.1cqw,11px);
+  letter-spacing:.36em; text-transform:uppercase; color:var(--accent);
+  margin:0 0 clamp(12px,2.4cqw,26px); padding-left:.36em;
+  /* Small caps at this tracking need air above them or they read as part of
+     the brand line rather than as the document's own title. */
+  padding-top:clamp(6px,1.6cqw,18px);
+}
+.cert-lede{
+  font-family:var(--font-serif); font-style:italic;
+  font-size:clamp(11px,1.6cqw,16px); color:var(--ink-soft); margin:0;
 }
 .cert-name{
-  font-family:var(--font-display); font-size:clamp(27px,4.4vw,38px); font-weight:700;
-  letter-spacing:-.9px; margin:0 0 12px; text-wrap:balance;
+  font-family:var(--font-serif); font-weight:600;
+  font-size:clamp(26px,5.6cqw,54px); line-height:1.06; letter-spacing:-.005em;
+  margin:clamp(5px,1cqw,12px) 0 0; text-wrap:balance;
 }
-.cert-blank{color:var(--text-faint); font-style:italic; font-weight:400;}
-.cert-body{margin:0 0 10px; font-size:14.5px; color:var(--text-muted);}
+.cert-blank{color:var(--ink-faint); font-weight:400;}
+.cert-flourish{
+  width:clamp(112px,22cqw,230px); height:auto;
+  margin:clamp(7px,1.4cqw,16px) 0 clamp(9px,1.8cqw,20px);
+  fill:none; stroke:var(--engrave); stroke-width:1;
+}
+.cert-flourish .fill{fill:var(--engrave); stroke:none;}
 .cert-course{
-  font-size:clamp(19px,2.8vw,24px); font-weight:650; margin:0 0 10px;
-  letter-spacing:-.3px; text-wrap:balance;
+  font-family:var(--font-serif); font-weight:600;
+  font-size:clamp(16px,2.7cqw,28px); line-height:1.18; letter-spacing:0;
+  margin:clamp(5px,1cqw,12px) 0 clamp(5px,.9cqw,10px); text-wrap:balance;
+}
+.cert-meta{
+  font-family:var(--font-mono); font-size:clamp(9px,1.25cqw,13px);
+  letter-spacing:.04em; color:var(--ink-faint); margin:0;
 }
 .cert-stats{
-  display:flex; justify-content:center; flex-wrap:wrap; gap:34px;
-  margin:26px 0 24px; padding:20px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  display:flex; justify-content:center; flex-wrap:wrap;
+  gap:clamp(18px,5.4cqw,56px);
+  margin:clamp(14px,2.8cqw,30px) 0 0;
+  padding:clamp(10px,1.9cqw,20px) clamp(14px,4cqw,42px);
+  border-top:1px solid var(--engrave); border-bottom:1px solid var(--engrave);
 }
 .cert-stats div{display:flex; flex-direction:column; gap:3px;}
-.cert-stats b{font-size:26px; font-weight:750; letter-spacing:-1px; line-height:1;}
+.cert-stats b{
+  font-family:var(--font-serif); font-weight:600; line-height:1;
+  font-size:clamp(18px,3.2cqw,34px);
+}
 .cert-stats span{
-  font-family:var(--font-mono); font-size:9.5px; letter-spacing:.13em;
-  text-transform:uppercase; color:var(--text-faint);
+  font-family:var(--font-mono); font-size:clamp(6.5px,.92cqw,9.5px);
+  letter-spacing:.18em; text-transform:uppercase; color:var(--ink-faint);
 }
+
+/* Signature, seal, reference — the three marks that make it a document
+   rather than a receipt. */
 .cert-foot{
-  display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap;
-  font-size:12px; color:var(--text-faint);
+  display:grid; grid-template-columns:1fr auto 1fr; align-items:end;
+  width:100%; gap:clamp(10px,3cqw,28px);
 }
-.cert-id{font-family:var(--font-mono); letter-spacing:.09em; color:var(--text-dim);}
+.cert-sig{display:flex; flex-direction:column; align-items:flex-start; gap:5px;}
+.sig-mark{
+  font-family:var(--font-serif); font-style:italic; font-weight:600;
+  font-size:clamp(14px,2.6cqw,26px); line-height:1; color:var(--ink);
+}
+.sig-rule{display:block; width:clamp(84px,18cqw,180px); border-top:1px solid var(--engrave);}
+.sig-label{
+  font-family:var(--font-mono); font-size:clamp(6.5px,.92cqw,9.5px);
+  letter-spacing:.16em; text-transform:uppercase; color:var(--ink-faint);
+}
+.cert-ref{display:flex; flex-direction:column; align-items:flex-end; gap:5px;}
+.cert-id{
+  font-family:var(--font-mono); font-size:clamp(9px,1.4cqw,14px);
+  letter-spacing:.12em; color:var(--ink-soft);
+}
+
+.cert-seal{width:clamp(58px,11cqw,116px); aspect-ratio:1; overflow:visible;}
+.seal-ring{fill:none; stroke:var(--engrave); stroke-width:2.4;}
+.seal-ring.hair{stroke-width:.9;}
+/* Drawn at a 1000-unit radius then scaled down, so the stroke has to be
+   scaled up by the same factor to stay a hairline. */
+.seal-rose{fill:none; stroke:var(--rose); stroke-width:11; opacity:.7;}
+.seal-disc{fill:var(--paper); stroke:var(--engrave); stroke-width:.9;}
+.seal-glyph{
+  font-family:var(--font-serif); font-weight:600; font-size:30px;
+  fill:var(--accent); text-anchor:middle; dominant-baseline:central;
+  letter-spacing:.02em;
+}
+.seal-text{
+  font-family:var(--font-mono); font-size:14px; text-transform:uppercase;
+  fill:var(--ink-soft);
+}
+
 .cert-actions{display:flex; gap:9px; flex-wrap:wrap;}
 .pending-row{margin-top:14px;}
 .pending-top{display:flex; justify-content:space-between; font-size:13.5px; margin-bottom:6px;}
 
+@media (max-width:720px){
+  /* A landscape sheet at 390px would be a postage stamp. Let it stand up. */
+  .cert-sheet{aspect-ratio:auto;}
+  .cert-inner{gap:clamp(16px,5cqw,28px); padding:30px 22px 26px;}
+  .cert-guilloche{height:auto; width:min(78%, 340px);}
+  .cert-foot{grid-template-columns:1fr; justify-items:center; gap:18px; text-align:center;}
+  .cert-sig, .cert-ref{align-items:center;}
+  .cert-foot .cert-seal{order:-1; width:88px;}
+  .sig-rule{width:150px;}
+}
+
 /* One certificate per sheet, with the app stripped away. The browser's own
    "Save as PDF" then produces the document rather than a screenshot of it. */
 @media print{
+  @page{size:A4 landscape; margin:9mm;}
   body.printing-cert .tabbar,
   body.printing-cert #toasts,
   body.printing-cert .cert-actions,
   body.printing-cert .name-prompt,
   body.printing-cert .card.wide{display:none !important;}
   body.printing-cert .cert:not(.printing){display:none !important;}
-  /* A sheet the reader never scrolled to is still sitting at opacity 0. Print
-     must not depend on where they happened to be looking. */
+  /* A sheet the reader never scrolled to is still sitting at opacity 0, and
+     the pointer tilt leaves an inline transform. Print must not depend on
+     where they happened to be looking, or on where the mouse stopped. */
   body.printing-cert .reveal{opacity:1 !important; transform:none !important;}
-  /* The pointer tilt writes an inline transform; a printed sheet must be flat. */
   body.printing-cert .cert-sheet{transform:none !important;}
+  body.printing-cert main,
+  body.printing-cert .view{padding:0 !important; max-width:none !important;}
+  body.printing-cert .awards-wrap{max-width:none; gap:0;}
+  /* Repaint the sheet for paper: the theme's greys are near-white and would
+     print every secondary line as a ghost. Six tokens do the whole job. */
   body.printing-cert .cert-sheet{
-    border:1px solid #d8d5e4; border-radius:0; box-shadow:none;
-    background:#fff; color:#15131f; padding:56px 52px;
+    --ink:#15131f; --ink-soft:#413d55; --ink-faint:#6b6880;
+    --engrave:#8f88b8; --rose:#a9a2cd; --paper:#fff;
+    width:100%; aspect-ratio:1.46/1;
+    background:#fff; border:0; border-radius:0; box-shadow:none;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
   }
-  /* On paper the theme's greys are near-white, so every secondary line would
-     print as a ghost. Restate them against white. */
-  body.printing-cert .cert-sheet .cert-name,
-  body.printing-cert .cert-sheet .cert-course,
-  body.printing-cert .cert-sheet .cert-stats b{color:#15131f;}
-  body.printing-cert .cert-sheet .cert-body{color:#3d3a4d;}
-  body.printing-cert .cert-sheet .cert-tag,
-  body.printing-cert .cert-sheet .cert-stats span,
-  body.printing-cert .cert-sheet .cert-foot,
-  body.printing-cert .cert-sheet .cert-id{color:#6b6880;}
   body.printing-cert .cert-sheet .cert-kicker{color:#4a3fd4;}
-  body.printing-cert .cert-stats{border-color:#d8d5e4;}
-  body.printing-cert .cert-mark{background:none; padding:0;}
-  body.printing-cert .awards-wrap{max-width:none;}
-  body.printing-cert .cert-rule{
-    /* Printers drop background images by default; a solid rule survives. */
-    background:#4a3fd4; -webkit-print-color-adjust:exact; print-color-adjust:exact;
-  }
-  @page{margin:14mm;}
-}
-
-@media (max-width:560px){
-  .cert-sheet{padding:26px 20px 22px;}
-  .cert-stats{gap:22px; margin:20px 0 18px;}
+  body.printing-cert .cert-sheet .seal-glyph{fill:#4a3fd4;}
+  /* Ink is opaque in a way a screen pixel is not; the same value that reads
+     as a watermark on a monitor prints as lines through the numbers. */
+  body.printing-cert .cert-guilloche{opacity:.34;}
 }
 
 /* --- depth ------------------------------------------------------------- */
@@ -3399,6 +3542,80 @@ function certificateId(plan){
   return `MD-${raw.slice(0,3)}-${raw.slice(3)}`;
 }
 
+/* ------------------------------------------------------------------
+   Guilloché — the engine-turned line-work on banknotes and engraved
+   diplomas. Every parameter is derived from the certificate's own
+   reference, so no two certificates carry the same figure: the pattern
+   is a picture of the id rather than decoration laid on top of it.
+------------------------------------------------------------------ */
+
+/** Deterministic PRNG. The same reference must draw the same rosette on
+ *  every device and every reprint, which rules out Math.random. */
+function mulberry32(a){
+  return function(){
+    a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function seedFrom(str){
+  let h = 0x811c9dc5;
+  for(let i = 0; i < str.length; i++){
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  return h >>> 0;
+}
+
+/**
+ * A rosette as SVG paths, drawn in a 1000-unit radius and centred on 0,0.
+ *
+ * Each closed curve is a circle modulated by two harmonics. Drawing several
+ * at stepped phase offsets is what produces the interlacing braid that reads
+ * as engraving rather than as a flower.
+ *
+ * Sampling is derived from the lobe count, not fixed: a 45-lobe figure walked
+ * at 200 points is a sawblade, and the whole effect depends on the curve
+ * being smooth.
+ */
+function guilloche(seed, lines){
+  const rnd = mulberry32(seed);
+  const petals = 6 + Math.floor(rnd() * 10);     // 6–15 lobes around the ring
+  const amp    = 0.10 + rnd() * 0.13;            // how deep they cut
+  const hole   = 0.44 + rnd() * 0.15;            // the open centre
+  const h2     = 2 + Math.floor(rnd() * 2);      // second harmonic, 2× or 3×
+  const amp2   = amp * (0.18 + rnd() * 0.22);
+  const spin   = 0.6 + rnd() * 0.8;              // how far the set twists
+  const norm   = 1 + amp + amp2;                 // keeps every curve inside r
+  const points = Math.min(760, Math.max(360, petals * h2 * 14));
+
+  let out = "";
+  for(let k = 0; k < lines; k++){
+    const ph = (k / lines) * (Math.PI * 2 / petals) * spin;
+    const pts = [];
+    for(let i = 0; i <= points; i++){
+      const t = (i / points) * Math.PI * 2;
+      const w = 1 + amp * Math.cos(petals * t + ph)
+                  + amp2 * Math.cos(petals * h2 * t - ph * 2);
+      const rr = 1000 * (hole + (1 - hole) * w / norm);
+      pts.push(`${Math.round(rr * Math.cos(t))} ${Math.round(rr * Math.sin(t))}`);
+    }
+    out += `<path d="M${pts.join("L")}Z"/>`;
+  }
+  return out;
+}
+
+/** Initials for the seal — the learner's, or the brand's when unnamed. */
+function sealMonogram(){
+  const parts = learnerName().split(/\s+/).filter(Boolean);
+  if(!parts.length) return "M";
+  const first = parts[0][0];
+  const last = parts.length > 1 ? parts[parts.length - 1][0] : "";
+  return (first + last).toUpperCase();
+}
+
 function allCertificates(){
   return state.plans.map(planCertificate).filter(Boolean)
     .sort((a,b)=>b.finishedAt - a.finishedAt);
@@ -3649,34 +3866,95 @@ function renderCertificate(cert){
   const started = long(plan.startDate + "T00:00:00");
   const name = learnerName();
 
+  // SVG ids must be unique per sheet or the second certificate's textPath
+  // resolves to the first one's ring.
+  const uid = String(plan.id).replace(/[^A-Za-z0-9_-]/g, "") || "c";
+  const seed = seedFrom(cert.id);
+  // One figure, drawn twice: large and pale behind the text, small inside
+  // the seal, so the sheet reads as a single object. The seal copy is a
+  // third the width on screen, so it gets fewer lines — detail nobody can
+  // see still costs the same DOM.
+  const watermark = guilloche(seed, 8);
+  const sealRose  = guilloche(seed, 5);
+  // Explicit corner classes rather than :nth-of-type — the watermark is an
+  // <svg> sibling too, so type counting is off by one and three of the four
+  // ornaments land in the wrong corner.
+  const corner = pos => `<svg class="cert-corner ${pos}" viewBox="0 0 60 60" aria-hidden="true">
+      <path d="M0 34 C0 15 15 0 34 0"/><path d="M0 21 C0 9 9 0 21 0"/>
+      <circle cx="10" cy="10" r="2"/></svg>`;
+  // The reference, set small enough to read as a texture — the microprinting
+  // line on a banknote. It is real text, so it is still selectable.
+  const micro = (`Mindora · ${cert.id} · `).repeat(9);
+
   return `
     <div class="cert reveal" data-cert="${plan.id}">
       <div class="cert-sheet">
-        <div class="cert-rule"></div>
-        <div class="cert-head">
-          <img class="cert-mark" src="icon.svg" width="44" height="44" alt="">
-          <div>
-            <div class="cert-brand">Mindora</div>
-            <div class="cert-tag">Learn with Dedication</div>
+        <svg class="cert-guilloche" viewBox="-1000 -1000 2000 2000" aria-hidden="true">${watermark}</svg>
+        ${corner("tl")}${corner("tr")}${corner("bl")}${corner("br")}
+        <div class="cert-micro top" aria-hidden="true">${escapeHtml(micro)}</div>
+        <div class="cert-micro bot" aria-hidden="true">${escapeHtml(micro)}</div>
+
+        <div class="cert-inner">
+          <header class="cert-head">
+            <img class="cert-mark" src="icon.svg" width="34" height="34" alt="">
+            <span class="cert-brand">Mindora</span>
+            <span class="cert-dot"></span>
+            <span class="cert-tag">Learn with Dedication</span>
+          </header>
+
+          <div class="cert-body">
+            <p class="cert-kicker">Certificate of Completion</p>
+            <p class="cert-lede">This certifies that</p>
+            <h2 class="cert-name">${name ? escapeHtml(name) : "<span class=\"cert-blank\">Your name here</span>"}</h2>
+            <svg class="cert-flourish" viewBox="0 0 220 12" aria-hidden="true">
+              <path d="M2 6H92"/><path d="M128 6h90"/>
+              <path class="fill" d="M110 1l6 5-6 5-6-5z"/>
+              <circle class="fill" cx="98" cy="6" r="1.7"/><circle class="fill" cx="122" cy="6" r="1.7"/>
+            </svg>
+            <p class="cert-lede">has completed every lesson of</p>
+            <h3 class="cert-course">${escapeHtml(plan.title)}</h3>
+            <p class="cert-meta">${plan.subject ? escapeHtml(plan.subject) + " · " : ""}${started} — ${issued}</p>
+
+            <div class="cert-stats">
+              <div><b>${cert.total}</b><span>lessons</span></div>
+              <div><b>${cert.hours}</b><span>hours</span></div>
+              ${cert.quizAvg !== null ? `<div><b>${Math.round(cert.quizAvg*100)}%</b><span>quiz average</span></div>` : ""}
+              ${cert.notes ? `<div><b>${cert.notes}</b><span>notes</span></div>` : ""}
+            </div>
           </div>
-        </div>
 
-        <p class="cert-kicker">Certificate of completion</p>
-        <h2 class="cert-name">${name ? escapeHtml(name) : "<span class=\"cert-blank\">Your name here</span>"}</h2>
-        <p class="cert-body">has completed every lesson of</p>
-        <h3 class="cert-course">${escapeHtml(plan.title)}</h3>
-        <p class="cert-body">${escapeHtml(plan.subject || "")}${plan.subject ? " · " : ""}${started} — ${issued}</p>
+          <footer class="cert-foot">
+            <div class="cert-sig">
+              <span class="sig-mark">Mindora</span>
+              <span class="sig-rule"></span>
+              <span class="sig-label">Issued ${issued}</span>
+            </div>
 
-        <div class="cert-stats">
-          <div><b>${cert.total}</b><span>lessons</span></div>
-          <div><b>${cert.hours}</b><span>hours</span></div>
-          ${cert.quizAvg !== null ? `<div><b>${Math.round(cert.quizAvg*100)}%</b><span>quiz average</span></div>` : ""}
-          ${cert.notes ? `<div><b>${cert.notes}</b><span>notes</span></div>` : ""}
-        </div>
+            <svg class="cert-seal" viewBox="-110 -110 220 220" role="img"
+                 aria-label="Mindora seal, reference ${cert.id}">
+              <defs>
+                <!-- A full circle, so the ring text closes on itself. -->
+                <path id="seal-${uid}" d="M0-91A91 91 0 110 91A91 91 0 110-91"/>
+              </defs>
+              <circle class="seal-ring" r="107"/>
+              <circle class="seal-ring hair" r="101"/>
+              <circle class="seal-ring hair" r="80"/>
+              <!-- The rosette sits inside the text ring, not under it. -->
+              <g class="seal-rose" transform="scale(0.073)">${sealRose}</g>
+              <circle class="seal-disc" r="30"/>
+              <text class="seal-glyph" y="1">${escapeHtml(sealMonogram())}</text>
+              <text class="seal-text">
+                <textPath href="#seal-${uid}" startOffset="0"
+                          textLength="571" lengthAdjust="spacing"
+                >Mindora · Certificate of Completion · ${escapeHtml(cert.id)} ·</textPath>
+              </text>
+            </svg>
 
-        <div class="cert-foot">
-          <span>Issued ${issued}</span>
-          <span class="cert-id">${cert.id}</span>
+            <div class="cert-ref">
+              <span class="sig-label">Reference</span>
+              <span class="cert-id">${cert.id}</span>
+            </div>
+          </footer>
         </div>
       </div>
       <div class="cert-actions">
