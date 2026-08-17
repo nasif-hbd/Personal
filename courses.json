@@ -1,20 +1,63 @@
 {
   "_generated_by": "tools/build_catalog.py — edit data/, not this file",
   "stats": {
-    "courses": 348,
+    "courses": 444,
     "subjects": {
+      "3D Printing & CAD Design": 3,
       "AI": 36,
+      "Academic Writing & Research Skills": 1,
       "Advanced Math": 39,
+      "Agriculture & Sustainable Farming": 2,
+      "Algebra & Pre-Calculus": 1,
+      "Animation & Motion Graphics": 3,
+      "Astronomy, Space & Cosmology": 1,
+      "Automotive Repair & Mechanics": 2,
+      "Aviation & Aerospace Engineering": 2,
+      "Behavioral Economics": 2,
       "Biology": 16,
+      "Board Games & Game Theory": 2,
       "Chemistry": 24,
+      "Chess & Strategy Games": 5,
+      "Climate Solutions & Renewable Energy": 3,
+      "Cloud Certifications (AWS, Azure, GCP)": 4,
       "Coding": 40,
+      "Coding Interview Preparation": 4,
+      "Computer Science Fundamentals": 1,
+      "Data Engineering & Big Data": 2,
+      "Databases & SQL": 1,
+      "Deep Learning & Neural Networks": 1,
+      "Electronics & Circuit Theory": 1,
       "English": 31,
+      "Environmental Law & Policy": 2,
       "IELTS": 22,
+      "Investing & Personal Finance": 5,
+      "Journalism & Media Literacy": 3,
+      "Law School Admissions & LSAT": 2,
       "Math": 55,
+      "Mathematics — Foundations & Arithmetic": 1,
+      "Meditation, Mindfulness & Mental Health": 3,
+      "Music Theory & Instruments": 1,
+      "Nutrition Science": 3,
+      "Parenting & Child Development": 2,
       "Physics": 34,
+      "Physics — University & Theoretical": 1,
+      "Product Management": 2,
+      "Public Health & Epidemiology": 3,
       "Python": 23,
+      "Real Estate & Property Investing": 2,
       "Research": 15,
-      "SAT": 13
+      "Robotics, Arduino & Embedded Systems": 1,
+      "SAT": 13,
+      "SAT & Digital SAT": 1,
+      "Sewing, Textiles & Fashion Design": 2,
+      "Sign Language (ASL) & Accessibility": 2,
+      "Sports Science & Coaching": 3,
+      "Supply Chain & Operations Management": 1,
+      "Typing, Computer Literacy & Office Basics": 3,
+      "UX Research & Product Design": 3,
+      "Urban Planning & Architecture": 3,
+      "Video Game Design & Narrative": 3,
+      "Woodworking & DIY Craftsmanship": 3
     },
     "embeddable": 6,
     "paths": 10,
@@ -2342,6 +2385,33 @@
   ],
   "catalog": [
     {
+      "subject": "3D Printing & CAD Design",
+      "level": "All Levels",
+      "platform": "YouTube — Maker's Muse",
+      "title": "3D Printing Fundamentals",
+      "url": "https://www.youtube.com/@MakersMuse",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "3D Printing & CAD Design",
+      "level": "All Levels",
+      "platform": "YouTube — CAD CAM CAE Works",
+      "title": "CAD Design Tutorials",
+      "url": "https://www.youtube.com/results?search_query=CAD+CAM+CAE+Works+CAD+Design+Tutorials",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "3D Printing & CAD Design",
+      "level": "High School / College",
+      "platform": "YouTube — CNC Kitchen",
+      "title": "3D Printing Materials & Testing",
+      "url": "https://www.youtube.com/@CNCKitchen",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
       "subject": "AI",
       "level": "All Levels",
       "platform": "YouTube — Two Minute Papers",
@@ -2662,6 +2732,15 @@
       "platform": "Google",
       "title": "Elements of AI / Google AI Essentials",
       "url": "https://www.elementsofai.com/",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Academic Writing & Research Skills",
+      "level": "College / University",
+      "platform": "YouTube — Scribbr",
+      "title": "Academic Writing & Citation Guides",
+      "url": "https://www.youtube.com/@scribbr",
       "cost": "Free",
       "embeddable": false
     },
@@ -3017,6 +3096,123 @@
       "embeddable": false
     },
     {
+      "subject": "Agriculture & Sustainable Farming",
+      "level": "All Levels",
+      "platform": "YouTube — Justin Rhodes",
+      "title": "Permaculture & Homestead Farming",
+      "url": "https://www.youtube.com/@JustinRhodes",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Agriculture & Sustainable Farming",
+      "level": "All Levels",
+      "platform": "YouTube — Epic Gardening",
+      "title": "Sustainable Growing & Gardening Fundamentals",
+      "url": "https://www.youtube.com/@epicgardening",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Algebra & Pre-Calculus",
+      "level": "High School",
+      "platform": "YouTube — Math Sux",
+      "title": "Algebra Full Course",
+      "url": "https://www.youtube.com/results?search_query=Math+Sux+Algebra+Full+Course",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Animation & Motion Graphics",
+      "level": "All Levels",
+      "platform": "YouTube — Bloop Animation",
+      "title": "2D Animation Fundamentals",
+      "url": "https://www.youtube.com/@BloopAnimation",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Animation & Motion Graphics",
+      "level": "All Levels",
+      "platform": "YouTube — Alan Becker",
+      "title": "Animation Principles Explained",
+      "url": "https://www.youtube.com/@alanbecker",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Animation & Motion Graphics",
+      "level": "High School / College",
+      "platform": "YouTube — School of Motion",
+      "title": "Motion Graphics Fundamentals",
+      "url": "https://www.youtube.com/@SchoolofMotion",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Astronomy, Space & Cosmology",
+      "level": "All Levels",
+      "platform": "YouTube — Kurzgesagt – In a Nutshell",
+      "title": "Space & Physics Explainers",
+      "url": "https://www.youtube.com/@inanutshell",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Automotive Repair & Mechanics",
+      "level": "All Levels",
+      "platform": "YouTube — ChrisFix",
+      "title": "Car Repair & Maintenance Basics",
+      "url": "https://www.youtube.com/@ChrisFix",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Automotive Repair & Mechanics",
+      "level": "All Levels",
+      "platform": "YouTube — Engineering Explained",
+      "title": "How Cars Work",
+      "url": "https://www.youtube.com/@EngineeringExplained",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Aviation & Aerospace Engineering",
+      "level": "All Levels",
+      "platform": "YouTube — Mentour Pilot",
+      "title": "Aviation & Flight Safety Explained",
+      "url": "https://www.youtube.com/@MentourPilot",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Aviation & Aerospace Engineering",
+      "level": "All Levels",
+      "platform": "YouTube — Everyday Astronaut",
+      "title": "Rockets & Aerospace Engineering Explained",
+      "url": "https://www.youtube.com/@EverydayAstronaut",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Behavioral Economics",
+      "level": "All Levels",
+      "platform": "YouTube — Practical Psychology",
+      "title": "Cognitive Biases & Decision-Making",
+      "url": "https://www.youtube.com/@PracticalPsychology",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Behavioral Economics",
+      "level": "College / University",
+      "platform": "YouTube — Marginal Revolution University",
+      "title": "Behavioral Economics Fundamentals",
+      "url": "https://www.youtube.com/@mruniversity",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
       "subject": "Biology",
       "level": "College / University",
       "platform": "MIT OpenCourseWare",
@@ -3159,6 +3355,24 @@
       "platform": "Khan Academy",
       "title": "Molecular Biology — Khan Academy Biology",
       "url": "https://www.khanacademy.org/science/biology",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Board Games & Game Theory",
+      "level": "All Levels",
+      "platform": "YouTube — Shut Up & Sit Down",
+      "title": "Board Game Strategy & Design",
+      "url": "https://www.youtube.com/@shutupandsitdown",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Board Games & Game Theory",
+      "level": "College / University",
+      "platform": "YouTube — Game Theory Online",
+      "title": "Introduction to Game Theory",
+      "url": "https://www.youtube.com/results?search_query=Game+Theory+Online+Introduction+to+Game+Theory",
       "cost": "Free",
       "embeddable": false
     },
@@ -3381,6 +3595,114 @@
       "embeddable": true,
       "embedKind": "playlist",
       "embedId": "PL0o_zxa4K1BWziAvOKdqsMFSB_MyyLAqS"
+    },
+    {
+      "subject": "Chess & Strategy Games",
+      "level": "All Levels",
+      "platform": "YouTube — GothamChess",
+      "title": "Chess Fundamentals & Openings",
+      "url": "https://www.youtube.com/@GothamChess",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chess & Strategy Games",
+      "level": "High School / College",
+      "platform": "YouTube — Hanging Pawns",
+      "title": "Chess Opening Theory",
+      "url": "https://www.youtube.com/@HangingPawns",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chess & Strategy Games",
+      "level": "High School / College",
+      "platform": "YouTube — ChessNetwork",
+      "title": "Chess Tactics & Endgames",
+      "url": "https://www.youtube.com/@ChessNetwork",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chess & Strategy Games",
+      "level": "High School / College",
+      "platform": "YouTube — agadmator's Chess Channel",
+      "title": "Grandmaster Game Analysis",
+      "url": "https://www.youtube.com/@agadmator",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Chess & Strategy Games",
+      "level": "High School Advanced / College",
+      "platform": "YouTube — Saint Louis Chess Club",
+      "title": "Chess Lectures by Titled Players",
+      "url": "https://www.youtube.com/@STLChessClub",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Climate Solutions & Renewable Energy",
+      "level": "All Levels",
+      "platform": "YouTube — Real Engineering",
+      "title": "Energy Systems & Climate Engineering",
+      "url": "https://www.youtube.com/@RealEngineering",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Climate Solutions & Renewable Energy",
+      "level": "All Levels",
+      "platform": "YouTube — Just Have a Think",
+      "title": "Renewable Energy & Climate Tech Explainers",
+      "url": "https://www.youtube.com/@JustHaveaThink",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Climate Solutions & Renewable Energy",
+      "level": "All Levels",
+      "platform": "YouTube — Our Changing Climate",
+      "title": "Renewable Energy Explainers",
+      "url": "https://www.youtube.com/@OurChangingClimate",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Cloud Certifications (AWS, Azure, GCP)",
+      "level": "All Levels",
+      "platform": "YouTube — freeCodeCamp.org",
+      "title": "AWS Certified Cloud Practitioner Full Course",
+      "url": "https://www.youtube.com/@freecodecamp",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Cloud Certifications (AWS, Azure, GCP)",
+      "level": "All Levels",
+      "platform": "YouTube — Google Cloud Tech",
+      "title": "Google Cloud Fundamentals",
+      "url": "https://www.youtube.com/@googlecloudtech",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Cloud Certifications (AWS, Azure, GCP)",
+      "level": "High School / College",
+      "platform": "YouTube — Stephane Maarek",
+      "title": "AWS Certification Prep",
+      "url": "https://www.youtube.com/results?search_query=Stephane+Maarek+AWS+Certification+Prep",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Cloud Certifications (AWS, Azure, GCP)",
+      "level": "High School / College",
+      "platform": "YouTube — Adrian Cantrill",
+      "title": "AWS Solutions Architect Concepts",
+      "url": "https://www.youtube.com/results?search_query=Adrian+Cantrill+AWS+Solutions+Architect+Concepts",
+      "cost": "Free",
+      "embeddable": false
     },
     {
       "subject": "Coding",
@@ -3743,6 +4065,96 @@
       "embeddable": false
     },
     {
+      "subject": "Coding Interview Preparation",
+      "level": "All Levels",
+      "platform": "YouTube — CS Dojo",
+      "title": "Coding Interview & Python Fundamentals",
+      "url": "https://www.youtube.com/@CSDojo",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding Interview Preparation",
+      "level": "All Levels",
+      "platform": "YouTube — Tech With Tim",
+      "title": "Technical Interview Practice",
+      "url": "https://www.youtube.com/@TechWithTim",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding Interview Preparation",
+      "level": "High School / College",
+      "platform": "YouTube — NeetCode",
+      "title": "Coding Interview Problem Patterns",
+      "url": "https://www.youtube.com/@NeetCode",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Coding Interview Preparation",
+      "level": "High School / College",
+      "platform": "YouTube — Back To Back SWE",
+      "title": "Data Structures Interview Deep Dives",
+      "url": "https://www.youtube.com/@BackToBackSWE",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Computer Science Fundamentals",
+      "level": "College / University",
+      "platform": "YouTube — CS50",
+      "title": "CS50: Introduction to Computer Science",
+      "url": "https://www.youtube.com/@cs50",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Data Engineering & Big Data",
+      "level": "High School / College",
+      "platform": "YouTube — Seattle Data Guy",
+      "title": "Data Engineering & Analytics Careers",
+      "url": "https://www.youtube.com/@SeattleDataGuy",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Data Engineering & Big Data",
+      "level": "High School / College",
+      "platform": "YouTube — Andreas Kretz",
+      "title": "Data Engineering Fundamentals",
+      "url": "https://www.youtube.com/@andreaskayy",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Databases & SQL",
+      "level": "All Levels",
+      "platform": "YouTube — Socratica",
+      "title": "SQL Programming Tutorials",
+      "url": "https://www.youtube.com/@socratica",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Deep Learning & Neural Networks",
+      "level": "College / University",
+      "platform": "YouTube — 3Blue1Brown",
+      "title": "Neural Networks",
+      "url": "https://www.youtube.com/@3blue1brown",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Electronics & Circuit Theory",
+      "level": "College / University",
+      "platform": "YouTube — ALL ABOUT ELECTRONICS",
+      "title": "Circuit Theory Fundamentals",
+      "url": "https://www.youtube.com/@ALLABOUTELECTRONICS",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
       "subject": "English",
       "level": "All Levels",
       "platform": "Coursera",
@@ -4024,6 +4436,24 @@
       "embeddable": false
     },
     {
+      "subject": "Environmental Law & Policy",
+      "level": "All Levels",
+      "platform": "YouTube — Our Changing Climate",
+      "title": "Climate Policy Explained",
+      "url": "https://www.youtube.com/@OurChangingClimate",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Environmental Law & Policy",
+      "level": "College / University",
+      "platform": "YouTube — Kimberly Nicholas",
+      "title": "Climate Policy & Science Communication",
+      "url": "https://www.youtube.com/results?search_query=Kimberly+Nicholas+Climate+Policy+%26+Science+Communication",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
       "subject": "IELTS",
       "level": "High School / Adult",
       "platform": "British Council",
@@ -4219,6 +4649,96 @@
       "title": "Writing Task 2 (Essay) — Road to IELTS",
       "url": "https://www.roadtoielts.com/",
       "cost": "Freemium",
+      "embeddable": false
+    },
+    {
+      "subject": "Investing & Personal Finance",
+      "level": "All Levels",
+      "platform": "YouTube — Ben Felix",
+      "title": "Common Sense Investing",
+      "url": "https://www.youtube.com/@BenFelixCSI",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Investing & Personal Finance",
+      "level": "All Levels",
+      "platform": "YouTube — The Plain Bagel",
+      "title": "Investing Concepts Explained",
+      "url": "https://www.youtube.com/@ThePlainBagel",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Investing & Personal Finance",
+      "level": "All Levels",
+      "platform": "YouTube — Graham Stephan",
+      "title": "Personal Finance & Real Estate Investing",
+      "url": "https://www.youtube.com/@GrahamStephan",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Investing & Personal Finance",
+      "level": "All Levels",
+      "platform": "YouTube — Two Cents",
+      "title": "Personal Finance Fundamentals",
+      "url": "https://www.youtube.com/@TwoCentsPBS",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Investing & Personal Finance",
+      "level": "College / University",
+      "platform": "YouTube — Patrick Boyle",
+      "title": "Finance & Markets Explained",
+      "url": "https://www.youtube.com/@PatrickBoyleOnFinance",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Journalism & Media Literacy",
+      "level": "All Levels",
+      "platform": "YouTube — Johnny Harris",
+      "title": "Explainer Journalism & Visual Storytelling",
+      "url": "https://www.youtube.com/@johnnyharris",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Journalism & Media Literacy",
+      "level": "All Levels",
+      "platform": "YouTube — Vox",
+      "title": "Media Literacy & Explainer Journalism",
+      "url": "https://www.youtube.com/@Vox",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Journalism & Media Literacy",
+      "level": "High School",
+      "platform": "YouTube — CrashCourse",
+      "title": "Media Literacy Full Course",
+      "url": "https://www.youtube.com/@crashcourse",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Law School Admissions & LSAT",
+      "level": "All Levels",
+      "platform": "YouTube — LSATMax",
+      "title": "LSAT Logical Reasoning Strategies",
+      "url": "https://www.youtube.com/results?search_query=LSATMax+LSAT+Logical+Reasoning+Strategies",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Law School Admissions & LSAT",
+      "level": "All Levels",
+      "platform": "YouTube — 7Sage LSAT",
+      "title": "LSAT Prep Fundamentals",
+      "url": "https://www.youtube.com/@7sagelsat",
+      "cost": "Free",
       "embeddable": false
     },
     {
@@ -4717,6 +5237,96 @@
       "embeddable": false
     },
     {
+      "subject": "Mathematics — Foundations & Arithmetic",
+      "level": "Elementary–Middle School",
+      "platform": "YouTube — Mathantics (Español)",
+      "title": "Basic Math en Español",
+      "url": "https://www.youtube.com/results?search_query=Mathantics+%28Espa%C3%B1ol%29+Basic+Math+en+Espa%C3%B1ol",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Meditation, Mindfulness & Mental Health",
+      "level": "All Levels",
+      "platform": "YouTube — Headspace",
+      "title": "Guided Meditation & Mindfulness Basics",
+      "url": "https://www.youtube.com/@Headspace",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Meditation, Mindfulness & Mental Health",
+      "level": "All Levels",
+      "platform": "YouTube — Great Meditation",
+      "title": "Guided Meditation Sessions",
+      "url": "https://www.youtube.com/@GreatMeditation",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Meditation, Mindfulness & Mental Health",
+      "level": "All Levels",
+      "platform": "YouTube — Therapy in a Nutshell",
+      "title": "Mental Health Skills Explained",
+      "url": "https://www.youtube.com/@TherapyinaNutshell",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Music Theory & Instruments",
+      "level": "All Levels",
+      "platform": "YouTube — Music Theory for Musicians and Normal People",
+      "title": "Music Theory Fundamentals",
+      "url": "https://www.youtube.com/@musictheoryformusicians",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Nutrition Science",
+      "level": "All Levels",
+      "platform": "YouTube — Nutrition Made Simple!",
+      "title": "Evidence-Based Nutrition Basics",
+      "url": "https://www.youtube.com/@NutritionMadeSimple",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Nutrition Science",
+      "level": "All Levels",
+      "platform": "YouTube — Dr. Layne Norton",
+      "title": "Nutrition Science Explained",
+      "url": "https://www.youtube.com/@BioLayne",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Nutrition Science",
+      "level": "High School Advanced / College",
+      "platform": "YouTube — Physionic",
+      "title": "Nutrition Research Breakdowns",
+      "url": "https://www.youtube.com/@physionic",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Parenting & Child Development",
+      "level": "All Levels",
+      "platform": "YouTube — Zero to Three",
+      "title": "Early Childhood Development",
+      "url": "https://www.youtube.com/@zerotothree",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Parenting & Child Development",
+      "level": "All Levels",
+      "platform": "YouTube — Janet Lansbury",
+      "title": "Respectful Parenting Fundamentals",
+      "url": "https://www.youtube.com/results?search_query=Janet+Lansbury+Respectful+Parenting+Fundamentals",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
       "subject": "Physics",
       "level": "College / University",
       "platform": "MIT OpenCourseWare",
@@ -5025,6 +5635,60 @@
       "embeddable": false
     },
     {
+      "subject": "Physics — University & Theoretical",
+      "level": "College / University",
+      "platform": "YouTube — ScienceClic English",
+      "title": "Relativity & Quantum Mechanics Visualised",
+      "url": "https://www.youtube.com/results?search_query=ScienceClic+English+Relativity+%26+Quantum+Mechanics+Visualised",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Product Management",
+      "level": "All Levels",
+      "platform": "YouTube — Product School",
+      "title": "Product Management Fundamentals",
+      "url": "https://www.youtube.com/@ProductSchool",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Product Management",
+      "level": "All Levels",
+      "platform": "YouTube — Exponent",
+      "title": "Product Manager Interview Preparation",
+      "url": "https://www.youtube.com/@tryexponent",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Public Health & Epidemiology",
+      "level": "All Levels",
+      "platform": "YouTube — World Health Organization (WHO)",
+      "title": "Epidemiology & Global Health Basics",
+      "url": "https://www.youtube.com/@who",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Public Health & Epidemiology",
+      "level": "College / University",
+      "platform": "YouTube — Osmosis",
+      "title": "Public Health & Disease Fundamentals",
+      "url": "https://www.youtube.com/@osmosis",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Public Health & Epidemiology",
+      "level": "High School",
+      "platform": "YouTube — CrashCourse",
+      "title": "Crash Course Public Health",
+      "url": "https://www.youtube.com/@crashcourse",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
       "subject": "Python",
       "level": "Beginner (All Ages)",
       "platform": "YouTube — freeCodeCamp",
@@ -5234,6 +5898,24 @@
       "embeddable": false
     },
     {
+      "subject": "Real Estate & Property Investing",
+      "level": "All Levels",
+      "platform": "YouTube — BiggerPockets",
+      "title": "Real Estate Investing Fundamentals",
+      "url": "https://www.youtube.com/@BiggerPockets",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Real Estate & Property Investing",
+      "level": "All Levels",
+      "platform": "YouTube — Graham Stephan",
+      "title": "Rental Property & Real Estate Basics",
+      "url": "https://www.youtube.com/@GrahamStephan",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
       "subject": "Research",
       "level": "College / University",
       "platform": "Coursera",
@@ -5369,6 +6051,15 @@
       "embeddable": false
     },
     {
+      "subject": "Robotics, Arduino & Embedded Systems",
+      "level": "All Levels",
+      "platform": "YouTube — GreatScott!",
+      "title": "Electronics & Arduino Projects",
+      "url": "https://www.youtube.com/@GreatScottLab",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
       "subject": "SAT",
       "level": "High School",
       "platform": "Khan Academy",
@@ -5482,6 +6173,222 @@
       "platform": "College Board",
       "title": "SAT Writing & Language — SAT Suite Practice",
       "url": "https://satsuite.collegeboard.org/practice",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "SAT & Digital SAT",
+      "level": "High School",
+      "platform": "YouTube — The College Panda",
+      "title": "Digital SAT Math Strategies",
+      "url": "https://www.youtube.com/@TheCollegePanda",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Sewing, Textiles & Fashion Design",
+      "level": "All Levels",
+      "platform": "YouTube — Sew Simple Home",
+      "title": "Garment Construction Basics",
+      "url": "https://www.youtube.com/results?search_query=Sew+Simple+Home+Garment+Construction+Basics",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Sewing, Textiles & Fashion Design",
+      "level": "All Levels",
+      "platform": "YouTube — Professor Pincushion",
+      "title": "Sewing Fundamentals",
+      "url": "https://www.youtube.com/@ProfessorPincushion",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Sign Language (ASL) & Accessibility",
+      "level": "All Levels",
+      "platform": "YouTube — Learn How To Sign",
+      "title": "ASL Vocabulary & Conversation",
+      "url": "https://www.youtube.com/results?search_query=Learn+How+To+Sign+ASL+Vocabulary+%26+Conversation",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Sign Language (ASL) & Accessibility",
+      "level": "All Levels",
+      "platform": "YouTube — Bill Vicars (ASL University)",
+      "title": "American Sign Language Full Course",
+      "url": "https://www.youtube.com/@billvicars",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Sports Science & Coaching",
+      "level": "All Levels",
+      "platform": "YouTube — The Coaching Manual",
+      "title": "Coaching Methodology Fundamentals",
+      "url": "https://www.youtube.com/@TheCoachingManual",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Sports Science & Coaching",
+      "level": "All Levels",
+      "platform": "YouTube — Jeff Nippard",
+      "title": "Sports Performance & Strength Training Science",
+      "url": "https://www.youtube.com/@JeffNippard",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Sports Science & Coaching",
+      "level": "High School Advanced / College",
+      "platform": "YouTube — Renaissance Periodization",
+      "title": "Sports Science & Training Theory",
+      "url": "https://www.youtube.com/@RenaissancePeriodization",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Supply Chain & Operations Management",
+      "level": "College / University",
+      "platform": "YouTube — RealSupplyChain",
+      "title": "Supply Chain Management Fundamentals",
+      "url": "https://www.youtube.com/results?search_query=RealSupplyChain+Supply+Chain+Management+Fundamentals",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Typing, Computer Literacy & Office Basics",
+      "level": "All Levels",
+      "platform": "YouTube — Technology for Teachers and Students",
+      "title": "Computer & Office Skills Basics",
+      "url": "https://www.youtube.com/@TechnologyforTeachersandStudents",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Typing, Computer Literacy & Office Basics",
+      "level": "Elementary–Middle School",
+      "platform": "YouTube — GCFLearnFree",
+      "title": "Computer Basics & Digital Literacy",
+      "url": "https://www.youtube.com/@gcflearnfree",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Typing, Computer Literacy & Office Basics",
+      "level": "Elementary–Middle School",
+      "platform": "YouTube — TutorialsPoint",
+      "title": "Computer Fundamentals for Beginners",
+      "url": "https://www.youtube.com/@tutorialspoint",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "UX Research & Product Design",
+      "level": "All Levels",
+      "platform": "YouTube — DesignCourse",
+      "title": "UX/UI Design Fundamentals",
+      "url": "https://www.youtube.com/@DesignCourse",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "UX Research & Product Design",
+      "level": "High School / College",
+      "platform": "YouTube — AJ&Smart",
+      "title": "Design Sprint & UX Methods",
+      "url": "https://www.youtube.com/@ajsmart",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "UX Research & Product Design",
+      "level": "High School / College",
+      "platform": "YouTube — NNgroup",
+      "title": "UX Research Methods",
+      "url": "https://www.youtube.com/@NNgroup",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Urban Planning & Architecture",
+      "level": "All Levels",
+      "platform": "YouTube — RMTransit",
+      "title": "Public Transit & City Design",
+      "url": "https://www.youtube.com/@RMTransit",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Urban Planning & Architecture",
+      "level": "All Levels",
+      "platform": "YouTube — Not Just Bikes",
+      "title": "Urban Planning Explained",
+      "url": "https://www.youtube.com/@NotJustBikes",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Urban Planning & Architecture",
+      "level": "All Levels",
+      "platform": "YouTube — City Beautiful",
+      "title": "Urban Planning Fundamentals",
+      "url": "https://www.youtube.com/@CityBeautiful",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Video Game Design & Narrative",
+      "level": "All Levels",
+      "platform": "YouTube — Game Maker's Toolkit",
+      "title": "Boss Keys - Zelda Dungeon Design Analysis",
+      "url": "https://www.youtube.com/@GameMakersToolkit",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Video Game Design & Narrative",
+      "level": "All Levels",
+      "platform": "YouTube — Extra Credits",
+      "title": "Game Design & Narrative Fundamentals",
+      "url": "https://www.youtube.com/@extracredits",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Video Game Design & Narrative",
+      "level": "High School / College",
+      "platform": "YouTube — AdamCYounis",
+      "title": "Character & Environment Art for Games",
+      "url": "https://www.youtube.com/@AdamCYounis",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Woodworking & DIY Craftsmanship",
+      "level": "All Levels",
+      "platform": "YouTube — Fix This Build That",
+      "title": "Beginner Woodworking Projects",
+      "url": "https://www.youtube.com/@FixThisBuildThat",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Woodworking & DIY Craftsmanship",
+      "level": "All Levels",
+      "platform": "YouTube — This Old House",
+      "title": "Home Improvement & Carpentry Basics",
+      "url": "https://www.youtube.com/@thisoldhouse",
+      "cost": "Free",
+      "embeddable": false
+    },
+    {
+      "subject": "Woodworking & DIY Craftsmanship",
+      "level": "All Levels",
+      "platform": "YouTube — Steve Ramsey - Woodworking for Mere Mortals",
+      "title": "Woodworking Fundamentals",
+      "url": "https://www.youtube.com/@amerimorwoodworking",
       "cost": "Free",
       "embeddable": false
     }
