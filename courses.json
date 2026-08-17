@@ -1,65 +1,111 @@
 {
   "_generated_by": "tools/build_catalog.py — edit data/, not this file",
   "stats": {
-    "courses": 444,
+    "courses": 537,
     "subjects": {
       "3D Printing & CAD Design": 3,
       "AI": 36,
+      "AI Safety, Ethics & Policy": 1,
       "Academic Writing & Research Skills": 1,
       "Advanced Math": 39,
       "Agriculture & Sustainable Farming": 2,
-      "Algebra & Pre-Calculus": 1,
+      "Algebra & Pre-Calculus": 4,
+      "Anatomy, Physiology & Medicine": 2,
       "Animation & Motion Graphics": 3,
-      "Astronomy, Space & Cosmology": 1,
+      "Art, Drawing & 3D": 1,
+      "Astronomy, Space & Cosmology": 3,
       "Automotive Repair & Mechanics": 2,
       "Aviation & Aerospace Engineering": 2,
+      "Backend, APIs & System Design": 1,
       "Behavioral Economics": 2,
       "Biology": 16,
+      "Blockchain, Web3 & Quantum Computing": 1,
       "Board Games & Game Theory": 2,
+      "Business, Startups & Entrepreneurship": 3,
+      "C, C++ & Systems Programming": 2,
+      "Calculus & Advanced Mathematics": 3,
+      "Career, Interviews & Professional Skills": 2,
       "Chemistry": 24,
       "Chess & Strategy Games": 5,
       "Climate Solutions & Renewable Energy": 3,
       "Cloud Certifications (AWS, Azure, GCP)": 4,
       "Coding": 40,
       "Coding Interview Preparation": 4,
-      "Computer Science Fundamentals": 1,
+      "Computer Science Fundamentals": 4,
+      "Computer Vision": 1,
+      "Cybersecurity & Ethical Hacking": 2,
       "Data Engineering & Big Data": 2,
-      "Databases & SQL": 1,
-      "Deep Learning & Neural Networks": 1,
-      "Electronics & Circuit Theory": 1,
+      "Data Science & Analytics": 2,
+      "Data Structures & Algorithms": 2,
+      "Databases & SQL": 3,
+      "Deep Learning & Neural Networks": 3,
+      "Design — UI/UX & Graphic Design": 2,
+      "DevOps, Cloud & Containers": 2,
+      "Earth, Environmental & Climate Science": 1,
+      "Electronics & Circuit Theory": 2,
       "English": 31,
+      "English Language & Grammar (ESL)": 2,
       "Environmental Law & Policy": 2,
+      "Excel, Spreadsheets & Business Tools": 1,
+      "Finance, Accounting & Investing": 1,
+      "Frontend Frameworks (React, Next.js, Vue)": 1,
+      "GRE, GMAT & Graduate Admissions Tests": 1,
+      "Game Development": 2,
+      "Geography & Geopolitics": 1,
+      "Health, Fitness & Wellbeing": 1,
+      "History": 2,
       "IELTS": 22,
+      "IELTS Preparation": 2,
       "Investing & Personal Finance": 5,
+      "Java Programming": 1,
       "Journalism & Media Literacy": 3,
+      "Languages (Spanish, French, German, Japanese, Arabic)": 1,
+      "Large Language Models & Generative AI": 2,
       "Law School Admissions & LSAT": 2,
+      "Life Skills, Cooking & Practical Knowledge": 1,
+      "Linear Algebra": 1,
+      "Machine Learning": 1,
+      "Marketing & Growth": 1,
       "Math": 55,
-      "Mathematics — Foundations & Arithmetic": 1,
+      "Mathematics — Foundations & Arithmetic": 4,
+      "Mechanical, Civil & General Engineering": 1,
       "Meditation, Mindfulness & Mental Health": 3,
-      "Music Theory & Instruments": 1,
+      "Mobile App Development": 3,
+      "Music Theory & Instruments": 3,
+      "Networking & IT Infrastructure": 1,
       "Nutrition Science": 3,
+      "Other Languages (C#, Rust, Go, Kotlin, PHP)": 2,
       "Parenting & Child Development": 2,
+      "Philosophy & Critical Thinking": 1,
+      "Photography, Video & Content Creation": 1,
       "Physics": 34,
-      "Physics — University & Theoretical": 1,
+      "Physics — School & AP": 2,
+      "Physics — University & Theoretical": 2,
       "Product Management": 2,
+      "Productivity, Study Skills & Learning How to Learn": 1,
+      "Psychology & Behavioural Science": 1,
       "Public Health & Epidemiology": 3,
+      "Public Speaking & Communication": 1,
       "Python": 23,
+      "Python Programming": 3,
       "Real Estate & Property Investing": 2,
       "Research": 15,
-      "Robotics, Arduino & Embedded Systems": 1,
+      "Robotics, Arduino & Embedded Systems": 2,
       "SAT": 13,
-      "SAT & Digital SAT": 1,
+      "SAT & Digital SAT": 2,
       "Sewing, Textiles & Fashion Design": 2,
       "Sign Language (ASL) & Accessibility": 2,
       "Sports Science & Coaching": 3,
+      "Statistics, Probability & Data Literacy": 2,
       "Supply Chain & Operations Management": 1,
       "Typing, Computer Literacy & Office Basics": 3,
       "UX Research & Product Design": 3,
       "Urban Planning & Architecture": 3,
       "Video Game Design & Narrative": 3,
+      "Web Development — HTML, CSS & JavaScript": 3,
       "Woodworking & DIY Craftsmanship": 3
     },
-    "embeddable": 6,
+    "embeddable": 99,
     "paths": 10,
     "pathLessons": 121,
     "pathLessonsPlayable": 107
@@ -2736,6 +2782,17 @@
       "embeddable": false
     },
     {
+      "subject": "AI Safety, Ethics & Policy",
+      "level": "High School / College",
+      "platform": "YouTube — Robert Miles AI Safety",
+      "title": "AI Alignment Explained",
+      "url": "https://www.youtube.com/watch?v=guUpt1RCWkY",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "guUpt1RCWkY"
+    },
+    {
       "subject": "Academic Writing & Research Skills",
       "level": "College / University",
       "platform": "YouTube — Scribbr",
@@ -3115,12 +3172,67 @@
     },
     {
       "subject": "Algebra & Pre-Calculus",
+      "level": "Elementary–Middle School",
+      "platform": "YouTube — The Organic Chemistry Tutor",
+      "title": "Algebra 1 & Algebra 2 Full Review",
+      "url": "https://www.youtube.com/watch?v=PyYEHq4Dc5I",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "PyYEHq4Dc5I"
+    },
+    {
+      "subject": "Algebra & Pre-Calculus",
+      "level": "Elementary–Middle School",
+      "platform": "YouTube — Brian McLogan",
+      "title": "Precalculus Full Course",
+      "url": "https://www.youtube.com/watch?v=bV3U0q6h0tk",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "bV3U0q6h0tk"
+    },
+    {
+      "subject": "Algebra & Pre-Calculus",
       "level": "High School",
       "platform": "YouTube — Math Sux",
       "title": "Algebra Full Course",
       "url": "https://www.youtube.com/results?search_query=Math+Sux+Algebra+Full+Course",
       "cost": "Free",
       "embeddable": false
+    },
+    {
+      "subject": "Algebra & Pre-Calculus",
+      "level": "School/College",
+      "platform": "YouTube — Krista King Math",
+      "title": "Algebra & Precalculus",
+      "url": "https://www.youtube.com/watch?v=gb6QihvVaNU",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "gb6QihvVaNU"
+    },
+    {
+      "subject": "Anatomy, Physiology & Medicine",
+      "level": "College",
+      "platform": "YouTube — Ninja Nerd",
+      "title": "Anatomy & Physiology Full Lectures",
+      "url": "https://www.youtube.com/watch?v=Ewt9gqWlf9w",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "Ewt9gqWlf9w"
+    },
+    {
+      "subject": "Anatomy, Physiology & Medicine",
+      "level": "College",
+      "platform": "YouTube — Armando Hasudungan",
+      "title": "Hand-Drawn Medicine & Physiology",
+      "url": "https://www.youtube.com/watch?v=n4JBo_Mjkx8",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "n4JBo_Mjkx8"
     },
     {
       "subject": "Animation & Motion Graphics",
@@ -3150,6 +3262,28 @@
       "embeddable": false
     },
     {
+      "subject": "Art, Drawing & 3D",
+      "level": "Beginner",
+      "platform": "YouTube — Blender Guru",
+      "title": "Blender Donut Tutorial & 3D Fundamentals",
+      "url": "https://www.youtube.com/watch?v=JQyDVF5duzo",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "JQyDVF5duzo"
+    },
+    {
+      "subject": "Astronomy, Space & Cosmology",
+      "level": "All Levels",
+      "platform": "YouTube — Anton Petrov",
+      "title": "Daily Space & Science News",
+      "url": "https://www.youtube.com/watch?v=SSccNV39mCU",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "SSccNV39mCU"
+    },
+    {
       "subject": "Astronomy, Space & Cosmology",
       "level": "All Levels",
       "platform": "YouTube — Kurzgesagt – In a Nutshell",
@@ -3157,6 +3291,17 @@
       "url": "https://www.youtube.com/@inanutshell",
       "cost": "Free",
       "embeddable": false
+    },
+    {
+      "subject": "Astronomy, Space & Cosmology",
+      "level": "High School Advanced / College",
+      "platform": "YouTube — PBS Space Time",
+      "title": "Cosmology & Astrophysics",
+      "url": "https://www.youtube.com/watch?v=Yid9cO7peXg",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "Yid9cO7peXg"
     },
     {
       "subject": "Automotive Repair & Mechanics",
@@ -3193,6 +3338,17 @@
       "url": "https://www.youtube.com/@EverydayAstronaut",
       "cost": "Free",
       "embeddable": false
+    },
+    {
+      "subject": "Backend, APIs & System Design",
+      "level": "High School Advanced / College",
+      "platform": "YouTube — ByteByteGo",
+      "title": "System Design Fundamentals",
+      "url": "https://www.youtube.com/watch?v=WvSVSbGo0wI",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "WvSVSbGo0wI"
     },
     {
       "subject": "Behavioral Economics",
@@ -3359,6 +3515,17 @@
       "embeddable": false
     },
     {
+      "subject": "Blockchain, Web3 & Quantum Computing",
+      "level": "High School Advanced / College",
+      "platform": "YouTube — Qiskit",
+      "title": "Quantum Computing Course & Summer School",
+      "url": "https://www.youtube.com/watch?v=LeAI2PCmyb4",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "LeAI2PCmyb4"
+    },
+    {
       "subject": "Board Games & Game Theory",
       "level": "All Levels",
       "platform": "YouTube — Shut Up & Sit Down",
@@ -3375,6 +3542,116 @@
       "url": "https://www.youtube.com/results?search_query=Game+Theory+Online+Introduction+to+Game+Theory",
       "cost": "Free",
       "embeddable": false
+    },
+    {
+      "subject": "Business, Startups & Entrepreneurship",
+      "level": "All Levels",
+      "platform": "YouTube — Stanford eCorner",
+      "title": "Entrepreneurial Thought Leaders",
+      "url": "https://www.youtube.com/watch?v=hUHhg-_pu6M",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "hUHhg-_pu6M"
+    },
+    {
+      "subject": "Business, Startups & Entrepreneurship",
+      "level": "Beginner",
+      "platform": "YouTube — Ali Abdaal",
+      "title": "Building an Online Business",
+      "url": "https://www.youtube.com/watch?v=nH-sP5Afyxk",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "nH-sP5Afyxk"
+    },
+    {
+      "subject": "Business, Startups & Entrepreneurship",
+      "level": "High School / College",
+      "platform": "YouTube — a16z",
+      "title": "Technology & Market Analysis",
+      "url": "https://www.youtube.com/watch?v=P5iICDVn5gc",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "P5iICDVn5gc"
+    },
+    {
+      "subject": "C, C++ & Systems Programming",
+      "level": "Beginner/Intermediate",
+      "platform": "YouTube — mycodeschool",
+      "title": "C, C++ and Data Structures",
+      "url": "https://www.youtube.com/watch?v=k1wraWzqtvQ",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "k1wraWzqtvQ"
+    },
+    {
+      "subject": "C, C++ & Systems Programming",
+      "level": "Intermediate/Advanced",
+      "platform": "YouTube — The Cherno",
+      "title": "C++ Series",
+      "url": "https://www.youtube.com/watch?v=s0oN6Tx5Xxo",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "s0oN6Tx5Xxo"
+    },
+    {
+      "subject": "Calculus & Advanced Mathematics",
+      "level": "College",
+      "platform": "YouTube — MIT OpenCourseWare",
+      "title": "18.01 Single Variable Calculus (Lecture Videos)",
+      "url": "https://www.youtube.com/watch?v=0oykYip2vus",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "0oykYip2vus"
+    },
+    {
+      "subject": "Calculus & Advanced Mathematics",
+      "level": "College",
+      "platform": "YouTube — Dr. Trefor Bazett",
+      "title": "Calculus & Multivariable Calculus",
+      "url": "https://www.youtube.com/watch?v=CrVVsX3el8I",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "CrVVsX3el8I"
+    },
+    {
+      "subject": "Calculus & Advanced Mathematics",
+      "level": "College",
+      "platform": "YouTube — Professor Leonard",
+      "title": "Calculus 1, 2 and 3 — Full Lecture Series",
+      "url": "https://www.youtube.com/watch?v=1vH00iNHIA4",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "1vH00iNHIA4"
+    },
+    {
+      "subject": "Career, Interviews & Professional Skills",
+      "level": "Beginner",
+      "platform": "YouTube — Jeff Su",
+      "title": "Workplace & Career Communication Skills",
+      "url": "https://www.youtube.com/watch?v=cEEw1AbeysI",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "cEEw1AbeysI"
+    },
+    {
+      "subject": "Career, Interviews & Professional Skills",
+      "level": "High School / College",
+      "platform": "YouTube — NeetCode",
+      "title": "Coding Interview Preparation",
+      "url": "https://www.youtube.com/watch?v=bozpwivcZvs",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "bozpwivcZvs"
     },
     {
       "subject": "Chemistry",
@@ -4102,12 +4379,78 @@
     },
     {
       "subject": "Computer Science Fundamentals",
+      "level": "All Levels",
+      "platform": "YouTube — Computerphile",
+      "title": "Core CS Concepts with Researchers",
+      "url": "https://www.youtube.com/watch?v=pg7fntKLNak",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "pg7fntKLNak"
+    },
+    {
+      "subject": "Computer Science Fundamentals",
+      "level": "Beginner",
+      "platform": "YouTube — CS50 (Harvard)",
+      "title": "CS50x — Introduction to Computer Science",
+      "url": "https://www.youtube.com/watch?v=0IjFxHxs88c",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "0IjFxHxs88c"
+    },
+    {
+      "subject": "Computer Science Fundamentals",
       "level": "College / University",
       "platform": "YouTube — CS50",
       "title": "CS50: Introduction to Computer Science",
       "url": "https://www.youtube.com/@cs50",
       "cost": "Free",
       "embeddable": false
+    },
+    {
+      "subject": "Computer Science Fundamentals",
+      "level": "High School Advanced / College",
+      "platform": "YouTube — Ben Eater",
+      "title": "Building an 8-Bit Computer from Scratch",
+      "url": "https://www.youtube.com/watch?v=3XDH-fZKnQk",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "3XDH-fZKnQk"
+    },
+    {
+      "subject": "Computer Vision",
+      "level": "High School / College",
+      "platform": "YouTube — Murtaza's Workshop",
+      "title": "OpenCV & Computer Vision Projects",
+      "url": "https://www.youtube.com/watch?v=E_zUoHGcxRE",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "E_zUoHGcxRE"
+    },
+    {
+      "subject": "Cybersecurity & Ethical Hacking",
+      "level": "Beginner",
+      "platform": "YouTube — Professor Messer",
+      "title": "Security+ / Network+ Certification Courses",
+      "url": "https://www.youtube.com/watch?v=JszMBuIovMw",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "JszMBuIovMw"
+    },
+    {
+      "subject": "Cybersecurity & Ethical Hacking",
+      "level": "High School / College",
+      "platform": "YouTube — John Hammond",
+      "title": "CTF Walkthroughs & Malware Analysis",
+      "url": "https://www.youtube.com/watch?v=SjT-_Rw9Gqc",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "SjT-_Rw9Gqc"
     },
     {
       "subject": "Data Engineering & Big Data",
@@ -4128,6 +4471,50 @@
       "embeddable": false
     },
     {
+      "subject": "Data Science & Analytics",
+      "level": "Beginner",
+      "platform": "YouTube — Ken Jee",
+      "title": "Data Science Career & Projects",
+      "url": "https://www.youtube.com/watch?v=3CRBW-0PuqA",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "3CRBW-0PuqA"
+    },
+    {
+      "subject": "Data Science & Analytics",
+      "level": "High School / College",
+      "platform": "YouTube — Data School",
+      "title": "pandas Deep Dives",
+      "url": "https://www.youtube.com/watch?v=DJZVAcwc4DI",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "DJZVAcwc4DI"
+    },
+    {
+      "subject": "Data Structures & Algorithms",
+      "level": "High School / College",
+      "platform": "YouTube — Striver / take U forward",
+      "title": "DSA Sheet Full Series",
+      "url": "https://www.youtube.com/watch?v=LX00L2gDoow",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "LX00L2gDoow"
+    },
+    {
+      "subject": "Data Structures & Algorithms",
+      "level": "Intermediate/Advanced",
+      "platform": "YouTube — Abdul Bari",
+      "title": "Algorithms — Full Course",
+      "url": "https://www.youtube.com/watch?v=rOocMVYI6Zs",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "rOocMVYI6Zs"
+    },
+    {
       "subject": "Databases & SQL",
       "level": "All Levels",
       "platform": "YouTube — Socratica",
@@ -4135,6 +4522,28 @@
       "url": "https://www.youtube.com/@socratica",
       "cost": "Free",
       "embeddable": false
+    },
+    {
+      "subject": "Databases & SQL",
+      "level": "Beginner",
+      "platform": "YouTube — Programming with Mosh",
+      "title": "MySQL Complete Course",
+      "url": "https://www.youtube.com/watch?v=QuzttTTLyMk",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "QuzttTTLyMk"
+    },
+    {
+      "subject": "Databases & SQL",
+      "level": "College",
+      "platform": "YouTube — Neso Academy",
+      "title": "DBMS Full Course",
+      "url": "https://www.youtube.com/watch?v=2cNuLDUAcRg",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "2cNuLDUAcRg"
     },
     {
       "subject": "Deep Learning & Neural Networks",
@@ -4146,6 +4555,83 @@
       "embeddable": false
     },
     {
+      "subject": "Deep Learning & Neural Networks",
+      "level": "High School Advanced / College",
+      "platform": "YouTube — Andrej Karpathy",
+      "title": "Neural Networks: Zero to Hero",
+      "url": "https://www.youtube.com/watch?v=EWvNQjAaOHw",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "EWvNQjAaOHw"
+    },
+    {
+      "subject": "Deep Learning & Neural Networks",
+      "level": "High School Advanced / College",
+      "platform": "YouTube — Umar Jamil",
+      "title": "Transformers, LoRA, RLHF from Scratch",
+      "url": "https://www.youtube.com/watch?v=BA6F8uYFPvM",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "BA6F8uYFPvM"
+    },
+    {
+      "subject": "Design — UI/UX & Graphic Design",
+      "level": "Beginner",
+      "platform": "YouTube — Figma",
+      "title": "Official Figma Tutorials",
+      "url": "https://www.youtube.com/watch?v=hfyEr4qGkhk",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "hfyEr4qGkhk"
+    },
+    {
+      "subject": "Design — UI/UX & Graphic Design",
+      "level": "High School / College",
+      "platform": "YouTube — The Futur",
+      "title": "Design Business, Branding & Typography",
+      "url": "https://www.youtube.com/watch?v=BeYH1Y_vheI",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "BeYH1Y_vheI"
+    },
+    {
+      "subject": "DevOps, Cloud & Containers",
+      "level": "High School / College",
+      "platform": "YouTube — TechWorld with Nana",
+      "title": "DevOps Bootcamp — Docker, Kubernetes, CI/CD",
+      "url": "https://www.youtube.com/watch?v=4TXpQnqLvLE",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "4TXpQnqLvLE"
+    },
+    {
+      "subject": "DevOps, Cloud & Containers",
+      "level": "High School / College",
+      "platform": "YouTube — Google Cloud Tech",
+      "title": "Official GCP Tutorials",
+      "url": "https://www.youtube.com/watch?v=BFtkDiJYYHk",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "BFtkDiJYYHk"
+    },
+    {
+      "subject": "Earth, Environmental & Climate Science",
+      "level": "Elementary–Middle School",
+      "platform": "YouTube — MinuteEarth",
+      "title": "Earth Systems Short Explainers",
+      "url": "https://www.youtube.com/watch?v=OqWEFV87urg",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "OqWEFV87urg"
+    },
+    {
       "subject": "Electronics & Circuit Theory",
       "level": "College / University",
       "platform": "YouTube — ALL ABOUT ELECTRONICS",
@@ -4153,6 +4639,17 @@
       "url": "https://www.youtube.com/@ALLABOUTELECTRONICS",
       "cost": "Free",
       "embeddable": false
+    },
+    {
+      "subject": "Electronics & Circuit Theory",
+      "level": "High School Advanced / College",
+      "platform": "YouTube — EEVblog",
+      "title": "Test Equipment & Electronics Engineering",
+      "url": "https://www.youtube.com/watch?v=nNTaLhJzw14",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "nNTaLhJzw14"
     },
     {
       "subject": "English",
@@ -4436,6 +4933,28 @@
       "embeddable": false
     },
     {
+      "subject": "English Language & Grammar (ESL)",
+      "level": "All Levels",
+      "platform": "YouTube — BBC Learning English",
+      "title": "English Grammar & Vocabulary Courses",
+      "url": "https://www.youtube.com/watch?v=tRM2teDhiPM",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "tRM2teDhiPM"
+    },
+    {
+      "subject": "English Language & Grammar (ESL)",
+      "level": "High School / College",
+      "platform": "YouTube — mmmEnglish",
+      "title": "Grammar, Fluency & Speaking Practice",
+      "url": "https://www.youtube.com/watch?v=xgSIO5QV2C8",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "xgSIO5QV2C8"
+    },
+    {
       "subject": "Environmental Law & Policy",
       "level": "All Levels",
       "platform": "YouTube — Our Changing Climate",
@@ -4452,6 +4971,116 @@
       "url": "https://www.youtube.com/results?search_query=Kimberly+Nicholas+Climate+Policy+%26+Science+Communication",
       "cost": "Free",
       "embeddable": false
+    },
+    {
+      "subject": "Excel, Spreadsheets & Business Tools",
+      "level": "High School / College",
+      "platform": "YouTube — Chandoo",
+      "title": "Excel Dashboards & Data Analysis",
+      "url": "https://www.youtube.com/watch?v=Q3oqqYQz2gM",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "Q3oqqYQz2gM"
+    },
+    {
+      "subject": "Finance, Accounting & Investing",
+      "level": "High School Advanced / College",
+      "platform": "YouTube — Aswath Damodaran",
+      "title": "Valuation & Corporate Finance (NYU lectures)",
+      "url": "https://www.youtube.com/watch?v=dNEWqinHrW8",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "dNEWqinHrW8"
+    },
+    {
+      "subject": "Frontend Frameworks (React, Next.js, Vue)",
+      "level": "High School Advanced / College",
+      "platform": "YouTube — Jack Herrington",
+      "title": "Advanced React Patterns",
+      "url": "https://www.youtube.com/watch?v=2aKGR4RECj0",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "2aKGR4RECj0"
+    },
+    {
+      "subject": "GRE, GMAT & Graduate Admissions Tests",
+      "level": "Exam Prep",
+      "platform": "YouTube — Magoosh",
+      "title": "GRE & GMAT Lessons",
+      "url": "https://www.youtube.com/watch?v=lH6FFVl0pY8",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "lH6FFVl0pY8"
+    },
+    {
+      "subject": "Game Development",
+      "level": "High School / College",
+      "platform": "YouTube — Unreal Engine",
+      "title": "Official Unreal Learning Content",
+      "url": "https://www.youtube.com/watch?v=VxX1aah6TZM",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "VxX1aah6TZM"
+    },
+    {
+      "subject": "Game Development",
+      "level": "High School Advanced / College",
+      "platform": "YouTube — Sebastian Lague",
+      "title": "Coding Adventures (procedural generation, AI)",
+      "url": "https://www.youtube.com/watch?v=_JGMgpyCTsY",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "_JGMgpyCTsY"
+    },
+    {
+      "subject": "Geography & Geopolitics",
+      "level": "All Levels",
+      "platform": "YouTube — CGP Grey",
+      "title": "Systems, Borders & Politics Explained",
+      "url": "https://www.youtube.com/watch?v=HSRmfNDk87s",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "HSRmfNDk87s"
+    },
+    {
+      "subject": "Health, Fitness & Wellbeing",
+      "level": "Beginner",
+      "platform": "YouTube — Yoga With Adriene",
+      "title": "Yoga for All Levels",
+      "url": "https://www.youtube.com/watch?v=7ZQr_Um3Wlk",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "7ZQr_Um3Wlk"
+    },
+    {
+      "subject": "History",
+      "level": "All Levels",
+      "platform": "YouTube — OverSimplified",
+      "title": "Major Wars & Events Explained",
+      "url": "https://www.youtube.com/watch?v=1BVJzaXv3rk",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "1BVJzaXv3rk"
+    },
+    {
+      "subject": "History",
+      "level": "All Levels",
+      "platform": "YouTube — Historia Civilis",
+      "title": "Roman & Classical History",
+      "url": "https://www.youtube.com/watch?v=872JcpP3FEM",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "872JcpP3FEM"
     },
     {
       "subject": "IELTS",
@@ -4652,6 +5281,28 @@
       "embeddable": false
     },
     {
+      "subject": "IELTS Preparation",
+      "level": "Exam Prep",
+      "platform": "YouTube — E2 IELTS",
+      "title": "IELTS Full Preparation — All Four Skills",
+      "url": "https://www.youtube.com/watch?v=FMzYOyd90UU",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "FMzYOyd90UU"
+    },
+    {
+      "subject": "IELTS Preparation",
+      "level": "Exam Prep",
+      "platform": "YouTube — British Council",
+      "title": "Official IELTS Preparation Videos",
+      "url": "https://www.youtube.com/watch?v=IbTB4REtrmI",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "IbTB4REtrmI"
+    },
+    {
       "subject": "Investing & Personal Finance",
       "level": "All Levels",
       "platform": "YouTube — Ben Felix",
@@ -4697,6 +5348,17 @@
       "embeddable": false
     },
     {
+      "subject": "Java Programming",
+      "level": "High School / College",
+      "platform": "YouTube — Coding with John",
+      "title": "Java Concepts Explained",
+      "url": "https://www.youtube.com/watch?v=yg_UPwSD3-U",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "yg_UPwSD3-U"
+    },
+    {
       "subject": "Journalism & Media Literacy",
       "level": "All Levels",
       "platform": "YouTube — Johnny Harris",
@@ -4724,6 +5386,39 @@
       "embeddable": false
     },
     {
+      "subject": "Languages (Spanish, French, German, Japanese, Arabic)",
+      "level": "Beginner",
+      "platform": "YouTube — Easy German",
+      "title": "German Conversation & Grammar",
+      "url": "https://www.youtube.com/watch?v=uBDIHuMJSe0",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "uBDIHuMJSe0"
+    },
+    {
+      "subject": "Large Language Models & Generative AI",
+      "level": "Beginner/Intermediate",
+      "platform": "YouTube — DeepLearning.AI",
+      "title": "Short Courses: Prompting, RAG, Agents, LangChain",
+      "url": "https://www.youtube.com/watch?v=xUXJuPC7gz0",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "xUXJuPC7gz0"
+    },
+    {
+      "subject": "Large Language Models & Generative AI",
+      "level": "Beginner/Intermediate",
+      "platform": "YouTube — 3Blue1Brown",
+      "title": "Transformers & Attention Visualised",
+      "url": "https://www.youtube.com/watch?v=6XPlmCDNLNc",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "6XPlmCDNLNc"
+    },
+    {
       "subject": "Law School Admissions & LSAT",
       "level": "All Levels",
       "platform": "YouTube — LSATMax",
@@ -4740,6 +5435,50 @@
       "url": "https://www.youtube.com/@7sagelsat",
       "cost": "Free",
       "embeddable": false
+    },
+    {
+      "subject": "Life Skills, Cooking & Practical Knowledge",
+      "level": "Beginner",
+      "platform": "YouTube — Joshua Weissman",
+      "title": "Cooking Fundamentals & Recipes",
+      "url": "https://www.youtube.com/watch?v=iLe2PLFdIgY",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "iLe2PLFdIgY"
+    },
+    {
+      "subject": "Linear Algebra",
+      "level": "High School Advanced / College",
+      "platform": "YouTube — Steve Brunton",
+      "title": "Linear Algebra & Singular Value Decomposition",
+      "url": "https://www.youtube.com/watch?v=eUhnyZ--kGY",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "eUhnyZ--kGY"
+    },
+    {
+      "subject": "Machine Learning",
+      "level": "High School Advanced / College",
+      "platform": "YouTube — Stanford Online",
+      "title": "CS229 — Machine Learning (full lectures)",
+      "url": "https://www.youtube.com/watch?v=ZXMThMHFD_w",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "ZXMThMHFD_w"
+    },
+    {
+      "subject": "Marketing & Growth",
+      "level": "Beginner",
+      "platform": "YouTube — Neil Patel",
+      "title": "Digital Marketing Tactics",
+      "url": "https://www.youtube.com/watch?v=bx_8y4WkmCA",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "bx_8y4WkmCA"
     },
     {
       "subject": "Math",
@@ -5238,12 +5977,56 @@
     },
     {
       "subject": "Mathematics — Foundations & Arithmetic",
+      "level": "All Levels",
+      "platform": "YouTube — Numberphile",
+      "title": "Numbers & Number Theory Playlist",
+      "url": "https://www.youtube.com/watch?v=0aTUTxOiRgU",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "0aTUTxOiRgU"
+    },
+    {
+      "subject": "Mathematics — Foundations & Arithmetic",
+      "level": "Elementary–Middle School",
+      "platform": "YouTube — Khan Academy",
+      "title": "Arithmetic Word Problems & Ratios",
+      "url": "https://www.youtube.com/watch?v=W6HDsxbHfO0",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "W6HDsxbHfO0"
+    },
+    {
+      "subject": "Mathematics — Foundations & Arithmetic",
+      "level": "Elementary–Middle School",
+      "platform": "YouTube — Math Antics",
+      "title": "Basic Math Full Playlist (fractions, decimals, percentages)",
+      "url": "https://www.youtube.com/watch?v=pWJzqTYS8no",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "pWJzqTYS8no"
+    },
+    {
+      "subject": "Mathematics — Foundations & Arithmetic",
       "level": "Elementary–Middle School",
       "platform": "YouTube — Mathantics (Español)",
       "title": "Basic Math en Español",
       "url": "https://www.youtube.com/results?search_query=Mathantics+%28Espa%C3%B1ol%29+Basic+Math+en+Espa%C3%B1ol",
       "cost": "Free",
       "embeddable": false
+    },
+    {
+      "subject": "Mechanical, Civil & General Engineering",
+      "level": "All Levels",
+      "platform": "YouTube — Real Engineering",
+      "title": "Applied Engineering Case Studies",
+      "url": "https://www.youtube.com/watch?v=UiPJbxryrkU",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "UiPJbxryrkU"
     },
     {
       "subject": "Meditation, Mindfulness & Mental Health",
@@ -5273,6 +6056,39 @@
       "embeddable": false
     },
     {
+      "subject": "Mobile App Development",
+      "level": "High School / College",
+      "platform": "YouTube — Philipp Lackner",
+      "title": "Android Development with Kotlin & Jetpack Compose",
+      "url": "https://www.youtube.com/watch?v=svQAKu30C18",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "svQAKu30C18"
+    },
+    {
+      "subject": "Mobile App Development",
+      "level": "High School / College",
+      "platform": "YouTube — Academind",
+      "title": "React Native Complete Guide",
+      "url": "https://www.youtube.com/watch?v=G-v1hkQ8Sf8",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "G-v1hkQ8Sf8"
+    },
+    {
+      "subject": "Mobile App Development",
+      "level": "High School / College",
+      "platform": "YouTube — Sean Allen",
+      "title": "iOS & Swift Development",
+      "url": "https://www.youtube.com/watch?v=Q3tPGesg_e8",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "Q3tPGesg_e8"
+    },
+    {
       "subject": "Music Theory & Instruments",
       "level": "All Levels",
       "platform": "YouTube — Music Theory for Musicians and Normal People",
@@ -5280,6 +6096,39 @@
       "url": "https://www.youtube.com/@musictheoryformusicians",
       "cost": "Free",
       "embeddable": false
+    },
+    {
+      "subject": "Music Theory & Instruments",
+      "level": "High School / College",
+      "platform": "YouTube — Andrew Huang",
+      "title": "Music Production & Sound Design",
+      "url": "https://www.youtube.com/watch?v=ptZ6KkIySlk",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "ptZ6KkIySlk"
+    },
+    {
+      "subject": "Music Theory & Instruments",
+      "level": "High School / College",
+      "platform": "YouTube — Rick Beato",
+      "title": "Music Theory & Ear Training",
+      "url": "https://www.youtube.com/watch?v=KY3cOCWXpwg",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "KY3cOCWXpwg"
+    },
+    {
+      "subject": "Networking & IT Infrastructure",
+      "level": "Beginner",
+      "platform": "YouTube — NetworkChuck",
+      "title": "Networking Fundamentals & CCNA",
+      "url": "https://www.youtube.com/watch?v=a3RI4DjFBzw",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "a3RI4DjFBzw"
     },
     {
       "subject": "Nutrition Science",
@@ -5309,6 +6158,28 @@
       "embeddable": false
     },
     {
+      "subject": "Other Languages (C#, Rust, Go, Kotlin, PHP)",
+      "level": "High School / College",
+      "platform": "YouTube — IAmTimCorey",
+      "title": "C# and .NET Development",
+      "url": "https://www.youtube.com/watch?v=1edzGdmMRwI",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "1edzGdmMRwI"
+    },
+    {
+      "subject": "Other Languages (C#, Rust, Go, Kotlin, PHP)",
+      "level": "High School Advanced / College",
+      "platform": "YouTube — Jon Gjengset",
+      "title": "Rust Deep Dives (Crust of Rust)",
+      "url": "https://www.youtube.com/watch?v=bAINppA0BSU",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "bAINppA0BSU"
+    },
+    {
       "subject": "Parenting & Child Development",
       "level": "All Levels",
       "platform": "YouTube — Zero to Three",
@@ -5325,6 +6196,28 @@
       "url": "https://www.youtube.com/results?search_query=Janet+Lansbury+Respectful+Parenting+Fundamentals",
       "cost": "Free",
       "embeddable": false
+    },
+    {
+      "subject": "Philosophy & Critical Thinking",
+      "level": "All Levels",
+      "platform": "YouTube — The School of Life",
+      "title": "Applied Philosophy & Emotional Reasoning",
+      "url": "https://www.youtube.com/watch?v=eF2ZSd0fD3A",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "eF2ZSd0fD3A"
+    },
+    {
+      "subject": "Photography, Video & Content Creation",
+      "level": "High School / College",
+      "platform": "YouTube — Sean Tucker",
+      "title": "Photographic Philosophy & Composition",
+      "url": "https://www.youtube.com/watch?v=6s9tlYQM5wo",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "6s9tlYQM5wo"
     },
     {
       "subject": "Physics",
@@ -5635,6 +6528,39 @@
       "embeddable": false
     },
     {
+      "subject": "Physics — School & AP",
+      "level": "Elementary–Middle School",
+      "platform": "YouTube — Professor Dave Explains",
+      "title": "Physics Explained",
+      "url": "https://www.youtube.com/watch?v=SXm_Wd_DBIY",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "SXm_Wd_DBIY"
+    },
+    {
+      "subject": "Physics — School & AP",
+      "level": "School/College",
+      "platform": "YouTube — Michel van Biezen",
+      "title": "Physics — Mechanics, E&M, Optics",
+      "url": "https://www.youtube.com/watch?v=deRZbv3fkA8",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "deRZbv3fkA8"
+    },
+    {
+      "subject": "Physics — University & Theoretical",
+      "level": "All Levels",
+      "platform": "YouTube — Veritasium",
+      "title": "Physics Investigations & Misconceptions",
+      "url": "https://www.youtube.com/watch?v=J1WoNuemKOg",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "J1WoNuemKOg"
+    },
+    {
       "subject": "Physics — University & Theoretical",
       "level": "College / University",
       "platform": "YouTube — ScienceClic English",
@@ -5662,6 +6588,28 @@
       "embeddable": false
     },
     {
+      "subject": "Productivity, Study Skills & Learning How to Learn",
+      "level": "All Levels",
+      "platform": "YouTube — Thomas Frank",
+      "title": "Study Systems & Notion Workflows",
+      "url": "https://www.youtube.com/watch?v=vhqq4U3mnNQ",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "vhqq4U3mnNQ"
+    },
+    {
+      "subject": "Psychology & Behavioural Science",
+      "level": "All Levels",
+      "platform": "YouTube — Psych2Go",
+      "title": "Psychology Concepts Animated",
+      "url": "https://www.youtube.com/watch?v=4oA0vHbmrdw",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "4oA0vHbmrdw"
+    },
+    {
       "subject": "Public Health & Epidemiology",
       "level": "All Levels",
       "platform": "YouTube — World Health Organization (WHO)",
@@ -5687,6 +6635,17 @@
       "url": "https://www.youtube.com/@crashcourse",
       "cost": "Free",
       "embeddable": false
+    },
+    {
+      "subject": "Public Speaking & Communication",
+      "level": "High School / College",
+      "platform": "YouTube — Harvard Business Review",
+      "title": "Persuasion & Executive Presence",
+      "url": "https://www.youtube.com/watch?v=By3QJjokIcs",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "By3QJjokIcs"
     },
     {
       "subject": "Python",
@@ -5898,6 +6857,39 @@
       "embeddable": false
     },
     {
+      "subject": "Python Programming",
+      "level": "Beginner",
+      "platform": "YouTube — Bro Code",
+      "title": "Python Full Course",
+      "url": "https://www.youtube.com/watch?v=fPopFeqw5sk",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "fPopFeqw5sk"
+    },
+    {
+      "subject": "Python Programming",
+      "level": "Beginner/Intermediate",
+      "platform": "YouTube — Corey Schafer",
+      "title": "Python Tutorials — Full Playlist",
+      "url": "https://www.youtube.com/watch?v=tHh0UaL_V4w",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "tHh0UaL_V4w"
+    },
+    {
+      "subject": "Python Programming",
+      "level": "High School / College",
+      "platform": "YouTube — sentdex",
+      "title": "Python for Data, Automation & ML",
+      "url": "https://www.youtube.com/watch?v=H50xoAzNfB0",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "H50xoAzNfB0"
+    },
+    {
       "subject": "Real Estate & Property Investing",
       "level": "All Levels",
       "platform": "YouTube — BiggerPockets",
@@ -6060,6 +7052,17 @@
       "embeddable": false
     },
     {
+      "subject": "Robotics, Arduino & Embedded Systems",
+      "level": "High School / College",
+      "platform": "YouTube — DroneBot Workshop",
+      "title": "Arduino, ESP32 & Robotics Projects",
+      "url": "https://www.youtube.com/watch?v=-P2dN1GSKz0",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "-P2dN1GSKz0"
+    },
+    {
       "subject": "SAT",
       "level": "High School",
       "platform": "Khan Academy",
@@ -6178,6 +7181,17 @@
     },
     {
       "subject": "SAT & Digital SAT",
+      "level": "Exam Prep",
+      "platform": "YouTube — SupertutorTV",
+      "title": "Digital SAT Strategy & Full Walkthroughs",
+      "url": "https://www.youtube.com/watch?v=WBt--0FgQHg",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "WBt--0FgQHg"
+    },
+    {
+      "subject": "SAT & Digital SAT",
       "level": "High School",
       "platform": "YouTube — The College Panda",
       "title": "Digital SAT Math Strategies",
@@ -6247,6 +7261,28 @@
       "url": "https://www.youtube.com/@RenaissancePeriodization",
       "cost": "Free",
       "embeddable": false
+    },
+    {
+      "subject": "Statistics, Probability & Data Literacy",
+      "level": "College",
+      "platform": "YouTube — ritvikmath",
+      "title": "Statistics & Data Science Concepts",
+      "url": "https://www.youtube.com/watch?v=wi3-KO2X-T8",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "wi3-KO2X-T8"
+    },
+    {
+      "subject": "Statistics, Probability & Data Literacy",
+      "level": "Elementary–Middle School",
+      "platform": "YouTube — CrashCourse",
+      "title": "Crash Course Statistics (45 episodes)",
+      "url": "https://www.youtube.com/watch?v=xYKSKBcifaE",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "xYKSKBcifaE"
     },
     {
       "subject": "Supply Chain & Operations Management",
@@ -6364,6 +7400,39 @@
       "url": "https://www.youtube.com/@AdamCYounis",
       "cost": "Free",
       "embeddable": false
+    },
+    {
+      "subject": "Web Development — HTML, CSS & JavaScript",
+      "level": "Beginner",
+      "platform": "YouTube — Traversy Media",
+      "title": "Web Development Crash Courses",
+      "url": "https://www.youtube.com/watch?v=L4g6GGLzAyo",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "L4g6GGLzAyo"
+    },
+    {
+      "subject": "Web Development — HTML, CSS & JavaScript",
+      "level": "Beginner/Intermediate",
+      "platform": "YouTube — Kevin Powell",
+      "title": "CSS Mastery",
+      "url": "https://www.youtube.com/watch?v=wazlBxxTohA",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "wazlBxxTohA"
+    },
+    {
+      "subject": "Web Development — HTML, CSS & JavaScript",
+      "level": "High School / College",
+      "platform": "YouTube — JavaScript Mastery",
+      "title": "Full-Stack Project Builds",
+      "url": "https://www.youtube.com/watch?v=R-UbDa1oRto",
+      "cost": "Free",
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "R-UbDa1oRto"
     },
     {
       "subject": "Woodworking & DIY Craftsmanship",
