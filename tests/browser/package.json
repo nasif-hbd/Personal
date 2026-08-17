@@ -1,0 +1,14 @@
+{
+  "name": "mindora-browser-tests",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Playwright suites that drive the real Mindora UI.",
+  "scripts": {
+    "test": "node run.mjs",
+    "test:offline": "node run.mjs --no-api",
+    "list": "node run.mjs --list"
+  },
+  "devDependencies": {
+    "playwright": "^1.56.0"
+  }
+}

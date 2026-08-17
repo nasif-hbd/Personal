@@ -3,3 +3,5 @@ __pycache__/
 link-report.json
 server/*.db
 server/data_store/
+node_modules/
+tests/browser/screenshots/
