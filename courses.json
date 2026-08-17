@@ -113,7 +113,7 @@
       "Web Development — HTML, CSS & JavaScript": 6,
       "Woodworking & DIY Craftsmanship": 3
     },
-    "embeddable": 170,
+    "embeddable": 232,
     "paths": 10,
     "pathLessons": 121,
     "pathLessonsPlayable": 107
@@ -2443,9 +2443,11 @@
       "level": "All Levels",
       "platform": "YouTube — Maker's Muse",
       "title": "3D Printing Fundamentals",
-      "url": "https://www.youtube.com/@MakersMuse",
+      "url": "https://www.youtube.com/watch?v=EQGX1mmgyiA",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "EQGX1mmgyiA"
     },
     {
       "subject": "3D Printing & CAD Design",
@@ -2461,9 +2463,11 @@
       "level": "High School / College",
       "platform": "YouTube — CNC Kitchen",
       "title": "3D Printing Materials & Testing",
-      "url": "https://www.youtube.com/@CNCKitchen",
+      "url": "https://www.youtube.com/watch?v=sHLGrTBLxLg",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "sHLGrTBLxLg"
     },
     {
       "subject": "AI",
@@ -3248,18 +3252,22 @@
       "level": "All Levels",
       "platform": "YouTube — Justin Rhodes",
       "title": "Permaculture & Homestead Farming",
-      "url": "https://www.youtube.com/@JustinRhodes",
+      "url": "https://www.youtube.com/watch?v=7UjkKBlO-XM",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "7UjkKBlO-XM"
     },
     {
       "subject": "Agriculture & Sustainable Farming",
       "level": "All Levels",
       "platform": "YouTube — Epic Gardening",
       "title": "Sustainable Growing & Gardening Fundamentals",
-      "url": "https://www.youtube.com/@epicgardening",
+      "url": "https://www.youtube.com/watch?v=W7H7qkg-pQ0",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "W7H7qkg-pQ0"
     },
     {
       "subject": "Algebra & Pre-Calculus",
@@ -3401,27 +3409,33 @@
       "level": "All Levels",
       "platform": "YouTube — Bloop Animation",
       "title": "2D Animation Fundamentals",
-      "url": "https://www.youtube.com/@BloopAnimation",
+      "url": "https://www.youtube.com/watch?v=FHnD-m33mMc",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "FHnD-m33mMc"
     },
     {
       "subject": "Animation & Motion Graphics",
       "level": "All Levels",
       "platform": "YouTube — Alan Becker",
       "title": "Animation Principles Explained",
-      "url": "https://www.youtube.com/@alanbecker",
+      "url": "https://www.youtube.com/watch?v=C637UcpHfNY",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "C637UcpHfNY"
     },
     {
       "subject": "Animation & Motion Graphics",
       "level": "High School / College",
       "platform": "YouTube — School of Motion",
       "title": "Motion Graphics Fundamentals",
-      "url": "https://www.youtube.com/@SchoolofMotion",
+      "url": "https://www.youtube.com/watch?v=buKzLtYjBiI",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "buKzLtYjBiI"
     },
     {
       "subject": "Art, Drawing & 3D",
@@ -3559,36 +3573,44 @@
       "level": "All Levels",
       "platform": "YouTube — ChrisFix",
       "title": "Car Repair & Maintenance Basics",
-      "url": "https://www.youtube.com/@ChrisFix",
+      "url": "https://www.youtube.com/watch?v=m0EiNYvCSpE",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "m0EiNYvCSpE"
     },
     {
       "subject": "Automotive Repair & Mechanics",
       "level": "All Levels",
       "platform": "YouTube — Engineering Explained",
       "title": "How Cars Work",
-      "url": "https://www.youtube.com/@EngineeringExplained",
+      "url": "https://www.youtube.com/watch?v=UzbrnZ-zWkk",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "UzbrnZ-zWkk"
     },
     {
       "subject": "Aviation & Aerospace Engineering",
       "level": "All Levels",
       "platform": "YouTube — Mentour Pilot",
       "title": "Aviation & Flight Safety Explained",
-      "url": "https://www.youtube.com/@MentourPilot",
+      "url": "https://www.youtube.com/watch?v=7O1mVMnY0vc",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "7O1mVMnY0vc"
     },
     {
       "subject": "Aviation & Aerospace Engineering",
       "level": "All Levels",
       "platform": "YouTube — Everyday Astronaut",
       "title": "Rockets & Aerospace Engineering Explained",
-      "url": "https://www.youtube.com/@EverydayAstronaut",
+      "url": "https://www.youtube.com/watch?v=FQpSAWGgL7k",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "FQpSAWGgL7k"
     },
     {
       "subject": "Backend, APIs & System Design",
@@ -3642,9 +3664,11 @@
       "level": "College / University",
       "platform": "YouTube — Marginal Revolution University",
       "title": "Behavioral Economics Fundamentals",
-      "url": "https://www.youtube.com/@mruniversity",
+      "url": "https://www.youtube.com/watch?v=CwPdoCF67Yk",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "CwPdoCF67Yk"
     },
     {
       "subject": "Biology",
@@ -3868,9 +3892,11 @@
       "level": "All Levels",
       "platform": "YouTube — Shut Up & Sit Down",
       "title": "Board Game Strategy & Design",
-      "url": "https://www.youtube.com/@shutupandsitdown",
+      "url": "https://www.youtube.com/watch?v=8c-L4gLt1jU",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "8c-L4gLt1jU"
     },
     {
       "subject": "Board Games & Game Theory",
@@ -4352,45 +4378,55 @@
       "level": "All Levels",
       "platform": "YouTube — GothamChess",
       "title": "Chess Fundamentals & Openings",
-      "url": "https://www.youtube.com/@GothamChess",
+      "url": "https://www.youtube.com/watch?v=g0W1X63EgKQ",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "g0W1X63EgKQ"
     },
     {
       "subject": "Chess & Strategy Games",
       "level": "High School / College",
       "platform": "YouTube — Hanging Pawns",
       "title": "Chess Opening Theory",
-      "url": "https://www.youtube.com/@HangingPawns",
+      "url": "https://www.youtube.com/watch?v=CyDpcnaRpl8",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "CyDpcnaRpl8"
     },
     {
       "subject": "Chess & Strategy Games",
       "level": "High School / College",
       "platform": "YouTube — ChessNetwork",
       "title": "Chess Tactics & Endgames",
-      "url": "https://www.youtube.com/@ChessNetwork",
+      "url": "https://www.youtube.com/watch?v=-3-Cn8Y1R84",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "-3-Cn8Y1R84"
     },
     {
       "subject": "Chess & Strategy Games",
       "level": "High School / College",
       "platform": "YouTube — agadmator's Chess Channel",
       "title": "Grandmaster Game Analysis",
-      "url": "https://www.youtube.com/@agadmator",
+      "url": "https://www.youtube.com/watch?v=0W7Xfl8gpEs",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "0W7Xfl8gpEs"
     },
     {
       "subject": "Chess & Strategy Games",
       "level": "High School Advanced / College",
       "platform": "YouTube — Saint Louis Chess Club",
       "title": "Chess Lectures by Titled Players",
-      "url": "https://www.youtube.com/@STLChessClub",
+      "url": "https://www.youtube.com/watch?v=AbivSjdTZBc",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "AbivSjdTZBc"
     },
     {
       "subject": "Climate Solutions & Renewable Energy",
@@ -4406,18 +4442,22 @@
       "level": "All Levels",
       "platform": "YouTube — Just Have a Think",
       "title": "Renewable Energy & Climate Tech Explainers",
-      "url": "https://www.youtube.com/@JustHaveaThink",
+      "url": "https://www.youtube.com/watch?v=HPU6UDQYkR8",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "HPU6UDQYkR8"
     },
     {
       "subject": "Climate Solutions & Renewable Energy",
       "level": "All Levels",
       "platform": "YouTube — Our Changing Climate",
       "title": "Renewable Energy Explainers",
-      "url": "https://www.youtube.com/@OurChangingClimate",
+      "url": "https://www.youtube.com/watch?v=6ctwSjEVGwU",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "6ctwSjEVGwU"
     },
     {
       "subject": "Cloud Certifications (AWS, Azure, GCP)",
@@ -4433,9 +4473,11 @@
       "level": "All Levels",
       "platform": "YouTube — Google Cloud Tech",
       "title": "Google Cloud Fundamentals",
-      "url": "https://www.youtube.com/@googlecloudtech",
+      "url": "https://www.youtube.com/watch?v=FARxSG_EY98",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "FARxSG_EY98"
     },
     {
       "subject": "Cloud Certifications (AWS, Azure, GCP)",
@@ -4820,18 +4862,22 @@
       "level": "All Levels",
       "platform": "YouTube — CS Dojo",
       "title": "Coding Interview & Python Fundamentals",
-      "url": "https://www.youtube.com/@CSDojo",
+      "url": "https://www.youtube.com/watch?v=hiISl558JGE",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "hiISl558JGE"
     },
     {
       "subject": "Coding Interview Preparation",
       "level": "All Levels",
       "platform": "YouTube — Tech With Tim",
       "title": "Technical Interview Practice",
-      "url": "https://www.youtube.com/@TechWithTim",
+      "url": "https://www.youtube.com/watch?v=cHlmP4LYdPg",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "cHlmP4LYdPg"
     },
     {
       "subject": "Coding Interview Preparation",
@@ -4847,9 +4893,11 @@
       "level": "High School / College",
       "platform": "YouTube — Back To Back SWE",
       "title": "Data Structures Interview Deep Dives",
-      "url": "https://www.youtube.com/@BackToBackSWE",
+      "url": "https://www.youtube.com/watch?v=0K3h5MlIWu0",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "0K3h5MlIWu0"
     },
     {
       "subject": "Competitive Exams (JEE, NEET, Olympiads)",
@@ -5014,18 +5062,22 @@
       "level": "High School / College",
       "platform": "YouTube — Seattle Data Guy",
       "title": "Data Engineering & Analytics Careers",
-      "url": "https://www.youtube.com/@SeattleDataGuy",
+      "url": "https://www.youtube.com/watch?v=TwV9nIAWPso",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "TwV9nIAWPso"
     },
     {
       "subject": "Data Engineering & Big Data",
       "level": "High School / College",
       "platform": "YouTube — Andreas Kretz",
       "title": "Data Engineering Fundamentals",
-      "url": "https://www.youtube.com/@andreaskayy",
+      "url": "https://www.youtube.com/watch?v=-PHnR-KEHqE",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "-PHnR-KEHqE"
     },
     {
       "subject": "Data Science & Analytics",
@@ -5143,9 +5195,11 @@
       "level": "All Levels",
       "platform": "YouTube — Socratica",
       "title": "SQL Programming Tutorials",
-      "url": "https://www.youtube.com/@socratica",
+      "url": "https://www.youtube.com/watch?v=_P0-mENUv44",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "_P0-mENUv44"
     },
     {
       "subject": "Databases & SQL",
@@ -5472,9 +5526,11 @@
       "level": "College / University",
       "platform": "YouTube — ALL ABOUT ELECTRONICS",
       "title": "Circuit Theory Fundamentals",
-      "url": "https://www.youtube.com/@ALLABOUTELECTRONICS",
+      "url": "https://www.youtube.com/watch?v=OgdoRd1Hp3k",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "OgdoRd1Hp3k"
     },
     {
       "subject": "Electronics & Circuit Theory",
@@ -5546,9 +5602,11 @@
       "level": "All Levels",
       "platform": "YouTube — TED-Ed",
       "title": "Language, Writing & Rhetoric Shorts",
-      "url": "https://www.youtube.com/@TEDEd",
+      "url": "https://www.youtube.com/watch?v=2A1IEBFt6Xg",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "2A1IEBFt6Xg"
     },
     {
       "subject": "English",
@@ -6497,27 +6555,33 @@
       "level": "All Levels",
       "platform": "YouTube — The Plain Bagel",
       "title": "Investing Concepts Explained",
-      "url": "https://www.youtube.com/@ThePlainBagel",
+      "url": "https://www.youtube.com/watch?v=CqApXh80HVo",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "CqApXh80HVo"
     },
     {
       "subject": "Investing & Personal Finance",
       "level": "All Levels",
       "platform": "YouTube — Graham Stephan",
       "title": "Personal Finance & Real Estate Investing",
-      "url": "https://www.youtube.com/@GrahamStephan",
+      "url": "https://www.youtube.com/watch?v=h8dzH_ma8cQ",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "h8dzH_ma8cQ"
     },
     {
       "subject": "Investing & Personal Finance",
       "level": "All Levels",
       "platform": "YouTube — Two Cents",
       "title": "Personal Finance Fundamentals",
-      "url": "https://www.youtube.com/@TwoCentsPBS",
+      "url": "https://www.youtube.com/watch?v=PFi3T_OLtOE",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "PFi3T_OLtOE"
     },
     {
       "subject": "Investing & Personal Finance",
@@ -6555,18 +6619,22 @@
       "level": "All Levels",
       "platform": "YouTube — Johnny Harris",
       "title": "Explainer Journalism & Visual Storytelling",
-      "url": "https://www.youtube.com/@johnnyharris",
+      "url": "https://www.youtube.com/watch?v=XXpqejgnaB0",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "XXpqejgnaB0"
     },
     {
       "subject": "Journalism & Media Literacy",
       "level": "All Levels",
       "platform": "YouTube — Vox",
       "title": "Media Literacy & Explainer Journalism",
-      "url": "https://www.youtube.com/@Vox",
+      "url": "https://www.youtube.com/watch?v=QKMLQc_sQEU",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "QKMLQc_sQEU"
     },
     {
       "subject": "Journalism & Media Literacy",
@@ -6689,9 +6757,11 @@
       "level": "All Levels",
       "platform": "YouTube — 7Sage LSAT",
       "title": "LSAT Prep Fundamentals",
-      "url": "https://www.youtube.com/@7sagelsat",
+      "url": "https://www.youtube.com/watch?v=i1I9UPSNbf4",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "i1I9UPSNbf4"
     },
     {
       "subject": "Law, Government & Civics",
@@ -7522,27 +7592,33 @@
       "level": "All Levels",
       "platform": "YouTube — Headspace",
       "title": "Guided Meditation & Mindfulness Basics",
-      "url": "https://www.youtube.com/@Headspace",
+      "url": "https://www.youtube.com/watch?v=xLrJ9nbgq90",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "xLrJ9nbgq90"
     },
     {
       "subject": "Meditation, Mindfulness & Mental Health",
       "level": "All Levels",
       "platform": "YouTube — Great Meditation",
       "title": "Guided Meditation Sessions",
-      "url": "https://www.youtube.com/@GreatMeditation",
+      "url": "https://www.youtube.com/watch?v=Yomsn-nvcx8",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "Yomsn-nvcx8"
     },
     {
       "subject": "Meditation, Mindfulness & Mental Health",
       "level": "All Levels",
       "platform": "YouTube — Therapy in a Nutshell",
       "title": "Mental Health Skills Explained",
-      "url": "https://www.youtube.com/@TherapyinaNutshell",
+      "url": "https://www.youtube.com/watch?v=ShZKdJF95P8",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "ShZKdJF95P8"
     },
     {
       "subject": "Mobile App Development",
@@ -7604,9 +7680,11 @@
       "level": "All Levels",
       "platform": "YouTube — Music Theory for Musicians and Normal People",
       "title": "Music Theory Fundamentals",
-      "url": "https://www.youtube.com/@musictheoryformusicians",
+      "url": "https://www.youtube.com/watch?v=wsJteEhga34",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "wsJteEhga34"
     },
     {
       "subject": "Music Theory & Instruments",
@@ -7702,27 +7780,33 @@
       "level": "All Levels",
       "platform": "YouTube — Nutrition Made Simple!",
       "title": "Evidence-Based Nutrition Basics",
-      "url": "https://www.youtube.com/@NutritionMadeSimple",
+      "url": "https://www.youtube.com/watch?v=GpzX3NQzmio",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "GpzX3NQzmio"
     },
     {
       "subject": "Nutrition Science",
       "level": "All Levels",
       "platform": "YouTube — Dr. Layne Norton",
       "title": "Nutrition Science Explained",
-      "url": "https://www.youtube.com/@BioLayne",
+      "url": "https://www.youtube.com/watch?v=DFhpqZK4qP4",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "DFhpqZK4qP4"
     },
     {
       "subject": "Nutrition Science",
       "level": "High School Advanced / College",
       "platform": "YouTube — Physionic",
       "title": "Nutrition Research Breakdowns",
-      "url": "https://www.youtube.com/@physionic",
+      "url": "https://www.youtube.com/watch?v=STML7Yugs70",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "STML7Yugs70"
     },
     {
       "subject": "Organic Chemistry",
@@ -7807,9 +7891,11 @@
       "level": "All Levels",
       "platform": "YouTube — Zero to Three",
       "title": "Early Childhood Development",
-      "url": "https://www.youtube.com/@zerotothree",
+      "url": "https://www.youtube.com/watch?v=U0amG4rnc4o",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "U0amG4rnc4o"
     },
     {
       "subject": "Parenting & Child Development",
@@ -8438,9 +8524,11 @@
       "level": "All Levels",
       "platform": "YouTube — World Health Organization (WHO)",
       "title": "Epidemiology & Global Health Basics",
-      "url": "https://www.youtube.com/@who",
+      "url": "https://www.youtube.com/watch?v=VzaNRRoyE2s",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "VzaNRRoyE2s"
     },
     {
       "subject": "Public Health & Epidemiology",
@@ -8796,9 +8884,11 @@
       "level": "All Levels",
       "platform": "YouTube — BiggerPockets",
       "title": "Real Estate Investing Fundamentals",
-      "url": "https://www.youtube.com/@BiggerPockets",
+      "url": "https://www.youtube.com/watch?v=BILlkXCy8YI",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "BILlkXCy8YI"
     },
     {
       "subject": "Real Estate & Property Investing",
@@ -8958,9 +9048,11 @@
       "level": "All Levels",
       "platform": "YouTube — GreatScott!",
       "title": "Electronics & Arduino Projects",
-      "url": "https://www.youtube.com/@GreatScottLab",
+      "url": "https://www.youtube.com/watch?v=nnZVXshJH4c",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "nnZVXshJH4c"
     },
     {
       "subject": "Robotics, Arduino & Embedded Systems",
@@ -9202,9 +9294,11 @@
       "level": "All Levels",
       "platform": "YouTube — Professor Pincushion",
       "title": "Sewing Fundamentals",
-      "url": "https://www.youtube.com/@ProfessorPincushion",
+      "url": "https://www.youtube.com/watch?v=VdrDP3Wuw-Q",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "VdrDP3Wuw-Q"
     },
     {
       "subject": "Sign Language (ASL) & Accessibility",
@@ -9220,36 +9314,44 @@
       "level": "All Levels",
       "platform": "YouTube — Bill Vicars (ASL University)",
       "title": "American Sign Language Full Course",
-      "url": "https://www.youtube.com/@billvicars",
+      "url": "https://www.youtube.com/watch?v=CzuQ-1wKLAo",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "CzuQ-1wKLAo"
     },
     {
       "subject": "Sports Science & Coaching",
       "level": "All Levels",
       "platform": "YouTube — The Coaching Manual",
       "title": "Coaching Methodology Fundamentals",
-      "url": "https://www.youtube.com/@TheCoachingManual",
+      "url": "https://www.youtube.com/watch?v=lpmosBUr3Ko",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "lpmosBUr3Ko"
     },
     {
       "subject": "Sports Science & Coaching",
       "level": "All Levels",
       "platform": "YouTube — Jeff Nippard",
       "title": "Sports Performance & Strength Training Science",
-      "url": "https://www.youtube.com/@JeffNippard",
+      "url": "https://www.youtube.com/watch?v=-jB386MYxbc",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "-jB386MYxbc"
     },
     {
       "subject": "Sports Science & Coaching",
       "level": "High School Advanced / College",
       "platform": "YouTube — Renaissance Periodization",
       "title": "Sports Science & Training Theory",
-      "url": "https://www.youtube.com/@RenaissancePeriodization",
+      "url": "https://www.youtube.com/watch?v=6x94QcfH_Dw",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "6x94QcfH_Dw"
     },
     {
       "subject": "Statistics, Probability & Data Literacy",
@@ -9361,18 +9463,22 @@
       "level": "Elementary–Middle School",
       "platform": "YouTube — GCFLearnFree",
       "title": "Computer Basics & Digital Literacy",
-      "url": "https://www.youtube.com/@gcflearnfree",
+      "url": "https://www.youtube.com/watch?v=d5LPfzB9nxU",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "d5LPfzB9nxU"
     },
     {
       "subject": "Typing, Computer Literacy & Office Basics",
       "level": "Elementary–Middle School",
       "platform": "YouTube — TutorialsPoint",
       "title": "Computer Fundamentals for Beginners",
-      "url": "https://www.youtube.com/@tutorialspoint",
+      "url": "https://www.youtube.com/watch?v=wCaQb-4LYzM",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "wCaQb-4LYzM"
     },
     {
       "subject": "UX Research & Product Design",
@@ -9388,45 +9494,55 @@
       "level": "High School / College",
       "platform": "YouTube — AJ&Smart",
       "title": "Design Sprint & UX Methods",
-      "url": "https://www.youtube.com/@ajsmart",
+      "url": "https://www.youtube.com/watch?v=PTbTeySfTJc",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "PTbTeySfTJc"
     },
     {
       "subject": "UX Research & Product Design",
       "level": "High School / College",
       "platform": "YouTube — NNgroup",
       "title": "UX Research Methods",
-      "url": "https://www.youtube.com/@NNgroup",
+      "url": "https://www.youtube.com/watch?v=K2msFNTx_k0",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "K2msFNTx_k0"
     },
     {
       "subject": "Urban Planning & Architecture",
       "level": "All Levels",
       "platform": "YouTube — RMTransit",
       "title": "Public Transit & City Design",
-      "url": "https://www.youtube.com/@RMTransit",
+      "url": "https://www.youtube.com/watch?v=wgAlgu7BCoI",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "wgAlgu7BCoI"
     },
     {
       "subject": "Urban Planning & Architecture",
       "level": "All Levels",
       "platform": "YouTube — Not Just Bikes",
       "title": "Urban Planning Explained",
-      "url": "https://www.youtube.com/@NotJustBikes",
+      "url": "https://www.youtube.com/watch?v=E_SJ1NBMrH0",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "E_SJ1NBMrH0"
     },
     {
       "subject": "Urban Planning & Architecture",
       "level": "All Levels",
       "platform": "YouTube — City Beautiful",
       "title": "Urban Planning Fundamentals",
-      "url": "https://www.youtube.com/@CityBeautiful",
+      "url": "https://www.youtube.com/watch?v=HqHt7VdusAI",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "HqHt7VdusAI"
     },
     {
       "subject": "Video Game Design & Narrative",
@@ -9442,18 +9558,22 @@
       "level": "All Levels",
       "platform": "YouTube — Extra Credits",
       "title": "Game Design & Narrative Fundamentals",
-      "url": "https://www.youtube.com/@extracredits",
+      "url": "https://www.youtube.com/watch?v=FseRp9Y2MR4",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "FseRp9Y2MR4"
     },
     {
       "subject": "Video Game Design & Narrative",
       "level": "High School / College",
       "platform": "YouTube — AdamCYounis",
       "title": "Character & Environment Art for Games",
-      "url": "https://www.youtube.com/@AdamCYounis",
+      "url": "https://www.youtube.com/watch?v=8KM7pOIf0bc",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "8KM7pOIf0bc"
     },
     {
       "subject": "Web Development — HTML, CSS & JavaScript",
@@ -9524,18 +9644,22 @@
       "level": "All Levels",
       "platform": "YouTube — Fix This Build That",
       "title": "Beginner Woodworking Projects",
-      "url": "https://www.youtube.com/@FixThisBuildThat",
+      "url": "https://www.youtube.com/watch?v=DzmPxDDiyFI",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "DzmPxDDiyFI"
     },
     {
       "subject": "Woodworking & DIY Craftsmanship",
       "level": "All Levels",
       "platform": "YouTube — This Old House",
       "title": "Home Improvement & Carpentry Basics",
-      "url": "https://www.youtube.com/@thisoldhouse",
+      "url": "https://www.youtube.com/watch?v=jFIYpz1wirU",
       "cost": "Free",
-      "embeddable": false
+      "embeddable": true,
+      "embedKind": "video",
+      "embedId": "jFIYpz1wirU"
     },
     {
       "subject": "Woodworking & DIY Craftsmanship",
