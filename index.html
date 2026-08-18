@@ -1308,6 +1308,11 @@ label:not(.btn):not(.watch-done-toggle):not(.quiz-opt){
 .row > .field{flex:1;}
 
 .chip-row{display:flex; flex-wrap:wrap; gap:9px;}
+/* The catalog's subject list grew past a hundred entries this session -
+ * left unbounded, that's 8+ rows of chips a visitor has to scroll past
+ * before seeing a single course. Cap it to roughly 3 rows and let it
+ * scroll internally instead of pushing all the real content down. */
+.chip-row-catalog{max-height:118px; overflow-y:auto; padding-right:2px;}
 .chip{
   padding:7px 14px; border-radius:99px; border:1px solid var(--line); background:var(--surface);
   color:var(--text-dim); font-size:12.5px; cursor:pointer; font-weight:500;
@@ -5513,8 +5518,15 @@ function renderClassCard(plan, c){
   // The embedded player may only be a stand-in, so keep the lesson's real
   // resource one click away whenever it isn't what's playing.
   const emb = getYtEmbed(c);
+  // Embeddable resources already play in the app; a resourceUrl that
+  // never resolves to a real embed (Khan Academy, Coursera, edX, ...) gets
+  // the popup mini-player instead of a plain new-tab link, since the site
+  // will never actually load inside the app's own player either way.
   const openExternal = (c.resourceUrl && (!emb || emb.isAlt))
-    ? `<a class="btn small" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open ${icon("external","ic-sm")}</a>` : "";
+    ? (emb
+        ? `<a class="btn small" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open ${icon("external","ic-sm")}</a>`
+        : `<button class="btn small" data-action="watch-popup" data-url="${escapeHtml(c.resourceUrl)}" data-title="${escapeHtml(c.title)}" title="Doesn't allow embedding — opens in a small window instead">${icon("play","ic-sm")} Watch</button>`)
+    : "";
   const attachBtn = (!media && c.type !== "rest")
     ? `<button class="btn small" data-action="attach-video" data-plan="${plan.id}" data-class="${c.id}" title="Pick a YouTube video to watch here">${icon("plus","ic-sm")} Video</button>` : "";
   const noteCount = classNotes(c).length;
@@ -6160,8 +6172,15 @@ function renderTodayClass(it){
   // The embedded player may only be a stand-in, so keep the lesson's real
   // resource one click away whenever it isn't what's playing.
   const emb = getYtEmbed(c);
+  // Embeddable resources already play in the app; a resourceUrl that
+  // never resolves to a real embed (Khan Academy, Coursera, edX, ...) gets
+  // the popup mini-player instead of a plain new-tab link, since the site
+  // will never actually load inside the app's own player either way.
   const openExternal = (c.resourceUrl && (!emb || emb.isAlt))
-    ? `<a class="btn small" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open ${icon("external","ic-sm")}</a>` : "";
+    ? (emb
+        ? `<a class="btn small" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open ${icon("external","ic-sm")}</a>`
+        : `<button class="btn small" data-action="watch-popup" data-url="${escapeHtml(c.resourceUrl)}" data-title="${escapeHtml(c.title)}" title="Doesn't allow embedding — opens in a small window instead">${icon("play","ic-sm")} Watch</button>`)
+    : "";
   return `
     <div class="class-card" data-card="${c.id}">
       <input type="checkbox" class="chk" ${c.done?'checked':''} data-action="toggle-class-done" data-plan="${plan.id}" data-class="${c.id}" title="Mark done">
@@ -7148,6 +7167,7 @@ document.addEventListener("click", e=>{
   }
   else if(act==="add-featured-path"){ addFeaturedPlan(action.dataset.path); }
   else if(act==="play-inline"){ playInline(action.dataset.plan, action.dataset.class); }
+  else if(act==="watch-popup"){ openMiniPlayer(action.dataset.url, action.dataset.title); }
   else if(act==="attach-video"){ openAttachVideoModal(action.dataset.plan, action.dataset.class); }
   else if(act==="edit-lesson"){ openEditLessonModal(action.dataset.plan, action.dataset.class); }
   else if(act==="add-lesson"){ addLessonToDay(action.dataset.plan, action.dataset.week, action.dataset.day); }
@@ -7427,7 +7447,7 @@ function renderCatalog(container){
     <div class="field" style="max-width:460px;">
       <input type="text" id="catalogSearch" placeholder="Search by title, platform or level…" value="${escapeHtml(catalogQuery)}">
     </div>
-    <div class="chip-row" style="margin-bottom:20px;">
+    <div class="chip-row chip-row-catalog" style="margin-bottom:20px;">
       <span class="chip ${catalogSubject===''?'selected':''}" data-action="catalog-subject" data-subject="" tabindex="0" role="button">All</span>
       ${subjects.map(s=>`<span class="chip ${catalogSubject===s?'selected':''}" data-action="catalog-subject" data-subject="${escapeHtml(s)}" tabindex="0" role="button">${escapeHtml(s)}</span>`).join("")}
     </div>
@@ -7858,6 +7878,31 @@ async function playInline(planId, classId){
   renderView();
 }
 
+/* A site that sends X-Frame-Options: DENY (Khan Academy, Coursera, edX,
+ * MIT OpenCourseWare and most others) refuses to render inside an iframe
+ * at all — that is a browser security header, and no amount of CSS
+ * cropping or "cut to just the video" resizing changes it; the frame
+ * stays blank regardless of its size. A popup window is a genuinely
+ * different, legitimate mechanism: it is its own top-level browsing
+ * context, so the site loads exactly as it would in a normal tab, just
+ * in a small fixed-size window instead of taking over the screen. */
+function openMiniPlayer(url, title){
+  if(!url) return;
+  const w = 900, h = 640;
+  const left = Math.max(0, Math.round(((screen.width||w) - w) / 2));
+  const top = Math.max(0, Math.round(((screen.height||h) - h) / 2));
+  const features = `width=${w},height=${h},left=${left},top=${top},noopener,noreferrer,resizable=yes,scrollbars=yes`;
+  const win = window.open(url, "mindora_mini_player", features);
+  if(!win){
+    // Popup blocked by the browser — fall back to a normal tab so the
+    // click still does something, and say why.
+    window.open(url, "_blank", "noopener,noreferrer");
+    toast("Your browser blocked the popup — opened a new tab instead.", "error");
+  } else {
+    win.focus();
+  }
+}
+
 function patchDoneInPlace(checkbox, cls, plan){
   syncDoneUI(checkbox.dataset.class, plan, cls.done);
 }
@@ -7938,7 +7983,13 @@ function renderWatchModal(planId, ctx, yt, resolving){
     playerBlock = `<div class="watch-noplayer">
       <p>${c.type==="video" ? "Couldn't find an embeddable video for this lesson." : "This lesson doesn't have an embeddable video."}</p>
       ${!ytLookupAvailable() && c.type==="video" ? `<p style="font-size:12px;">Connect a server (or add a YouTube API key in Settings) so Mindora can always find the exact video.</p>` : ""}
-      ${c.resourceUrl ? `<a class="btn primary" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open resource ${icon("external","ic-sm")}</a>` : ""}
+      ${c.resourceUrl ? `
+        <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center;">
+          <button class="btn primary" data-action="watch-popup" data-url="${escapeHtml(c.resourceUrl)}" data-title="${escapeHtml(c.title)}">
+            ${icon("play","ic-sm")} Watch in a small window</button>
+          <a class="btn small" href="${escapeHtml(c.resourceUrl)}" target="_blank" rel="noopener">Open in a full tab ${icon("external","ic-sm")}</a>
+        </div>
+        <p style="font-size:11px; color:var(--text-dim); margin-top:8px;">This site doesn't allow embedding, so it can't play inside the app — the small window opens the real page, just sized down.</p>` : ""}
     </div>`;
   }
 
