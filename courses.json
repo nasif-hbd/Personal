@@ -114,9 +114,9 @@
       "Woodworking & DIY Craftsmanship": 3
     },
     "embeddable": 232,
-    "paths": 10,
-    "pathLessons": 121,
-    "pathLessonsPlayable": 107
+    "paths": 14,
+    "pathLessons": 169,
+    "pathLessonsPlayable": 140
   },
   "paths": [
     {
@@ -2433,6 +2433,950 @@
           "todos": [
             "Take one full timed mock test"
           ]
+        }
+      ]
+    },
+    {
+      "id": "dsa",
+      "title": "Data Structures & Algorithms for Interviews",
+      "subject": "Data Structures & Algorithms",
+      "level": "High School / College",
+      "dailyMinutes": 50,
+      "blurb": "Arrays through graphs, the way most technical interviews actually test it — a two-week refresher built for review, not a first introduction.",
+      "weekThemes": [
+        "Core structures & complexity",
+        "Graphs, DP & interview patterns"
+      ],
+      "days": [
+        {
+          "classes": [
+            {
+              "title": "Arrays, Strings & Complexity Analysis",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=rOocMVYI6Zs",
+              "channel": "Abdul Bari",
+              "duration": 45,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Analyze the time complexity of 3 array algorithms by hand"
+            }
+          ],
+          "todos": [
+            "Analyze the time complexity of 3 array algorithms by hand"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Sorting & Searching",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=rOocMVYI6Zs",
+              "channel": "Abdul Bari",
+              "duration": 45,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Implement binary search and merge sort from memory"
+            }
+          ],
+          "todos": [
+            "Implement binary search and merge sort from memory"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Linked Lists & Stacks/Queues",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=LX00L2gDoow",
+              "channel": "Striver / take U forward",
+              "duration": 50,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Reverse a linked list without extra memory"
+            }
+          ],
+          "todos": [
+            "Reverse a linked list without extra memory"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Trees & Binary Search Trees",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=LX00L2gDoow",
+              "channel": "Striver / take U forward",
+              "duration": 50,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Implement in-order, pre-order and post-order traversal"
+            }
+          ],
+          "todos": [
+            "Implement in-order, pre-order and post-order traversal"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Heaps & Priority Queues",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/results?search_query=William+Fiset+Data+Structures+%26+Graph+Theory",
+              "channel": "William Fiset",
+              "duration": 45,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Build a min-heap and trace 5 insert/extract operations"
+            }
+          ],
+          "todos": [
+            "Build a min-heap and trace 5 insert/extract operations"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Hash Tables",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/results?search_query=Tushar+Roy+Coding+Interview+Problem+Walkthroughs",
+              "channel": "Tushar Roy",
+              "duration": 40,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Solve 3 two-sum-style problems using a hash map"
+            }
+          ],
+          "todos": [
+            "Solve 3 two-sum-style problems using a hash map"
+          ]
+        },
+        {
+          "rest": true
+        },
+        {
+          "classes": [
+            {
+              "title": "Graph Representations & Traversal (BFS/DFS)",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/results?search_query=William+Fiset+Data+Structures+%26+Graph+Theory",
+              "channel": "William Fiset",
+              "duration": 55,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Trace BFS and DFS by hand on a 6-node graph"
+            }
+          ],
+          "todos": [
+            "Trace BFS and DFS by hand on a 6-node graph"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Shortest Paths (Dijkstra, BFS-based)",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/results?search_query=William+Fiset+Data+Structures+%26+Graph+Theory",
+              "channel": "William Fiset",
+              "duration": 55,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Implement Dijkstra's algorithm on a small weighted graph"
+            }
+          ],
+          "todos": [
+            "Implement Dijkstra's algorithm on a small weighted graph"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Dynamic Programming I — 1D problems",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=rOocMVYI6Zs",
+              "channel": "Abdul Bari",
+              "duration": 55,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Solve the classic coin-change and climbing-stairs problems"
+            }
+          ],
+          "todos": [
+            "Solve the classic coin-change and climbing-stairs problems"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Dynamic Programming II — 2D & knapsack",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/results?search_query=Back+To+Back+SWE+Algorithm+Problem+Breakdowns",
+              "channel": "Back To Back SWE",
+              "duration": 55,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Solve 0/1 knapsack and longest-common-subsequence"
+            }
+          ],
+          "todos": [
+            "Solve 0/1 knapsack and longest-common-subsequence"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Greedy Algorithms & Two Pointers",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/results?search_query=Back+To+Back+SWE+Algorithm+Problem+Breakdowns",
+              "channel": "Back To Back SWE",
+              "duration": 50,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Solve 3 two-pointer / sliding-window problems"
+            }
+          ],
+          "todos": [
+            "Solve 3 two-pointer / sliding-window problems"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Full Mock Review",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=LX00L2gDoow",
+              "channel": "Striver / take U forward",
+              "duration": 60,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Do one full 45-minute timed mock interview problem"
+            }
+          ],
+          "todos": [
+            "Do one full 45-minute timed mock interview problem"
+          ]
+        },
+        {
+          "rest": true
+        }
+      ]
+    },
+    {
+      "id": "webdev",
+      "title": "Web Development — HTML, CSS & JavaScript",
+      "subject": "Web Development — HTML, CSS & JavaScript",
+      "level": "Beginner / All Levels",
+      "dailyMinutes": 45,
+      "blurb": "A two-week path from HTML structure to a small working full-stack project, using free creator content, not a paid bootcamp.",
+      "weekThemes": [
+        "HTML & CSS foundations",
+        "JavaScript & building something real"
+      ],
+      "days": [
+        {
+          "classes": [
+            {
+              "title": "HTML & the Web Platform, in 100 Seconds",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=E7la7-dtfVM",
+              "channel": "Fireship",
+              "duration": 30,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Build a single static HTML page with 3 sections"
+            }
+          ],
+          "todos": [
+            "Build a single static HTML page with 3 sections"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "CSS Fundamentals",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=wazlBxxTohA",
+              "channel": "Kevin Powell",
+              "duration": 45,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Style yesterday's page: layout, colors, spacing"
+            }
+          ],
+          "todos": [
+            "Style yesterday's page: layout, colors, spacing"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "CSS Layout — Flexbox & Grid",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=wazlBxxTohA",
+              "channel": "Kevin Powell",
+              "duration": 45,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Rebuild the page's layout using CSS Grid"
+            }
+          ],
+          "todos": [
+            "Rebuild the page's layout using CSS Grid"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Web Development Crash Course",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=L4g6GGLzAyo",
+              "channel": "Traversy Media",
+              "duration": 50,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Follow along and build the tutorial's starter project"
+            }
+          ],
+          "todos": [
+            "Follow along and build the tutorial's starter project"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "JavaScript Fundamentals",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=BH9ZgUYjiic",
+              "channel": "Web Dev Simplified",
+              "duration": 45,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Write 5 small functions covering arrays, objects and loops"
+            }
+          ],
+          "todos": [
+            "Write 5 small functions covering arrays, objects and loops"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "DOM Manipulation & Events",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=BH9ZgUYjiic",
+              "channel": "Web Dev Simplified",
+              "duration": 45,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Add interactivity: a button that changes the page"
+            }
+          ],
+          "todos": [
+            "Add interactivity: a button that changes the page"
+          ]
+        },
+        {
+          "rest": true
+        },
+        {
+          "classes": [
+            {
+              "title": "Modern JavaScript in Practice",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/results?search_query=Wes+Bos+JavaScript30+and+Modern+JS",
+              "channel": "Wes Bos",
+              "duration": 45,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Complete one JavaScript30-style mini project"
+            }
+          ],
+          "todos": [
+            "Complete one JavaScript30-style mini project"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Fetching Data & Working with APIs",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=BH9ZgUYjiic",
+              "channel": "Web Dev Simplified",
+              "duration": 45,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Fetch and render data from a public JSON API"
+            }
+          ],
+          "todos": [
+            "Fetch and render data from a public JSON API"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Full-Stack Project Build I",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=R-UbDa1oRto",
+              "channel": "JavaScript Mastery",
+              "duration": 55,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Start a small full-stack project alongside the video"
+            }
+          ],
+          "todos": [
+            "Start a small full-stack project alongside the video"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Full-Stack Project Build II",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=R-UbDa1oRto",
+              "channel": "JavaScript Mastery",
+              "duration": 55,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Continue the project: connect the frontend to data"
+            }
+          ],
+          "todos": [
+            "Continue the project: connect the frontend to data"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Deep Dive: Web Tech Concepts",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=E7la7-dtfVM",
+              "channel": "Fireship",
+              "duration": 40,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Pick 3 concepts you didn't fully follow and re-watch"
+            }
+          ],
+          "todos": [
+            "Pick 3 concepts you didn't fully follow and re-watch"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Polish & Deploy",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=R-UbDa1oRto",
+              "channel": "JavaScript Mastery",
+              "duration": 50,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Finish and deploy your project (e.g. GitHub Pages/Vercel)"
+            }
+          ],
+          "todos": [
+            "Finish and deploy your project (e.g. GitHub Pages/Vercel)"
+          ]
+        },
+        {
+          "rest": true
+        }
+      ]
+    },
+    {
+      "id": "cybersecurity",
+      "title": "Cybersecurity & Ethical Hacking Foundations",
+      "subject": "Cybersecurity & Ethical Hacking",
+      "level": "High School / College",
+      "dailyMinutes": 45,
+      "blurb": "Networking, Linux and offensive-security basics — the groundwork Security+ and entry-level pentesting both assume you already have.",
+      "weekThemes": [
+        "Networking & security fundamentals",
+        "Hands-on hacking practice"
+      ],
+      "days": [
+        {
+          "classes": [
+            {
+              "title": "Security+ / Network+ Fundamentals",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=JszMBuIovMw",
+              "channel": "Professor Messer",
+              "duration": 45,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Write your own definitions for CIA triad, firewall, VPN"
+            }
+          ],
+          "todos": [
+            "Write your own definitions for CIA triad, firewall, VPN"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Networking Fundamentals",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=auO6PNiGuAg",
+              "channel": "David Bombal",
+              "duration": 45,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Diagram a home network: router, switch, devices"
+            }
+          ],
+          "todos": [
+            "Diagram a home network: router, switch, devices"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Linux for Security",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/results?search_query=HackerSploit+Linux+Security+%26+Pentesting",
+              "channel": "HackerSploit",
+              "duration": 45,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Practice 10 core Linux commands in a terminal"
+            }
+          ],
+          "todos": [
+            "Practice 10 core Linux commands in a terminal"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Security Certification Prep, continued",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=JszMBuIovMw",
+              "channel": "Professor Messer",
+              "duration": 45,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Take a practice quiz on today's topic"
+            }
+          ],
+          "todos": [
+            "Take a practice quiz on today's topic"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Networking & Certification Prep, continued",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=auO6PNiGuAg",
+              "channel": "David Bombal",
+              "duration": 40,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Set up a virtual lab (e.g. two VMs on a virtual network)"
+            }
+          ],
+          "todos": [
+            "Set up a virtual lab (e.g. two VMs on a virtual network)"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Practical Ethical Hacking — Setup",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/results?search_query=The+Cyber+Mentor+Practical+Ethical+Hacking+Full+Course",
+              "channel": "The Cyber Mentor",
+              "duration": 45,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Install a penetration-testing VM (e.g. Kali Linux)"
+            }
+          ],
+          "todos": [
+            "Install a penetration-testing VM (e.g. Kali Linux)"
+          ]
+        },
+        {
+          "rest": true
+        },
+        {
+          "classes": [
+            {
+              "title": "CTF Walkthroughs I",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=SjT-_Rw9Gqc",
+              "channel": "John Hammond",
+              "duration": 50,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Attempt one beginner CTF challenge before watching the walkthrough"
+            }
+          ],
+          "todos": [
+            "Attempt one beginner CTF challenge before watching the walkthrough"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "CTF Walkthroughs II",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=SjT-_Rw9Gqc",
+              "channel": "John Hammond",
+              "duration": 50,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Attempt a second CTF challenge, different category"
+            }
+          ],
+          "todos": [
+            "Attempt a second CTF challenge, different category"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Practical Ethical Hacking — Recon",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/results?search_query=The+Cyber+Mentor+Practical+Ethical+Hacking+Full+Course",
+              "channel": "The Cyber Mentor",
+              "duration": 45,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Practice reconnaissance techniques against your own lab VM"
+            }
+          ],
+          "todos": [
+            "Practice reconnaissance techniques against your own lab VM"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Linux Security, continued",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/results?search_query=HackerSploit+Linux+Security+%26+Pentesting",
+              "channel": "HackerSploit",
+              "duration": 45,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Harden your lab VM: users, permissions, updates"
+            }
+          ],
+          "todos": [
+            "Harden your lab VM: users, permissions, updates"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Malware Analysis Basics",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=SjT-_Rw9Gqc",
+              "channel": "John Hammond",
+              "duration": 45,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Read through a beginner malware-analysis writeup"
+            }
+          ],
+          "todos": [
+            "Read through a beginner malware-analysis writeup"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Review & Practice Exam",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=JszMBuIovMw",
+              "channel": "Professor Messer",
+              "duration": 50,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Take a full practice exam and review every wrong answer"
+            }
+          ],
+          "todos": [
+            "Take a full practice exam and review every wrong answer"
+          ]
+        },
+        {
+          "rest": true
+        }
+      ]
+    },
+    {
+      "id": "investing",
+      "title": "Investing & Personal Finance Basics",
+      "subject": "Investing & Personal Finance",
+      "level": "All Levels",
+      "dailyMinutes": 35,
+      "blurb": "Budgeting, index investing and the difference between the two — a two-week primer with no product to sell you.",
+      "weekThemes": [
+        "Personal finance fundamentals",
+        "Investing concepts"
+      ],
+      "days": [
+        {
+          "classes": [
+            {
+              "title": "Personal Finance Fundamentals",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=PFi3T_OLtOE",
+              "channel": "Two Cents",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Write down your own monthly budget in 3 categories"
+            }
+          ],
+          "todos": [
+            "Write down your own monthly budget in 3 categories"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Investing Concepts Explained",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=CqApXh80HVo",
+              "channel": "The Plain Bagel",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Look up what an index fund actually holds"
+            }
+          ],
+          "todos": [
+            "Look up what an index fund actually holds"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Common Sense Investing",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/@BenFelixCSI",
+              "channel": "Ben Felix",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "List 3 claims from the video you'd want to fact-check"
+            }
+          ],
+          "todos": [
+            "List 3 claims from the video you'd want to fact-check"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Personal Finance & Real Estate Investing",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=h8dzH_ma8cQ",
+              "channel": "Graham Stephan",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Compare renting vs. buying using your own numbers"
+            }
+          ],
+          "todos": [
+            "Compare renting vs. buying using your own numbers"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Personal Finance Fundamentals, continued",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=PFi3T_OLtOE",
+              "channel": "Two Cents",
+              "duration": 30,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Set up (or review) an emergency fund target"
+            }
+          ],
+          "todos": [
+            "Set up (or review) an emergency fund target"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Investing Concepts, continued",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=CqApXh80HVo",
+              "channel": "The Plain Bagel",
+              "duration": 30,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Explain diversification in your own words"
+            }
+          ],
+          "todos": [
+            "Explain diversification in your own words"
+          ]
+        },
+        {
+          "rest": true
+        },
+        {
+          "classes": [
+            {
+              "title": "Finance & Markets Explained",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/@PatrickBoyleOnFinance",
+              "channel": "Patrick Boyle",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Summarize one market concept from the video in 3 sentences"
+            }
+          ],
+          "todos": [
+            "Summarize one market concept from the video in 3 sentences"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Common Sense Investing, continued",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/@BenFelixCSI",
+              "channel": "Ben Felix",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Compare the fees of 2 real index funds"
+            }
+          ],
+          "todos": [
+            "Compare the fees of 2 real index funds"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Personal Finance & Real Estate, continued",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=h8dzH_ma8cQ",
+              "channel": "Graham Stephan",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Estimate your own savings rate this month"
+            }
+          ],
+          "todos": [
+            "Estimate your own savings rate this month"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Finance & Markets, continued",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/@PatrickBoyleOnFinance",
+              "channel": "Patrick Boyle",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Note one thing that changed your mind"
+            }
+          ],
+          "todos": [
+            "Note one thing that changed your mind"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Investing Concepts — Risk & Time Horizon",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=CqApXh80HVo",
+              "channel": "The Plain Bagel",
+              "duration": 30,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Write your own investing time horizon and risk tolerance"
+            }
+          ],
+          "todos": [
+            "Write your own investing time horizon and risk tolerance"
+          ]
+        },
+        {
+          "classes": [
+            {
+              "title": "Put It Together",
+              "type": "video",
+              "resourceUrl": "https://www.youtube.com/watch?v=PFi3T_OLtOE",
+              "channel": "Two Cents",
+              "duration": 35,
+              "notes": "",
+              "altVideoUrl": "",
+              "altChannel": "",
+              "todo": "Draft a one-page personal financial plan"
+            }
+          ],
+          "todos": [
+            "Draft a one-page personal financial plan"
+          ]
+        },
+        {
+          "rest": true
         }
       ]
     }
