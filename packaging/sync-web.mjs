@@ -22,6 +22,7 @@ const ROOT = resolve(HERE, "..");
 // still gets offline caching. One file list, no per-platform special cases.
 const ASSETS = [
   "index.html",
+  "privacy.html",
   "manifest.json",
   "courses.json",
   "sw.js",
