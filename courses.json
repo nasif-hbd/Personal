@@ -3391,7 +3391,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "EQGX1mmgyiA"
+      "embedId": "EQGX1mmgyiA",
+      "thumbnail": "thumbnails/EQGX1mmgyiA.jpg"
     },
     {
       "subject": "3D Printing & CAD Design",
@@ -3411,7 +3412,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "sHLGrTBLxLg"
+      "embedId": "sHLGrTBLxLg",
+      "thumbnail": "thumbnails/sHLGrTBLxLg.jpg"
     },
     {
       "subject": "AI",
@@ -3746,7 +3748,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "yh4H4Ifp0Lk"
+      "embedId": "yh4H4Ifp0Lk",
+      "thumbnail": "thumbnails/yh4H4Ifp0Lk.jpg"
     },
     {
       "subject": "AI Safety, Ethics & Policy",
@@ -3757,7 +3760,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "guUpt1RCWkY"
+      "embedId": "guUpt1RCWkY",
+      "thumbnail": "thumbnails/guUpt1RCWkY.jpg"
     },
     {
       "subject": "AI Safety, Ethics & Policy",
@@ -4200,7 +4204,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "7UjkKBlO-XM"
+      "embedId": "7UjkKBlO-XM",
+      "thumbnail": "thumbnails/7UjkKBlO-XM.jpg"
     },
     {
       "subject": "Agriculture & Sustainable Farming",
@@ -4211,7 +4216,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "W7H7qkg-pQ0"
+      "embedId": "W7H7qkg-pQ0",
+      "thumbnail": "thumbnails/W7H7qkg-pQ0.jpg"
     },
     {
       "subject": "Algebra & Pre-Calculus",
@@ -4222,7 +4228,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "PyYEHq4Dc5I"
+      "embedId": "PyYEHq4Dc5I",
+      "thumbnail": "thumbnails/PyYEHq4Dc5I.jpg"
     },
     {
       "subject": "Algebra & Pre-Calculus",
@@ -4233,7 +4240,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "hc3hk294leY"
+      "embedId": "hc3hk294leY",
+      "thumbnail": "thumbnails/hc3hk294leY.jpg"
     },
     {
       "subject": "Algebra & Pre-Calculus",
@@ -4244,7 +4252,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "bV3U0q6h0tk"
+      "embedId": "bV3U0q6h0tk",
+      "thumbnail": "thumbnails/bV3U0q6h0tk.jpg"
     },
     {
       "subject": "Algebra & Pre-Calculus",
@@ -4264,7 +4273,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "rUiulWItECQ"
+      "embedId": "rUiulWItECQ",
+      "thumbnail": "thumbnails/rUiulWItECQ.jpg"
     },
     {
       "subject": "Algebra & Pre-Calculus",
@@ -4275,7 +4285,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "gb6QihvVaNU"
+      "embedId": "gb6QihvVaNU",
+      "thumbnail": "thumbnails/gb6QihvVaNU.jpg"
     },
     {
       "subject": "Algebra & Pre-Calculus",
@@ -4286,7 +4297,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "n9VlNs8jmKg"
+      "embedId": "n9VlNs8jmKg",
+      "thumbnail": "thumbnails/n9VlNs8jmKg.jpg"
     },
     {
       "subject": "Anatomy, Physiology & Medicine",
@@ -4306,7 +4318,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "Ewt9gqWlf9w"
+      "embedId": "Ewt9gqWlf9w",
+      "thumbnail": "thumbnails/Ewt9gqWlf9w.jpg"
     },
     {
       "subject": "Anatomy, Physiology & Medicine",
@@ -4326,7 +4339,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "QQWxvQVwXQc"
+      "embedId": "QQWxvQVwXQc",
+      "thumbnail": "thumbnails/QQWxvQVwXQc.jpg"
     },
     {
       "subject": "Anatomy, Physiology & Medicine",
@@ -4337,7 +4351,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "n4JBo_Mjkx8"
+      "embedId": "n4JBo_Mjkx8",
+      "thumbnail": "thumbnails/n4JBo_Mjkx8.jpg"
     },
     {
       "subject": "Anatomy, Physiology & Medicine",
@@ -4357,7 +4372,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "FHnD-m33mMc"
+      "embedId": "FHnD-m33mMc",
+      "thumbnail": "thumbnails/FHnD-m33mMc.jpg"
     },
     {
       "subject": "Animation & Motion Graphics",
@@ -4368,7 +4384,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "C637UcpHfNY"
+      "embedId": "C637UcpHfNY",
+      "thumbnail": "thumbnails/C637UcpHfNY.jpg"
     },
     {
       "subject": "Animation & Motion Graphics",
@@ -4379,7 +4396,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "buKzLtYjBiI"
+      "embedId": "buKzLtYjBiI",
+      "thumbnail": "thumbnails/buKzLtYjBiI.jpg"
     },
     {
       "subject": "Art, Drawing & 3D",
@@ -4390,7 +4408,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "JQyDVF5duzo"
+      "embedId": "JQyDVF5duzo",
+      "thumbnail": "thumbnails/JQyDVF5duzo.jpg"
     },
     {
       "subject": "Art, Drawing & 3D",
@@ -4401,7 +4420,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "MLNvaaWDqOs"
+      "embedId": "MLNvaaWDqOs",
+      "thumbnail": "thumbnails/MLNvaaWDqOs.jpg"
     },
     {
       "subject": "Art, Drawing & 3D",
@@ -4457,7 +4477,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "W-jTv05JuEE"
+      "embedId": "W-jTv05JuEE",
+      "thumbnail": "thumbnails/W-jTv05JuEE.jpg"
     },
     {
       "subject": "Astronomy, Space & Cosmology",
@@ -4468,7 +4489,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "SSccNV39mCU"
+      "embedId": "SSccNV39mCU",
+      "thumbnail": "thumbnails/SSccNV39mCU.jpg"
     },
     {
       "subject": "Astronomy, Space & Cosmology",
@@ -4479,7 +4501,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "I_GUQdY01b0"
+      "embedId": "I_GUQdY01b0",
+      "thumbnail": "thumbnails/I_GUQdY01b0.jpg"
     },
     {
       "subject": "Astronomy, Space & Cosmology",
@@ -4499,7 +4522,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "U5-dE2nCzjM"
+      "embedId": "U5-dE2nCzjM",
+      "thumbnail": "thumbnails/U5-dE2nCzjM.jpg"
     },
     {
       "subject": "Astronomy, Space & Cosmology",
@@ -4510,7 +4534,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "Yid9cO7peXg"
+      "embedId": "Yid9cO7peXg",
+      "thumbnail": "thumbnails/Yid9cO7peXg.jpg"
     },
     {
       "subject": "Automotive Repair & Mechanics",
@@ -4521,7 +4546,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "m0EiNYvCSpE"
+      "embedId": "m0EiNYvCSpE",
+      "thumbnail": "thumbnails/m0EiNYvCSpE.jpg"
     },
     {
       "subject": "Automotive Repair & Mechanics",
@@ -4532,7 +4558,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "UzbrnZ-zWkk"
+      "embedId": "UzbrnZ-zWkk",
+      "thumbnail": "thumbnails/UzbrnZ-zWkk.jpg"
     },
     {
       "subject": "Aviation & Aerospace Engineering",
@@ -4543,7 +4570,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "7O1mVMnY0vc"
+      "embedId": "7O1mVMnY0vc",
+      "thumbnail": "thumbnails/7O1mVMnY0vc.jpg"
     },
     {
       "subject": "Aviation & Aerospace Engineering",
@@ -4554,7 +4582,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "FQpSAWGgL7k"
+      "embedId": "FQpSAWGgL7k",
+      "thumbnail": "thumbnails/FQpSAWGgL7k.jpg"
     },
     {
       "subject": "Backend, APIs & System Design",
@@ -4592,7 +4621,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "WvSVSbGo0wI"
+      "embedId": "WvSVSbGo0wI",
+      "thumbnail": "thumbnails/WvSVSbGo0wI.jpg"
     },
     {
       "subject": "Behavioral Economics",
@@ -4612,7 +4642,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "CwPdoCF67Yk"
+      "embedId": "CwPdoCF67Yk",
+      "thumbnail": "thumbnails/CwPdoCF67Yk.jpg"
     },
     {
       "subject": "Biology",
@@ -4769,7 +4800,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "6y8JOdjIU7M"
+      "embedId": "6y8JOdjIU7M",
+      "thumbnail": "thumbnails/6y8JOdjIU7M.jpg"
     },
     {
       "subject": "Biology & Life Sciences",
@@ -4780,7 +4812,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "ShEzlXZPpPM"
+      "embedId": "ShEzlXZPpPM",
+      "thumbnail": "thumbnails/ShEzlXZPpPM.jpg"
     },
     {
       "subject": "Biology & Life Sciences",
@@ -4809,7 +4842,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "MyjINFu7-J4"
+      "embedId": "MyjINFu7-J4",
+      "thumbnail": "thumbnails/MyjINFu7-J4.jpg"
     },
     {
       "subject": "Blockchain, Web3 & Quantum Computing",
@@ -4829,7 +4863,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "LeAI2PCmyb4"
+      "embedId": "LeAI2PCmyb4",
+      "thumbnail": "thumbnails/LeAI2PCmyb4.jpg"
     },
     {
       "subject": "Board Games & Game Theory",
@@ -4840,7 +4875,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "8c-L4gLt1jU"
+      "embedId": "8c-L4gLt1jU",
+      "thumbnail": "thumbnails/8c-L4gLt1jU.jpg"
     },
     {
       "subject": "Board Games & Game Theory",
@@ -4860,7 +4896,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "Ip77mh3Of0I"
+      "embedId": "Ip77mh3Of0I",
+      "thumbnail": "thumbnails/Ip77mh3Of0I.jpg"
     },
     {
       "subject": "Business, Startups & Entrepreneurship",
@@ -4871,7 +4908,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "hUHhg-_pu6M"
+      "embedId": "hUHhg-_pu6M",
+      "thumbnail": "thumbnails/hUHhg-_pu6M.jpg"
     },
     {
       "subject": "Business, Startups & Entrepreneurship",
@@ -4882,7 +4920,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "YEvLKzsEwMw"
+      "embedId": "YEvLKzsEwMw",
+      "thumbnail": "thumbnails/YEvLKzsEwMw.jpg"
     },
     {
       "subject": "Business, Startups & Entrepreneurship",
@@ -4893,7 +4932,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "nH-sP5Afyxk"
+      "embedId": "nH-sP5Afyxk",
+      "thumbnail": "thumbnails/nH-sP5Afyxk.jpg"
     },
     {
       "subject": "Business, Startups & Entrepreneurship",
@@ -4904,7 +4944,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "P5iICDVn5gc"
+      "embedId": "P5iICDVn5gc",
+      "thumbnail": "thumbnails/P5iICDVn5gc.jpg"
     },
     {
       "subject": "C, C++ & Systems Programming",
@@ -4924,7 +4965,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "k1wraWzqtvQ"
+      "embedId": "k1wraWzqtvQ",
+      "thumbnail": "thumbnails/k1wraWzqtvQ.jpg"
     },
     {
       "subject": "C, C++ & Systems Programming",
@@ -4953,7 +4995,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "s0oN6Tx5Xxo"
+      "embedId": "s0oN6Tx5Xxo",
+      "thumbnail": "thumbnails/s0oN6Tx5Xxo.jpg"
     },
     {
       "subject": "Calculus & Advanced Mathematics",
@@ -4964,7 +5007,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "BkWEhMWbPVs"
+      "embedId": "BkWEhMWbPVs",
+      "thumbnail": "thumbnails/BkWEhMWbPVs.jpg"
     },
     {
       "subject": "Calculus & Advanced Mathematics",
@@ -4975,7 +5019,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "0oykYip2vus"
+      "embedId": "0oykYip2vus",
+      "thumbnail": "thumbnails/0oykYip2vus.jpg"
     },
     {
       "subject": "Calculus & Advanced Mathematics",
@@ -4986,7 +5031,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "CrVVsX3el8I"
+      "embedId": "CrVVsX3el8I",
+      "thumbnail": "thumbnails/CrVVsX3el8I.jpg"
     },
     {
       "subject": "Calculus & Advanced Mathematics",
@@ -4997,7 +5043,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "1vH00iNHIA4"
+      "embedId": "1vH00iNHIA4",
+      "thumbnail": "thumbnails/1vH00iNHIA4.jpg"
     },
     {
       "subject": "Calculus & Advanced Mathematics",
@@ -5008,7 +5055,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "dDr73Q0MsBA"
+      "embedId": "dDr73Q0MsBA",
+      "thumbnail": "thumbnails/dDr73Q0MsBA.jpg"
     },
     {
       "subject": "Calculus & Advanced Mathematics",
@@ -5055,7 +5103,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "cEEw1AbeysI"
+      "embedId": "cEEw1AbeysI",
+      "thumbnail": "thumbnails/cEEw1AbeysI.jpg"
     },
     {
       "subject": "Career, Interviews & Professional Skills",
@@ -5066,7 +5115,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "bozpwivcZvs"
+      "embedId": "bozpwivcZvs",
+      "thumbnail": "thumbnails/bozpwivcZvs.jpg"
     },
     {
       "subject": "Career, Interviews & Professional Skills",
@@ -5077,7 +5127,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "knEiqlfpV5k"
+      "embedId": "knEiqlfpV5k",
+      "thumbnail": "thumbnails/knEiqlfpV5k.jpg"
     },
     {
       "subject": "Chemistry",
@@ -5326,7 +5377,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "g0W1X63EgKQ"
+      "embedId": "g0W1X63EgKQ",
+      "thumbnail": "thumbnails/g0W1X63EgKQ.jpg"
     },
     {
       "subject": "Chess & Strategy Games",
@@ -5337,7 +5389,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "CyDpcnaRpl8"
+      "embedId": "CyDpcnaRpl8",
+      "thumbnail": "thumbnails/CyDpcnaRpl8.jpg"
     },
     {
       "subject": "Chess & Strategy Games",
@@ -5348,7 +5401,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "-3-Cn8Y1R84"
+      "embedId": "-3-Cn8Y1R84",
+      "thumbnail": "thumbnails/-3-Cn8Y1R84.jpg"
     },
     {
       "subject": "Chess & Strategy Games",
@@ -5359,7 +5413,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "0W7Xfl8gpEs"
+      "embedId": "0W7Xfl8gpEs",
+      "thumbnail": "thumbnails/0W7Xfl8gpEs.jpg"
     },
     {
       "subject": "Chess & Strategy Games",
@@ -5370,7 +5425,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "AbivSjdTZBc"
+      "embedId": "AbivSjdTZBc",
+      "thumbnail": "thumbnails/AbivSjdTZBc.jpg"
     },
     {
       "subject": "Climate Solutions & Renewable Energy",
@@ -5390,7 +5446,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "HPU6UDQYkR8"
+      "embedId": "HPU6UDQYkR8",
+      "thumbnail": "thumbnails/HPU6UDQYkR8.jpg"
     },
     {
       "subject": "Climate Solutions & Renewable Energy",
@@ -5401,7 +5458,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "6ctwSjEVGwU"
+      "embedId": "6ctwSjEVGwU",
+      "thumbnail": "thumbnails/6ctwSjEVGwU.jpg"
     },
     {
       "subject": "Cloud Certifications (AWS, Azure, GCP)",
@@ -5421,7 +5479,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "FARxSG_EY98"
+      "embedId": "FARxSG_EY98",
+      "thumbnail": "thumbnails/FARxSG_EY98.jpg"
     },
     {
       "subject": "Cloud Certifications (AWS, Azure, GCP)",
@@ -5810,7 +5869,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "hiISl558JGE"
+      "embedId": "hiISl558JGE",
+      "thumbnail": "thumbnails/hiISl558JGE.jpg"
     },
     {
       "subject": "Coding Interview Preparation",
@@ -5821,7 +5881,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "cHlmP4LYdPg"
+      "embedId": "cHlmP4LYdPg",
+      "thumbnail": "thumbnails/cHlmP4LYdPg.jpg"
     },
     {
       "subject": "Coding Interview Preparation",
@@ -5841,7 +5902,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "0K3h5MlIWu0"
+      "embedId": "0K3h5MlIWu0",
+      "thumbnail": "thumbnails/0K3h5MlIWu0.jpg"
     },
     {
       "subject": "Competitive Exams (JEE, NEET, Olympiads)",
@@ -5888,7 +5950,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "pg7fntKLNak"
+      "embedId": "pg7fntKLNak",
+      "thumbnail": "thumbnails/pg7fntKLNak.jpg"
     },
     {
       "subject": "Computer Science Fundamentals",
@@ -5899,7 +5962,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "0IjFxHxs88c"
+      "embedId": "0IjFxHxs88c",
+      "thumbnail": "thumbnails/0IjFxHxs88c.jpg"
     },
     {
       "subject": "Computer Science Fundamentals",
@@ -5928,7 +5992,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "3XDH-fZKnQk"
+      "embedId": "3XDH-fZKnQk",
+      "thumbnail": "thumbnails/3XDH-fZKnQk.jpg"
     },
     {
       "subject": "Computer Vision",
@@ -5939,7 +6004,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "E_zUoHGcxRE"
+      "embedId": "E_zUoHGcxRE",
+      "thumbnail": "thumbnails/E_zUoHGcxRE.jpg"
     },
     {
       "subject": "Computer Vision",
@@ -5959,7 +6025,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "JszMBuIovMw"
+      "embedId": "JszMBuIovMw",
+      "thumbnail": "thumbnails/JszMBuIovMw.jpg"
     },
     {
       "subject": "Cybersecurity & Ethical Hacking",
@@ -5970,7 +6037,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "SjT-_Rw9Gqc"
+      "embedId": "SjT-_Rw9Gqc",
+      "thumbnail": "thumbnails/SjT-_Rw9Gqc.jpg"
     },
     {
       "subject": "Cybersecurity & Ethical Hacking",
@@ -5990,7 +6058,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "auO6PNiGuAg"
+      "embedId": "auO6PNiGuAg",
+      "thumbnail": "thumbnails/auO6PNiGuAg.jpg"
     },
     {
       "subject": "Cybersecurity & Ethical Hacking",
@@ -6010,7 +6079,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "TwV9nIAWPso"
+      "embedId": "TwV9nIAWPso",
+      "thumbnail": "thumbnails/TwV9nIAWPso.jpg"
     },
     {
       "subject": "Data Engineering & Big Data",
@@ -6021,7 +6091,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "-PHnR-KEHqE"
+      "embedId": "-PHnR-KEHqE",
+      "thumbnail": "thumbnails/-PHnR-KEHqE.jpg"
     },
     {
       "subject": "Data Science & Analytics",
@@ -6032,7 +6103,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "ol9_NnC9-cc"
+      "embedId": "ol9_NnC9-cc",
+      "thumbnail": "thumbnails/ol9_NnC9-cc.jpg"
     },
     {
       "subject": "Data Science & Analytics",
@@ -6052,7 +6124,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "3CRBW-0PuqA"
+      "embedId": "3CRBW-0PuqA",
+      "thumbnail": "thumbnails/3CRBW-0PuqA.jpg"
     },
     {
       "subject": "Data Science & Analytics",
@@ -6072,7 +6145,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "3pLAjNH1uh0"
+      "embedId": "3pLAjNH1uh0",
+      "thumbnail": "thumbnails/3pLAjNH1uh0.jpg"
     },
     {
       "subject": "Data Science & Analytics",
@@ -6083,7 +6157,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "DJZVAcwc4DI"
+      "embedId": "DJZVAcwc4DI",
+      "thumbnail": "thumbnails/DJZVAcwc4DI.jpg"
     },
     {
       "subject": "Data Structures & Algorithms",
@@ -6112,7 +6187,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "LX00L2gDoow"
+      "embedId": "LX00L2gDoow",
+      "thumbnail": "thumbnails/LX00L2gDoow.jpg"
     },
     {
       "subject": "Data Structures & Algorithms",
@@ -6132,7 +6208,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "rOocMVYI6Zs"
+      "embedId": "rOocMVYI6Zs",
+      "thumbnail": "thumbnails/rOocMVYI6Zs.jpg"
     },
     {
       "subject": "Databases & SQL",
@@ -6143,7 +6220,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "_P0-mENUv44"
+      "embedId": "_P0-mENUv44",
+      "thumbnail": "thumbnails/_P0-mENUv44.jpg"
     },
     {
       "subject": "Databases & SQL",
@@ -6154,7 +6232,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "QuzttTTLyMk"
+      "embedId": "QuzttTTLyMk",
+      "thumbnail": "thumbnails/QuzttTTLyMk.jpg"
     },
     {
       "subject": "Databases & SQL",
@@ -6165,7 +6244,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "hWBDhdvAtQE"
+      "embedId": "hWBDhdvAtQE",
+      "thumbnail": "thumbnails/hWBDhdvAtQE.jpg"
     },
     {
       "subject": "Databases & SQL",
@@ -6176,7 +6256,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "2cNuLDUAcRg"
+      "embedId": "2cNuLDUAcRg",
+      "thumbnail": "thumbnails/2cNuLDUAcRg.jpg"
     },
     {
       "subject": "Databases & SQL",
@@ -6205,7 +6286,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "QnGNF8k_uoc"
+      "embedId": "QnGNF8k_uoc",
+      "thumbnail": "thumbnails/QnGNF8k_uoc.jpg"
     },
     {
       "subject": "Deep Learning & Neural Networks",
@@ -6243,7 +6325,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "EWvNQjAaOHw"
+      "embedId": "EWvNQjAaOHw",
+      "thumbnail": "thumbnails/EWvNQjAaOHw.jpg"
     },
     {
       "subject": "Deep Learning & Neural Networks",
@@ -6263,7 +6346,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "BA6F8uYFPvM"
+      "embedId": "BA6F8uYFPvM",
+      "thumbnail": "thumbnails/BA6F8uYFPvM.jpg"
     },
     {
       "subject": "Design — UI/UX & Graphic Design",
@@ -6283,7 +6367,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "hfyEr4qGkhk"
+      "embedId": "hfyEr4qGkhk",
+      "thumbnail": "thumbnails/hfyEr4qGkhk.jpg"
     },
     {
       "subject": "Design — UI/UX & Graphic Design",
@@ -6303,7 +6388,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "BeYH1Y_vheI"
+      "embedId": "BeYH1Y_vheI",
+      "thumbnail": "thumbnails/BeYH1Y_vheI.jpg"
     },
     {
       "subject": "Design — UI/UX & Graphic Design",
@@ -6314,7 +6400,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "_UYUAaAfvdA"
+      "embedId": "_UYUAaAfvdA",
+      "thumbnail": "thumbnails/_UYUAaAfvdA.jpg"
     },
     {
       "subject": "Design — UI/UX & Graphic Design",
@@ -6343,7 +6430,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "4TXpQnqLvLE"
+      "embedId": "4TXpQnqLvLE",
+      "thumbnail": "thumbnails/4TXpQnqLvLE.jpg"
     },
     {
       "subject": "DevOps, Cloud & Containers",
@@ -6354,7 +6442,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "jKipg6vA3mE"
+      "embedId": "jKipg6vA3mE",
+      "thumbnail": "thumbnails/jKipg6vA3mE.jpg"
     },
     {
       "subject": "DevOps, Cloud & Containers",
@@ -6365,7 +6454,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "BFtkDiJYYHk"
+      "embedId": "BFtkDiJYYHk",
+      "thumbnail": "thumbnails/BFtkDiJYYHk.jpg"
     },
     {
       "subject": "DevOps, Cloud & Containers",
@@ -6403,7 +6493,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "stQfGfUSLQg"
+      "embedId": "stQfGfUSLQg",
+      "thumbnail": "thumbnails/stQfGfUSLQg.jpg"
     },
     {
       "subject": "Earth, Environmental & Climate Science",
@@ -6414,7 +6505,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "OqWEFV87urg"
+      "embedId": "OqWEFV87urg",
+      "thumbnail": "thumbnails/OqWEFV87urg.jpg"
     },
     {
       "subject": "Economics",
@@ -6434,7 +6526,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "cFd6ysbqCXk"
+      "embedId": "cFd6ysbqCXk",
+      "thumbnail": "thumbnails/cFd6ysbqCXk.jpg"
     },
     {
       "subject": "Electronics & Circuit Theory",
@@ -6445,7 +6538,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "Se1NPlfUCss"
+      "embedId": "Se1NPlfUCss",
+      "thumbnail": "thumbnails/Se1NPlfUCss.jpg"
     },
     {
       "subject": "Electronics & Circuit Theory",
@@ -6474,7 +6568,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "OgdoRd1Hp3k"
+      "embedId": "OgdoRd1Hp3k",
+      "thumbnail": "thumbnails/OgdoRd1Hp3k.jpg"
     },
     {
       "subject": "Electronics & Circuit Theory",
@@ -6485,7 +6580,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "nNTaLhJzw14"
+      "embedId": "nNTaLhJzw14",
+      "thumbnail": "thumbnails/nNTaLhJzw14.jpg"
     },
     {
       "subject": "English",
@@ -6550,7 +6646,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "2A1IEBFt6Xg"
+      "embedId": "2A1IEBFt6Xg",
+      "thumbnail": "thumbnails/2A1IEBFt6Xg.jpg"
     },
     {
       "subject": "English",
@@ -6779,7 +6876,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "tRM2teDhiPM"
+      "embedId": "tRM2teDhiPM",
+      "thumbnail": "thumbnails/tRM2teDhiPM.jpg"
     },
     {
       "subject": "English Language & Grammar (ESL)",
@@ -6799,7 +6897,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "7MlMyOyersk"
+      "embedId": "7MlMyOyersk",
+      "thumbnail": "thumbnails/7MlMyOyersk.jpg"
     },
     {
       "subject": "English Language & Grammar (ESL)",
@@ -6810,7 +6909,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "sQ27dmGvWw0"
+      "embedId": "sQ27dmGvWw0",
+      "thumbnail": "thumbnails/sQ27dmGvWw0.jpg"
     },
     {
       "subject": "English Language & Grammar (ESL)",
@@ -6830,7 +6930,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "xgSIO5QV2C8"
+      "embedId": "xgSIO5QV2C8",
+      "thumbnail": "thumbnails/xgSIO5QV2C8.jpg"
     },
     {
       "subject": "Environmental Law & Policy",
@@ -6886,7 +6987,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "s63hXFx9AHw"
+      "embedId": "s63hXFx9AHw",
+      "thumbnail": "thumbnails/s63hXFx9AHw.jpg"
     },
     {
       "subject": "Excel, Spreadsheets & Business Tools",
@@ -6897,7 +6999,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "Q3oqqYQz2gM"
+      "embedId": "Q3oqqYQz2gM",
+      "thumbnail": "thumbnails/Q3oqqYQz2gM.jpg"
     },
     {
       "subject": "Finance, Accounting & Investing",
@@ -6908,7 +7011,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "ISNDfo8VG78"
+      "embedId": "ISNDfo8VG78",
+      "thumbnail": "thumbnails/ISNDfo8VG78.jpg"
     },
     {
       "subject": "Finance, Accounting & Investing",
@@ -6928,7 +7032,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "skc2T5fcoLY"
+      "embedId": "skc2T5fcoLY",
+      "thumbnail": "thumbnails/skc2T5fcoLY.jpg"
     },
     {
       "subject": "Finance, Accounting & Investing",
@@ -6948,7 +7053,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "dNEWqinHrW8"
+      "embedId": "dNEWqinHrW8",
+      "thumbnail": "thumbnails/dNEWqinHrW8.jpg"
     },
     {
       "subject": "Frontend Frameworks (React, Next.js, Vue)",
@@ -6959,7 +7065,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "8X_XCuU0qx0"
+      "embedId": "8X_XCuU0qx0",
+      "thumbnail": "thumbnails/8X_XCuU0qx0.jpg"
     },
     {
       "subject": "Frontend Frameworks (React, Next.js, Vue)",
@@ -6970,7 +7077,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "5ePwfYBhgko"
+      "embedId": "5ePwfYBhgko",
+      "thumbnail": "thumbnails/5ePwfYBhgko.jpg"
     },
     {
       "subject": "Frontend Frameworks (React, Next.js, Vue)",
@@ -6990,7 +7098,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "2aKGR4RECj0"
+      "embedId": "2aKGR4RECj0",
+      "thumbnail": "thumbnails/2aKGR4RECj0.jpg"
     },
     {
       "subject": "GRE, GMAT & Graduate Admissions Tests",
@@ -7028,7 +7137,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "lH6FFVl0pY8"
+      "embedId": "lH6FFVl0pY8",
+      "thumbnail": "thumbnails/lH6FFVl0pY8.jpg"
     },
     {
       "subject": "GRE, GMAT & Graduate Admissions Tests",
@@ -7039,7 +7149,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "n_ReXuAF1Ro"
+      "embedId": "n_ReXuAF1Ro",
+      "thumbnail": "thumbnails/n_ReXuAF1Ro.jpg"
     },
     {
       "subject": "Game Development",
@@ -7050,7 +7161,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "B_2goc0ZWyo"
+      "embedId": "B_2goc0ZWyo",
+      "thumbnail": "thumbnails/B_2goc0ZWyo.jpg"
     },
     {
       "subject": "Game Development",
@@ -7070,7 +7182,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "htRjt505sPg"
+      "embedId": "htRjt505sPg",
+      "thumbnail": "thumbnails/htRjt505sPg.jpg"
     },
     {
       "subject": "Game Development",
@@ -7081,7 +7194,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "VxX1aah6TZM"
+      "embedId": "VxX1aah6TZM",
+      "thumbnail": "thumbnails/VxX1aah6TZM.jpg"
     },
     {
       "subject": "Game Development",
@@ -7092,7 +7206,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "_JGMgpyCTsY"
+      "embedId": "_JGMgpyCTsY",
+      "thumbnail": "thumbnails/_JGMgpyCTsY.jpg"
     },
     {
       "subject": "Geography & Geopolitics",
@@ -7103,7 +7218,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "56pz7qiEtPQ"
+      "embedId": "56pz7qiEtPQ",
+      "thumbnail": "thumbnails/56pz7qiEtPQ.jpg"
     },
     {
       "subject": "Geography & Geopolitics",
@@ -7114,7 +7230,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "JjhyYOKmFGM"
+      "embedId": "JjhyYOKmFGM",
+      "thumbnail": "thumbnails/JjhyYOKmFGM.jpg"
     },
     {
       "subject": "Geography & Geopolitics",
@@ -7134,7 +7251,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "HSRmfNDk87s"
+      "embedId": "HSRmfNDk87s",
+      "thumbnail": "thumbnails/HSRmfNDk87s.jpg"
     },
     {
       "subject": "Geography & Geopolitics",
@@ -7154,7 +7272,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "-dhegeVKdgE"
+      "embedId": "-dhegeVKdgE",
+      "thumbnail": "thumbnails/-dhegeVKdgE.jpg"
     },
     {
       "subject": "Health, Fitness & Wellbeing",
@@ -7174,7 +7293,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "7ZQr_Um3Wlk"
+      "embedId": "7ZQr_Um3Wlk",
+      "thumbnail": "thumbnails/7ZQr_Um3Wlk.jpg"
     },
     {
       "subject": "Health, Fitness & Wellbeing",
@@ -7203,7 +7323,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "JrsF6jYu5R8"
+      "embedId": "JrsF6jYu5R8",
+      "thumbnail": "thumbnails/JrsF6jYu5R8.jpg"
     },
     {
       "subject": "History",
@@ -7214,7 +7335,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "1BVJzaXv3rk"
+      "embedId": "1BVJzaXv3rk",
+      "thumbnail": "thumbnails/1BVJzaXv3rk.jpg"
     },
     {
       "subject": "History",
@@ -7225,7 +7347,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "872JcpP3FEM"
+      "embedId": "872JcpP3FEM",
+      "thumbnail": "thumbnails/872JcpP3FEM.jpg"
     },
     {
       "subject": "IELTS",
@@ -7434,7 +7557,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "FMzYOyd90UU"
+      "embedId": "FMzYOyd90UU",
+      "thumbnail": "thumbnails/FMzYOyd90UU.jpg"
     },
     {
       "subject": "IELTS Preparation",
@@ -7454,7 +7578,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "IbTB4REtrmI"
+      "embedId": "IbTB4REtrmI",
+      "thumbnail": "thumbnails/IbTB4REtrmI.jpg"
     },
     {
       "subject": "IELTS Preparation",
@@ -7483,7 +7608,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "gOZstN8hMmA"
+      "embedId": "gOZstN8hMmA",
+      "thumbnail": "thumbnails/gOZstN8hMmA.jpg"
     },
     {
       "subject": "Investing & Personal Finance",
@@ -7503,7 +7629,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "CqApXh80HVo"
+      "embedId": "CqApXh80HVo",
+      "thumbnail": "thumbnails/CqApXh80HVo.jpg"
     },
     {
       "subject": "Investing & Personal Finance",
@@ -7514,7 +7641,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "h8dzH_ma8cQ"
+      "embedId": "h8dzH_ma8cQ",
+      "thumbnail": "thumbnails/h8dzH_ma8cQ.jpg"
     },
     {
       "subject": "Investing & Personal Finance",
@@ -7525,7 +7653,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "PFi3T_OLtOE"
+      "embedId": "PFi3T_OLtOE",
+      "thumbnail": "thumbnails/PFi3T_OLtOE.jpg"
     },
     {
       "subject": "Investing & Personal Finance",
@@ -7545,7 +7674,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "iqRcGCah0Kw"
+      "embedId": "iqRcGCah0Kw",
+      "thumbnail": "thumbnails/iqRcGCah0Kw.jpg"
     },
     {
       "subject": "Java Programming",
@@ -7556,7 +7686,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "yg_UPwSD3-U"
+      "embedId": "yg_UPwSD3-U",
+      "thumbnail": "thumbnails/yg_UPwSD3-U.jpg"
     },
     {
       "subject": "Journalism & Media Literacy",
@@ -7567,7 +7698,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "XXpqejgnaB0"
+      "embedId": "XXpqejgnaB0",
+      "thumbnail": "thumbnails/XXpqejgnaB0.jpg"
     },
     {
       "subject": "Journalism & Media Literacy",
@@ -7578,7 +7710,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "QKMLQc_sQEU"
+      "embedId": "QKMLQc_sQEU",
+      "thumbnail": "thumbnails/QKMLQc_sQEU.jpg"
     },
     {
       "subject": "Journalism & Media Literacy",
@@ -7616,7 +7749,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "ImIlt5KKM-s"
+      "embedId": "ImIlt5KKM-s",
+      "thumbnail": "thumbnails/ImIlt5KKM-s.jpg"
     },
     {
       "subject": "Languages (Spanish, French, German, Japanese, Arabic)",
@@ -7636,7 +7770,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "uBDIHuMJSe0"
+      "embedId": "uBDIHuMJSe0",
+      "thumbnail": "thumbnails/uBDIHuMJSe0.jpg"
     },
     {
       "subject": "Languages (Spanish, French, German, Japanese, Arabic)",
@@ -7656,7 +7791,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "xUXJuPC7gz0"
+      "embedId": "xUXJuPC7gz0",
+      "thumbnail": "thumbnails/xUXJuPC7gz0.jpg"
     },
     {
       "subject": "Large Language Models & Generative AI",
@@ -7667,7 +7803,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "6XPlmCDNLNc"
+      "embedId": "6XPlmCDNLNc",
+      "thumbnail": "thumbnails/6XPlmCDNLNc.jpg"
     },
     {
       "subject": "Large Language Models & Generative AI",
@@ -7705,7 +7842,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "i1I9UPSNbf4"
+      "embedId": "i1I9UPSNbf4",
+      "thumbnail": "thumbnails/i1I9UPSNbf4.jpg"
     },
     {
       "subject": "Law, Government & Civics",
@@ -7716,7 +7854,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "v0mycV8ovGQ"
+      "embedId": "v0mycV8ovGQ",
+      "thumbnail": "thumbnails/v0mycV8ovGQ.jpg"
     },
     {
       "subject": "Law, Government & Civics",
@@ -7736,7 +7875,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "xlM8X7KHveE"
+      "embedId": "xlM8X7KHveE",
+      "thumbnail": "thumbnails/xlM8X7KHveE.jpg"
     },
     {
       "subject": "Life Skills, Cooking & Practical Knowledge",
@@ -7765,7 +7905,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "iLe2PLFdIgY"
+      "embedId": "iLe2PLFdIgY",
+      "thumbnail": "thumbnails/iLe2PLFdIgY.jpg"
     },
     {
       "subject": "Life Skills, Cooking & Practical Knowledge",
@@ -7776,7 +7917,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "wfYEk0lXtwE"
+      "embedId": "wfYEk0lXtwE",
+      "thumbnail": "thumbnails/wfYEk0lXtwE.jpg"
     },
     {
       "subject": "Life Skills, Cooking & Practical Knowledge",
@@ -7805,7 +7947,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "eUhnyZ--kGY"
+      "embedId": "eUhnyZ--kGY",
+      "thumbnail": "thumbnails/eUhnyZ--kGY.jpg"
     },
     {
       "subject": "Linux & Operating Systems",
@@ -7816,7 +7959,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "6ay6jXBYEEk"
+      "embedId": "6ay6jXBYEEk",
+      "thumbnail": "thumbnails/6ay6jXBYEEk.jpg"
     },
     {
       "subject": "Linux & Operating Systems",
@@ -7854,7 +7998,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "Hb1NuOIQ-wQ"
+      "embedId": "Hb1NuOIQ-wQ",
+      "thumbnail": "thumbnails/Hb1NuOIQ-wQ.jpg"
     },
     {
       "subject": "Machine Learning",
@@ -7865,7 +8010,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "ZXMThMHFD_w"
+      "embedId": "ZXMThMHFD_w",
+      "thumbnail": "thumbnails/ZXMThMHFD_w.jpg"
     },
     {
       "subject": "Machine Learning",
@@ -7894,7 +8040,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "bx_8y4WkmCA"
+      "embedId": "bx_8y4WkmCA",
+      "thumbnail": "thumbnails/bx_8y4WkmCA.jpg"
     },
     {
       "subject": "Marketing & Growth",
@@ -7905,7 +8052,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "zGCVaDX9y3U"
+      "embedId": "zGCVaDX9y3U",
+      "thumbnail": "thumbnails/zGCVaDX9y3U.jpg"
     },
     {
       "subject": "Marketing & Growth",
@@ -8429,7 +8577,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "0aTUTxOiRgU"
+      "embedId": "0aTUTxOiRgU",
+      "thumbnail": "thumbnails/0aTUTxOiRgU.jpg"
     },
     {
       "subject": "Mathematics — Foundations & Arithmetic",
@@ -8440,7 +8589,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "W6HDsxbHfO0"
+      "embedId": "W6HDsxbHfO0",
+      "thumbnail": "thumbnails/W6HDsxbHfO0.jpg"
     },
     {
       "subject": "Mathematics — Foundations & Arithmetic",
@@ -8451,7 +8601,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "pWJzqTYS8no"
+      "embedId": "pWJzqTYS8no",
+      "thumbnail": "thumbnails/pWJzqTYS8no.jpg"
     },
     {
       "subject": "Mathematics — Foundations & Arithmetic",
@@ -8480,7 +8631,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "UiPJbxryrkU"
+      "embedId": "UiPJbxryrkU",
+      "thumbnail": "thumbnails/UiPJbxryrkU.jpg"
     },
     {
       "subject": "Mechanical, Civil & General Engineering",
@@ -8500,7 +8652,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "LA0_U_3Ac4k"
+      "embedId": "LA0_U_3Ac4k",
+      "thumbnail": "thumbnails/LA0_U_3Ac4k.jpg"
     },
     {
       "subject": "Mechanical, Civil & General Engineering",
@@ -8520,7 +8673,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "xKxHQ19sxkk"
+      "embedId": "xKxHQ19sxkk",
+      "thumbnail": "thumbnails/xKxHQ19sxkk.jpg"
     },
     {
       "subject": "Mechanical, Civil & General Engineering",
@@ -8540,7 +8694,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "xLrJ9nbgq90"
+      "embedId": "xLrJ9nbgq90",
+      "thumbnail": "thumbnails/xLrJ9nbgq90.jpg"
     },
     {
       "subject": "Meditation, Mindfulness & Mental Health",
@@ -8551,7 +8706,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "Yomsn-nvcx8"
+      "embedId": "Yomsn-nvcx8",
+      "thumbnail": "thumbnails/Yomsn-nvcx8.jpg"
     },
     {
       "subject": "Meditation, Mindfulness & Mental Health",
@@ -8562,7 +8718,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "ShZKdJF95P8"
+      "embedId": "ShZKdJF95P8",
+      "thumbnail": "thumbnails/ShZKdJF95P8.jpg"
     },
     {
       "subject": "Mobile App Development",
@@ -8573,7 +8730,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "Ig-zOsnU5F4"
+      "embedId": "Ig-zOsnU5F4",
+      "thumbnail": "thumbnails/Ig-zOsnU5F4.jpg"
     },
     {
       "subject": "Mobile App Development",
@@ -8584,7 +8742,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "zc-_AxRowRY"
+      "embedId": "zc-_AxRowRY",
+      "thumbnail": "thumbnails/zc-_AxRowRY.jpg"
     },
     {
       "subject": "Mobile App Development",
@@ -8595,7 +8754,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "svQAKu30C18"
+      "embedId": "svQAKu30C18",
+      "thumbnail": "thumbnails/svQAKu30C18.jpg"
     },
     {
       "subject": "Mobile App Development",
@@ -8606,7 +8766,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "G-v1hkQ8Sf8"
+      "embedId": "G-v1hkQ8Sf8",
+      "thumbnail": "thumbnails/G-v1hkQ8Sf8.jpg"
     },
     {
       "subject": "Mobile App Development",
@@ -8617,7 +8778,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "Q3tPGesg_e8"
+      "embedId": "Q3tPGesg_e8",
+      "thumbnail": "thumbnails/Q3tPGesg_e8.jpg"
     },
     {
       "subject": "Music Theory & Instruments",
@@ -8628,7 +8790,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "wsJteEhga34"
+      "embedId": "wsJteEhga34",
+      "thumbnail": "thumbnails/wsJteEhga34.jpg"
     },
     {
       "subject": "Music Theory & Instruments",
@@ -8657,7 +8820,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "ptZ6KkIySlk"
+      "embedId": "ptZ6KkIySlk",
+      "thumbnail": "thumbnails/ptZ6KkIySlk.jpg"
     },
     {
       "subject": "Music Theory & Instruments",
@@ -8668,7 +8832,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "KY3cOCWXpwg"
+      "embedId": "KY3cOCWXpwg",
+      "thumbnail": "thumbnails/KY3cOCWXpwg.jpg"
     },
     {
       "subject": "Music Theory & Instruments",
@@ -8688,7 +8853,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "zNf6_6liDbg"
+      "embedId": "zNf6_6liDbg",
+      "thumbnail": "thumbnails/zNf6_6liDbg.jpg"
     },
     {
       "subject": "Networking & IT Infrastructure",
@@ -8708,7 +8874,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "a3RI4DjFBzw"
+      "embedId": "a3RI4DjFBzw",
+      "thumbnail": "thumbnails/a3RI4DjFBzw.jpg"
     },
     {
       "subject": "Networking & IT Infrastructure",
@@ -8728,7 +8895,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "GpzX3NQzmio"
+      "embedId": "GpzX3NQzmio",
+      "thumbnail": "thumbnails/GpzX3NQzmio.jpg"
     },
     {
       "subject": "Nutrition Science",
@@ -8739,7 +8907,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "DFhpqZK4qP4"
+      "embedId": "DFhpqZK4qP4",
+      "thumbnail": "thumbnails/DFhpqZK4qP4.jpg"
     },
     {
       "subject": "Nutrition Science",
@@ -8750,7 +8919,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "STML7Yugs70"
+      "embedId": "STML7Yugs70",
+      "thumbnail": "thumbnails/STML7Yugs70.jpg"
     },
     {
       "subject": "Organic Chemistry",
@@ -8797,7 +8967,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "1edzGdmMRwI"
+      "embedId": "1edzGdmMRwI",
+      "thumbnail": "thumbnails/1edzGdmMRwI.jpg"
     },
     {
       "subject": "Other Languages (C#, Rust, Go, Kotlin, PHP)",
@@ -8817,7 +8988,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "vFp4IbC2aZ0"
+      "embedId": "vFp4IbC2aZ0",
+      "thumbnail": "thumbnails/vFp4IbC2aZ0.jpg"
     },
     {
       "subject": "Other Languages (C#, Rust, Go, Kotlin, PHP)",
@@ -8828,7 +9000,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "bAINppA0BSU"
+      "embedId": "bAINppA0BSU",
+      "thumbnail": "thumbnails/bAINppA0BSU.jpg"
     },
     {
       "subject": "Parenting & Child Development",
@@ -8839,7 +9012,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "U0amG4rnc4o"
+      "embedId": "U0amG4rnc4o",
+      "thumbnail": "thumbnails/U0amG4rnc4o.jpg"
     },
     {
       "subject": "Parenting & Child Development",
@@ -8859,7 +9033,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "eF2ZSd0fD3A"
+      "embedId": "eF2ZSd0fD3A",
+      "thumbnail": "thumbnails/eF2ZSd0fD3A.jpg"
     },
     {
       "subject": "Philosophy & Critical Thinking",
@@ -8915,7 +9090,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "gUFP3dx01wc"
+      "embedId": "gUFP3dx01wc",
+      "thumbnail": "thumbnails/gUFP3dx01wc.jpg"
     },
     {
       "subject": "Photography, Video & Content Creation",
@@ -8935,7 +9111,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "f4lIRqPIqrA"
+      "embedId": "f4lIRqPIqrA",
+      "thumbnail": "thumbnails/f4lIRqPIqrA.jpg"
     },
     {
       "subject": "Photography, Video & Content Creation",
@@ -8946,7 +9123,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "6s9tlYQM5wo"
+      "embedId": "6s9tlYQM5wo",
+      "thumbnail": "thumbnails/6s9tlYQM5wo.jpg"
     },
     {
       "subject": "Physics",
@@ -9283,7 +9461,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "SXm_Wd_DBIY"
+      "embedId": "SXm_Wd_DBIY",
+      "thumbnail": "thumbnails/SXm_Wd_DBIY.jpg"
     },
     {
       "subject": "Physics — School & AP",
@@ -9294,7 +9473,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "E-JyBHAF4GY"
+      "embedId": "E-JyBHAF4GY",
+      "thumbnail": "thumbnails/E-JyBHAF4GY.jpg"
     },
     {
       "subject": "Physics — School & AP",
@@ -9305,7 +9485,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "deRZbv3fkA8"
+      "embedId": "deRZbv3fkA8",
+      "thumbnail": "thumbnails/deRZbv3fkA8.jpg"
     },
     {
       "subject": "Physics — University & Theoretical",
@@ -9316,7 +9497,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "J1WoNuemKOg"
+      "embedId": "J1WoNuemKOg",
+      "thumbnail": "thumbnails/J1WoNuemKOg.jpg"
     },
     {
       "subject": "Physics — University & Theoretical",
@@ -9327,7 +9509,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "6lX7VLnX2UE"
+      "embedId": "6lX7VLnX2UE",
+      "thumbnail": "thumbnails/6lX7VLnX2UE.jpg"
     },
     {
       "subject": "Physics — University & Theoretical",
@@ -9392,7 +9575,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "9MVKkvLHQ_Q"
+      "embedId": "9MVKkvLHQ_Q",
+      "thumbnail": "thumbnails/9MVKkvLHQ_Q.jpg"
     },
     {
       "subject": "Productivity, Study Skills & Learning How to Learn",
@@ -9421,7 +9605,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "vhqq4U3mnNQ"
+      "embedId": "vhqq4U3mnNQ",
+      "thumbnail": "thumbnails/vhqq4U3mnNQ.jpg"
     },
     {
       "subject": "Psychology & Behavioural Science",
@@ -9432,7 +9617,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "3xsfuDXEfd0"
+      "embedId": "3xsfuDXEfd0",
+      "thumbnail": "thumbnails/3xsfuDXEfd0.jpg"
     },
     {
       "subject": "Psychology & Behavioural Science",
@@ -9443,7 +9629,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "4oA0vHbmrdw"
+      "embedId": "4oA0vHbmrdw",
+      "thumbnail": "thumbnails/4oA0vHbmrdw.jpg"
     },
     {
       "subject": "Psychology & Behavioural Science",
@@ -9472,7 +9659,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "VzaNRRoyE2s"
+      "embedId": "VzaNRRoyE2s",
+      "thumbnail": "thumbnails/VzaNRRoyE2s.jpg"
     },
     {
       "subject": "Public Health & Epidemiology",
@@ -9501,7 +9689,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "_Fh6SvCclwY"
+      "embedId": "_Fh6SvCclwY",
+      "thumbnail": "thumbnails/_Fh6SvCclwY.jpg"
     },
     {
       "subject": "Public Speaking & Communication",
@@ -9521,7 +9710,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "By3QJjokIcs"
+      "embedId": "By3QJjokIcs",
+      "thumbnail": "thumbnails/By3QJjokIcs.jpg"
     },
     {
       "subject": "Public Speaking & Communication",
@@ -9550,7 +9740,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "rfscVS0vtbw"
+      "embedId": "rfscVS0vtbw",
+      "thumbnail": "thumbnails/rfscVS0vtbw.jpg"
     },
     {
       "subject": "Python",
@@ -9759,7 +9950,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "fPopFeqw5sk"
+      "embedId": "fPopFeqw5sk",
+      "thumbnail": "thumbnails/fPopFeqw5sk.jpg"
     },
     {
       "subject": "Python Programming",
@@ -9770,7 +9962,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "h-aSOm4Gkr0"
+      "embedId": "h-aSOm4Gkr0",
+      "thumbnail": "thumbnails/h-aSOm4Gkr0.jpg"
     },
     {
       "subject": "Python Programming",
@@ -9790,7 +9983,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "tHh0UaL_V4w"
+      "embedId": "tHh0UaL_V4w",
+      "thumbnail": "thumbnails/tHh0UaL_V4w.jpg"
     },
     {
       "subject": "Python Programming",
@@ -9810,7 +10004,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "H50xoAzNfB0"
+      "embedId": "H50xoAzNfB0",
+      "thumbnail": "thumbnails/H50xoAzNfB0.jpg"
     },
     {
       "subject": "Python Programming",
@@ -9821,7 +10016,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "ssLO99uwPWI"
+      "embedId": "ssLO99uwPWI",
+      "thumbnail": "thumbnails/ssLO99uwPWI.jpg"
     },
     {
       "subject": "Real Estate & Property Investing",
@@ -9832,7 +10028,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "BILlkXCy8YI"
+      "embedId": "BILlkXCy8YI",
+      "thumbnail": "thumbnails/BILlkXCy8YI.jpg"
     },
     {
       "subject": "Real Estate & Property Investing",
@@ -9996,7 +10193,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "nnZVXshJH4c"
+      "embedId": "nnZVXshJH4c",
+      "thumbnail": "thumbnails/nnZVXshJH4c.jpg"
     },
     {
       "subject": "Robotics, Arduino & Embedded Systems",
@@ -10016,7 +10214,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "CHcqFEvnDFM"
+      "embedId": "CHcqFEvnDFM",
+      "thumbnail": "thumbnails/CHcqFEvnDFM.jpg"
     },
     {
       "subject": "Robotics, Arduino & Embedded Systems",
@@ -10027,7 +10226,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "-P2dN1GSKz0"
+      "embedId": "-P2dN1GSKz0",
+      "thumbnail": "thumbnails/-P2dN1GSKz0.jpg"
     },
     {
       "subject": "Robotics, Arduino & Embedded Systems",
@@ -10047,7 +10247,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "5YPduEo7dU4"
+      "embedId": "5YPduEo7dU4",
+      "thumbnail": "thumbnails/5YPduEo7dU4.jpg"
     },
     {
       "subject": "Robotics, Arduino & Embedded Systems",
@@ -10184,7 +10385,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "WBt--0FgQHg"
+      "embedId": "WBt--0FgQHg",
+      "thumbnail": "thumbnails/WBt--0FgQHg.jpg"
     },
     {
       "subject": "SAT & Digital SAT",
@@ -10195,7 +10397,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "IXw8mJH2kW8"
+      "embedId": "IXw8mJH2kW8",
+      "thumbnail": "thumbnails/IXw8mJH2kW8.jpg"
     },
     {
       "subject": "SAT & Digital SAT",
@@ -10242,7 +10445,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "VdrDP3Wuw-Q"
+      "embedId": "VdrDP3Wuw-Q",
+      "thumbnail": "thumbnails/VdrDP3Wuw-Q.jpg"
     },
     {
       "subject": "Sign Language (ASL) & Accessibility",
@@ -10262,7 +10466,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "CzuQ-1wKLAo"
+      "embedId": "CzuQ-1wKLAo",
+      "thumbnail": "thumbnails/CzuQ-1wKLAo.jpg"
     },
     {
       "subject": "Sports Science & Coaching",
@@ -10273,7 +10478,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "lpmosBUr3Ko"
+      "embedId": "lpmosBUr3Ko",
+      "thumbnail": "thumbnails/lpmosBUr3Ko.jpg"
     },
     {
       "subject": "Sports Science & Coaching",
@@ -10284,7 +10490,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "-jB386MYxbc"
+      "embedId": "-jB386MYxbc",
+      "thumbnail": "thumbnails/-jB386MYxbc.jpg"
     },
     {
       "subject": "Sports Science & Coaching",
@@ -10295,7 +10502,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "6x94QcfH_Dw"
+      "embedId": "6x94QcfH_Dw",
+      "thumbnail": "thumbnails/6x94QcfH_Dw.jpg"
     },
     {
       "subject": "Statistics, Probability & Data Literacy",
@@ -10315,7 +10523,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "wi3-KO2X-T8"
+      "embedId": "wi3-KO2X-T8",
+      "thumbnail": "thumbnails/wi3-KO2X-T8.jpg"
     },
     {
       "subject": "Statistics, Probability & Data Literacy",
@@ -10335,7 +10544,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "URPVAvkM-HM"
+      "embedId": "URPVAvkM-HM",
+      "thumbnail": "thumbnails/URPVAvkM-HM.jpg"
     },
     {
       "subject": "Statistics, Probability & Data Literacy",
@@ -10346,7 +10556,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "xYKSKBcifaE"
+      "embedId": "xYKSKBcifaE",
+      "thumbnail": "thumbnails/xYKSKBcifaE.jpg"
     },
     {
       "subject": "Supply Chain & Operations Management",
@@ -10411,7 +10622,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "d5LPfzB9nxU"
+      "embedId": "d5LPfzB9nxU",
+      "thumbnail": "thumbnails/d5LPfzB9nxU.jpg"
     },
     {
       "subject": "Typing, Computer Literacy & Office Basics",
@@ -10422,7 +10634,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "wCaQb-4LYzM"
+      "embedId": "wCaQb-4LYzM",
+      "thumbnail": "thumbnails/wCaQb-4LYzM.jpg"
     },
     {
       "subject": "UX Research & Product Design",
@@ -10442,7 +10655,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "PTbTeySfTJc"
+      "embedId": "PTbTeySfTJc",
+      "thumbnail": "thumbnails/PTbTeySfTJc.jpg"
     },
     {
       "subject": "UX Research & Product Design",
@@ -10453,7 +10667,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "K2msFNTx_k0"
+      "embedId": "K2msFNTx_k0",
+      "thumbnail": "thumbnails/K2msFNTx_k0.jpg"
     },
     {
       "subject": "Urban Planning & Architecture",
@@ -10464,7 +10679,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "wgAlgu7BCoI"
+      "embedId": "wgAlgu7BCoI",
+      "thumbnail": "thumbnails/wgAlgu7BCoI.jpg"
     },
     {
       "subject": "Urban Planning & Architecture",
@@ -10475,7 +10691,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "E_SJ1NBMrH0"
+      "embedId": "E_SJ1NBMrH0",
+      "thumbnail": "thumbnails/E_SJ1NBMrH0.jpg"
     },
     {
       "subject": "Urban Planning & Architecture",
@@ -10486,7 +10703,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "HqHt7VdusAI"
+      "embedId": "HqHt7VdusAI",
+      "thumbnail": "thumbnails/HqHt7VdusAI.jpg"
     },
     {
       "subject": "Video Game Design & Narrative",
@@ -10506,7 +10724,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "FseRp9Y2MR4"
+      "embedId": "FseRp9Y2MR4",
+      "thumbnail": "thumbnails/FseRp9Y2MR4.jpg"
     },
     {
       "subject": "Video Game Design & Narrative",
@@ -10517,7 +10736,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "8KM7pOIf0bc"
+      "embedId": "8KM7pOIf0bc",
+      "thumbnail": "thumbnails/8KM7pOIf0bc.jpg"
     },
     {
       "subject": "Web Development — HTML, CSS & JavaScript",
@@ -10528,7 +10748,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "E7la7-dtfVM"
+      "embedId": "E7la7-dtfVM",
+      "thumbnail": "thumbnails/E7la7-dtfVM.jpg"
     },
     {
       "subject": "Web Development — HTML, CSS & JavaScript",
@@ -10539,7 +10760,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "L4g6GGLzAyo"
+      "embedId": "L4g6GGLzAyo",
+      "thumbnail": "thumbnails/L4g6GGLzAyo.jpg"
     },
     {
       "subject": "Web Development — HTML, CSS & JavaScript",
@@ -10550,7 +10772,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "wazlBxxTohA"
+      "embedId": "wazlBxxTohA",
+      "thumbnail": "thumbnails/wazlBxxTohA.jpg"
     },
     {
       "subject": "Web Development — HTML, CSS & JavaScript",
@@ -10561,7 +10784,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "BH9ZgUYjiic"
+      "embedId": "BH9ZgUYjiic",
+      "thumbnail": "thumbnails/BH9ZgUYjiic.jpg"
     },
     {
       "subject": "Web Development — HTML, CSS & JavaScript",
@@ -10572,7 +10796,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "R-UbDa1oRto"
+      "embedId": "R-UbDa1oRto",
+      "thumbnail": "thumbnails/R-UbDa1oRto.jpg"
     },
     {
       "subject": "Web Development — HTML, CSS & JavaScript",
@@ -10592,7 +10817,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "DzmPxDDiyFI"
+      "embedId": "DzmPxDDiyFI",
+      "thumbnail": "thumbnails/DzmPxDDiyFI.jpg"
     },
     {
       "subject": "Woodworking & DIY Craftsmanship",
@@ -10603,7 +10829,8 @@
       "cost": "Free",
       "embeddable": true,
       "embedKind": "video",
-      "embedId": "jFIYpz1wirU"
+      "embedId": "jFIYpz1wirU",
+      "thumbnail": "thumbnails/jFIYpz1wirU.jpg"
     },
     {
       "subject": "Woodworking & DIY Craftsmanship",
