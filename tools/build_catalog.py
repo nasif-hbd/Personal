@@ -27,6 +27,7 @@ ROOT = Path(__file__).resolve().parent.parent
 XLSX = ROOT / "data" / "Global_Learning_Resource_Directory.xlsx"
 PATHS_JSON = ROOT / "data" / "paths.json"
 OUT = ROOT / "courses.json"
+THUMBS_DIR = ROOT / "thumbnails"
 
 SHEET = "Master Course Directory"
 # Only these five columns are consumed by the app; the rest of the sheet
@@ -117,6 +118,11 @@ def load_catalog() -> list[dict]:
         if embed:
             entry["embedKind"] = embed["kind"]
             entry["embedId"] = embed["id"]
+            # tools/fetch_thumbnails.py populates thumbnails/{videoId}.jpg;
+            # attach the field only when the file actually exists, so a
+            # course never claims an image it doesn't have.
+            if (THUMBS_DIR / f"{embed['id']}.jpg").exists():
+                entry["thumbnail"] = f"thumbnails/{embed['id']}.jpg"
         out.append(entry)
 
     out.sort(key=lambda e: (e["subject"], e["level"], e["title"]))

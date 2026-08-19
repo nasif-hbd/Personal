@@ -10,7 +10,7 @@
  *   node packaging/sync-web.mjs --check    # exit 1 if a target is stale (CI)
  */
 import { createHash } from "node:crypto";
-import { copyFileSync, existsSync, mkdirSync, readFileSync, rmSync } from "node:fs";
+import { copyFileSync, cpSync, existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, rmSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -43,6 +43,19 @@ let stale = 0;
 const digest = (path) =>
   existsSync(path) ? createHash("sha256").update(readFileSync(path)).digest("hex") : null;
 
+// thumbnails/ is optional (populated by tools/fetch_thumbnails.py, which
+// this sandbox's network policy can't run) and can hold hundreds of files,
+// so it's copied as a directory rather than listed file-by-file in ASSETS.
+const THUMBS_DIR = "thumbnails";
+const hasThumbs = existsSync(join(ROOT, THUMBS_DIR));
+
+function thumbFiles() {
+  if (!hasThumbs) return [];
+  return readdirSync(join(ROOT, THUMBS_DIR))
+    .filter((f) => lstatSync(join(ROOT, THUMBS_DIR, f)).isFile())
+    .map((f) => join(THUMBS_DIR, f));
+}
+
 for (const target of TARGETS) {
   if (!check) {
     // Wipe first so a file deleted from the repo can't survive in a bundle.
@@ -65,6 +78,19 @@ for (const target of TARGETS) {
     }
     copyFileSync(from, to);
   }
+
+  if (hasThumbs) {
+    if (check) {
+      for (const rel of thumbFiles()) {
+        if (digest(join(ROOT, rel)) !== digest(join(target, rel))) {
+          console.error(`stale: ${join(target, rel).replace(ROOT + "/", "")}`);
+          stale++;
+        }
+      }
+    } else {
+      cpSync(join(ROOT, THUMBS_DIR), join(target, THUMBS_DIR), { recursive: true });
+    }
+  }
 }
 
 if (check) {
@@ -74,5 +100,6 @@ if (check) {
   }
   console.log("packaging targets are up to date");
 } else {
-  console.log(`synced ${ASSETS.length} files into ${TARGETS.length} targets`);
+  const thumbCount = thumbFiles().length;
+  console.log(`synced ${ASSETS.length} files${thumbCount ? ` + ${thumbCount} thumbnails` : ""} into ${TARGETS.length} targets`);
 }

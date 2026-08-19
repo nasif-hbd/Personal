@@ -832,6 +832,11 @@ button{font-family:inherit;}
   transform:translateY(-2px); border-color:rgba(var(--accent-rgb),.5); box-shadow:var(--shadow);
 }
 .course-card:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+.cx-thumb{
+  width:calc(100% + 34px); margin:-16px -17px 2px; aspect-ratio:16/9;
+  object-fit:cover; background:var(--surface-solid);
+  border-bottom:1px solid var(--line);
+}
 .cx-subject{
   font-family:var(--font-mono); font-size:9.5px; letter-spacing:.15em;
   text-transform:uppercase; color:var(--accent);
@@ -7464,6 +7469,7 @@ function renderCatalog(container){
       ${shown.length ? shown.map(c=>`
         <a class="course-card" href="${escapeHtml(c.url)}" target="_blank" rel="noopener"
            data-subject="${escapeHtml(c.subject)}">
+          ${c.thumbnail ? `<img class="cx-thumb" src="${escapeHtml(c.thumbnail)}" alt="" loading="lazy" width="320" height="180">` : ""}
           <span class="cx-subject">${escapeHtml(c.subject)}</span>
           <span class="cx-title">${escapeHtml(c.title)}</span>
           <span class="cx-platform">${escapeHtml(c.platform)}</span>
